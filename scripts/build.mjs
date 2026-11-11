@@ -1,10 +1,12 @@
-import { spawnSync } from 'node:child_process';
-import { preflight } from './path-policy.mjs';
+import { ENVIRONMENTS } from './cloudflare-policy.mjs';
+import { runWrangler } from './wrangler-runner.mjs';
 
-preflight();
-const result = spawnSync(
-  process.execPath,
-  ['scripts/wrangler.mjs', 'deploy', '--dry-run', '--outdir', 'dist'],
-  { stdio: 'inherit' },
-);
-process.exit(result.status ?? 1);
+for (const target of ENVIRONMENTS)
+  runWrangler([
+    'deploy',
+    '--dry-run',
+    '--env',
+    target,
+    '--outdir',
+    `dist/${target}`,
+  ]);

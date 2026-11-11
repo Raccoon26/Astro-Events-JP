@@ -1,4 +1,8 @@
-APP_ENV=development
+APP_ENV=staging
+DEPLOYMENT_ENV=staging
+DATABASE_ENVIRONMENT=staging
+DATABASE_NAME=astro-events-jp-staging
+NOTIFICATIONS_ENABLED=false
 REPORTS_REPOSITORY=Raccoon26/Astro-Events-JP-Reports
 COLLECTION_ENABLED=false
 # Secrets are deliberately absent. Configure only when needed in DEV-01/06.

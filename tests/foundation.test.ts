@@ -41,10 +41,36 @@ describe('foundation security and configuration', () => {
   });
   it('fails closed on invalid deployment and unimplemented collection', async () => {
     const env = {
-      APP_ENV: 'test',
+      APP_ENV: 'staging',
+      DEPLOYMENT_ENV: 'staging',
+      DATABASE_ENVIRONMENT: 'staging',
+      DATABASE_NAME: 'astro-events-jp-staging',
+      NOTIFICATIONS_ENABLED: 'false',
       REPORTS_REPOSITORY: 'Raccoon26/Astro-Events-JP-Reports',
       COLLECTION_ENABLED: 'false',
-      DB: { prepare() {} } as unknown as D1Database,
+      DB: {
+        prepare() {
+          return {
+            bind() {
+              return {
+                async all() {
+                  return {
+                    success: true,
+                    results: [
+                      {
+                        environment: 'staging',
+                        database_name: 'astro-events-jp-staging',
+                        schema_version: 2,
+                      },
+                    ],
+                    meta: { rows_read: 1, rows_written: 0, size_after: 4096 },
+                  };
+                },
+              };
+            },
+          };
+        },
+      } as unknown as D1Database,
     };
     expect(validateConfig(env).collectionEnabled).toBe(false);
     expect(() =>
@@ -65,7 +91,10 @@ describe('foundation security and configuration', () => {
     await expect(
       worker.scheduled({} as ScheduledController, env),
     ).resolves.toBeUndefined();
-    expect((await worker.fetch()).status).toBe(200);
+    expect(
+      (await worker.fetch(new Request('https://example.jp/health'), env))
+        .status,
+    ).toBe(200);
   });
   it('rejects over-budget, negative, and unavailable usage', () => {
     const zero = { requests: 0, reads: 0, writes: 0, databaseBytes: 0 };

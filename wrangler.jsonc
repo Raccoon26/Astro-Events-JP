@@ -1,22 +1,72 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "astro-events-jp",
+  "name": "astro-events-jp-local",
   "main": "src/index.ts",
   "compatibility_date": "2026-11-11",
   "workers_dev": false,
   "send_metrics": false,
   "vars": {
-    "APP_ENV": "development",
+    "APP_ENV": "staging",
+    "DEPLOYMENT_ENV": "staging",
+    "DATABASE_ENVIRONMENT": "staging",
+    "DATABASE_NAME": "astro-events-jp-staging",
     "REPORTS_REPOSITORY": "Raccoon26/Astro-Events-JP-Reports",
-    "COLLECTION_ENABLED": "false"
+    "COLLECTION_ENABLED": "false",
+    "NOTIFICATIONS_ENABLED": "false"
   },
-  "triggers": { "crons": ["0 */3 * * *", "17 0 * * *"] },
+  "triggers": { "crons": [] },
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "astro-events-jp",
+      "database_name": "astro-events-jp-local",
       "database_id": "00000000-0000-0000-0000-000000000000",
       "migrations_dir": "migrations"
     }
-  ]
+  ],
+  "env": {
+    "staging": {
+      "name": "astro-events-jp-staging",
+      "workers_dev": true,
+      "vars": {
+        "APP_ENV": "staging",
+        "DEPLOYMENT_ENV": "staging",
+        "DATABASE_ENVIRONMENT": "staging",
+        "DATABASE_NAME": "astro-events-jp-staging",
+        "REPORTS_REPOSITORY": "Raccoon26/Astro-Events-JP-Reports",
+        "COLLECTION_ENABLED": "false",
+        "NOTIFICATIONS_ENABLED": "false"
+      },
+      "triggers": { "crons": ["0 */3 * * *", "17 0 * * *"] },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "astro-events-jp-staging",
+          "database_id": "00000000-0000-0000-0000-000000000001",
+          "migrations_dir": "migrations"
+        }
+      ]
+    },
+    "production": {
+      "name": "astro-events-jp-production",
+      "workers_dev": true,
+      "vars": {
+        "APP_ENV": "production",
+        "DEPLOYMENT_ENV": "production",
+        "DATABASE_ENVIRONMENT": "production",
+        "DATABASE_NAME": "astro-events-jp-production",
+        "REPORTS_REPOSITORY": "Raccoon26/Astro-Events-JP-Reports",
+        "COLLECTION_ENABLED": "false",
+        "NOTIFICATIONS_ENABLED": "false"
+      },
+      "triggers": { "crons": ["0 */3 * * *", "17 0 * * *"] },
+      "d1_databases": [
+        {
+          "binding": "DB",
+          "database_name": "astro-events-jp-production",
+          "database_id": "00000000-0000-0000-0000-000000000002",
+          "migrations_dir": "migrations"
+        }
+      ]
+    }
+  }
 }

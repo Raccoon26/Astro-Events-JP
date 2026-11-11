@@ -1,0 +1,65 @@
+name: Cloudflare deployment
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Explicit target
+        type: choice
+        options: [staging, production]
+        required: true
+      confirm_production:
+        description: Enter astro-events-jp-production for production
+        type: string
+        required: false
+permissions:
+  contents: read
+  checks: read
+concurrency:
+  group: cloudflare-${{ github.event_name == 'workflow_run' && 'staging' || inputs.environment }}
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: >-
+      (github.event_name == 'workflow_run' && vars.CF_STAGING_DEPLOY_ENABLED == 'true' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main') ||
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && ((inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.environment == 'production' && vars.CF_PRODUCTION_DEPLOY_ENABLED == 'true' && inputs.confirm_production == 'astro-events-jp-production')))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: ${{ github.event_name == 'workflow_run' && 'staging' || inputs.environment }}
+    env:
+      DEPLOY_TARGET: ${{ github.event_name == 'workflow_run' && 'staging' || inputs.environment }}
+      WRANGLER_SEND_METRICS: "false"
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+      - name: Configure isolated paths
+        run: |
+          echo "npm_config_cache=$RUNNER_TEMP/astro-events-jp/npm" >> "$GITHUB_ENV"
+          echo "WRANGLER_LOG_PATH=$RUNNER_TEMP/astro-events-jp/wrangler.log" >> "$GITHUB_ENV"
+          echo "XDG_CONFIG_HOME=$RUNNER_TEMP/astro-events-jp/config" >> "$GITHUB_ENV"
+          echo "XDG_CACHE_HOME=$RUNNER_TEMP/astro-events-jp/cache" >> "$GITHUB_ENV"
+      - run: npm ci
+      - run: npm run check
+      - name: Verify current deployment commit CI
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: node scripts/verify-deployment-ci.mjs
+      - name: Guarded deployment without migrations or collection
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CF_ACCOUNT_EVIDENCE: ${{ secrets.CF_ACCOUNT_EVIDENCE }}
+        run: |
+          if [ "$DEPLOY_TARGET" = "production" ]; then
+            node scripts/cloudflare.mjs deploy production --confirm-astro-events-jp-production
+          else
+            node scripts/cloudflare.mjs deploy staging
+          fi

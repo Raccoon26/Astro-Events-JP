@@ -2,12 +2,13 @@
 
 일본 전국 천문·우주·연구기관·지역 소규모 행사, 시설 운영 정보, 관련 VTuber 소식을 공식 출처로 검증하고 일본어 X 복사용 완성 글과 이미지 출처를 전달하는 무료 운영 프로젝트입니다. X 게시자는 사용자입니다.
 
-현재 DEV-00 기반 구축 단계입니다. 실제 수집·게시글 생성·Telegram Bot은 후속 DEV에서 구현합니다. TypeScript / Workers Free·Cron / D1 / GitHub CI·Private Reports Issues / Telegram을 사용합니다.
+현재 DEV-01 로컬 기반을 구현·검증했으며 Cloudflare 인증은 사용자 요청으로 보류했습니다. **실제 원격 운영 환경 구축 완료 상태는 아닙니다.** 수집·게시글 생성·Telegram Bot은 후속 DEV 범위입니다. TypeScript / Workers Free·Cron / D1 / GitHub CI·Private Reports Issues / Telegram을 사용합니다.
 
 ```powershell
 Set-Location E:\Astro-Events-JP\repo
 . .\scripts\environment.ps1
 npm ci
+npm run d1:local
 npm run check
 npm run cleanup
 ```
@@ -22,4 +23,4 @@ npm run cleanup
 | [LOCAL_DEVELOPMENT](LOCAL_DEVELOPMENT.md) / [CLEANUP_POLICY](CLEANUP_POLICY.md)   | E드라이브·안전정리            |
 | [GITHUB_WORKFLOW](GITHUB_WORKFLOW.md) / [RELEASE_CHECKLIST](RELEASE_CHECKLIST.md) | 자동commit/push/PR/CI/병합    |
 
-초기 README 프로젝트명/소개를 유지해 안내를 확장했습니다. 월0엔은 목표이며 무료CPU/쿼리한도로 수집이 지연·중단될 수 있습니다. 실측 전 전국전수조사 속도를 보장하지 않습니다.
+Cloudflare 재개는 [CLOUDFLARE_SETUP](CLOUDFLARE_SETUP.md), 배포는 [DEPLOYMENT](DEPLOYMENT.md), 복구는 [DISASTER_RECOVERY](DISASTER_RECOVERY.md)를 참고합니다. 실제 ID/Free 계정/사용량이 미확인되면 원격 배포를 차단합니다. 월0엔은 목표이며 실측 전 전국조사 속도를 보장하지 않습니다.
