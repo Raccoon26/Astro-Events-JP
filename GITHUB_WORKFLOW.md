@@ -21,3 +21,5 @@ CI는 contents:read, immutable Action SHA, credentials 비보존. Actions는 CI/
 기존보호는 완화하지 않는다. 신규보호는 quality가 실제1회 성공한 후 main PR필수·required quality + up-to-date·enforce_admins=true·forcepush/삭제금지. 기존리뷰요구는 보존하며 신규승인수0은 사용자 자동병합 요구와 맞춘다. 보호해제/우회는 없다. owner의 설정변경권한까지 영구차단한다고 주장하지 않는다.
 
 초기: c353a19·main만·Actions0·rulesets0·보호없음. connector admin endpoint는403이었다. 기존로컬 Git credential을 메모리에서만 사용하는 관리API인증이 가능했다. Reports private생성/재조회, 실제PR/CI/보호/병합결과는 PROJECT_STATUS에 기록한다.
+
+DEV02도기존complete:dev -- --reviewed를사용한다. check에Seed검증과로컬D1시험을추가하고CI권한·quality필수·보호·배포비활성변수는변경하지않는다. DEV01원격보류는PR에명시하되로컬DEV02통합과분리한다. Seed/공식근거는공개데이터지만실제행사보고/비밀은Public에기록하지않는다.

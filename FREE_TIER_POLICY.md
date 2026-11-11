@@ -28,3 +28,9 @@ Cron8회/일 + 일일정리1회 자체 요청량은 작지만 CPU10ms가 핵심 
 Workers 요청80,000/일·D1 read400만/write80,000·DB400MB를 프로젝트 수집 예산 상한으로 두고 계정 타작업 여유를 차감한다. 실측은 D1 응답 meta와 Cloudflare metrics를 대조한다. 알 수 없는 사용량은 fail closed한다. CPU는 Date.now로 정확히 측정할 수 없으므로 런타임CPU 지표를 활용한다. 80% 접근시 경고·중요도낮은수집유예, 중복조회중단, checkpoint, 관리자 private 보고. 정리와 경고용 예산을 예약한다. Free 한도 도달시 요청/쿼리가 실패하고 수집 일부 중단이 가능함을 운영 보고에 명시한다.
 
 큰HTML·PDF/OCR·JS렌더링·브라우저자동화·AI추론은 기본 실행경로에 넣지 않는다. 검증안된 외부서비스/Queues/KV/R2 등을 무료라고 가정해 추가하지 않는다. 미지원 소스는 별도검토 상태로 남기며 핵심 수집범위를 삭제하지 않는다. GitHub Public Actions는 CI/배포만 사용하고 수집용 개인서버로 사용하지 않는다. Reports private Actions는 계획하지 않는다. Telegram Bot API 및 GitHub Issues 알림만 사용하며 유료 이메일·검색·AI 호출은 없다. DEV00에서 실제 Cloudflare 계정사용량·배포/CPU 성능은 미검증이다.
+
+## DEV02 로컬 측정
+
+2026-11-11 위공식Workers/D1 limits·pricing을재확인했다. 계정인증/전체사용량/실CPU는여전히미확인이다. reports/dev02-benchmark.json은로컬workerd/D1의응답meta(rows_read/rows_written/size_after)와경과시간을기록한다. cpuTimeMs=null이며경과시간을CPU라고표시하지않는다. 96개실제Seed/92시설/4인물과별도2000개합성fixture를검증했다. 반복Import와DryRun의rows_written=0,25행검색1쿼리/25읽기를확인했다. 이수치는원격할당량/과금실측이아니다.
+
+Import는Node관리도구에서여러작은batch를순차실행하므로50쿼리/Worker호출제한내처리량을보장하지않는다. Seed전체를Cron1회에서Import/조사하지않는다. 커서페이지최대100/정보원별간격을제공하고후속실행기가더작은무료예산을적용한다. 전국동시/실시간수집속도·원격CPU/대규모운영가능성은미검증이다. 인덱스쓰기비용을포함한실제로컬값은최종보고를따르며무료플랜자동전환/외부유료서비스는없다.

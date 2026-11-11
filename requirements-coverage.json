@@ -2,29 +2,62 @@
   "requirements": {
     "R01": {
       "devs": [2, 8, 9],
-      "evidence": ["ARCHITECTURE.md", "DEV_ROADMAP.md"]
+      "evidence": [
+        "ARCHITECTURE.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
     },
     "R02": {
       "devs": [2, 3, 4, 8],
-      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
     },
     "R03": {
       "devs": [2, 3, 4],
-      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
     },
     "R04": {
       "devs": [2, 3, 4, 8],
-      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
     },
     "R05": {
       "devs": [2, 3, 4, 8],
-      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
     },
     "R06": {
       "devs": [4, 7],
       "evidence": ["ARCHITECTURE.md", "migrations/0001_foundation.sql"]
     },
-    "R07": { "devs": [2], "evidence": ["SOURCE_POLICY.md", "src/domain.ts"] },
+    "R07": {
+      "devs": [2],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/domain.ts",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
+    },
     "R08": {
       "devs": [3, 4, 7, 8],
       "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
@@ -35,7 +68,12 @@
     },
     "R10": {
       "devs": [2, 3, 9],
-      "evidence": ["SOURCE_POLICY.md", "src/contracts.ts"]
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/contracts.ts",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
     },
     "R11": {
       "devs": [4, 5, 6],
@@ -57,7 +95,10 @@
       "devs": [5, 10],
       "evidence": ["DEV_ROADMAP.md", "src/contracts.ts"]
     },
-    "R16": { "devs": [5, 10], "evidence": ["src/domain.ts", "DEV_ROADMAP.md"] },
+    "R16": {
+      "devs": [5, 10],
+      "evidence": ["src/domain.ts", "DEV_ROADMAP.md"]
+    },
     "R17": {
       "devs": [6, 7],
       "evidence": ["ARCHITECTURE.md", "src/contracts.ts"]
@@ -70,7 +111,10 @@
       "devs": [0, 6, 7],
       "evidence": ["migrations/0001_foundation.sql", "ARCHITECTURE.md"]
     },
-    "R20": { "devs": [4, 7], "evidence": ["DATA_MODEL.md", "DEV_ROADMAP.md"] },
+    "R20": {
+      "devs": [4, 7],
+      "evidence": ["DATA_MODEL.md", "DEV_ROADMAP.md"]
+    },
     "R21": {
       "devs": [0, 9],
       "evidence": [

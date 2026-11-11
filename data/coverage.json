@@ -1,0 +1,609 @@
+{
+  "at": "2026-11-11T14:23:37.085Z",
+  "sources": 96,
+  "verified": 77,
+  "states": {
+    "active": 0,
+    "review": 85,
+    "unsupported": 9,
+    "paused": 2
+  },
+  "prefectures": [
+    {
+      "code": 1,
+      "jisCode": "01",
+      "name": "北海道",
+      "region": "北海道",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 2,
+      "jisCode": "02",
+      "name": "青森県",
+      "region": "東北",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 3,
+      "jisCode": "03",
+      "name": "岩手県",
+      "region": "東北",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 4,
+      "jisCode": "04",
+      "name": "宮城県",
+      "region": "東北",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 5,
+      "jisCode": "05",
+      "name": "秋田県",
+      "region": "東北",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 6,
+      "jisCode": "06",
+      "name": "山形県",
+      "region": "東北",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 7,
+      "jisCode": "07",
+      "name": "福島県",
+      "region": "東北",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 8,
+      "jisCode": "08",
+      "name": "茨城県",
+      "region": "関東",
+      "sources": 3,
+      "verified": 2,
+      "facilities": 3
+    },
+    {
+      "code": 9,
+      "jisCode": "09",
+      "name": "栃木県",
+      "region": "関東",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 10,
+      "jisCode": "10",
+      "name": "群馬県",
+      "region": "関東",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 11,
+      "jisCode": "11",
+      "name": "埼玉県",
+      "region": "関東",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 12,
+      "jisCode": "12",
+      "name": "千葉県",
+      "region": "関東",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 13,
+      "jisCode": "13",
+      "name": "東京都",
+      "region": "関東",
+      "sources": 4,
+      "verified": 4,
+      "facilities": 4
+    },
+    {
+      "code": 14,
+      "jisCode": "14",
+      "name": "神奈川県",
+      "region": "関東",
+      "sources": 4,
+      "verified": 4,
+      "facilities": 4
+    },
+    {
+      "code": 15,
+      "jisCode": "15",
+      "name": "新潟県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 16,
+      "jisCode": "16",
+      "name": "富山県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 17,
+      "jisCode": "17",
+      "name": "石川県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 18,
+      "jisCode": "18",
+      "name": "福井県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 19,
+      "jisCode": "19",
+      "name": "山梨県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 20,
+      "jisCode": "20",
+      "name": "長野県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 21,
+      "jisCode": "21",
+      "name": "岐阜県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 22,
+      "jisCode": "22",
+      "name": "静岡県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 23,
+      "jisCode": "23",
+      "name": "愛知県",
+      "region": "中部",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 24,
+      "jisCode": "24",
+      "name": "三重県",
+      "region": "近畿",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 25,
+      "jisCode": "25",
+      "name": "滋賀県",
+      "region": "近畿",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 26,
+      "jisCode": "26",
+      "name": "京都府",
+      "region": "近畿",
+      "sources": 3,
+      "verified": 1,
+      "facilities": 3
+    },
+    {
+      "code": 27,
+      "jisCode": "27",
+      "name": "大阪府",
+      "region": "近畿",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 28,
+      "jisCode": "28",
+      "name": "兵庫県",
+      "region": "近畿",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 29,
+      "jisCode": "29",
+      "name": "奈良県",
+      "region": "近畿",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 30,
+      "jisCode": "30",
+      "name": "和歌山県",
+      "region": "近畿",
+      "sources": 3,
+      "verified": 1,
+      "facilities": 3
+    },
+    {
+      "code": 31,
+      "jisCode": "31",
+      "name": "鳥取県",
+      "region": "中国",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 32,
+      "jisCode": "32",
+      "name": "島根県",
+      "region": "中国",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 33,
+      "jisCode": "33",
+      "name": "岡山県",
+      "region": "中国",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 34,
+      "jisCode": "34",
+      "name": "広島県",
+      "region": "中国",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 35,
+      "jisCode": "35",
+      "name": "山口県",
+      "region": "中国",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 36,
+      "jisCode": "36",
+      "name": "徳島県",
+      "region": "四国",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 37,
+      "jisCode": "37",
+      "name": "香川県",
+      "region": "四国",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 38,
+      "jisCode": "38",
+      "name": "愛媛県",
+      "region": "四国",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 39,
+      "jisCode": "39",
+      "name": "高知県",
+      "region": "四国",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 40,
+      "jisCode": "40",
+      "name": "福岡県",
+      "region": "九州・沖縄",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 41,
+      "jisCode": "41",
+      "name": "佐賀県",
+      "region": "九州・沖縄",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 42,
+      "jisCode": "42",
+      "name": "長崎県",
+      "region": "九州・沖縄",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 43,
+      "jisCode": "43",
+      "name": "熊本県",
+      "region": "九州・沖縄",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    },
+    {
+      "code": 44,
+      "jisCode": "44",
+      "name": "大分県",
+      "region": "九州・沖縄",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 45,
+      "jisCode": "45",
+      "name": "宮崎県",
+      "region": "九州・沖縄",
+      "sources": 1,
+      "verified": 1,
+      "facilities": 1
+    },
+    {
+      "code": 46,
+      "jisCode": "46",
+      "name": "鹿児島県",
+      "region": "九州・沖縄",
+      "sources": 2,
+      "verified": 1,
+      "facilities": 2
+    },
+    {
+      "code": 47,
+      "jisCode": "47",
+      "name": "沖縄県",
+      "region": "九州・沖縄",
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2
+    }
+  ],
+  "missing": [],
+  "unverifiedRegions": [],
+  "kinds": {
+    "science-planetarium": 74,
+    "community": 6,
+    "observatory": 6,
+    "research": 5,
+    "university": 1,
+    "vtuber": 4
+  },
+  "categories": {
+    "facility": 78,
+    "local": 8,
+    "space-development": 2,
+    "research": 4,
+    "vtuber": 4
+  },
+  "vtubers": [
+    {
+      "name": "宇推くりあ",
+      "status": "Verified",
+      "reason": "Official homepage and rights-holder profile; X ingestion unsupported"
+    },
+    {
+      "name": "月女神イチ",
+      "status": "Verified",
+      "reason": "Operator publication names official YouTube; X/home/shop not guessed"
+    },
+    {
+      "name": "猫谷ここな",
+      "status": "Review Required",
+      "reason": "Direct YouTube returned no identity content; authoritative cross-link incomplete; Review Required"
+    },
+    {
+      "name": "星見まどか",
+      "status": "Verified",
+      "reason": "Self-published profile cross-links accounts; lit.link403; no complete SNS ingestion"
+    }
+  ],
+  "accessIssues": [
+    {
+      "id": "src-b441df4d1eae33677fd2d484",
+      "name": "星空探険館スペーシア",
+      "url": "https://akitafurusatomura.co.jp/",
+      "reason": "Official association directory link; original page/access policy needs confirmation"
+    },
+    {
+      "id": "src-6e0304e9472f0fa20147c8c0",
+      "name": "仙台市天文台",
+      "url": "https://www.sendai-astro.jp/",
+      "reason": "Official primary page reports emergency website maintenance; facility operating status unknown"
+    },
+    {
+      "id": "src-d014e20222f57fbc6b5da2ba",
+      "name": "つくばエキスポセンター",
+      "url": "https://www.expocenter.or.jp/",
+      "reason": "robots unavailable or root disallow; no original fetch"
+    },
+    {
+      "id": "src-e37682006a0b6eb2f4c5532e",
+      "name": "高崎市少年科学館",
+      "url": "https://www.takasaki-foundation.or.jp/t-kagakukan/",
+      "reason": "robots unavailable or root disallow; no original fetch"
+    },
+    {
+      "id": "src-8e0c0817738830ccad73245f",
+      "name": "新潟県立自然科学館",
+      "url": "https://www.sciencemuseum.jp/",
+      "reason": "robots unavailable or root disallow; no original fetch"
+    },
+    {
+      "id": "src-bfd1e76bcfb649fc46a13aef",
+      "name": "福井市自然史博物館分館「セーレンプラネット」",
+      "url": "https://www.fukui-planet.com/",
+      "reason": "Official association directory link; original page/access policy needs confirmation"
+    },
+    {
+      "id": "src-8d64757e74aadb578f730204",
+      "name": "いしかわ子ども交流センター",
+      "url": "https://www.i-oyacomi.net/i-kodomo/",
+      "reason": "robots unavailable or root disallow; no original fetch"
+    },
+    {
+      "id": "src-a447c83efad3aa8d39da98c7",
+      "name": "富士川楽座 わいわい劇場",
+      "url": "https://fujikawarakuza.co.jp/",
+      "reason": "Official association directory link; original page/access policy needs confirmation"
+    },
+    {
+      "id": "src-e0ef785be5a0b6eab1f37321",
+      "name": "大津市科学館",
+      "url": "https://www.otsu.ed.jp/kagaku/",
+      "reason": "Official association directory link; original page/access policy needs confirmation"
+    },
+    {
+      "id": "src-f74e8cdda3b7b2605f95fb55",
+      "name": "文化パルク城陽プラネタリウム",
+      "url": "http://www.bunkaparcjoyo.net/planetarium/planetar.html",
+      "reason": "HTTP-only directory URL; HTTPS/canonical verification pending"
+    },
+    {
+      "id": "src-34948e02ddc8e41fae6db554",
+      "name": "京都市青少年科学センター",
+      "url": "https://www.edu.city.kyoto.jp/science/",
+      "reason": "Original access unavailable in bounded audit; retain directory evidence"
+    },
+    {
+      "id": "src-d871afa07380c0f251bcac80",
+      "name": "紀美野町立みさと天文台",
+      "url": "http://www.obs.jp/",
+      "reason": "HTTP-only directory URL; HTTPS/canonical verification pending"
+    },
+    {
+      "id": "src-371637f547add4307c5d892d",
+      "name": "和歌山市立こども科学館",
+      "url": "http://kodomo123.jp/",
+      "reason": "HTTP-only directory URL; HTTPS/canonical verification pending"
+    },
+    {
+      "id": "src-449812c91f47d764844b3d15",
+      "name": "人と科学の未来館サイピア",
+      "url": "http://www.sci-pia.pref.okayama.jp/",
+      "reason": "HTTP-only directory URL; HTTPS/canonical verification pending"
+    },
+    {
+      "id": "src-09054fbfb2244b2024f3db63",
+      "name": "5-Daysこども文化科学館（広島市こども文化科学館）",
+      "url": "https://www.pyonta.city.hiroshima.jp/",
+      "reason": "robots unavailable or root disallow; no original fetch"
+    },
+    {
+      "id": "src-11ca2d95543176c3ddc74629",
+      "name": "さぬきこどもの国",
+      "url": "https://www.sanuki.or.jp/",
+      "reason": "robots unavailable or root disallow; no original fetch"
+    },
+    {
+      "id": "src-c0711208f071065bab41609a",
+      "name": "鹿児島県立博物館",
+      "url": "http://www.pref.kagoshima.jp/hakubutsukan/index.html",
+      "reason": "HTTP-only directory URL; HTTPS/canonical verification pending"
+    },
+    {
+      "id": "src-7a1f46aca4dfd64d010210d8",
+      "name": "星つむぎの村",
+      "url": "http://hoshitsumugi.main.jp/web/",
+      "reason": "HTTP-only directory URL; HTTPS/canonical verification pending"
+    },
+    {
+      "id": "src-a6bf717c2e294a3285099e74",
+      "name": "大塔コスミックパーク星のくに",
+      "url": "https://www.gojo.ne.jp/g-kanko/seeing/18hoshinokuni.html",
+      "reason": "Official tourism facility description checked, stale contents; current reopening unconfirmed; collection policy/parser review pending; former designated operator published March2026 suspension, no reopening confirmation"
+    },
+    {
+      "id": "src-befb6fcd307b920379a9da8f",
+      "name": "月女神イチ",
+      "url": "https://www.youtube.com/@ArtemisIchi",
+      "reason": "Operator publication names official YouTube; X/home/shop not guessed; robots/terms and parser review pending"
+    },
+    {
+      "id": "src-50800560295ff7f99cbf8240",
+      "name": "猫谷ここな",
+      "url": "https://twitcasting.tv/nekoya_cocona/",
+      "reason": "Identity/cross-link incomplete; Direct YouTube returned no identity content; authoritative cross-link incomplete; Review Required"
+    },
+    {
+      "id": "src-f2b6577b992a4c8ef2caaa84",
+      "name": "星見まどか",
+      "url": "https://www.youtube.com/c/MadokaHoshimi",
+      "reason": "Self-published profile cross-links accounts; lit.link403; no complete SNS ingestion; robots/terms and parser review pending"
+    }
+  ]
+}

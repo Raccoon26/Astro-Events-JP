@@ -62,6 +62,19 @@ export function validateBindings(config, resources, remote = false) {
   return true;
 }
 export function assertMigrationIntegrity() {
+  const deploymentHash = createHash('sha256')
+    .update(
+      readFileSync('migrations/0002_deployment_identity.sql', 'utf8').replace(
+        /\r\n/g,
+        '\n',
+      ),
+    )
+    .digest('hex');
+  if (
+    deploymentHash !==
+    '505c06c492442885135478b6d1e5cc5b8015b286f7edf6fe36410e516b5dce7b'
+  )
+    throw new Error('DEV-01 migration changed');
   if (
     createHash('sha256')
       .update(

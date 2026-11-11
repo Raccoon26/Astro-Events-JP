@@ -23,3 +23,7 @@ npm run check는 preflight→Cloudflare정책/원본migration검사→소스/테
 DEV03은 DNS/redirect/body/timeout/429/robots fixture, DEV04는 날짜/공식취소/이미지권리, DEV05는 일본어/X공식가중길이, DEV06은 응답소실/멱등callback/실메일, DEV07은 연례/회차/경쟁, DEV08은47현/범주균형, DEV09는 한도/복구/보관경계, DEV10은 실운영통합을 추가한다.
 
 물리드라이브를 뽑는 시험은 하지 않는다. missing-path는 하드웨어분리 시험과 다르다. Cloudflare계정/실CPU/원격D1, 실Telegram/메일은 DEV01/06에 검증하며 현재 성공으로 표시하지 않는다. 실제결과는 PROJECT_STATUS에 기록한다.
+
+## DEV02 테스트
+
+기존48개시험과검증목적을삭제/축소하지않았다. registry/seed-quality/registry-integration에현코드전체대조,중복/host/민감URL/SQL입력, CRUD/이력/alias/시설다중연결/후보승인/인물확장, 미검증활성차단, 지역회전/독립VTuber예산/범주최소량, 전체사전검증/환경차단/단위rollback/운영상태보존을추가했다. 실로컬D1에최종Seed와2000fixture를넣고FK/quick_check·DryRun/반복0쓰기·검색읽기량/경과시간/크기를검증한다. CI는네트워크사이트수집없이같은Seed를검증한다. npm run check에seed:validate를추가했으며기존CI/48회귀/양환경빌드·보안·요구감사·Wrangler local마이그레이션을보존한다. 실제인터넷근거검토는data의검토시각스냅샷이며CI테스트가현재출처공식성/정책을새로증명하지는않는다.

@@ -1,0 +1,11 @@
+[
+  {
+    "url": "https://www.nao.ac.jp/contents/notice/",
+    "discoveredFrom": "Manual candidate path; official primary returned404",
+    "prefecture": 13,
+    "category": "research",
+    "state": "unsupported",
+    "reason": "404 original path. Use separately verified NAOJ root; never activate this candidate.",
+    "checkedAt": "2026-11-11T14:16:11.288Z"
+  }
+]

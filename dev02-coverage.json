@@ -1,0 +1,115 @@
+{
+  "scope": "local-registry-and-evidence-snapshot",
+  "remoteDEV01": "deferred-by-user-no-reauthentication",
+  "limitations": [
+    "collection approval 0",
+    "Nekoya Cocona authoritative cross-link incomplete",
+    "remote Cloudflare/CPU unverified"
+  ],
+  "sections": {
+    "0": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["PROJECT_STATUS.md", "DEV_ROADMAP.md"]
+    },
+    "1": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["SOURCE_REGISTRY.md"]
+    },
+    "2": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["data/prefectures.json", "data/coverage.json"]
+    },
+    "3": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["data/sources.json"]
+    },
+    "4": {
+      "status": "implemented-with-explicit-review-items",
+      "evidence": ["data/sources.json", "SOURCE_COVERAGE.md"]
+    },
+    "5": {
+      "status": "implemented-with-explicit-review-items",
+      "evidence": ["data/vtubers.json", "VTUBER_VERIFICATION.md"]
+    },
+    "6": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["src/registry.ts"]
+    },
+    "7": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["src/registry-management.ts", "data/facilities.json"]
+    },
+    "8": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["src/registry.ts"]
+    },
+    "9": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["src/registry-management.ts", "data/candidates.json"]
+    },
+    "10": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["src/registry.ts"]
+    },
+    "11": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["data/sources.json", "data/facilities.json"]
+    },
+    "12": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["src/seed-import.ts", "scripts/registry.mjs"]
+    },
+    "13": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["migrations/0003_registry.sql"]
+    },
+    "14": {
+      "status": "implemented-with-explicit-review-items",
+      "evidence": ["SOURCE_POLICY.md", "data/sources.json"]
+    },
+    "15": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["tests/registry-integration.test.mjs", "FREE_TIER_POLICY.md"]
+    },
+    "16": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["LOCAL_DEVELOPMENT.md", "CLEANUP_POLICY.md"]
+    },
+    "17": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": [
+        "tests/registry.test.ts",
+        "tests/seed-quality.test.ts",
+        "tests/registry-integration.test.mjs"
+      ]
+    },
+    "18": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["SOURCE_COVERAGE.md", "data/coverage.json"]
+    },
+    "19": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["DEV_ROADMAP.md"]
+    },
+    "20": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["REQUIREMENTS.md", "requirements-coverage.json"]
+    },
+    "21": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["PROJECT_STATUS.md"]
+    },
+    "22": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["GITHUB_WORKFLOW.md", "scripts/complete-dev.mjs"]
+    },
+    "23": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["RELEASE_CHECKLIST.md"]
+    },
+    "24": {
+      "status": "local-evidence-and-completion-procedure",
+      "evidence": ["PROJECT_STATUS.md"]
+    }
+  }
+}

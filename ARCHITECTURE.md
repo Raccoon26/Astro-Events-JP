@@ -60,3 +60,7 @@ Report에는 행사·검증·변경·게시상태·이미지권리·링크가 �
 전달키는 event/revision/channel/message_part로 고정한다. outbox pending→sending(lease)→sent; 발신후 응답 소실은 uncertain으로 두어 무조건 재전송하지 않는다. Telegram은 exactly-once를 보장하지 않으므로 uncertain은 재확인/운영 조정 대상이다. Issues는 저장된 issue/message ID를 갱신한다. Issues와 Telegram은 서로 입력 소스로 사용하지 않아 알림 루프를 막는다. 이메일은 GitHub 구독에 종속되며 별도 메일 발송 API는 없다.
 
 Public에는 코드/합성fixture/정책만, Private에는 실제 행사보고/생성글/검증/게시이력을 둔다. D1은 운영 데이터 저장소이다. 배포/Secrets/D1 원격 생성은 DEV01, 실제 Telegram·Issues·메일은 DEV06에서 검증한다.
+
+## DEV02 로컬 등록 계층
+
+Sources/Facilities/VTubers는별도엔티티, 시설-Source와인물-Source는다대다다. Discovery는수동심사후Registry로전환한다. src/registry.ts가SourceRegistry계약을구현하고registry-management가시설/후보/인물을관리한다. seed-import는전체검증후로컬staging의작은원자적단위를처리한다. 전국메타데이터와고정Seed는data/, API는Workers API형식의prepare/bind/batch를사용한다. Worker진입점/Health/Cron에는연결하지않았다. SQL조회는최대100행/커서기반이며selectFair는47현회전·범주최소량·VTuber별도예산의기초다. 자세한계약은[SOURCE_REGISTRY](SOURCE_REGISTRY.md)를따른다. DEV01원격보류와DEV02로컬개발을분리하며실운영수집은계속금지한다.
