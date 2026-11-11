@@ -44,6 +44,7 @@ async function api(method, endpoint, body) {
     `https://api.github.com/repos/${repo}${endpoint}`,
     {
       method,
+      signal: AbortSignal.timeout(15000),
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/vnd.github+json',
