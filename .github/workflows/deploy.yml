@@ -43,10 +43,12 @@ jobs:
           node-version: "22"
       - name: Configure isolated paths
         run: |
-          echo "npm_config_cache=$RUNNER_TEMP/astro-events-jp/npm" >> "$GITHUB_ENV"
-          echo "WRANGLER_LOG_PATH=$RUNNER_TEMP/astro-events-jp/wrangler.log" >> "$GITHUB_ENV"
-          echo "XDG_CONFIG_HOME=$RUNNER_TEMP/astro-events-jp/config" >> "$GITHUB_ENV"
-          echo "XDG_CACHE_HOME=$RUNNER_TEMP/astro-events-jp/cache" >> "$GITHUB_ENV"
+          cat >> "$GITHUB_ENV" <<EOF
+          npm_config_cache=$RUNNER_TEMP/astro-events-jp/npm
+          WRANGLER_LOG_PATH=$RUNNER_TEMP/astro-events-jp/wrangler.log
+          XDG_CONFIG_HOME=$RUNNER_TEMP/astro-events-jp/config
+          XDG_CACHE_HOME=$RUNNER_TEMP/astro-events-jp/cache
+          EOF
       - run: npm ci
       - run: npm run check
       - name: Verify current deployment commit CI

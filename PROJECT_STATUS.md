@@ -23,6 +23,8 @@ workerd/D1에서 localhost HTTP200, staging합성CRUD/정리·production격리, 
 
 ## GitHub 설정 및 완료 절차
 
+[DEV01 PR #2](https://github.com/Raccoon26/Astro-Events-JP/pull/2)를 생성했다. 최초CI는 Linux ShellCheck의 SC2129(환경파일 반복redirect)로 중단되어 CI/배포 두워크플로를 단일 heredoc 쓰기로 수정했다. 검사비활성화나 경고억제는 하지 않았다. 최신head의 필수CI가 통과하기 전에는 병합하지 않는다.
+
 Reports 저장소 private=true를 재확인했다. main 필수quality/strict/PR·관리자포함·forcepush/삭제금지를 보존한다. GitHub staging/production Environment 생성200, 보호브랜치제한; production Raccoon26 승인필수·can_admins_bypass=false. 활성화변수 CF_STAGING_DEPLOY_ENABLED / CF_PRODUCTION_DEPLOY_ENABLED는 false(생성201). Secrets 미등록. 실제배포를 실행/성공했다고 표시하지 않는다.
 
 로컬코드는 기존 complete:dev로 commit/push/PR/최신head CI/보호조건/안전병합/main동기화를 수행한다. 이 문서는 병합전 snapshot이며 최종PR·commit/merge/main SHA·CI는 E reports/github-completion 및 DEV-01 최종보고가 기준이다. 인증차단은 품질검사실패와 구분하여 PR에 명시한다. 안전한 코드통합이 DEV01 운영완료를 의미하지 않는다.
