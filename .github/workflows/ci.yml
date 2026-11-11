@@ -25,9 +25,18 @@ jobs:
           node-version: "22"
       - name: Configure isolated cloud paths
         run: |
-          echo "npm_config_cache=$RUNNER_TEMP/astro-events-jp/npm" >> "$GITHUB_ENV"
-          echo "WRANGLER_LOG_PATH=$RUNNER_TEMP/astro-events-jp/wrangler.log" >> "$GITHUB_ENV"
-          echo "XDG_CONFIG_HOME=$RUNNER_TEMP/astro-events-jp/config" >> "$GITHUB_ENV"
-          echo "XDG_CACHE_HOME=$RUNNER_TEMP/astro-events-jp/cache" >> "$GITHUB_ENV"
+          cat >> "$GITHUB_ENV" <<EOF
+          npm_config_cache=$RUNNER_TEMP/astro-events-jp/npm
+          WRANGLER_LOG_PATH=$RUNNER_TEMP/astro-events-jp/wrangler.log
+          XDG_CONFIG_HOME=$RUNNER_TEMP/astro-events-jp/config
+          XDG_CACHE_HOME=$RUNNER_TEMP/astro-events-jp/cache
+          GOCACHE=$RUNNER_TEMP/astro-events-jp/go-cache
+          GOMODCACHE=$RUNNER_TEMP/astro-events-jp/go-mod
+          GOBIN=$RUNNER_TEMP/astro-events-jp/bin
+          EOF
+      - name: Validate workflow syntax and expressions
+        run: |
+          go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
+          "$GOBIN/actionlint" -color
       - run: npm ci
       - run: npm run check

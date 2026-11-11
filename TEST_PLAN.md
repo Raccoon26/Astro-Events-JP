@@ -1,6 +1,12 @@
 # 테스트와 증거
 
-npm run check는 preflight→소스/테스트타입→Biome lint/format→Vitest→Wrangler bundle dry-run→Secret/금지파일scan+npm audit high→요구/문서감사 순서이다. 실제 CI 검사명은 quality이다. 실패시 보호/검사를 제거하지 않고 수정한다.
+DEV01 추가: 기존11시험의 검증목적/이름/부정테스트를 보존하고 Health 성공fixture만 실제D1 marker/표준Request 계약에 맞게 강화했다. 총48시험(7파일)에서 환경별설정·누락DB·collection/notification잠금·환경변조·Health200/503/404/405/HEAD·민감정보·timeout·Cron두종류·계정예산·원격명령guard·원격오류격리/재시도0·pagination거부·원본migration불변을 검증했다.
+
+로컬 통합은 Miniflare가 실제workerd를 실행하고 별도D1 두개에 전체schema를 적용한다. localhost HTTP·bind쿼리·staging합성CRUD·production격리·테이블/인덱스·quick_check/FK·Cron·환경오류복구를 시험한다. sql.js snapshot복구는 로컬시뮬레이션이다. `npm run d1:local`은 실제Wrangler의 별도영속staging D1에 migration적용/identity/무결성을 다시 검사한다. 로컬측정은 E reports/dev01-local-d1-measurement.json에 저장한다.
+
+Cloudflare원격 Free/계정여유/권한·DB생성/원격migrations·TimeTravel·Worker배포/실패rollback·원격HTTP/Cron·CPU기준선·GitHub실배포는 사용자 인증보류로 차단이다. 로컬시험이나 skipped deployment가 이 항목을 통과시킨 것으로 간주되지 않는다. 재개시 CLOUDFLARE_SETUP과 DISASTER_RECOVERY 순서로 실증하고 PROJECT_STATUS를 갱신한다.
+
+npm run check는 preflight→Cloudflare정책/원본migration검사→소스/테스트타입→Biome lint/format→Vitest→양환경Wrangler dry-run→Secret/금지파일scan+npm audit high→요구/문서감사→실제local D1검사 순서이다. 실제 CI 검사명은 quality이다. 실패시 보호/검사를 제거하지 않고 수정한다.
 
 | DEV00 검증       | 방식                                                                                               |
 | ---------------- | -------------------------------------------------------------------------------------------------- |

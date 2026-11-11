@@ -1,29 +1,46 @@
 # 프로젝트 상태
 
-기준일 2026-11-11 JST. 현재 DEV-00. 기반 구현·로컬 품질·실제 GitHub CI/보호 검증 완료. 이 문서는 PR 병합 직전의 검증 기록이며 최종 종결은 [PR #1](https://github.com/Raccoon26/Astro-Events-JP/pull/1)의 merged 상태와 E reports의 github-completion 보고서를 기준으로 한다. 이 변경이 보호된 main에 병합되면 DEV00 완료 조건을 충족한다.
+기준일 2026-11-11 JST. 현재 DEV-01. **로컬 구현·검증 완료 / 실제 Cloudflare 운영환경 검증은 인증 보류로 차단**이다. DEV01 전체 완료로 표시하지 않는다. 사용자는 "로컬 구현을 진행하고 인증은 나중에"를 선택했다. DEV02는 시작하지 않는다.
 
-## 완료 기반
+## DEV00 보존 및 시작 확인
 
-TypeScript/Node·Wrangler·Biome·Vitest·D1마이그레이션·15계약·환경/오류/예산/URL기초·보관선택쿼리·E경로/cache/temp·정리DryRun/제한삭제·CI·전DEV개발계약·필수문서를 작성했다. 실제제품완성은 아니다.
+PR #1 merged=true, 기준 main 3f9054e9c02ba3e82d09d53bbae9db11e8afdd42를 원격에서 재확인하고 최신동기화했다. 작업브랜치 dev/dev-01-cloudflare-foundation. 기존15모듈계약/도메인/전체v1.0범위를 보존했고 0001 SQL은 변경하지 않았다. 기존11개시험의 이름·검증목적·부정검사를 유지했으며 Health성공fixture만 새D1/Request 계약으로 강화했다.
 
-## 검증
+## 구현 완료
 
-실제E접근·repo복제·DEV브랜치 확인. 전체 npm run check 통과: 타입, Biome lint/format, 2파일11시험, Wrangler dry-run, Secret/금지파일 scan, npm audit 취약점0, R01~32·원요청0~24·14문서·11단계·15계약 감사. 로컬 D1 마이그레이션25명령 성공. 원요청 의미감사에서 모든 수집범주/권리/출력/보고/보관/무료/E/정리/Git자동완료의 담당DEV를 대조했다. cache 경로 junction·hardlink·변경파일도 거부한다.
+- staging/production의 완전한vars·Worker이름·별도D1/local state, collection/notifications=false 강제
+- 신규0002 deployment_identity, 원본migration SHA검사, provider ID/이름과 실제DB marker 이중검증
+- /health 200/503/404/405/HEAD, D1최소1조회, 안전오류·timeout·구조화로그, 두종류Cron 읽기전용진단
+- 배포/provision/마이그레이션/초기화/staging probe/bookmark/restore/rollback 명령의 환경·Free·usage·경로 guard, API timeout/재시도0/민감오류제외
+- 양환경bundle, 실제로컬Wrangler D1, workerd/localhost통합, 로컬복구시뮬레이션, CPU GraphQL조회기반
+- 기존quality CI확장 및 조건부staging/승인기반production 배포workflow, 설정/복구/요구감사문서
 
-E reports의 cleanup-1794401855904.json 및 cleanup-1794401966528.json은 DryRun으로 C:/Astro-Events-JP·D:/Astro-Events-JP 후보없음을 기록했다. C/D파일 실제삭제 없음; 전체드라이브 잔여물 부재를 보장하지 않는다. 첫 정리보고는 기반구현 도중 도구설정후 생성되어 엄밀한 작업전 전체baseline은 없다. 최초경로검사는 도구설치전 수행했다. Get-Volume권한거부로 health/물리외장 미검증. 연결해제는 격리missing-path로만 시험한다.
+## 로컬 테스트 완료
 
-## GitHub
+총48시험(7파일) 및 타입·Biome lint/format·양환경Wrangler dry-run·Secret/금지파일scan·npm audit취약점0·요구감사·실제Wrangler local migration/schema/indices/quick_check/FK 통과. 공식 actionlint1.7.12 SHA256 검증후 E/tools에서 워크플로검사 통과; CI에도 고정버전검사를 추가했다. 최신PR CI결과는 해당PR 및 최종completion보고서로 확인한다.
 
-초기main=c353a1906dc08798005ce57446ee0c7fc0f80979, 기존수정없음·main만·Actions0·보호없음·rulesets0. 계정Raccoon26, connector read/write, admin endpoint403; 기존로컬repo/workflow인증으로 관리API사용 가능. Reports private/Issues 생성201 후 GET200으로 private=true, has_issues=true 재확인. AutoMerge원래true, Actions enabled·기본token read·PR승인권한false 유지.
+workerd/D1에서 localhost HTTP200, staging합성CRUD/정리·production격리, 두Cron진입, 잘못된환경503/복구200을 확인했다. sql.js snapshot복구는 로컬시뮬레이션이다. E reports/dev01-local-d1-measurement.json: identity SELECT rows_read=1 / rows_written=0 / cpuTimeMs=null. Cloudflare 원격CPU 측정이 아니다.
 
-DEV브랜치 자동commit/push 및 PR #1 생성 성공. 최초08198b9는 job env의 runner 컨텍스트 오류로 CI정의 실패했고 ded39ff에서 수정했다. [PR CI 43025552369](https://github.com/Raccoon26/Astro-Events-JP/actions/runs/43025552369)와 [push CI 43025550912](https://github.com/Raccoon26/Astro-Events-JP/actions/runs/43025550912)가 성공했다. 현재 알려진 미해결 CI버그는 없다. quality 앱ID15368 확인후 main 보호 PUT200: required quality·strict, PR필수·신규승인0, enforce_admins, linear history, 대화해결필수, forcepush/삭제금지. 기존보호 해제/우회 없음.
+## GitHub 설정 및 완료 절차
 
-최종검증 문서변경은 complete:dev 스크립트가 다시 commit/push하고 최신head CI를 기다린 뒤 expected SHA로 squash merge·merged 재조회·main fetch/fast-forward·E보고를 수행한다. 마지막 commit/merge/main SHA는 자기참조로 문서에 고정하지 않고 PR과 GitHub completion 보고서에 기록한다. 브랜치는 삭제하지 않는다.
+[DEV01 PR #2](https://github.com/Raccoon26/Astro-Events-JP/pull/2)를 생성했다. 최초CI는 Linux ShellCheck의 SC2129(환경파일 반복redirect)로 중단되어 CI/배포 두워크플로를 단일 heredoc 쓰기로 수정했다. 검사비활성화나 경고억제는 하지 않았다. 최신head의 필수CI가 통과하기 전에는 병합하지 않는다.
 
-## 미구현·제약
+Reports 저장소 private=true를 재확인했다. main 필수quality/strict/PR·관리자포함·forcepush/삭제금지를 보존한다. GitHub staging/production Environment 생성200, 보호브랜치제한; production Raccoon26 승인필수·can_admins_bypass=false. 활성화변수 CF_STAGING_DEPLOY_ENABLED / CF_PRODUCTION_DEPLOY_ENABLED는 false(생성201). Secrets 미등록. 실제배포를 실행/성공했다고 표시하지 않는다.
 
-DEV01~10은 DEV_ROADMAP대로 남아 있다. Collector/공식계정seed/검증엔진/일본어X/Telegram/메일/중복엔진/정리/실측예산/복구/원격배포 없음. collection=true는 fail closed. URL구문검사만으로 DNS/redirect SSRF완료를 주장하지 않는다. 현재 제품운영 검증 전이다.
+로컬코드는 기존 complete:dev로 commit/push/PR/최신head CI/보호조건/안전병합/main동기화를 수행한다. 이 문서는 병합전 snapshot이며 최종PR·commit/merge/main SHA·CI는 E reports/github-completion 및 DEV-01 최종보고가 기준이다. 인증차단은 품질검사실패와 구분하여 PR에 명시한다. 안전한 코드통합이 DEV01 운영완료를 의미하지 않는다.
 
-## 사용자 조치·다음 단계
+## 실제 Cloudflare 테스트·배포 / 미검증
 
-현재 사용자 필수조치 없음. Cloudflare/D1/Secrets는 DEV01, Telegram/ChatID/메일구독은 DEV06에서 안내한다. DEV01에 필요한 계약·스키마·테스트·무료정책은 준비되었다. 실제 Cloudflare 연결/CPU/원격D1·Telegram/메일은 미검증이며 해당 DEV 완료조건에 남긴다. 물리E분리/디스크health와 최초전체정리baseline 미검증은 위 제한대로 보존한다. PR최종병합후 DEV01을 시작할 수 있지만 자동시작하지 않는다.
+현재 원격 테스트0, 원격배포0, 실제DB생성0. E설정과 기존시스템설정 경로에 Wrangler로그인이 없고 whoami가 미인증이었다. OAuth시작은 자동승인검토에서 명시적계정권한승인 부족으로 거부되었고, 이후 사용자에게 요청했으나 인증보류를 선택했다. 새토큰/비밀번호를 요청하거나 임시계정/유료플랜으로 대체하지 않았다.
+
+Free플랜·계정전체사용량·권한·기존자원충돌·원격DB ID/분리·원격migration/staging CRUD·TimeTravel·Worker배포/실패/rollback·원격Health/Cron·실CPU기준선·실Actions배포가 차단이다. 실제ID를 조작하지 않으며 manifest null/로컬placeholder를 유지하고 원격guard가 거부한다. 계정여유를 추정하지 않는다. 배포workflow의 skip은 성공배포가 아니다. 원격API/GraphQL스키마와권한도 아직실증하지 않았다.
+
+배포는 15분이내 Dashboard 계정usage근거가 필요한 조건부자동화다. 자동 계정지표갱신/플랜확인과 실제CPU단위/기준선은 인증재개후 남은DEV01검증이다. 현재 알려진 로컬테스트실패는 없다. 파일검사/사용사이race는 신뢰된 단일운영자전제이며 원격복구를 로컬시뮬레이션으로 대체하지 않는다.
+
+## E드라이브·정리
+
+실제 E:/Astro-Events-JP/repo에서 시작경로검사·환경설정·개발전DryRun(cleanup-1794403533745.json)을 수행했다. npm/cache/temp/config/log/build/localDB는 E이며 시스템C의기존Wrangler설정은 존재확인만했다. C:/Astro-Events-JP·D:/Astro-Events-JP 후보없음, 실제C/D삭제없음. 전체드라이브잔여물부재를 주장하지 않는다. 개발후DryRun/경로보고를 E reports에 남긴다. 디스크health/물리분리시험은 미검증이고 missing-path/링크/hardlink/외부경로/변경파일차단시험으로 구분한다.
+
+## 사용자 조치와 다음 DEV
+
+지금 추가인증을 요구하지 않는다. 사용자가 재개할 때 CLOUDFLARE_SETUP → 실제계정Free/여유/권한 → 별도DB생성/마이그레이션 → staging복구/HTTP/Cron/CPU → 환경별Secret/배포검증 순서로 남은DEV01을 수행한다. production은 명시적승인, 수집false를 유지한다. Telegram/메일은 DEV06이다. DEV02의개발기반은 준비됐지만 운영환경완료선행조건이 충족되지 않아 **시작준비완료는 아니다**.

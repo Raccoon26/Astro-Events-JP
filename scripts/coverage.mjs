@@ -15,6 +15,9 @@ const requiredDocs = [
   'TEST_PLAN',
   'RELEASE_CHECKLIST',
   'GITHUB_WORKFLOW',
+  'CLOUDFLARE_SETUP',
+  'DEPLOYMENT',
+  'DISASTER_RECOVERY',
 ];
 for (const name of requiredDocs)
   if (
@@ -78,5 +81,22 @@ for (const name of requiredDocs) {
       throw new Error(`Broken doc link in ${name}: ${match[1]}`);
 }
 console.log(
-  'Coverage: R01–R32, original sections 0–24, 14 documents, 11 DEV milestones and 15 module contracts present. Semantic/regression review is separate.',
+  'Coverage: R01–R32, original sections 0–24, 17 documents, 11 DEV milestones and 15 module contracts present. Semantic/regression review is separate.',
+);
+const dev01 = JSON.parse(readFileSync('dev01-coverage.json', 'utf8'));
+for (let i = 0; i <= 18; i++) {
+  const item = dev01.sections[i];
+  if (
+    !item?.status ||
+    !item.evidence?.length ||
+    item.evidence.some((file) => !existsSync(file))
+  )
+    throw new Error(`Unmapped DEV01 section ${i}`);
+}
+if (dev01.operationalCompletion !== 'blocked-authentication-deferred-by-user')
+  throw new Error(
+    'Update DEV01 completion audit only after actual remote verification',
+  );
+console.log(
+  'DEV01 sections 0–18 mapped; remote authentication/operational completion explicitly blocked.',
 );

@@ -1,5 +1,11 @@
 # Windows E드라이브 개발
 
+DEV01 시작 전 실제 E 접근·정확한repo·깨끗한Git·npm cache/temp/log/build 경로와 DryRun 보고를 확인했다. 원격OAuth는 미인증이며 사용자요청으로 나중에 수행한다. 시스템C의 기존Wrangler설정은 존재여부만읽었고 파일을 생성/수정하지 않았다.
+
+로컬시작은 environment.ps1 → npm ci → npm run d1:local → npm run dev 순서다. staging영속DB는 E/cache/wrangler-state/staging, production은 별도production폴더이고 Miniflare 통합시험DB는 임시격리이다. npm run build는 양환경을 dist/staging·dist/production으로 dry-run한다. .dev.vars.example은staging예시이며 production에 복사하지 않는다. 실제 HTTP는 /health, 로컬 Cron은 dev의 --test-scheduled 테스트경로를 사용한다. 원격Worker에는 HTTP Cron실행엔드포인트를 추가하지 않았다.
+
+모든 원격명령은 scripts/cloudflare.mjs guard를 거친다. scripts/cloudflare-provision.mjs는 향후명시적계정연결 후 생성전 충돌/한도를 검증한다. 잘못된경로/연결단절은 계속fail closed하며 C/D대체저장소는 없다. actionlint 등 프로젝트도구도 E/tools에만 둔다.
+
 실제 작업공간은 `E:\Astro-Events-JP\repo`이다. root 기존 초기 checkout은 보존했다. 앞으로 repo checkout만 개발하며 root checkout에서 commit/push하지 않는다. Get-Volume는 권한거부로 디스크health/물리외장 여부는 미검증이다. 파일시스템 E경로 접근·쓰기는 검증한다.
 
 ```text

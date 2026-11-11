@@ -1,0 +1,13 @@
+{
+  "accountId": null,
+  "staging": {
+    "workerName": "astro-events-jp-staging",
+    "databaseName": "astro-events-jp-staging",
+    "databaseId": null
+  },
+  "production": {
+    "workerName": "astro-events-jp-production",
+    "databaseName": "astro-events-jp-production",
+    "databaseId": null
+  }
+}

@@ -1,6 +1,14 @@
 # 아키텍처
 
-목표는 개인 서버 없이 월 추가 비용 0엔으로 공식 정보 기반 일본어 X 복사용 글을 전달하는 것이다. DEV-00은 인터페이스와 저장 기반만 구현한다. `src/index.ts`는 부작용 없는 health 응답과 설정 검증만 수행하며 collection=true는 실패한다. Cron은 구성만 존재하고 아직 배포되지 않았다.
+목표는 개인 서버 없이 월 추가 비용 0엔으로 공식 정보 기반 일본어 X 복사용 글을 전달하는 것이다. DEV00의15계약·도메인·스키마를 보존했다. DEV01은 분리된 staging/production과 D1 환경 식별, Health/Cron 진단, 안전한 조건부 배포를 추가했다. 원격 인증은 사용자 요청으로 보류되어 아직 Cloudflare에 배포하지 않았다.
+
+## DEV01 진단 경계
+
+GET/HEAD /health는 환경검증 후 D1의 singleton marker를 bind(1)로 조회한다. 변수의 환경·명칭과 실제 DB marker·schema2가 맞아야200이다. 잘못된설정/DB실패/환경혼동/3초대기초과는 안전한503 코드만 반환한다. 다른경로404·다른메서드405는 DB를 조회하지 않는다. 토큰/DB ID/계정/원문오류는 공개응답에 없다. 상세진단은 내부 구조화로그만 사용하며 관리 HTTP 엔드포인트는 만들지 않았다.
+
+두 Cron은 같은 읽기전용 진단을 수행하고 실패시 실행을 실패로 표시한다. 수집·정리·알림·D1로그쓰기 작업은 호출하지 않는다. 계정전체 사용량 unknown은 최소진단1쿼리만 허용하며 사업처리/무제한수집을 허용하지 않는다. 로그에는 실행시각·성공/코드·요청/쿼리/rows_read/written·작업0·wallTimeMs를 기록한다. cpuTimeMs는 null이며 실제 Cloudflare metrics 없이 wall time을 CPU로 부르지 않는다. timeout은 대기만 종료하며 이미 실행중인 D1 쿼리를 취소한다고 보장하지 않는다.
+
+staging/production은 각자 별도D1와 완전한 non-inherited vars를 사용한다. 양쪽collection/notifications는 false 강제이다. DB생성·마이그레이션·marker초기화와 배포는 분리하고 production 테스트삭제/자동복구는 금지한다. 상세 경계는 DEPLOYMENT·DISASTER_RECOVERY 참조. 이 기반 추가로 아래 DEV02~10 제품흐름은 변경하지 않았다.
 
 ```mermaid
 flowchart LR

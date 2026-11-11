@@ -1,5 +1,9 @@
 # 데이터 모델
 
+DEV01은 기존0001을 수정하지 않고 `0002_deployment_identity.sql`을 추가했다. deployment_identity는 singleton=1 PK, staging/production 환경, 환경과일치하는database_name, schema_version=2, 초기화시각을 보관한다. 마이그레이션 자체는 marker를 추측해 넣지 않으며, 대상의 provider ID/이름과 빈 DB를 검증한 guarded initialize에서 단한번 설정한다. Worker는 marker를 수정하지 않는다. 이 테이블은 운영 상세/이벤트 테이블과 독립하며 보관정리 대상이 아니다.
+
+기존 테이블/컬럼/관계/인덱스/보관기간은 그대로다. 0001의 정규화LF SHA256 회귀검사를 추가했다. 로컬 실제 Wrangler D1과 workerd에서 두 migration·테이블/인덱스·FK/quick_check·합성staging CRUD를 검증했다. 실제 원격D1 적용과 Time Travel은 인증보류로 미검증이다. 마이그레이션/복구는 DISASTER_RECOVERY를 따른다.
+
 실행 가능한 기준은 `migrations/0001_foundation.sql`; D1 호환 SQLite, UUID 계열 TEXT PK, UTC ISO-8601 정규화 시각과 `Asia/Tokyo` 표시 시간대를 사용한다. 날짜만 확인되면 date_precision=date, 미확정 값은 NULL이다. SQL 값은 반드시 bind한다. 마이그레이션은 새 번호 파일로 추가하며 기존 적용 파일을 수정하지 않는다. DEV01에서 원격 DB ID를 구성하고 staging 적용·백업/복구를 검증한다.
 
 | 테이블                   | 역할 / 수명                                                                                                                                      |
