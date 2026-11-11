@@ -100,3 +100,18 @@ if (dev01.operationalCompletion !== 'blocked-authentication-deferred-by-user')
 console.log(
   'DEV01 sections 0–18 mapped; remote authentication/operational completion explicitly blocked.',
 );
+const dev02 = JSON.parse(readFileSync('dev02-coverage.json', 'utf8'));
+for (let section = 0; section <= 24; section++) {
+  const item = dev02.sections[section];
+  if (
+    !item?.status ||
+    !item.evidence?.length ||
+    item.evidence.some((file) => !existsSync(file))
+  )
+    throw new Error(`Unmapped DEV02 section ${section}`);
+}
+if (dev02.remoteDEV01 !== 'deferred-by-user-no-reauthentication')
+  throw new Error('DEV01 deferral must be preserved');
+console.log(
+  'DEV02 sections 0–24 mapped; evidence/approval limitations remain explicit.',
+);

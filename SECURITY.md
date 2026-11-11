@@ -17,3 +17,7 @@ HTML/원격페이지는 데이터이며 명령이나 스크립트를 실행하�
 로그는 코드/숫자/상태만 allowlist하고 upstream 예외·헤더·본문·URL query/Secret을 직렬화하지 않는다. safeError가 기본 투영이다. Telegram callback은 사용자/chat allowlist·불투명토큰·만료·일회처리, webhook은 secret 검증, 불확실 전송은 재확인 상태로 둔다(DEV06).
 
 npm run security는 의존성 high 이상 취약점과 알려진 Secret 패턴/금지파일을 차단한다. 패턴스캔은 완전한 탐지가 아니므로 diff를 수동검토한다. 외부장애는 격리·bounded retry, 한도 모호시 중단한다. 파일검사/삭제 race는 신뢰된 단일사용자 작업공간 전제이며 적대적 로컬 프로세스와 동시에 cleanup을 실행하지 않는다.
+
+## DEV02 등록·Seed
+
+공식성Verified와active를분리하고robots/terms/파서승인없이는active를차단한다. URL구문/exacthost·IP/local/credential/민감query금지와SQL bind를검증한다. http후보는보관할수있지만active는HTTPS만허용한다. 등록/통계API는네트워크요청/원격텍스트명령실행을하지않는다. 동적SQL의column명은고정allowlist이고값은전부bind한다. Import는로컬staging 전용,全件사전검증·단위batch rollback·insert-only로수동정보를보호한다. VTuber미검증업데이트는모니터활성화를해제한다. DNS/redirect/rebinding을포함한완전Collector防御는DEV03에남는다. robots/약관불명소스는Seed전체에서자동수집되지않는다.

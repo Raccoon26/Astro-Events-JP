@@ -36,3 +36,7 @@ Wrangler는 wrapper로 실행한다. local D1은 ../cache/wrangler-state, 빌드
 Linux GitHub hosted runner는 GITHUB_ACTIONS=true, 기타 Linux cloud는 ASTRO_CLOUD_WORKSPACE=1로 임시 checkout을 허용한다. E검증=false를 출력한다. CI npm cache는 runner.temp로 .npmrc보다 우선한다. Windows 로컬에는 cloud예외를 적용하지 않는다. cloud cleanup은 금지한다.
 
 개발전후 npm run paths와 cleanup을 실행해 E reports에 보고한다. C/D는 알려진 프로젝트 경로만 확인하며 공용 npm캐시를 순회/삭제하지 않는다. 민감 env값을 출력하지 않는다.
+
+## DEV02 로컬 관리 저장소
+
+Seed명령은[SEED_GUIDE](SEED_GUIDE.md)를따른다. Miniflare resourcePersistencePath를E:/Astro-Events-JP/cache/registry/staging로설정하고기존Wrangler DB와분리했다. init은명시적스키마작업, import는기본DryRun이다. 검증/보고/fixture는E temp/cache/reports에만기록하며실Cloudflare인증을사용하지않는다. 외장하드물리분리시험은실행하지않고기존missing-path부정시험을보존한다.

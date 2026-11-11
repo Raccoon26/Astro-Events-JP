@@ -38,3 +38,9 @@ DEV01은 기존0001을 수정하지 않고 `0002_deployment_identity.sql`을 추
 게시지문은 게시시각부터 달력상2년 후 expires_at으로 설정하고 독립 삭제한다(윤일 정책: 해당월 마지막날). crawl_runs는 시작후30일, orphan publication/delivery 상세는 명시적 expires_at으로90일 정리한다. 미해결 전달은 재조정 후 최소 tombstone만 유지한다. 실제 행사 보고를 GitHub에 영구 복제해 두지 않으며 DEV06/09에서 Issues 본문/댓글의 오래된 상세도 축약·정리한다. Git 이력에 실보고를 쌓지 않는다.
 
 D1 meta.size_after/rows_read/rows_written과 대시보드 지표를 수집한다. 단일 DB500MB에 대해 350MB 경고·400MB 수집축소·450MB 비필수쓰기중단, 5GB 계정사용량도 확인한다. 경고/정리에 예산을 남긴다. DEV00은 선택쿼리/제약 시험만 수행했으며 자동 삭제 스케줄은 아직 실행하지 않는다.
+
+## DEV02 추가 마이그레이션
+
+0001/0002는바이트기준보존하고SHA검사한다. 0003_registry.sql만추가했다. registry_metadata는source/facility/vtuber의검토근거/유형/운영주체/별칭을JSON으로확장하고registry_urls는엔티티종류별URL및과거alias를UNIQUE로관리한다. registry_history는Source수정전후와시각을FK로보존한다. facility_sources는기존facilities/sources의다대다FK이며vtuber_sources는기존것을재사용한다. polymorphic metadata/URL의참조는관리API가유지하며원시SQL삭제는제공하지않는다.
+
+sources_due를유지하고category/state/prefecture/next시각, prefecture/source_id, facilities(prefecture,facility_id) 인덱스를필터/커서조회에추가했다. 인덱스추가로등록쓰기비용이증가하므로로컬meta로측정한다. 목록조회는1개JOIN이며N+1을사용하지않는다. 기존metadata없는Source도보이며미검증active는조회결과review로격리한다(DB원본보존). 운영예약/ETag등은sources컬럼이기준이다. deployment_identity.schema_version=2는DEV01런타임호환marker이며0003적용여부는migration ledger로별도관리한다. 원격DB/production에는적용하지않았다.

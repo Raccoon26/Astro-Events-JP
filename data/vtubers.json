@@ -1,0 +1,82 @@
+[
+  {
+    "id": "usui-clear",
+    "name": "宇推くりあ",
+    "aliases": ["Usui Clear"],
+    "accounts": [
+      {
+        "url": "https://clearusui.com/",
+        "evidenceUrl": "https://clearusui.com/",
+        "verified": true
+      },
+      {
+        "url": "https://youtube.com/@clearusui",
+        "evidenceUrl": "https://charaforio.com/ja/ip/clearusui",
+        "verified": true
+      },
+      {
+        "url": "https://twitter.com/clearusui",
+        "evidenceUrl": "https://charaforio.com/ja/ip/clearusui",
+        "verified": true
+      }
+    ],
+    "reason": "Official homepage and rights-holder profile; X ingestion unsupported",
+    "checkedAt": "2026-11-11T14:23:37.085Z",
+    "sourceIds": ["src-f224deb9d8ceed9ec75c723e"]
+  },
+  {
+    "id": "artemis-ichi",
+    "name": "月女神イチ",
+    "aliases": ["アルテミスイチ", "Artemis Ichi"],
+    "accounts": [
+      {
+        "url": "https://www.youtube.com/@ArtemisIchi",
+        "evidenceUrl": "https://digitalblast-c-ipp.jp/works/movie/id%3D407",
+        "verified": true
+      }
+    ],
+    "reason": "Operator publication names official YouTube; X/home/shop not guessed",
+    "checkedAt": "2026-11-11T14:23:37.085Z",
+    "sourceIds": ["src-befb6fcd307b920379a9da8f"]
+  },
+  {
+    "id": "nekoya-cocona",
+    "name": "猫谷ここな",
+    "aliases": ["Nekoya Cocona"],
+    "accounts": [
+      {
+        "url": "https://twitcasting.tv/nekoya_cocona/",
+        "evidenceUrl": "https://twitcasting.tv/nekoya_cocona/",
+        "verified": false
+      },
+      {
+        "url": "https://www.youtube.com/channel/UCkqhINnGxx-A7RjqBQFZSUg",
+        "evidenceUrl": "https://vtuber-post.com/database_detail.html?id=UCkqhINnGxx-A7RjqBQFZSUg",
+        "verified": false
+      }
+    ],
+    "reason": "Direct YouTube returned no identity content; authoritative cross-link incomplete; Review Required",
+    "checkedAt": "2026-11-11T14:23:37.085Z",
+    "sourceIds": ["src-50800560295ff7f99cbf8240"]
+  },
+  {
+    "id": "hoshimi-madoka",
+    "name": "星見まどか",
+    "aliases": ["Madoka Hoshimi"],
+    "accounts": [
+      {
+        "url": "https://www.youtube.com/c/MadokaHoshimi",
+        "evidenceUrl": "https://profcard.info/u/pi9Xb5n368fov2WGmVBKFFqjw9k2",
+        "verified": true
+      },
+      {
+        "url": "https://twitter.com/Madoka_Hoshimi",
+        "evidenceUrl": "https://profcard.info/u/pi9Xb5n368fov2WGmVBKFFqjw9k2",
+        "verified": true
+      }
+    ],
+    "reason": "Self-published profile cross-links accounts; lit.link403; no complete SNS ingestion",
+    "checkedAt": "2026-11-11T14:23:37.085Z",
+    "sourceIds": ["src-f2b6577b992a4c8ef2caaa84"]
+  }
+]
