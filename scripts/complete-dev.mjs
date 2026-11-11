@@ -100,12 +100,24 @@ if (!prs.length)
   ];
 const number = prs[0].number;
 console.log(`PR ${prs[0].html_url}; awaiting current-head checks`);
+const propagationDeadline = Date.now() + 60000;
 const deadline = Date.now() + 12 * 60 * 1000;
 let ready = false;
 while (Date.now() < deadline) {
   const pr = await api('GET', `/pulls/${number}`);
-  if (pr.head.sha !== head)
+  if (pr.head.sha !== head) {
+    const ancestor = spawnSync('git', [
+      'merge-base',
+      '--is-ancestor',
+      pr.head.sha,
+      head,
+    ]);
+    if (ancestor.status === 0 && Date.now() < propagationDeadline) {
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+      continue; // GitHub may briefly return the previous head immediately after push.
+    }
     throw new Error('PR head changed; re-review required');
+  }
   const checks = await api('GET', `/commits/${head}/check-runs?per_page=100`);
   const status = await api('GET', `/commits/${head}/status`);
   if (checks.total_count > 100)

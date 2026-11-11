@@ -1,6 +1,6 @@
 # GitHub 자동 완료
 
-기반 등록 후에는 `npm run complete:dev -- --reviewed`로 품질검사부터 commit/push/PR/CI대기/안전병합/main동기화까지 실행할 수 있다. --reviewed는 요구사항·회귀·공개diff·상태문서를 검토한 운영자 표시이며 검토를 자동대체하지 않는다. 최대12분 대기 후 조건미충족이면 PR을 남기고 중단한다. 기존비대화형 Git인증이 없으면 Codex GitHub 연결로 같은 절차를 수행하며 토큰입력을 강요하지 않는다. 최초 DEV00 CI등록/보호설정은 별도부트스트랩한다.
+기반 등록 후에는 Windows PowerShell에서 `npm.cmd run complete:dev -- --reviewed` (Linux는 npm)로 품질검사부터 commit/push/PR/CI대기/안전병합/main동기화까지 실행할 수 있다. npm.ps1 래퍼가 --reviewed를 누락시키는 환경에서는 npm.cmd를 사용한다. --reviewed는 요구사항·회귀·공개diff·상태문서를 검토한 운영자 표시이며 검토를 자동대체하지 않는다. 최대12분 대기 후 조건미충족이면 PR을 남기고 중단한다. Push 직후 API가 이전조상 head를 반환하면 최대60초 전파를 기다리되, 예상SHA 일치전에는 병합하지 않는다. 기존비대화형 Git인증이 없으면 Codex GitHub 연결로 같은 절차를 수행하며 토큰입력을 강요하지 않는다. 최초 DEV00 CI등록/보호설정은 별도부트스트랩한다.
 
 대상은 Astro-Events-JP(public, main)와 Astro-Events-JP-Reports(private, Issues)뿐이다. 기존변경/커밋/브랜치/보호를 읽고 보존한다. DEV00은 dev/dev-00-foundation이다. 최초초기화외 main직접개발push, force push, 브랜치자동삭제는 금지한다.
 
