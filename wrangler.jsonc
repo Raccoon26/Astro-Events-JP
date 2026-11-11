@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "astro-events-jp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-11",
+  "workers_dev": false,
+  "send_metrics": false,
+  "vars": {
+    "APP_ENV": "development",
+    "REPORTS_REPOSITORY": "Raccoon26/Astro-Events-JP-Reports",
+    "COLLECTION_ENABLED": "false"
+  },
+  "triggers": { "crons": ["0 */3 * * *", "17 0 * * *"] },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "astro-events-jp",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "migrations"
+    }
+  ]
+}

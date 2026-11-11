@@ -1,0 +1,35 @@
+{
+  "name": "astro-events-jp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.15.0"
+  },
+  "scripts": {
+    "preinstall": "node scripts/preflight.mjs",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json --noEmit",
+    "lint": "biome check --error-on-warnings .",
+    "format": "biome check --write .",
+    "test": "vitest run",
+    "build": "node scripts/build.mjs",
+    "security": "node scripts/audit.mjs && npm audit --audit-level=high",
+    "audit:requirements": "node scripts/coverage.mjs",
+    "check": "node scripts/preflight.mjs && npm run typecheck && npm run lint && npm test && npm run build && npm run security && npm run audit:requirements",
+    "cleanup": "node scripts/cleanup.mjs",
+    "paths": "node scripts/preflight.mjs",
+    "dev": "node scripts/wrangler.mjs dev --persist-to ../cache/wrangler-state",
+    "d1:local": "node scripts/wrangler.mjs d1 migrations apply DB --local --persist-to ../cache/wrangler-state",
+    "complete:dev": "node scripts/complete-dev.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.6",
+    "@cloudflare/workers-types": "5.20261110.1",
+    "@types/node": "22.20.5",
+    "@types/sql.js": "1.4.11",
+    "sql.js": "1.16.0",
+    "typescript": "5.9.3",
+    "vitest": "5.1.0",
+    "wrangler": "4.160.0"
+  }
+}

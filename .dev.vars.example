@@ -1,0 +1,4 @@
+APP_ENV=development
+REPORTS_REPOSITORY=Raccoon26/Astro-Events-JP-Reports
+COLLECTION_ENABLED=false
+# Secrets are deliberately absent. Configure only when needed in DEV-01/06.
