@@ -17,6 +17,29 @@ export function assertLocal(cwd = process.cwd(), root = ROOT) {
     throw new Error('Project drive unavailable');
   assertNoLinks(root);
   assertNoLinks(cwd);
+  for (const relative of [
+    'tools',
+    'tools/config',
+    'cache',
+    'cache/npm',
+    'cache/wrangler-state',
+    'temp',
+    'logs',
+    'logs/wrangler.log',
+    'reports',
+    'repo/node_modules',
+    'repo/dist',
+    'repo/.wrangler',
+  ]) {
+    const target = path.join(root, relative);
+    try {
+      lstatSync(target);
+    } catch (error) {
+      if (error.code === 'ENOENT') continue;
+      throw error;
+    }
+    assertNoLinks(target);
+  }
   if (
     realpathSync(cwd).toLowerCase() !==
     realpathSync(path.join(root, 'repo')).toLowerCase()

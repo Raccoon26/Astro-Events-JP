@@ -10,7 +10,7 @@ TypeScript/Node·Wrangler·Biome·Vitest·D1마이그레이션·15계약·환경
 
 실제E접근·repo복제·DEV브랜치 확인. 전체 npm run check 통과: 타입, Biome lint/format, 2파일10시험, Wrangler dry-run, Secret/금지파일 scan, npm audit 취약점0, R01~32·원요청0~24·14문서·11단계·15계약 감사. 로컬 D1 마이그레이션25명령 성공. 원요청 의미감사에서 모든 수집범주/권리/출력/보고/보관/무료/E/정리/Git자동완료의 담당DEV를 대조했다.
 
-E reports의 cleanup-1794401855903.json 및 cleanup-1794401966527.json은 DryRun으로 C:/Astro-Events-JP·D:/Astro-Events-JP 후보없음을 기록했다. C/D파일 실제삭제 없음; 전체드라이브 잔여물 부재를 보장하지 않는다. 첫 정리보고는 기반구현 도중 도구설정후 생성되어 엄밀한 작업전 전체baseline은 없다. 최초경로검사는 도구설치전 수행했다. Get-Volume권한거부로 health/물리외장 미검증. 연결해제는 격리missing-path로만 시험한다.
+E reports의 cleanup-1794401855904.json 및 cleanup-1794401966528.json은 DryRun으로 C:/Astro-Events-JP·D:/Astro-Events-JP 후보없음을 기록했다. C/D파일 실제삭제 없음; 전체드라이브 잔여물 부재를 보장하지 않는다. 첫 정리보고는 기반구현 도중 도구설정후 생성되어 엄밀한 작업전 전체baseline은 없다. 최초경로검사는 도구설치전 수행했다. Get-Volume권한거부로 health/물리외장 미검증. 연결해제는 격리missing-path로만 시험한다.
 
 ## GitHub
 

@@ -41,6 +41,16 @@ afterEach(() => {
   }
 });
 describe('isolated local safety', () => {
+  it('rejects redirected project caches before tool execution', () => {
+    const root = fixture();
+    const outside = fixture();
+    symlinkSync(
+      outside,
+      path.join(root, 'cache'),
+      process.platform === 'win32' ? 'junction' : 'dir',
+    );
+    expect(() => assertLocal(path.join(root, 'repo'), root)).toThrow();
+  });
   it('rejects missing drives and wrong workspaces without creating them', () => {
     const root = fixture();
     expect(assertLocal(path.join(root, 'repo'), root)).toBe(root);

@@ -10,7 +10,7 @@ $env:XDG_CONFIG_HOME = 'E:\Astro-Events-JP\tools\config'
 $env:WRANGLER_LOG_PATH = 'E:\Astro-Events-JP\logs\wrangler.log'
 $env:WRANGLER_SEND_METRICS = 'false'
 $env:CLOUDFLARE_LOAD_DEV_VARS_FROM_DOT_ENV = 'false'
-foreach ($directory in @($env:TEMP, $env:npm_config_cache, $env:XDG_CONFIG_HOME)) {
+foreach ($directory in @($env:TEMP, $env:npm_config_cache, $env:XDG_CONFIG_HOME, 'E:\Astro-Events-JP\logs', 'E:\Astro-Events-JP\reports')) {
   New-Item -ItemType Directory -Force -Path $directory | Out-Null
 }
 Write-Output 'Project environment configured on E drive for this PowerShell session.'

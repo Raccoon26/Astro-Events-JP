@@ -15,11 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      npm_config_cache: ${{ runner.temp }}/astro-events-jp/npm
       WRANGLER_SEND_METRICS: "false"
-      WRANGLER_LOG_PATH: ${{ runner.temp }}/astro-events-jp/wrangler.log
-      XDG_CONFIG_HOME: ${{ runner.temp }}/astro-events-jp/config
-      XDG_CACHE_HOME: ${{ runner.temp }}/astro-events-jp/cache
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -27,5 +23,11 @@ jobs:
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: "22"
+      - name: Configure isolated cloud paths
+        run: |
+          echo "npm_config_cache=$RUNNER_TEMP/astro-events-jp/npm" >> "$GITHUB_ENV"
+          echo "WRANGLER_LOG_PATH=$RUNNER_TEMP/astro-events-jp/wrangler.log" >> "$GITHUB_ENV"
+          echo "XDG_CONFIG_HOME=$RUNNER_TEMP/astro-events-jp/config" >> "$GITHUB_ENV"
+          echo "XDG_CACHE_HOME=$RUNNER_TEMP/astro-events-jp/cache" >> "$GITHUB_ENV"
       - run: npm ci
       - run: npm run check
