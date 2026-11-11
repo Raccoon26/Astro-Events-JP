@@ -1,0 +1,31 @@
+name: CI
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, "dev/**"]
+permissions:
+  contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    name: quality
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      npm_config_cache: ${{ runner.temp }}/astro-events-jp/npm
+      WRANGLER_SEND_METRICS: "false"
+      WRANGLER_LOG_PATH: ${{ runner.temp }}/astro-events-jp/wrangler.log
+      XDG_CONFIG_HOME: ${{ runner.temp }}/astro-events-jp/config
+      XDG_CACHE_HOME: ${{ runner.temp }}/astro-events-jp/cache
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: "22"
+      - run: npm ci
+      - run: npm run check

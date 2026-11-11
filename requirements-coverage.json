@@ -1,0 +1,174 @@
+{
+  "requirements": {
+    "R01": {
+      "devs": [2, 8, 9],
+      "evidence": ["ARCHITECTURE.md", "DEV_ROADMAP.md"]
+    },
+    "R02": {
+      "devs": [2, 3, 4, 8],
+      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+    },
+    "R03": {
+      "devs": [2, 3, 4],
+      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+    },
+    "R04": {
+      "devs": [2, 3, 4, 8],
+      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+    },
+    "R05": {
+      "devs": [2, 3, 4, 8],
+      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+    },
+    "R06": {
+      "devs": [4, 7],
+      "evidence": ["ARCHITECTURE.md", "migrations/0001_foundation.sql"]
+    },
+    "R07": { "devs": [2], "evidence": ["SOURCE_POLICY.md", "src/domain.ts"] },
+    "R08": {
+      "devs": [3, 4, 7, 8],
+      "evidence": ["SOURCE_POLICY.md", "DEV_ROADMAP.md"]
+    },
+    "R09": {
+      "devs": [1, 3, 8, 9],
+      "evidence": ["wrangler.jsonc", "ARCHITECTURE.md"]
+    },
+    "R10": {
+      "devs": [2, 3, 9],
+      "evidence": ["SOURCE_POLICY.md", "src/contracts.ts"]
+    },
+    "R11": {
+      "devs": [4, 5, 6],
+      "evidence": ["src/domain.ts", "src/contracts.ts"]
+    },
+    "R12": {
+      "devs": [0, 4],
+      "evidence": ["migrations/0001_foundation.sql", "src/domain.ts"]
+    },
+    "R13": {
+      "devs": [0, 3, 4],
+      "evidence": ["DATA_MODEL.md", "src/domain.ts"]
+    },
+    "R14": {
+      "devs": [4, 6],
+      "evidence": ["SOURCE_POLICY.md", "src/contracts.ts"]
+    },
+    "R15": {
+      "devs": [5, 10],
+      "evidence": ["DEV_ROADMAP.md", "src/contracts.ts"]
+    },
+    "R16": { "devs": [5, 10], "evidence": ["src/domain.ts", "DEV_ROADMAP.md"] },
+    "R17": {
+      "devs": [6, 7],
+      "evidence": ["ARCHITECTURE.md", "src/contracts.ts"]
+    },
+    "R18": {
+      "devs": [0, 6],
+      "evidence": ["ARCHITECTURE.md", "GITHUB_WORKFLOW.md"]
+    },
+    "R19": {
+      "devs": [0, 6, 7],
+      "evidence": ["migrations/0001_foundation.sql", "ARCHITECTURE.md"]
+    },
+    "R20": { "devs": [4, 7], "evidence": ["DATA_MODEL.md", "DEV_ROADMAP.md"] },
+    "R21": {
+      "devs": [0, 9],
+      "evidence": [
+        "src/retention.ts",
+        "DATA_MODEL.md",
+        "tests/foundation.test.ts"
+      ]
+    },
+    "R22": {
+      "devs": [0, 1, 9],
+      "evidence": ["FREE_TIER_POLICY.md", "src/budget.ts"]
+    },
+    "R23": {
+      "devs": [0, 3, 6, 10],
+      "evidence": [
+        "SECURITY.md",
+        "scripts/audit.mjs",
+        "tests/foundation.test.ts"
+      ]
+    },
+    "R24": {
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "evidence": [
+        "scripts/path-policy.mjs",
+        "scripts/environment.ps1",
+        "tests/local-safety.test.mjs"
+      ]
+    },
+    "R25": {
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "evidence": [
+        "scripts/cleanup-policy.mjs",
+        "CLEANUP_POLICY.md",
+        "tests/local-safety.test.mjs"
+      ]
+    },
+    "R26": {
+      "devs": [0],
+      "evidence": ["PROJECT_STATUS.md", "GITHUB_WORKFLOW.md"]
+    },
+    "R27": {
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "evidence": [".github/workflows/ci.yml", "GITHUB_WORKFLOW.md"]
+    },
+    "R28": {
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "evidence": [
+        "scripts/complete-dev.mjs",
+        "AGENTS.md",
+        "RELEASE_CHECKLIST.md"
+      ]
+    },
+    "R29": {
+      "devs": [0],
+      "evidence": [
+        "src/contracts.ts",
+        "migrations/0001_foundation.sql",
+        "scripts/coverage.mjs"
+      ]
+    },
+    "R30": {
+      "devs": [0, 10],
+      "evidence": ["TEST_PLAN.md", ".github/workflows/ci.yml"]
+    },
+    "R31": {
+      "devs": [0, 1, 6],
+      "evidence": ["PROJECT_STATUS.md", "SECURITY.md"]
+    },
+    "R32": {
+      "devs": [8, 9, 10],
+      "evidence": ["DEV_ROADMAP.md", "TEST_PLAN.md"]
+    }
+  },
+  "requestSections": {
+    "0": ["R26", "R27"],
+    "1": ["R01", "R02", "R03", "R17", "R18", "R19", "R20", "R21", "R22"],
+    "2": ["R01", "R02", "R03", "R04", "R05", "R06", "R07", "R08"],
+    "3": ["R09", "R22"],
+    "4": ["R24"],
+    "5": ["R25"],
+    "6": ["R12", "R13", "R19"],
+    "7": ["R21"],
+    "8": ["R09", "R10", "R29"],
+    "9": ["R11", "R15", "R16"],
+    "10": ["R13", "R14"],
+    "11": ["R26"],
+    "12": ["R27", "R28"],
+    "13": ["R28"],
+    "14": ["R17"],
+    "15": ["R18", "R19"],
+    "16": ["R22"],
+    "17": ["R23"],
+    "18": ["R29", "R24", "R25", "R27"],
+    "19": ["R29"],
+    "20": ["R32", "R29"],
+    "21": ["R30"],
+    "22": ["R31"],
+    "23": ["R28"],
+    "24": ["R30", "R28", "R24", "R25", "R26"]
+  }
+}
