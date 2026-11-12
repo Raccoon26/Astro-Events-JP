@@ -1,5 +1,7 @@
 # v1.0 요구사항 기준선
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 이 문서는 DEV-00에서 확정한 제품 범위이다. 구현 완료와 설계 완료를 구분한다. 코드의 기능 추가·삭제는 이 기준선, `requirements-coverage.json`, 로드맵을 함께 감사한다. 실제 X 자동 게시, 유료 AI·검색 API, VPS, 개인 서버는 사용하지 않는다. Telegram에서 사람이 일본어 완성 글을 복사해 게시한다.
 
 ## 수집 범위
@@ -60,3 +62,7 @@
 ## DEV03 요구사항 감사
 
 R01~R32와DEV03 0~29절을dev03-coverage.json에서대조한다. 천문/우주/JAXA/연구/대학/지방시설·공민관/도서관/동호회/축제와VTuber4명확장범위를유지한다. 수집엔진은공식URL/원본근거/날짜·장소후보/이미지unknown만저장한다. DEV04의사실·권리·시설영향검증,DEV05의일본어/해시태그/X가중길이,DEV06의Telegram·PrivateIssues·메일,DEV07의의미중복/변경,DEV08의전국정밀탐색,DEV09의실Cron/정리/장기복구,DEV10통합조건을보존했다. 수집을게시·최종검증과혼동하지않고무료/E/정리/Git자동완료와DEV01원격미완료를유지한다.
+
+## DEV-01R 원격 기반
+
+DEV01R은 기존 R01~R32를 축소하지 않는 원격 기반 보완이다. 원격 D1 생성/복구와 자동배포 검증을 수행하되 Source96/시설92/47현/VTuber4·active0·수집/알림false·SSRF fail-closed를 보존한다. 미래 사실/권리/일본어/X/Telegram/Private Issues/이메일·변경/중복·정리·전국스케줄은 DEV04~10 완료 조건 그대로다.

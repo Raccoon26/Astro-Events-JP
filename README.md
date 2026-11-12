@@ -28,3 +28,5 @@ Cloudflare 재개는 [CLOUDFLARE_SETUP](CLOUDFLARE_SETUP.md), 배포는 [DEPLOYM
 전국 Seed·도도부현별 부족현황은 [SOURCE_COVERAGE](SOURCE_COVERAGE.md), 등록 API/공정성은 [SOURCE_REGISTRY](SOURCE_REGISTRY.md), 로컬 Import 명령은 [SEED_GUIDE](SEED_GUIDE.md), 4인 계정근거는 [VTUBER_VERIFICATION](VTUBER_VERIFICATION.md)를 참조합니다. 자동수집승인은0이며 공식성확인과수집허가를구분합니다.
 
 수집 엔진은 [COLLECTOR_DESIGN](COLLECTOR_DESIGN.md), 형식은 [PARSER_SUPPORT](PARSER_SUPPORT.md), 보안 한계는 [SSRF_SECURITY_AUDIT](SSRF_SECURITY_AUDIT.md), 측정은 [COLLECTION_BENCHMARK](COLLECTION_BENCHMARK.md)를 참조합니다. 운영 Worker/Cron·알림에는 연결하지 않았습니다.
+
+DEV-01R: 원격OAuth/Free·D1두개/마이그레이션·staging Time Travel은 실제 검증했다. Workers/Actions/CPU 및 production 승인 검증은 진행 중이며 [PROJECT_STATUS](PROJECT_STATUS.md)의 현재 판정을 따른다. Collection/Notifications는 false다.

@@ -14,7 +14,13 @@ const config = readConfig();
 const resources = JSON.parse(readFileSync('cloudflare-resources.json', 'utf8'));
 validateBindings(config, resources);
 const evidence = parseAccountEvidence(process.env.CF_ACCOUNT_EVIDENCE);
-for (const target of ENVIRONMENTS) checkFreeAccount(evidence, target);
+for (const target of ENVIRONMENTS)
+  checkFreeAccount(
+    evidence,
+    target,
+    Date.now(),
+    resources[target].crons?.length ?? 2,
+  );
 const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
 if (
   !/^[a-f0-9]{32}$/.test(accountId ?? '') ||
@@ -39,7 +45,13 @@ const existingProjectCrons = ENVIRONMENTS.reduce(
 );
 if (
   databases.length + missing.length > 10 ||
-  evidence.cronTriggers + 4 - existingProjectCrons > 5
+  evidence.cronTriggers +
+    ENVIRONMENTS.reduce(
+      (total, target) => total + (resources[target].crons?.length ?? 2),
+      0,
+    ) -
+    existingProjectCrons >
+    5
 )
   throw new Error(
     'Insufficient Free resource slots; no resource will be changed',
@@ -86,6 +98,17 @@ for (const target of ENVIRONMENTS) {
     JSON.stringify(resources, null, 2) + '\n',
   );
   writeFileSync('wrangler.jsonc', JSON.stringify(config, null, 2) + '\n');
+  const confirmed = await api(
+    'GET',
+    `/d1/database/${resources[target].databaseId}`,
+  );
+  if (
+    confirmed.uuid !== resources[target].databaseId ||
+    confirmed.name !== resources[target].databaseName
+  )
+    throw new Error(
+      'Created resource verification failed; recorded ID retained for inspection',
+    );
 }
 validateBindings(config, resources, true);
 console.log(

@@ -11,6 +11,7 @@ const files = execFileSync(
 const patterns = [
   /gh[pousr]_[A-Za-z0-9]{36,}/,
   /github_pat_[A-Za-z0-9_]{50,}/,
+  /cf[ua]t_[A-Za-z0-9_-]{20,}/,
   /-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----/,
   /\b\d{8,12}:[A-Za-z0-9_-]{35}\b/,
 ];

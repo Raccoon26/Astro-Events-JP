@@ -1,4 +1,24 @@
-# 프로젝트 상태
+# DEV-01R 프로젝트 상태
+
+2026-11-12 JST. **원격 기반 구축 진행 중이며 전체 완료가 아니다.** DEV03 PR4/main8cfca1ab9555505509c28514582d093c2396de44를 확인하고 최신 main에서 요청 브랜치를 만들었다.
+
+## 실제 완료한 원격 검증
+
+공식 OAuth 로그인·계정1개 조회·로그인된 Workers plans의 Free/Current plan/$0 직접 확인. 기존 Worker1개·D1 0개·Cron0개/이름충돌없음을 확인했고 다른 프로젝트는 변경하지 않았다. 계정전체 GraphQL의 reported usage0과 분석 지연을 구분했다.
+
+실제 D1: staging14a756a0-4721-482a-9021-47d237be6f02 / production497d64ba-c18f-404b-b1b5-1dd13676ed39. 두 DB에 원본0001~0004 적용·환경marker2·FK/quick_check를 확인했다. staging 합성 CRUD와 실제 Bookmark/Time Travel restore·실패DDL/ledger불변·합성변경부재 검증에 성공했다. production에는 스키마/marker만 생성하고 Seed/행사 테스트/삭제/복구는 하지 않았다.
+
+## 구현·검증 중인 항목
+
+live 계정 사용량/구독 가드, 환경별Actions 인증 validate모드·main-only배포, staging1/prod0 Cron정책, generated bindings, staging전용 합성 benchmark·rollback/실제CPU단위 확인 도구를 추가했다. GitHub 환경 Secret은 값 없이 등록 메타데이터만 확인했다. **실제 Workers 배포/Health/Cron 실행·CPU·Actions 토큰 동작/production 승인은 아직 성공으로 표시하지 않는다.** 첫 설정 PR/CI/main통합 후 실제 배포를 진행하고 원격 결과를 후속문서 PR/최종 E 보고서에 기록한다.
+
+기존178개 검증목적과0001~0004를 보존한다. 기존5초짜리47현등록 통합시험은 기본시간을 초과해 명시적30초로 수정했고 null placeholder 부정시험을 실제 provision 상태와 분리했다. 새14개 시험을 추가해 최종192개 check/CI를 실행한다. 수집승인0/Source96/시설92/47현47/VTuber4와Collection/Notifications false·Worker수집fail-closed를 유지한다. 실제외부수집·게시·보고·자동삭제는 시작하지 않는다.
+
+## 안전·남은 승인
+
+모든 개발/인증cache/temp/log/report는 E전용 경로를 사용한다. 전후경로/정리DryRun과 원격증거를 E reports에 저장한다. 토큰을 Git/보고서/원문로그에 저장하지 않으며 GitHub에는 환경별Secret만 둔다. production은 기존Environment승인 보호를 유지하며 사용자의 직접 승인이 필요하다. API403/지표불명/무료한도부족/CI실패는 중단하고 우회하지 않는다. **DEV04는 시작하지 않는다.**
+
+## DEV03 종료 스냅샷(이력)
 
 기준일 **2026-11-12 JST**. 현재 **DEV-03 로컬 수집 엔진 구현·검증**, GitHub 최종 완료 절차 대상이다. 실제 최신 PR HEAD/CI/병합/main SHA는 E reports/github-completion 및 DEV03_COMPLETION 보고서에서 확인한다. DEV-04는 시작하지 않는다.
 

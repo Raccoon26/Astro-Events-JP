@@ -40,7 +40,8 @@ export function validateBindings(config, resources, remote = false) {
       throw new Error('Resource manifest mismatch');
     if (
       !Array.isArray(env.triggers?.crons) ||
-      env.triggers.crons.join('|') !== '0 */3 * * *|17 0 * * *'
+      env.triggers.crons.join('|') !==
+        (resource.crons ?? ['0 */3 * * *', '17 0 * * *']).join('|')
     )
       throw new Error('Cron configuration mismatch');
     if (
@@ -62,6 +63,18 @@ export function validateBindings(config, resources, remote = false) {
   return true;
 }
 export function assertMigrationIntegrity() {
+  if (
+    createHash('sha256')
+      .update(
+        readFileSync('migrations/0004_collection.sql', 'utf8').replace(
+          /\r\n/g,
+          '\n',
+        ),
+      )
+      .digest('hex') !==
+    '28807743b481db9f79631f162abf34e70e297618316e40664ef3d8bf3d1ce70d'
+  )
+    throw new Error('DEV-03 migration changed');
   const registryHash = createHash('sha256')
     .update(
       readFileSync('migrations/0003_registry.sql', 'utf8').replace(
@@ -104,7 +117,12 @@ export function guardStagingWrite(target) {
   if (validateEnvironment(target) !== 'staging')
     throw new Error('Test writes/restores are staging-only');
 }
-export function checkFreeAccount(snapshot, target, now = Date.now()) {
+export function checkFreeAccount(
+  snapshot,
+  target,
+  now = Date.now(),
+  desiredCrons = 2,
+) {
   validateEnvironment(target);
   if (
     !/^[a-f0-9]{32}$/.test(snapshot?.accountId ?? '') ||
@@ -124,7 +142,9 @@ export function checkFreeAccount(snapshot, target, now = Date.now()) {
     if (
       !Number.isFinite(snapshot[key]) ||
       snapshot[key] < 0 ||
-      snapshot[key] >= ceiling
+      (key === 'cronTriggers'
+        ? snapshot[key] > ceiling
+        : snapshot[key] >= ceiling)
     )
       throw new Error('Account usage unknown or budget exhausted');
   }
@@ -133,7 +153,10 @@ export function checkFreeAccount(snapshot, target, now = Date.now()) {
     !Number.isInteger(existing) ||
     existing < 0 ||
     existing > 2 ||
-    snapshot.cronTriggers - existing + 2 > 5
+    !Number.isInteger(desiredCrons) ||
+    desiredCrons < 0 ||
+    desiredCrons > 2 ||
+    snapshot.cronTriggers - existing + desiredCrons > 5
   )
     throw new Error('Insufficient account Cron slots');
 }
@@ -173,7 +196,7 @@ export function validateWranglerOperation(args, authorizedRemote = false) {
       args[0] === 'dev' ||
       localFlag ||
       dryRun ||
-      ['whoami', 'login', 'logout'].includes(args[0])
+      ['whoami', 'login', 'logout', 'types'].includes(args[0])
     )
   )
     throw new Error('Guarded remote command required');

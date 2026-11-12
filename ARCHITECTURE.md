@@ -1,5 +1,7 @@
 # 아키텍처
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 목표는 개인 서버 없이 월 추가 비용 0엔으로 공식 정보 기반 일본어 X 복사용 글을 전달하는 것이다. DEV00의15계약·도메인·스키마를 보존했다. DEV01은 분리된 staging/production과 D1 환경 식별, Health/Cron 진단, 안전한 조건부 배포를 추가했다. 원격 인증은 사용자 요청으로 보류되어 아직 Cloudflare에 배포하지 않았다.
 
 ## DEV01 진단 경계
@@ -68,3 +70,9 @@ Sources/Facilities/VTubers는별도엔티티, 시설-Source와인물-Source는�
 ## DEV03 수집 계층
 
 Collector 구현을 HTTP/정책/파서/Discovery/D1 orchestration으로 분리했다. [COLLECTOR_DESIGN](COLLECTOR_DESIGN.md)의 단계와 큐가 DEV04에 Review Required 후보를 전달한다. X/보고/검증과 분리하고 기존 Health/Cron은 수집기를 호출하지 않는다. 공식 이미지URL은 메타데이터만 저장한다. 정기 수집·원격 활성화는 DEV01/09 완료 조건을 계속 따른다.
+
+## DEV-01R 원격 기반
+
+구조/15계약/수집 파이프라인은 보존한다. 원격 account-snapshot은 인증된 공식 API의 계정전체 사용량·실DB 저장량·전체Cron을 집계하고 fresh evidence를 배포에 전달한다. plan은 직접 확인한 authenticated dashboard 근거와 새 subscription safety check를 결합한다. 기존 identity schema2와0001~0004를 그대로 쓴다.
+
+Health/Cron은 여전히 읽기 전용이다. 별도 remote-benchmark entrypoint는 임시 staging 버전에서만 네 개의 작은 합성 fixture를 파싱하고 D1 SELECT1회·network0/CPU null을 보고한다. 공식 CPU는 GraphQL에서 따로 얻는다. 고정 입력만 허용하고 사용자 제공 HTML/URL이나 실제 Source를 처리하지 않는다.

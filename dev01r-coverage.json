@@ -1,0 +1,90 @@
+{
+  "scope": "DEV01 remote resumption",
+  "overallCompletion": "in-progress",
+  "sections": {
+    "0": {
+      "status": "remote-evidence-recorded-with-explicit-limits",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "1": {
+      "status": "remote-evidence-recorded-with-explicit-limits",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "2": {
+      "status": "remote-evidence-recorded-with-explicit-limits",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "3": {
+      "status": "remote-evidence-recorded-with-explicit-limits",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "4": {
+      "status": "remote-evidence-recorded-with-explicit-limits",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "5": {
+      "status": "remote-evidence-recorded-with-explicit-limits",
+      "evidence": ["PROJECT_STATUS.md", "scripts/staging-recovery.mjs"]
+    },
+    "6": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "7": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "8": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "scripts/cloudflare-metrics.mjs"]
+    },
+    "9": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "10": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", ".github/workflows/deploy.yml"]
+    },
+    "11": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "12": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "13": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "LOCAL_DEVELOPMENT.md"]
+    },
+    "14": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "15": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "16": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "17": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "scripts/complete-dev.mjs"]
+    },
+    "18": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "19": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    },
+    "20": {
+      "status": "implemented-or-validation-in-progress",
+      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+    }
+  }
+}

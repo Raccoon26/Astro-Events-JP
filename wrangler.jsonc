@@ -14,7 +14,9 @@
     "COLLECTION_ENABLED": "false",
     "NOTIFICATIONS_ENABLED": "false"
   },
-  "triggers": { "crons": [] },
+  "triggers": {
+    "crons": []
+  },
   "d1_databases": [
     {
       "binding": "DB",
@@ -36,15 +38,29 @@
         "COLLECTION_ENABLED": "false",
         "NOTIFICATIONS_ENABLED": "false"
       },
-      "triggers": { "crons": ["0 */3 * * *", "17 0 * * *"] },
+      "triggers": {
+        "crons": ["0 */3 * * *"]
+      },
       "d1_databases": [
         {
           "binding": "DB",
           "database_name": "astro-events-jp-staging",
-          "database_id": "00000000-0000-0000-0000-000000000001",
+          "database_id": "14a756a0-4721-482a-9021-47d237be6f02",
           "migrations_dir": "migrations"
         }
-      ]
+      ],
+      "observability": {
+        "enabled": true,
+        "logs": {
+          "enabled": true,
+          "invocation_logs": true,
+          "head_sampling_rate": 1
+        },
+        "traces": {
+          "enabled": true,
+          "head_sampling_rate": 1
+        }
+      }
     },
     "production": {
       "name": "astro-events-jp-production",
@@ -58,15 +74,30 @@
         "COLLECTION_ENABLED": "false",
         "NOTIFICATIONS_ENABLED": "false"
       },
-      "triggers": { "crons": ["0 */3 * * *", "17 0 * * *"] },
+      "triggers": {
+        "crons": []
+      },
       "d1_databases": [
         {
           "binding": "DB",
           "database_name": "astro-events-jp-production",
-          "database_id": "00000000-0000-0000-0000-000000000002",
+          "database_id": "497d64ba-c18f-404b-b1b5-1dd13676ed39",
           "migrations_dir": "migrations"
         }
-      ]
+      ],
+      "observability": {
+        "enabled": true,
+        "logs": {
+          "enabled": true,
+          "invocation_logs": true,
+          "head_sampling_rate": 1
+        },
+        "traces": {
+          "enabled": true,
+          "head_sampling_rate": 1
+        }
+      }
     }
-  }
+  },
+  "account_id": "1514f5aa90cda572796a699965567bee"
 }

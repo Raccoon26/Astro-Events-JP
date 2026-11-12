@@ -1,5 +1,7 @@
 # 무료 운영 정책
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 DEV01 재확인: 아래 공식 한도는 유지된다. **사용자 계정의 실제 플랜/사용량은 인증 보류로 미확인**이며 Free라고 추정하지 않는다. 로컬 Health의 D1 identity SELECT는 rows_read=1, rows_written=0이었다. 실제 Cloudflare CPU·D1 비용/계정여유를 실측했다고 표시하지 않는다.
 
 현재 env당 진단Cron2개, 두환경 합계4개를 계획하므로 계정5개 제한과 기존스케줄을 함께 확인해야 한다. 배포/provision guard는 실제ID·Free/당일 계정usage·15분 이내 근거·추가Cron슬롯을 검사하고 불명/초과시 중단한다. CF_ACCOUNT_EVIDENCE는 인증된 Dashboard를 확인한 운영자 근거이며 자동증명으로 취급하지 않는다. 현재 자동갱신은 원격검증 전이다. 프로젝트 자체지표와 계정전체예산을 혼동하지 않는다.
@@ -40,3 +42,11 @@ Import는Node관리도구에서여러작은batch를순차실행하므로50쿼리
 2026-11-12 JST에 Workers/D1 공식 limits를 다시 확인했다. Workers Free의 CPU10ms/128MB/외부요청50·계정Cron5, D1 Free의호출50/DB500MB/계정5GB 기준을 유지한다. D1 batch는 statement별 비용과 API query 횟수를 구분한다. 실제 계정 플랜/여유·원격CPU는 계속미확인이다.
 
 요청8·본문256KiB·동시1·5초/요청·30초 HTTP 단계·후보10·발견20·sitemap depth1/자식3으로 줄인 작은 단위를 사용한다. 후보 저장을 다음 step으로 나누고 긴 목록은 offset으로 이월한다. 일반/VTuber 예산을 분리하고 계정usage불명은거부한다. 로컬 CLI의명시적 local-budget는 Cloudflare를사용하지않는개발시험용이며 계정여유증거가아니다. Workers 기본전송기는peer보장불명으로차단하므로유료서비스를추가해해결하지않았다. 로컬 wall time을CPU라고표시하지않으며 [벤치마크](COLLECTION_BENCHMARK.md)를기준으로향후원격프로파일링한다.
+
+## DEV-01R 원격 기반
+
+계정 Free는 사용자 화면뿐 아니라 로그인된 공식 대시보드를 직접 확인했다. 구독 API403을 Free 성공으로 해석하지 않았다. 현재 계획은 staging 읽기 전용 진단Cron1개(0 */3 * * *), production0개다. 미래 일일정리 Cron은 DEV09에 별도로 검토한다. 진단 시험 중 staging의 같은1개 슬롯만 임시 매분으로 바꾸며20분 안에 원래 주기로 복원한다. 다른 프로젝트의 Cron은 조회만 한다.
+
+CPU GraphQL의 cpuTimeP50/P99 단위는 실제 schema introspection에서 microseconds임을 확인했다. cloudflare-metrics.mjs는 단위를 재확인해1000으로 나눈 ms와 raw값을 함께 기록한다. 메모리 지표는 provider가 제공할 때만 기록한다. 로컬 경과시간/합성시험을 원격 CPU로 바꾸지 않는다.
+
+Workers Logs Free의 현재200,000 events/day·3일 보관과 Traces를 확인했다. 2026-12-01부터 [Observability 요금](https://developers.cloudflare.com/observability/pricing/)의 Free0.5GB/day·7일 보관/한도 후 수집중단으로 변경 예정이며 유료 업그레이드/외부 export는 하지 않는다. 계정전체 허용량을 공유하므로 운영 재개 전 재확인한다.

@@ -1,5 +1,7 @@
 # Cloudflare 연결·환경 구축
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 DEV-01 원격 인증은 사용자 요청으로 보류되었다. 현재 Workers Free 플랜, 계정 전체 사용량, 실제 DB ID, 권한, 원격 자원 충돌 여부는 **미확인**이다. 로컬 D1/workerd 결과는 원격 성공의 증거가 아니다. `cloudflare-resources.json`의 null 및 Wrangler의 0000… ID는 로컬 식별자이며 실제 Cloudflare ID가 아니다. 원격 guard가 이를 거부한다.
 
 ## 인증을 재개할 때
@@ -42,3 +44,11 @@ null은 차단을 의미한다. Secret을 Git에 저장하지 않는다. 현재 
 6. [배포 절차](DEPLOYMENT.md)에 따라 main의 검증된 코드만 배포한다. 아직 등록되지 않은 토큰·지표를 준비하기 전에 활성화 변수를 true로 바꾸지 않는다.
 
 Workers는 astro-events-jp-staging / astro-events-jp-production, D1도 동명으로 분리한다. 도메인·기존 다른 Worker·D1·구독 설정은 수정하지 않는다. 실제 workers.dev subdomain 설정이 없다면 계정 소유자가 공식 화면에서 선택해야 한다. 유료 플랜/임시 preview 계정으로 대체하지 않는다.
+
+## DEV-01R 원격 기반
+
+공식 Wrangler OAuth를 사용해 계정 접근을 확인했다. 현재 버전은 선택한 scopes 외 offline_access를 자동 포함하며 E tools/config/.wrangler/config/default.toml에 저장한다. 값은 출력하지 않는다. subscriptions는 OAuth로403이어서 로그인된 Workers plans 화면의 Free/Current plan/$0를 직접 확인했다. 계정 전체 GraphQL Workers/D1 및 모든 Worker schedules를 읽어 예산을 만든다. API가 성공한 빈 집계는 reported0이며 분석 지연/샘플링을 실제 CPU0으로 해석하지 않는다.
+
+staging/production D1 실제 ID는 cloudflare-resources.json에 기록했다. 두 DB는 다르며 원격0001~0004·marker2·무결성을 확인했다. Source96개 Seed는 production에 넣지 않았다. GitHub 환경별 CLOUDFLARE_API_TOKEN은 별개이며 값 대신 이름/갱신 시각만 조회한다. CI 토큰은 해당 계정의 Workers Scripts Edit·D1 Edit·Account Analytics Read·Account Settings Read·Billing Read로 제한하며 Billing Write는 부여하지 않는다. Provider가 계정 범위만 지원하므로 도구의 프로젝트 이름/ID 검사도 유지한다.
+
+refresh-account.mjs는 --plan-file을 명시하고 계정전체 지표·저장량·Cron을 재조회한다. 로컬 --allow-fresh-dashboard는 OAuth403일 때15분 이내 직접 확인한 화면만 허용한다. CI는 이 fallback 없이 fresh subscription 조회까지 필수다. current-plan 근거 하나만으로 사용량 여유를 판단하지 않는다.

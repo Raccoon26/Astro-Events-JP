@@ -1,5 +1,7 @@
 # GitHub 자동 완료
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 DEV01도 검증된 complete:dev를 그대로 사용한다. 작업브랜치는 dev/dev-01-cloudflare-foundation이며 기존main quality/보호는 완화하지 않는다. 원격인증차단은 검사실패와 구분하여 문서/PR에 명시하고 안전한로컬코드는 기존PR/CI절차로 통합한다. 운영환경DEV01완료판정은 별도이다.
 
 main CI성공후 조건부staging 배포 및 승인기반production 배포를 추가했다. 활성화변수false와 환경별Secret미등록으로 현재실배포는 수행하지 않는다. Workflow가 skipped이면 배포성공이 아니다. 배포자체는DB마이그레이션/삭제를 실행하지 않는다. 상세조건은 DEPLOYMENT 참조.
@@ -25,3 +27,7 @@ CI는 contents:read, immutable Action SHA, credentials 비보존. Actions는 CI/
 DEV02도기존complete:dev -- --reviewed를사용한다. check에Seed검증과로컬D1시험을추가하고CI권한·quality필수·보호·배포비활성변수는변경하지않는다. DEV01원격보류는PR에명시하되로컬DEV02통합과분리한다. Seed/공식근거는공개데이터지만실제행사보고/비밀은Public에기록하지않는다.
 
 DEV03도complete:dev로동일한자동완료절차를수행한다. 기존CI를교체하거나권한을넓히지않고npm check의회귀/파서/통합·브라우저bundle을확장한다. 실제수집기시험은CI에서합성fixture만사용한다. main병합후Cloudflare배포는기존false변수로skip해야하며코드병합이실수집활성화를의미하지않는다.
+
+## DEV-01R 원격 기반
+
+dev/dev-01r-cloudflare-remote를 허용하도록 complete:dev 브랜치 검사를 확장했다. quality/strict/PR/관리자 포함·force push/삭제 금지는 그대로다. 배포workflow mode=validate는 활성화 변수false에서도 main+필수CI+환경승인 후 읽기 전용 인증을 시험한다. deploy는 기존 활성화/production 확인/리뷰를 모두 요구하고 live 계정 근거를 생성한다. staging 자동배포와 production 사람 승인을 분리한다. 인증/실행 검증 전에는 변수를true로 바꾸지 않는다.

@@ -1,5 +1,7 @@
 # Windows E드라이브 개발
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 DEV01 시작 전 실제 E 접근·정확한repo·깨끗한Git·npm cache/temp/log/build 경로와 DryRun 보고를 확인했다. 원격OAuth는 미인증이며 사용자요청으로 나중에 수행한다. 시스템C의 기존Wrangler설정은 존재여부만읽었고 파일을 생성/수정하지 않았다.
 
 로컬시작은 environment.ps1 → npm ci → npm run d1:local → npm run dev 순서다. staging영속DB는 E/cache/wrangler-state/staging, production은 별도production폴더이고 Miniflare 통합시험DB는 임시격리이다. npm run build는 양환경을 dist/staging·dist/production으로 dry-run한다. .dev.vars.example은staging예시이며 production에 복사하지 않는다. 실제 HTTP는 /health, 로컬 Cron은 dev의 --test-scheduled 테스트경로를 사용한다. 원격Worker에는 HTTP Cron실행엔드포인트를 추가하지 않았다.
@@ -44,3 +46,7 @@ Seed명령은[SEED_GUIDE](SEED_GUIDE.md)를따른다. Miniflare resourcePersiste
 ## DEV03 관리 도구
 
 [COLLECTOR_DESIGN](COLLECTOR_DESIGN.md)의명령을E環境で실행한다. collector CLI는같은별도local staging Registry DB를사용하고원격/production을거부한다. node pinned transport는개발용명령도구이며개인서버가아니다. review/approve는DryRun기본,실전요청은active+명시적apply/local-budget가필요하다. 이번최종상태active0에서는collector:run이요청0으로종료됨을확인했다. 전후정리DryRun과캐시/로그/fixture/벤치마크는E에저장한다.
+
+## DEV-01R 원격 기반
+
+DEV01R에서 공식 OAuth를 재개했다. 사용자 브라우저 로그인과 Wrangler 자격증명은 별개이며 인증 파일은 E tools/config/.wrangler/config/default.toml이다. 현재 Wrangler가 offline_access를 자동 포함함을 실제 흐름으로 확인했다. 로그/캐시/임시 benchmark config·DB/원격검증 보고서는 E에 둔다. generated worker-bindings.d.ts는 Wrangler types로 만들고 check로 drift를 검사한다. 비밀값을 콘솔에 출력하거나 C/D로 옮기지 않는다.

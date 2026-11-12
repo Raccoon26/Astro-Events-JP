@@ -1,5 +1,7 @@
 # 검증된 코드의 조건부 배포
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 DEV01 현재 실제 Cloudflare 배포는 **인증 보류로 미수행**이다. GitHub staging/production 환경은 생성했다. 두 환경 모두 보호 브랜치만 허용하며 production은 Raccoon26 승인 필수, 관리자 승인우회 금지다. 계정 권한의 영구 변경불가를 보장하는 것은 아니다. 배포활성화 repo 변수 CF_STAGING_DEPLOY_ENABLED / CF_PRODUCTION_DEPLOY_ENABLED는 false이다. 건너뛴 배포 workflow를 원격 배포 성공으로 계산하지 않는다.
 
 `.github/workflows/ci.yml`의 기존 quality 게이트를 보존했다. deploy.yml은 main의 CI push 실행 성공 이후 staging에만 자동 배포할 수 있다. production은 main에서 workflow_dispatch, target=production, 확인문구 astro-events-jp-production, GitHub Environment 승인 모두 필요하다. 모든 단계는 고정 SHA Actions와 contents:read, 추가 CI검증에 필요한 checks:read만 사용한다. Cloudflare 토큰은 검사/설치 단계에 주지 않고 최종 배포 단계에만 전달한다. 외부 fork의 workflow_run/PR은 배포하지 않는다.
@@ -13,3 +15,11 @@ DEV01 현재 실제 Cloudflare 배포는 **인증 보류로 미수행**이다. G
 실패시 안전한 코드와 target을 E reports에 기록하며 raw API 오류/헤더/Secrets는 출력하지 않는다. 자동 재시도는 **0회**, 전체 Actions15분·개별 Wrangler180초·API15초·Health10초로 제한한다. 일부 단계 실패 전 이미 버전/스케줄 변경이 적용됐을 수 있으므로 "실패=아무 변경 없음"으로 단정하지 않는다. 이전 버전·현재 deployment를 조회하고 staging에서 검증한 절차로 복구한다. 실패를 해결하려고 DB를 삭제/초기화하지 않는다. production rollback은 자동 실행하지 않는다.
 
 원격 API 스키마·권한·실제 배포/실패/rollback은 인증 후 통합 검증할 항목이다. 현재 테스트는 정책·API 오류 격리·로컬 런타임과 두 환경 bundle 검증이다. 인증 완료 전 production 활성화·실수집은 금지한다.
+
+## DEV-01R 원격 기반
+
+mode=validate를 추가해 배포 활성화 false 상태에서도 main CI/환경 보호를 거쳐 API 인증·구독/예산·실제 DB binding/marker를 읽기 전용으로 시험한다. 성공 뒤에만 환경별 활성화 변수를 변경한다. 고정 만료 CF_ACCOUNT_EVIDENCE Secret 대신 cloudflare-ci.mjs가 실행 시 공식 API로 당일 계정전체 근거를 갱신한다. Secret은 최종 단계에만 전달한다.
+
+main-only·clean tree·quality·기존 production 리뷰 보호를 유지한다. staging 성공 후 production은 명시적 확인문구와 GitHub Environment의 사용자 승인을 거친다. 권한 오류나 API 스키마 불명은 배포를 중단한다. 최초 코드/설정 통합 PR 후 main 배포를 검증하고, 실제 원격 결과는 후속 문서 PR에 반영한다. 코드 병합 자체를 배포 성공으로 표시하지 않는다.
+
+benchmark staging은 CI 검증된 main에서만 고정 합성 입력을 제공하는 임시 staging 버전을 배포한다. production은 거부한다. 초기 정상 version ID를 기록하고 시험 후 그 버전으로 rollback해 Health를 다시 확인한다. 새 Worker·유료 프록시·실제 사이트 요청·Source 승인을 만들지 않는다.

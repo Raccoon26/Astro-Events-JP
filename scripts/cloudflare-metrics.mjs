@@ -11,10 +11,18 @@ const state = preflight();
 const target = validateEnvironment(process.argv[2]);
 const resources = JSON.parse(readFileSync('cloudflare-resources.json', 'utf8'));
 validateBindings(readConfig(), resources, true);
-const end = new Date();
-const start = new Date(end);
-start.setUTCHours(0, 0, 0, 0);
-const query = `query Metrics($accountTag:string!,$start:string!,$end:string!,$script:string!){viewer{accounts(filter:{accountTag:$accountTag}){workersInvocationsAdaptive(limit:1000,filter:{scriptName:$script,datetime_geq:$start,datetime_leq:$end}){sum{requests errors subrequests}quantiles{cpuTimeP50 cpuTimeP99}dimensions{status}}}}}`;
+const end = process.argv[4] ? new Date(process.argv[4]) : new Date();
+const start = process.argv[3]
+  ? new Date(process.argv[3])
+  : new Date(end.toISOString().slice(0, 10) + 'T00:00:00Z');
+if (
+  !Number.isFinite(start.getTime()) ||
+  !Number.isFinite(end.getTime()) ||
+  start >= end ||
+  end.getTime() > Date.now() + 60000
+)
+  throw new Error('Invalid metrics window');
+const query = `query Metrics($accountTag:string!,$start:string!,$end:string!,$script:string!){unit:__type(name:"AccountWorkersInvocationsAdaptiveQuantiles"){fields{name description}} viewer{accounts(filter:{accountTag:$accountTag}){workersInvocationsAdaptive(limit:1000,filter:{scriptName:$script,datetime_geq:$start,datetime_leq:$end}){sum{requests errors subrequests}quantiles{cpuTimeP50 cpuTimeP99 memoryUsageBytesP50 memoryUsageBytesP99}dimensions{status}}}}}`;
 const token = getCloudflareToken();
 let response;
 try {
@@ -46,6 +54,16 @@ try {
   throw new Error('CLOUDFLARE_METRICS_INVALID_RESPONSE');
 }
 const groups = json.data?.viewer?.accounts?.[0]?.workersInvocationsAdaptive;
+const unitFields = json.data?.unit?.fields;
+if (
+  !Array.isArray(unitFields) ||
+  !['cpuTimeP50', 'cpuTimeP99'].every((name) =>
+    unitFields.some(
+      (field) => field.name === name && /microseconds/.test(field.description),
+    ),
+  )
+)
+  throw new Error('CPU_METRIC_UNIT_UNVERIFIED');
 if (
   !response.ok ||
   json.errors?.length ||
@@ -64,7 +82,7 @@ const report = {
   end: end.toISOString(),
   scope: 'project Worker only; not account-wide budget evidence',
   cpuMetricUnit:
-    'raw provider schema unit; verify schema description before conversion to ms',
+    'microseconds; live GraphQL introspection verified. ms = raw / 1000',
   groups: groups.map((group) => ({
     status: group.dimensions?.status,
     requests: group.sum?.requests,
@@ -72,6 +90,10 @@ const report = {
     subrequests: group.sum?.subrequests,
     cpuTimeP50Raw: group.quantiles?.cpuTimeP50,
     cpuTimeP99Raw: group.quantiles?.cpuTimeP99,
+    cpuTimeP50Ms: group.quantiles?.cpuTimeP50 / 1000,
+    cpuTimeP99Ms: group.quantiles?.cpuTimeP99 / 1000,
+    memoryUsageP50Bytes: group.quantiles?.memoryUsageBytesP50 ?? null,
+    memoryUsageP99Bytes: group.quantiles?.memoryUsageBytesP99 ?? null,
   })),
 };
 if (

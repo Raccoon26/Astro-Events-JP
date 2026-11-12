@@ -1,13 +1,15 @@
 {
-  "accountId": null,
+  "accountId": "1514f5aa90cda572796a699965567bee",
   "staging": {
     "workerName": "astro-events-jp-staging",
     "databaseName": "astro-events-jp-staging",
-    "databaseId": null
+    "databaseId": "14a756a0-4721-482a-9021-47d237be6f02",
+    "crons": ["0 */3 * * *"]
   },
   "production": {
     "workerName": "astro-events-jp-production",
     "databaseName": "astro-events-jp-production",
-    "databaseId": null
+    "databaseId": "497d64ba-c18f-404b-b1b5-1dd13676ed39",
+    "crons": []
   }
 }

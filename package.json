@@ -8,7 +8,7 @@
   },
   "scripts": {
     "preinstall": "node scripts/preflight.mjs",
-    "typecheck": "tsc --noEmit && tsc -p tsconfig.tests.json --noEmit",
+    "typecheck": "npm run types:check && tsc --noEmit && tsc -p tsconfig.tests.json --noEmit",
     "lint": "biome check --error-on-warnings .",
     "format": "biome check --write .",
     "test": "vitest run",
@@ -31,7 +31,8 @@
     "dev": "node scripts/wrangler.mjs dev --env staging --persist-to ../cache/wrangler-state/staging --test-scheduled",
     "d1:local": "node scripts/local-d1.mjs staging",
     "complete:dev": "node scripts/complete-dev.mjs",
-    "check:cloudflare": "node scripts/check-cloudflare.mjs"
+    "check:cloudflare": "node scripts/check-cloudflare.mjs",
+    "types:check": "node scripts/wrangler.mjs types src/worker-bindings.d.ts --env staging --env-interface WranglerBindings --strict-vars=false --include-runtime=false --include-main-module=false --check"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",

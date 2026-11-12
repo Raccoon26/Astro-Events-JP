@@ -1,5 +1,7 @@
 # 테스트와 증거
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 DEV01 추가: 기존11시험의 검증목적/이름/부정테스트를 보존하고 Health 성공fixture만 실제D1 marker/표준Request 계약에 맞게 강화했다. 총48시험(7파일)에서 환경별설정·누락DB·collection/notification잠금·환경변조·Health200/503/404/405/HEAD·민감정보·timeout·Cron두종류·계정예산·원격명령guard·원격오류격리/재시도0·pagination거부·원본migration불변을 검증했다.
 
 로컬 통합은 Miniflare가 실제workerd를 실행하고 별도D1 두개에 전체schema를 적용한다. localhost HTTP·bind쿼리·staging합성CRUD·production격리·테이블/인덱스·quick_check/FK·Cron·환경오류복구를 시험한다. sql.js snapshot복구는 로컬시뮬레이션이다. `npm run d1:local`은 실제Wrangler의 별도영속staging D1에 migration적용/identity/무결성을 다시 검사한다. 로컬측정은 E reports/dev01-local-d1-measurement.json에 저장한다.
@@ -33,3 +35,7 @@ DEV03은 DNS/redirect/body/timeout/429/robots fixture, DEV04는 날짜/공식취
 기존79개시험의 목적을보존했다. RSS/Atom의정상·누락·중복·깨진XML/DTD·namespace, HTML카드/표/상세/selector/인코딩/일본어·이미지/JS거부, sitemap중복/깊이/순환/offset을추가했다. HTTP200/304/redirect/403/404/429/5xx/timeout/abort/단절/크기·압축·MIME, host/IP/IDN/DNSpeer/정책변경/승인·예산거부를검사한다.
 
 실제workerd에서4형식파싱을실행하고로컬D1에서원자적rollback/중단복구/경합·validator/변경없음/25항목완주/변경후26항목재개·후보버전/3회재시도한도를검증했다. 소형/중형/복잡HTML의경과시간과D1meta를E reports에기록한다. 실제공식Collector시험은승인0으로0회,원격Cloudflare CPU도미검증이다. npm run check는새collector browser bundle까지검사하며CI권한/기존quality gate는유지한다.
+
+## DEV-01R 원격 기반
+
+기존178개 시험을 보존한다. 47현 D1등록 시험은 기본5초를 초과해 검증 내용 그대로 명시적30초를 지정했고, placeholder 부정 시험은 실제 config가 provision된 뒤에도 명시적 null fixture로 계속 검사한다. 새 account-snapshot/recovery/Cron 정책·고정 benchmark/production 거부·D1 identity·Worker fail-closed 시험을 추가한다. 실제 원격 D1/Time Travel 결과와 mock/로컬 결과를 구분한다. 최신 check/CI의 실제 통과 수를 최종 보고에 기록한다.
