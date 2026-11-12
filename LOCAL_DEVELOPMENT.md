@@ -40,3 +40,7 @@ Linux GitHub hosted runner는 GITHUB_ACTIONS=true, 기타 Linux cloud는 ASTRO_C
 ## DEV02 로컬 관리 저장소
 
 Seed명령은[SEED_GUIDE](SEED_GUIDE.md)를따른다. Miniflare resourcePersistencePath를E:/Astro-Events-JP/cache/registry/staging로설정하고기존Wrangler DB와분리했다. init은명시적스키마작업, import는기본DryRun이다. 검증/보고/fixture는E temp/cache/reports에만기록하며실Cloudflare인증을사용하지않는다. 외장하드물리분리시험은실행하지않고기존missing-path부정시험을보존한다.
+
+## DEV03 관리 도구
+
+[COLLECTOR_DESIGN](COLLECTOR_DESIGN.md)의명령을E環境で실행한다. collector CLI는같은별도local staging Registry DB를사용하고원격/production을거부한다. node pinned transport는개발용명령도구이며개인서버가아니다. review/approve는DryRun기본,실전요청은active+명시적apply/local-budget가필요하다. 이번최종상태active0에서는collector:run이요청0으로종료됨을확인했다. 전후정리DryRun과캐시/로그/fixture/벤치마크는E에저장한다.

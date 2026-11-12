@@ -27,3 +27,9 @@ DEV03은 DNS/redirect/body/timeout/429/robots fixture, DEV04는 날짜/공식취
 ## DEV02 테스트
 
 기존48개시험과검증목적을삭제/축소하지않았다. registry/seed-quality/registry-integration에현코드전체대조,중복/host/민감URL/SQL입력, CRUD/이력/alias/시설다중연결/후보승인/인물확장, 미검증활성차단, 지역회전/독립VTuber예산/범주최소량, 전체사전검증/환경차단/단위rollback/운영상태보존을추가했다. 실로컬D1에최종Seed와2000fixture를넣고FK/quick_check·DryRun/반복0쓰기·검색읽기량/경과시간/크기를검증한다. CI는네트워크사이트수집없이같은Seed를검증한다. npm run check에seed:validate를추가했으며기존CI/48회귀/양환경빌드·보안·요구감사·Wrangler local마이그레이션을보존한다. 실제인터넷근거검토는data의검토시각스냅샷이며CI테스트가현재출처공식성/정책을새로증명하지는않는다.
+
+## DEV03 추가 검사
+
+기존79개시험의 목적을보존했다. RSS/Atom의정상·누락·중복·깨진XML/DTD·namespace, HTML카드/표/상세/selector/인코딩/일본어·이미지/JS거부, sitemap중복/깊이/순환/offset을추가했다. HTTP200/304/redirect/403/404/429/5xx/timeout/abort/단절/크기·압축·MIME, host/IP/IDN/DNSpeer/정책변경/승인·예산거부를검사한다.
+
+실제workerd에서4형식파싱을실행하고로컬D1에서원자적rollback/중단복구/경합·validator/변경없음/25항목완주/변경후26항목재개·후보버전/3회재시도한도를검증했다. 소형/중형/복잡HTML의경과시간과D1meta를E reports에기록한다. 실제공식Collector시험은승인0으로0회,원격Cloudflare CPU도미검증이다. npm run check는새collector browser bundle까지검사하며CI권한/기존quality gate는유지한다.

@@ -1,0 +1,23 @@
+{
+  "sourceId": "src-9090b70f444bd461d3cc63a1",
+  "url": "https://www.nao.ac.jp/",
+  "decision": "review",
+  "reviewedAt": "2026-11-11T15:00:00.000Z",
+  "reviewDateJst": "2026-11-12",
+  "timestampPrecision": "date; UTC value denotes JST midnight, not measured clock time",
+  "robots": {
+    "url": "https://www.nao.ac.jp/robots.txt",
+    "result": "unavailable-in-review-tool"
+  },
+  "terms": {
+    "url": "https://www.nao.ac.jp/terms/",
+    "result": "review-required",
+    "reason": "Linking and content reuse differ; automated access scope remains unapproved"
+  },
+  "operatorEvidenceUrl": "https://www.nao.ac.jp/",
+  "supportedParser": "html",
+  "minIntervalSeconds": 86400,
+  "collectionApproved": false,
+  "liveCollectionTested": false,
+  "recheckRequired": true
+}

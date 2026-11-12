@@ -44,3 +44,9 @@ D1 meta.size_after/rows_read/rows_written과 대시보드 지표를 수집한다
 0001/0002는바이트기준보존하고SHA검사한다. 0003_registry.sql만추가했다. registry_metadata는source/facility/vtuber의검토근거/유형/운영주체/별칭을JSON으로확장하고registry_urls는엔티티종류별URL및과거alias를UNIQUE로관리한다. registry_history는Source수정전후와시각을FK로보존한다. facility_sources는기존facilities/sources의다대다FK이며vtuber_sources는기존것을재사용한다. polymorphic metadata/URL의참조는관리API가유지하며원시SQL삭제는제공하지않는다.
 
 sources_due를유지하고category/state/prefecture/next시각, prefecture/source_id, facilities(prefecture,facility_id) 인덱스를필터/커서조회에추가했다. 인덱스추가로등록쓰기비용이증가하므로로컬meta로측정한다. 목록조회는1개JOIN이며N+1을사용하지않는다. 기존metadata없는Source도보이며미검증active는조회결과review로격리한다(DB원본보존). 운영예약/ETag등은sources컬럼이기준이다. deployment_identity.schema_version=2는DEV01런타임호환marker이며0003적용여부는migration ledger로별도관리한다. 원격DB/production에는적용하지않았다.
+
+## DEV03 추가 스키마
+
+0001~0003은 변경하지 않고 SHA를 검사한다. 0004_collection.sql에 source_approvals/source_policy_reviews, collection_jobs(단계/owner/lease/offset/문서지문), collection_documents(validator/시도/성공/변경/실패/완료), event_candidates/candidate_versions, candidate_images, collection_cursors/host_gates/run_metrics를 추가했다. Event 및 게시/전달 테이블에는 쓰지 않는다. 후보 지문 변경 시 Review Required로 되돌리고 이전 관측 버전을 보존한다. 이미지 권리는unknown이 기본이며 이미지 실패로 후보를 cascade 삭제하지 않는다.
+
+전문 원문을 저장하지 않고 최대64KiB parsed 메타데이터만 임시 job payload로 둔다. 후보와 버전은 DEV04 처리·DEV09 보관 정책의 대상이며 임의 자동 삭제는 실행하지 않는다. 완료/실패 job·관측 메타·실행 기록 정리는 DEV09에서30일 bounded 정책에 편입한다. Source/시설 정보는 영구 보존하고 기존 이벤트90일/지문2년 정책을 변경하지 않는다.

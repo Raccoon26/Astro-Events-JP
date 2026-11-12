@@ -123,3 +123,9 @@ local 분류 8개는 공민관·시민센터·교육센터·시정촌 관측시�
 별도 실패 후보: 국립천문대 /contents/notice/는 원문404여서 data/candidates.json의 unsupported로 분리했다. 공식성/현 커버리지에 포함하지 않으며 별도 확인한 NAOJ 루트를 사용한다. 仙台市天文台의 웹사이트 긴급정비와 星のくに의 옛 운영자 영업휴지 공지는 paused의 근거다. 시설 전체의 현재 영업상태나 개별 행사 취소로 추론하지 않는다. 奈良県은 별도로 확인한 奈良市教育センター가 최소 커버리지를 충족한다.
 
 기본 발견 근거는 [JPA 공식 시설 목록](https://planetarium.jp/public/planetarium_list/), 코드 근거는 [국토교통성 코드표](https://nlftp.mlit.go.jp/ksj/gmlold/codelist/PrefCode.html)다. 각 Source의 evidenceUrl/verificationMethod/checkedAt/httpStatus/robotsStatus/termsReviewNote는 data/sources.json에서 확인한다. robots가 없거나 약관이 불명확하면 승인하지 않는다. source URL의 HTML 확인과 RSS/Atom 존재 확인은 별개이며 확인되지 않은 feed URL은 만들지 않았다.
+
+## DEV03 변화 — 2026-11-12 JST
+
+등록 Source96/공식성77/추가확인19/시설92/47현·단일검증출처24현은 그대로다. active0/review85/unsupported9/paused2이며 실제 Collector 검증0개다. 합성 사이트는 이 수치에 포함하지 않는다.
+
+새 Discovery review 후보4개를追加했다: 新潟의柏崎市星空観察会, 滋賀의甲賀市みなくち子どもの森, 秋田県教育センター天文施設, 高知県芸西天文学習館観測会再開案内. Source 등록/수집 승인과 구분하며 [SOURCE_DISCOVERY](SOURCE_DISCOVERY.md)에 근거를 기록했다. 첫3곳은 기존 단일 검증 출처 지역을 보강할 후보 경로다.

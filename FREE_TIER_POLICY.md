@@ -34,3 +34,9 @@ Workers 요청80,000/일·D1 read400만/write80,000·DB400MB를 프로젝트 수
 2026-11-11 위공식Workers/D1 limits·pricing을재확인했다. 계정인증/전체사용량/실CPU는여전히미확인이다. reports/dev02-benchmark.json은로컬workerd/D1의응답meta(rows_read/rows_written/size_after)와경과시간을기록한다. cpuTimeMs=null이며경과시간을CPU라고표시하지않는다. 96개실제Seed/92시설/4인물과별도2000개합성fixture를검증했다. 반복Import와DryRun의rows_written=0,25행검색1쿼리/25읽기를확인했다. 이수치는원격할당량/과금실측이아니다.
 
 Import는Node관리도구에서여러작은batch를순차실행하므로50쿼리/Worker호출제한내처리량을보장하지않는다. Seed전체를Cron1회에서Import/조사하지않는다. 커서페이지최대100/정보원별간격을제공하고후속실행기가더작은무료예산을적용한다. 전국동시/실시간수집속도·원격CPU/대규모운영가능성은미검증이다. 인덱스쓰기비용을포함한실제로컬값은최종보고를따르며무료플랜자동전환/외부유료서비스는없다.
+
+## DEV03 재확인과 처리 단위
+
+2026-11-12 JST에 Workers/D1 공식 limits를 다시 확인했다. Workers Free의 CPU10ms/128MB/외부요청50·계정Cron5, D1 Free의호출50/DB500MB/계정5GB 기준을 유지한다. D1 batch는 statement별 비용과 API query 횟수를 구분한다. 실제 계정 플랜/여유·원격CPU는 계속미확인이다.
+
+요청8·본문256KiB·동시1·5초/요청·30초 HTTP 단계·후보10·발견20·sitemap depth1/자식3으로 줄인 작은 단위를 사용한다. 후보 저장을 다음 step으로 나누고 긴 목록은 offset으로 이월한다. 일반/VTuber 예산을 분리하고 계정usage불명은거부한다. 로컬 CLI의명시적 local-budget는 Cloudflare를사용하지않는개발시험용이며 계정여유증거가아니다. Workers 기본전송기는peer보장불명으로차단하므로유료서비스를추가해해결하지않았다. 로컬 wall time을CPU라고표시하지않으며 [벤치마크](COLLECTION_BENCHMARK.md)를기준으로향후원격프로파일링한다.

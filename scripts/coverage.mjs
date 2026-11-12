@@ -18,6 +18,13 @@ const requiredDocs = [
   'CLOUDFLARE_SETUP',
   'DEPLOYMENT',
   'DISASTER_RECOVERY',
+  'SOURCE_COVERAGE',
+  'VTUBER_VERIFICATION',
+  'COLLECTOR_DESIGN',
+  'PARSER_SUPPORT',
+  'SOURCE_DISCOVERY',
+  'SSRF_SECURITY_AUDIT',
+  'COLLECTION_BENCHMARK',
 ];
 for (const name of requiredDocs)
   if (
@@ -81,7 +88,7 @@ for (const name of requiredDocs) {
       throw new Error(`Broken doc link in ${name}: ${match[1]}`);
 }
 console.log(
-  'Coverage: R01–R32, original sections 0–24, 17 documents, 11 DEV milestones and 15 module contracts present. Semantic/regression review is separate.',
+  `Coverage: R01–R32, original sections 0–24, ${requiredDocs.length} documents, 11 DEV milestones and 15 module contracts present. Semantic/regression review is separate.`,
 );
 const dev01 = JSON.parse(readFileSync('dev01-coverage.json', 'utf8'));
 for (let i = 0; i <= 18; i++) {
@@ -114,4 +121,19 @@ if (dev02.remoteDEV01 !== 'deferred-by-user-no-reauthentication')
   throw new Error('DEV01 deferral must be preserved');
 console.log(
   'DEV02 sections 0–24 mapped; evidence/approval limitations remain explicit.',
+);
+const dev03 = JSON.parse(readFileSync('dev03-coverage.json', 'utf8'));
+for (let section = 0; section <= 29; section++) {
+  const item = dev03.sections[section];
+  if (
+    !item?.status ||
+    !item.evidence?.length ||
+    item.evidence.some((file) => !existsSync(file))
+  )
+    throw new Error(`Unmapped DEV03 section ${section}`);
+}
+if (dev03.remoteDEV01 !== 'deferred-by-user-no-reauthentication')
+  throw new Error('DEV01 deferral must remain');
+console.log(
+  'DEV03 sections 0–29 mapped; local fixtures, live approval 0 and remote CPU/transport limitations explicit.',
 );

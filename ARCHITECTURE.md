@@ -64,3 +64,7 @@ Public에는 코드/합성fixture/정책만, Private에는 실제 행사보고/�
 ## DEV02 로컬 등록 계층
 
 Sources/Facilities/VTubers는별도엔티티, 시설-Source와인물-Source는다대다다. Discovery는수동심사후Registry로전환한다. src/registry.ts가SourceRegistry계약을구현하고registry-management가시설/후보/인물을관리한다. seed-import는전체검증후로컬staging의작은원자적단위를처리한다. 전국메타데이터와고정Seed는data/, API는Workers API형식의prepare/bind/batch를사용한다. Worker진입점/Health/Cron에는연결하지않았다. SQL조회는최대100행/커서기반이며selectFair는47현회전·범주최소량·VTuber별도예산의기초다. 자세한계약은[SOURCE_REGISTRY](SOURCE_REGISTRY.md)를따른다. DEV01원격보류와DEV02로컬개발을분리하며실운영수집은계속금지한다.
+
+## DEV03 수집 계층
+
+Collector 구현을 HTTP/정책/파서/Discovery/D1 orchestration으로 분리했다. [COLLECTOR_DESIGN](COLLECTOR_DESIGN.md)의 단계와 큐가 DEV04에 Review Required 후보를 전달한다. X/보고/검증과 분리하고 기존 Health/Cron은 수집기를 호출하지 않는다. 공식 이미지URL은 메타데이터만 저장한다. 정기 수집·원격 활성화는 DEV01/09 완료 조건을 계속 따른다.
