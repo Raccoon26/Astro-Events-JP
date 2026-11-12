@@ -133,6 +133,37 @@ async function setup(body = htmlFixture) {
   };
 }
 describe('isolated actual workerd D1 collector integration', () => {
+  it('keeps all 47 regional opportunities when national and independent VTuber pools are present', async () => {
+    const s = await setup();
+    await db.prepare('DELETE FROM collection_jobs').run();
+    const registry = new s.registryApi.D1SourceRegistry(db);
+    for (let pref = 1; pref <= 47; pref++)
+      await registry.register({
+        ...s.source,
+        id: `fair-${pref}`,
+        prefecture: pref,
+        officialUrl: `https://example.jp/fair/${pref}`,
+      });
+    await registry.register({
+      ...s.source,
+      id: 'national',
+      prefecture: null,
+      officialUrl: 'https://example.jp/national',
+    });
+    await registry.register({
+      ...s.source,
+      id: 'vtuber-pool',
+      prefecture: null,
+      category: 'vtuber',
+      officialUrl: 'https://example.jp/vtuber',
+    });
+    await db
+      .prepare("INSERT INTO collection_cursors VALUES('general',46,?1)")
+      .bind(NOW)
+      .run();
+    const picked = await s.engine.enqueueFair(NOW, 1, 1);
+    expect(picked).toEqual(['fair-47', 'vtuber-pool']);
+  });
   it('rechecks active state inside the atomic candidate batch after concurrent approval revocation', async () => {
     const s = await setup();
     await s.step();

@@ -57,7 +57,7 @@ export class CollectionOrchestrator {
         .first<number>('prefecture')) ?? 0;
     const rows = await this.db
       .prepare(
-        "SELECT payload FROM (SELECT m.payload,ROW_NUMBER() OVER(PARTITION BY s.prefecture,s.category='vtuber' ORDER BY s.last_crawled_at,CASE WHEN s.category='local' THEN 0 ELSE 1 END,s.priority DESC) AS position FROM sources s JOIN registry_metadata m ON m.kind='source' AND m.record_id=s.source_id WHERE s.state='active' AND s.next_crawl_at<=?1 AND NOT EXISTS(SELECT 1 FROM collection_jobs j WHERE j.source_id=s.source_id AND j.state NOT IN ('completed','unchanged'))) WHERE position=1 LIMIT 48",
+        "SELECT payload FROM (SELECT m.payload,ROW_NUMBER() OVER(PARTITION BY s.prefecture,s.category='vtuber' ORDER BY s.last_crawled_at,CASE WHEN s.category='local' THEN 0 ELSE 1 END,s.priority DESC) AS position FROM sources s JOIN registry_metadata m ON m.kind='source' AND m.record_id=s.source_id WHERE s.state='active' AND s.next_crawl_at<=?1 AND NOT EXISTS(SELECT 1 FROM collection_jobs j WHERE j.source_id=s.source_id AND j.state NOT IN ('completed','unchanged'))) WHERE position=1 LIMIT 96",
       )
       .bind(now)
       .all<{ payload: string }>();

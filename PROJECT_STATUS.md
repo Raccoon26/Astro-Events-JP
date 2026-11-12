@@ -37,6 +37,8 @@ NAOJ 이용 조건은 열람했으나 자동 수집 범위가 명확하지 않�
 
 RSS/Atom/HTML/sitemap4형식을 실제 로컬 workerd에서 실행하고 격리 D1의 마이그레이션·저장·304/지문·rollback/재개·페이지 완주·후보 버전·승인 철회·경합·무료 예산/production 차단을 검사한다. 기존79개는 삭제·목적 축소 없이 유지한다. 최종 테스트 수·전체 check/최신 HEAD CI 결과는 E 완료 보고서에 남긴다. 실패 상태는 병합하지 않는다.
 
+현재 테스트 인벤토리는 **178개/15파일(기존79 + 신규99)**이다. 전국 공통/VTuber 후보를 함께 넣어도47현의 조사 기회가 조회 상한 때문에 누락되지 않는 실제 D1 회귀 시험도 포함한다. 최종 최신 HEAD의 전체 check/CI를 병합 게이트로 사용한다.
+
 E 영속 로컬 staging에0004를 적용하고 Seed 반복 Import/4후보 추가/NAOJ 검토 기록/collector 상태/active0 gate를 실행했다. 원격·production DB에 접근하지 않았다. 합성 저장 시험과 실제 행사 수집을 구분한다.
 
 [벤치마크](COLLECTION_BENCHMARK.md)는 로컬 경과시간·D1 meta rows_read/rows_written/size_after를 기록한다. API 호출과 SQL statement 수를 분리하며 계측 저장 batch 자체의 제외를 명시한다. **실제 Cloudflare CPU=null**이며 로컬 시간으로10ms 준수를 확정하지 않는다. 최신 결과는 E reports/dev03-parser-benchmark.json 및 dev03-d1-measurement.json이다.
