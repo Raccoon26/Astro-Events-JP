@@ -27,7 +27,7 @@ export interface CandidateSeed {
   discoveredFrom: string;
   prefecture: number | null;
   category: string;
-  state: 'rejected' | 'unsupported';
+  state: 'review' | 'rejected' | 'unsupported';
   reason?: string;
 }
 export function validateSeed(
@@ -102,7 +102,7 @@ export async function importRegistrySeed(
       ].includes(candidate.category)
     )
       throw new Error('Invalid candidate category');
-    if (!['rejected', 'unsupported'].includes(candidate.state))
+    if (!['review', 'rejected', 'unsupported'].includes(candidate.state))
       throw new Error('Candidates cannot be auto approved');
   }
   const identity = await db
@@ -216,12 +216,23 @@ export async function importRegistrySeed(
         candidate.prefecture,
         candidate.category,
       );
-      await management.decide(
-        candidate.url,
-        candidate.state,
-        undefined,
-        candidate.reason ?? 'Seed review decision',
-      );
+      if (candidate.state === 'review')
+        await db
+          .prepare(
+            'UPDATE discovery_candidates SET reason=?1 WHERE canonical_url=?2',
+          )
+          .bind(
+            candidate.reason ?? 'Manual review required',
+            normalizeUrl(candidate.url),
+          )
+          .run();
+      if (candidate.state !== 'review')
+        await management.decide(
+          candidate.url,
+          candidate.state,
+          undefined,
+          candidate.reason ?? 'Seed review decision',
+        );
     }
   }
   for (const v of vtubers)

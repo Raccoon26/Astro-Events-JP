@@ -12,7 +12,7 @@
     "lint": "biome check --error-on-warnings .",
     "format": "biome check --write .",
     "test": "vitest run",
-    "build": "node scripts/build.mjs",
+    "build": "node scripts/build.mjs && node scripts/build-collector.mjs",
     "security": "node scripts/audit.mjs && npm audit --audit-level=high",
     "audit:requirements": "node scripts/coverage.mjs",
     "check": "node scripts/preflight.mjs && npm run check:cloudflare && npm run seed:validate && npm run typecheck && npm run lint && npm test && npm run build && npm run security && npm run audit:requirements && npm run d1:local",
@@ -22,6 +22,10 @@
     "registry:list": "node scripts/registry.mjs list",
     "registry:stats": "node scripts/registry.mjs stats",
     "registry:coverage": "node scripts/registry.mjs coverage",
+    "collector:status": "node scripts/collector.mjs status",
+    "collector:review": "node scripts/collector.mjs review",
+    "collector:approve": "node scripts/collector.mjs approve",
+    "collector:run": "node scripts/collector.mjs run-one",
     "cleanup": "node scripts/cleanup.mjs",
     "paths": "node scripts/preflight.mjs",
     "dev": "node scripts/wrangler.mjs dev --env staging --persist-to ../cache/wrangler-state/staging --test-scheduled",
@@ -40,5 +44,12 @@
     "typescript": "5.9.3",
     "vitest": "5.1.0",
     "wrangler": "4.160.0"
+  },
+  "dependencies": {
+    "css-select": "7.0.0",
+    "domhandler": "6.0.1",
+    "domutils": "4.0.2",
+    "htmlparser2": "12.0.0",
+    "saxes": "6.0.0"
   }
 }

@@ -1,56 +1,58 @@
 # 프로젝트 상태
 
-기준일 2026-11-11 JST. 현재 **DEV-02 로컬 구현·정보원 검토 완료, 최종 GitHub 완료 절차 대상**이다. 이 문서는 병합 전 검토 스냅샷이며 실제 PR/최신 CI/커밋·병합·main SHA는 E reports/github-completion 보고서와 최종 보고를 기준으로 확인한다. DEV-03은 시작하지 않는다.
+기준일 **2026-11-12 JST**. 현재 **DEV-03 로컬 수집 엔진 구현·검증**, GitHub 최종 완료 절차 대상이다. 실제 최신 PR HEAD/CI/병합/main SHA는 E reports/github-completion 및 DEV03_COMPLETION 보고서에서 확인한다. DEV-04는 시작하지 않는다.
 
-## 선행 단계와 작업 범위
+## 선행 단계와 경계
 
-DEV-00 PR #1과 DEV-01 PR #2의 merged=true를 API로 확인했다. 기준 main은 165b12e0d55a866923301bb32c5278ef4f5240c2이며 최신 main에서 dev/dev-02-source-registry를 만들었다. 기존 48개 테스트 파일·검증 목적, 15모듈 계약, Workers Health/Cron, 수집·알림 false, staging/production 분리, 무료 예산 보호, 경로/정리 도구와 CI를 보존했다.
+DEV00 PR1·DEV01 PR2·DEV02 PR3의 병합 결과를 기반으로 한다. DEV02 main `c19eae8df99638940b37d43cde37cc0a5d82fc0b`를 확인하고 최신 main에서 dev/dev-03-collector를 만들었다. 기존79개 테스트/10파일·Registry/시설/VTuber/47현/Seed·공개 Health/안전 Cron·경로/정리/CI/자동 완료를 보존했다. 0001~0003은 변경하지 않고 SHA 검사를 유지한다.
 
-**DEV-01: 로컬 완료 / 원격 검증 보류. DEV-02: 원격 연결과 분리해 로컬 개발 가능. Cloudflare 실운영: DEV-01 원격 검증 전 활성화 금지.** 사용자의 이번 지시에 따라 인증을 다시 요청하거나 OAuth/배포를 시도하지 않았다.
+**DEV01: 로컬 완료 / 원격 검증 보류. DEV02: 로컬 구현·검증·PR3 병합 완료. DEV03: 로컬 엔진 구현. Cloudflare 실운영: DEV01 원격 검증 전 활성화 금지.** 인증을 다시 요구하거나 원격 자원·배포를 시도하지 않았다. Worker 진입점은 수집기를 호출하지 않는다. Collection/Notifications와 GitHub 배포 활성화는 false이며 병합으로 실운영이 시작되지 않는다.
 
-## DEV-02 구현 완료
+## DEV03 구현
 
-- 47현의 공식 코드·일본어명·보고용8지역, 시정촌 null 허용 및 확장 가능한 조회
-- SourceRegistry D1 CRUD·필터·고정 ID·URL/과거 alias·중복변형 심사·상태·예약·갱신 이력
-- 시설 등록·조회·공식 URL 변경·운영 상태 근거와 여러 Source 연결
-- 인물별 공식계정 근거·별칭·중복 차단·새 인물 확장·미검증 활성 차단
-- Discovery 후보 등록·승인/거절/미지원·검토 후 Source 전환
-- 47현 커서 회전·오래된 조사/마감/우선도·지역 내 category 최소량·VTuber 별도 예산 기반
-- 최종 Seed 사전 검증·Dry Run·변경 미리보기·로컬 staging 전용 Import·단위별 원자적 batch/실패 재개·운영 데이터 덮어쓰기 방지
-- 0003_registry.sql 추가. 0001/0002 파일은 변경하지 않았고 SHA 검사를 유지·확장했다.
+- HTTPS 정확한 호스트/경로 승인·매 redirect 검증·요청/본문/스트림/timeout/abort 제한·한정 재시도·429/Retry-After 이월
+- RSS2·Atom·bounded HTML/CSS rules·sitemap/index 파서·UTF8/Shift_JIS 등 엄격한 일본어 디코딩·DTD/외부 entity 차단
+- 원문/비교 제목·게시일/개최일 후보 분리·모든 날짜 원문/필드 근거/규칙 버전/지문·Review Required 후보
+- 공식 이미지 URL/출처·rights=unknown/available=null·파일 저장/허가 추정 없음
+- robots/약관/공식성/시험 근거를 요구하는 승인·재검토·승인 철회 시 저장된 checkpoint 처리도 차단
+- ETag/Last-Modified/304/본문 지문·Source 시도/성공/실제 변경/실패/재조사 시각
+- 신규0004: 승인/검토·호스트 간격·작업/checkpoint·문서 상태·후보/버전/이미지·공정 커서·실행 계측
+- fetch/parse와 원자적 DB commit 분리·owner/lease CAS·실패 후 parsed 재개·최대3 fetch claim/명시적 검토 재시도
+- 페이지당10개/nextOffset·변경 시 재시작/중복 PK·sitemap depth1/자식3개·47현 커서/VTuber 별도 배정
+- DEV04용 listForVerification 최대50행 커서 조회. Event/게시글/알림 생성 없음
 
-## 실제 정보원 확보 및 남은 검토
+[설계](COLLECTOR_DESIGN.md)·[지원 형식](PARSER_SUPPORT.md)·[SSRF 감사](SSRF_SECURITY_AUDIT.md)에 상세 동작과 한도를 기록했다.
 
-Source **96개**, 시설 **92곳**, VTuber **4명**, 별도 실패 후보1개다. 공식성 Verified **77개**, 공식성 추가확인 **19개**다. 47/47현에 최소1개 공식성 확인 Source를 확보했다. active **0**, review **85**, unsupported **9**, paused **2**다. 47현 코드 지원·실제 출처 확인·수집 승인 현황은 서로 다른 지표다.
+## 실제 정보원과 승인 결과
 
-시설 유형은 과학관/플라네타륨74, 천문대6, community6, 연구기관5, 대학1이다. category=local은8개이며 소규모 지자체 관측시설·공민관/시민센터·교육센터 등을 포함한다. 유명기관만 등록한 목록이 아니다. 연구기관은 JAXA筑波/相模原, NAOJ, NIPR, JAMSTEC, 대학은京都大学附属天文台다. 도서관은豊川市ジオスペース館의 중앙도서관 공식 페이지가 포함된다.
+Source96개, 공식성 Verified77개/추가확인19개, 시설92곳, VTuber4명, 실제 공식성 출처47현47/47를 보존한다. **active0 / review85 / unsupported9 / paused2**다. 시설은 과학관·플라네타륨74/천문대6/community6/연구기관5/대학1이며 category=local8개다. 공식성 확인 출처1개뿐인24현은 [커버리지](SOURCE_COVERAGE.md)에 유지한다.
 
-宇推くりあ는 홈페이지/권리자 프로필의 계정 링크, 月女神イチ는 운영자의 YouTube 링크, 星見まどか는 본인 프로필의 YouTube/X 링크를 확인했다. **猫谷ここな는 권위 있는 공식 교차링크를 확보하지 못해 Review Required**다. 확인하지 못한 X/판매 경로는 추측하지 않았다. SNS 전체 수집을 보장하지 않으며 모두 enabled=0이다.
+新潟·滋賀·秋田·高知의 실제 공식 페이지에서 지방 정보원4개를 추가 발견해 review Discovery 후보로 저장했다. 기존 실패 후보와 합해 Seed 후보5개다. Source Verified/시설 수에 포함하지 않았다. [발견 근거](SOURCE_DISCOVERY.md)를 참조한다.
 
-공식성 확인만으로 크롤링/이미지 재게시를 허용하지 않는다. robots/이용 조건/파서 승인이 끝나지 않아 모든 수집 승인을 보류했다. 약관 링크를 찾은 결과와 실제 본문 검토를 구분했다. Solar의 방문 규칙, JAMSTEC/JAXA의 재이용 조건은 별도 검토 기록에 남겼다. 仙台의 웹사이트 정비·星のくに 옛 운영자의 휴지 공지는 paused로 기록하며 행사 취소/현재 재개관을 추측하지 않는다. NAOJ 잘못된 후보 경로404는 Source에서 제외했다.
+NAOJ 이용 조건은 열람했으나 자동 수집 범위가 명확하지 않고 robots 원문 확인도 완료하지 못해 review를 기록했다. 검토 도구 접근 실패를 HTTP404로 해석하지 않았다. **실제 수집 승인0 / 승인 사이트 엔진 시험0 / live gate 네트워크 요청0**이다. 임의 승인이나 미승인 사이트 시험은 하지 않았다. 정책이 명확한 승인 Source 확보 후 실전 검증이 필요하다.
 
-47현 최소 확보는 모든 시정촌·현행 행사 전수 확보가 아니다. 검증 출처가1개인24현과 각 접근 오류/추가 확인 목록은 [SOURCE_COVERAGE](SOURCE_COVERAGE.md)에 명시했다. 민간 동호회/축제/대학 연구실·동아리 확대는 DEV03/08에서 계속하며 요구사항을 삭제하지 않는다.
+宇推くりあ·月女神イチ·星見まどか의 기존 공식 연결 근거를 유지한다. 猫谷ここな는 공식 교차링크 부족으로 Review Required다. 전원 enabled=0이며 X 전체/일반 방송 감시를 보장하지 않는다.
 
-## 로컬 검증 결과
+## 검증 상태
 
-총 **79개 테스트 / 10개 파일**에 기존48개를 포함한다. 코드·Seed 검증·타입·Biome·양환경 Workers dry-run 빌드·Secret 검사/npm audit·R01~R32 및 DEV01/02 요구 매핑·실제 Wrangler 로컬 마이그레이션은 최종 npm run check/CI에서 모두 확인한다. 실패 시 병합하지 않고 수정한다.
+RSS/Atom/HTML/sitemap4형식을 실제 로컬 workerd에서 실행하고 격리 D1의 마이그레이션·저장·304/지문·rollback/재개·페이지 완주·후보 버전·승인 철회·경합·무료 예산/production 차단을 검사한다. 기존79개는 삭제·목적 축소 없이 유지한다. 최종 테스트 수·전체 check/최신 HEAD CI 결과는 E 완료 보고서에 남긴다. 실패 상태는 병합하지 않는다.
 
-별도 격리 workerd/D1에서 최종 96 Source·92시설·4인물·후보를 Import하고 반복/Dry Run 0쓰기, 기존 수동 pause·예약·ETag·실패횟수 보존, FK/quick_check, 원자적 실패 롤백을 검증한다. 2,000개 가상 확장 데이터는 테스트 fixture에만 존재한다. 목록은 1쿼리·25행 반환/25행 읽기이며 실제 측정 JSON은 E reports/dev02-benchmark.json이다. rows_read/rows_written/size_after는 **로컬 D1 meta**다. elapsedMs는 경과시간이고 cpuTimeMs=null이다. 원격 Cloudflare CPU/계정 비용 실측이 아니다.
+E 영속 로컬 staging에0004를 적용하고 Seed 반복 Import/4후보 추가/NAOJ 검토 기록/collector 상태/active0 gate를 실행했다. 원격·production DB에 접근하지 않았다. 합성 저장 시험과 실제 행사 수집을 구분한다.
 
-전용 영속 로컬 저장소는 E cache/registry/staging이며 기존 Wrangler DB와 격리했다. 개발 중 초기 실험 저장소는 E cache/registry/dev02-prototype-preserved에 보존하고 최종 Seed로 새 전용 저장소의 init/Import/반복 실행을 검증했다. Production DB에는 접근하지 않았다.
+[벤치마크](COLLECTION_BENCHMARK.md)는 로컬 경과시간·D1 meta rows_read/rows_written/size_after를 기록한다. API 호출과 SQL statement 수를 분리하며 계측 저장 batch 자체의 제외를 명시한다. **실제 Cloudflare CPU=null**이며 로컬 시간으로10ms 준수를 확정하지 않는다. 최신 결과는 E reports/dev03-parser-benchmark.json 및 dev03-d1-measurement.json이다.
 
-## GitHub 및 E 드라이브
+## E 드라이브·GitHub
 
-기존 GitHub 인증으로 main 저장소 admin/push/pull·Auto Merge 지원을 확인했다. Reports는 연결 앱에서404였으나 기존 로컬 Git 인증 API로 **200/private=true/Issues=true**를 재확인했다. 다른 저장소나 계정 권한은 변경하지 않았다. main 필수 quality/strict/PR·관리자 포함·강제 push/삭제 금지·production 승인 요구와 배포 비활성 변수를 보존한다.
+실제 E:/Astro-Events-JP/repo와 환경·경로 검사를 수행했다. 코드/cache/temp/config/build/log/DB/report는 E 정책을 사용한다. 전후 정리 Dry Run을 E reports에 남긴다. C/D는 알려진 프로젝트 전용 경로만 점검하며 개인·시스템·공용 캐시를 삭제하지 않는다. 물리적 외장하드 분리 시험은 미수행이고 missing-path/link/외부 경로/소유·변경 파일 차단 논리 테스트를 유지한다.
 
-기존 complete:dev -- --reviewed로 전체 검사 후 자동 commit/push/PR/최신 head CI/보호 조건 검사/expected-head 안전 병합/main fast-forward를 수행한다. 실배포는0이며 GitHub 코드 병합이 DEV01 운영 완료를 뜻하지 않는다.
+기존 GitHub 인증과 complete:dev -- --reviewed로 전체 검사→개발 브랜치 commit/push→PR→최신 HEAD CI→보호 조건/expected-head 병합→main fast-forward를 수행한다. main 필수 quality/strict·PR·관리자 포함·강제 push/삭제 금지를 완화하지 않는다. 실제 결과/SHA는 E 완료 보고서에 기록한다. 다른 프로젝트·기존 브랜치를 변경/삭제하지 않는다.
 
-실제 E:/Astro-Events-JP/repo에서 사전 경로 검사와 환경 설정·정리 Dry Run을 수행했다. npm/cache/temp/config/log/build/DB/report는 E에 두었다. C:/Astro-Events-JP·D:/Astro-Events-JP의 알려진 전용 경로만 검사했고 삭제하지 않았다. 개발 후에도 Dry Run/경로 보고를 E reports에 남긴다. 시스템/공용 캐시 전체가 비어 있다고 주장하지 않으며 물리적 드라이브 분리 시험은 미수행이다. 기존 missing-path/링크/외부 경로/소유·변경 파일 차단 시험을 보존했다.
+## 미검증·제약·다음 단계
 
-## 미구현·미검증 및 다음 단계
+DEV01 보류: 계정 Free/권한/전체 사용량·자원 충돌, 두 원격 D1/ID/마이그레이션·staging CRUD/Time Travel, Workers 배포/rollback·원격 Health/Cron/CPU·실제 Actions 배포. 사용자 선택에 따라 인증을 다시 요구하지 않는다.
 
-DEV01 보류: 실제 계정 Free/전체 사용량/권한·자원 충돌 확인, 두 원격 D1/ID/마이그레이션·staging CRUD/Time Travel·Worker 배포/rollback·원격 Health/Cron/CPU·실 Actions 배포. 기존 실제 ID 미등록과 원격 guard를 유지하며 사용자 인증을 다시 요구하지 않는다.
+Workers DNS 조회만으로 실제 peer를 보장할 수 없어 기본 전송기는 **fail-closed**다. 로컬 Node는 DNS 전체 공인 IPv4·IP pin·원래 SNI/TLS·실제 peer 검증을 구현했고 주입 fixture로 시험했다. 실제 공식 사이트 TLS/수집·Workers SSRF 완전 방어를 검증했다고 주장하지 않는다. IPv6/HTTP-only/JS-render/PDF/RSS1은 현재 미지원이다.
 
-DEV03~10의 RSS/HTML 수집·자동발견·검증·취소/시설 영향·공식 이미지/권리·일본어/해시태그·Telegram/이메일/Private Issues·게시지문·3시간 실운영·자동 삭제·통합 검증은 로드맵에 남는다. 완전 스케줄러의 lease/전국 지연/계정 예산 집행은 DEV08/09다. 알려진 로컬 테스트 실패는 수정 없이 남겨두지 않는다. 공식성 미확인19개와 미승인 수집정책, 猫谷ここな의 공식 연결은 명시적 검토 항목이다.
+계속 변경되는 큰 목록의 과거 항목 지연, national/null 지역 자동 배정, 장기 lease/완전 Cron 복구·전국 최적화는 DEV08/09다. 무제한 탐색/재시도를 허용하지 않는다. 정책 불명확/형식 한도 초과는 검토·미지원으로 유지한다.
 
-현재 사용자 추가 인증·토큰·사전 설정은 필요 없다. **DEV03 로컬 개발 기반은 준비되지만 사용자의 별도 지시 전 시작하지 않는다.** 실제 Cloudflare 실운영 준비는 DEV01 원격 검증 완료 후 판단한다.
+DEV04 사실/요금/예약/취소·시설 영향·이미지 권리, DEV05 일본어 X/해시태그/길이, DEV06 Telegram/Private Issues/이메일·게시 완료, DEV07 변경·중복, DEV08/09 전국 실운영·계정 예산·자동 정리, DEV10 통합/실운영 검증 요구는 모두 유지한다. **DEV04 로컬 후보 검증 기반은 준비되지만 자동 시작하지 않는다. 현재 추가 인증·토큰·설정은 요구하지 않는다.**

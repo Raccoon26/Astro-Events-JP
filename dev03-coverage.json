@@ -1,0 +1,189 @@
+{
+  "scope": "local-collector-fixtures-and-review-gated-live-access",
+  "remoteDEV01": "deferred-by-user-no-reauthentication",
+  "limitations": [
+    "active sources 0; approved live collection trials 0",
+    "Workers peer-binding unavailable: default transport fails closed",
+    "local elapsed time is not Cloudflare CPU; remote CPU null",
+    "new local discovery 4 review candidates; verified nationwide source coverage unchanged",
+    "Nekoya Cocona official cross-link remains review"
+  ],
+  "sections": {
+    "0": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["PROJECT_STATUS.md", "scripts/cloudflare-policy.mjs"]
+    },
+    "1": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["PROJECT_STATUS.md", "wrangler.jsonc"]
+    },
+    "2": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["COLLECTOR_DESIGN.md", "src/collection/index.ts"]
+    },
+    "3": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "src/collection/http.ts",
+        "src/collection/parse.ts",
+        "src/collection/orchestrator.ts"
+      ]
+    },
+    "4": {
+      "status": "implemented-with-explicit-unverified-or-deferred-items",
+      "evidence": [
+        "src/collection/policy.ts",
+        "src/collection/store.ts",
+        "data/collection-reviews/naoj.json"
+      ]
+    },
+    "5": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["src/collection/xml.ts", "tests/collection-parsers.test.ts"]
+    },
+    "6": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["src/collection/html.ts", "tests/collection-parsers.test.ts"]
+    },
+    "7": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["src/collection/text.ts", "tests/collection-parsers.test.ts"]
+    },
+    "8": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "src/collection/xml.ts",
+        "tests/collection-integration.test.mjs"
+      ]
+    },
+    "9": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "src/collection/parse-common.ts",
+        "tests/collection-parsers.test.ts"
+      ]
+    },
+    "10": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["src/collection/http.ts", "tests/collection-http.test.ts"]
+    },
+    "11": {
+      "status": "implemented-with-explicit-unverified-or-deferred-items",
+      "evidence": [
+        "SSRF_SECURITY_AUDIT.md",
+        "scripts/pinned-transport.mjs",
+        "tests/pinned-transport.test.mjs"
+      ]
+    },
+    "12": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "src/collection/robots.ts",
+        "src/collection/policy.ts",
+        "tests/collection-http.test.ts"
+      ]
+    },
+    "13": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["src/collection/http.ts", "src/collection/store.ts"]
+    },
+    "14": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "src/collection/orchestrator.ts",
+        "tests/collection-integration.test.mjs"
+      ]
+    },
+    "15": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["src/collection/types.ts", "src/collection/store.ts"]
+    },
+    "16": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["src/collection/discovery.ts", "SOURCE_DISCOVERY.md"]
+    },
+    "17": {
+      "status": "implemented-with-explicit-unverified-or-deferred-items",
+      "evidence": ["data/candidates.json", "SOURCE_COVERAGE.md"]
+    },
+    "18": {
+      "status": "implemented-with-explicit-unverified-or-deferred-items",
+      "evidence": ["VTUBER_VERIFICATION.md", "src/collection/parse-common.ts"]
+    },
+    "19": {
+      "status": "implemented-with-explicit-unverified-or-deferred-items",
+      "evidence": [
+        "COLLECTION_BENCHMARK.md",
+        "FREE_TIER_POLICY.md",
+        "tests/collection-benchmark.test.mjs"
+      ]
+    },
+    "20": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "src/collection/store.ts",
+        "tests/collection-integration.test.mjs"
+      ]
+    },
+    "21": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": ["migrations/0004_collection.sql", "DATA_MODEL.md"]
+    },
+    "22": {
+      "status": "implemented-with-explicit-unverified-or-deferred-items",
+      "evidence": ["data/collection-reviews/naoj.json", "PROJECT_STATUS.md"]
+    },
+    "23": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "tests/collection-parsers.test.ts",
+        "tests/collection-http.test.ts",
+        "tests/collection-integration.test.mjs",
+        "TEST_PLAN.md"
+      ]
+    },
+    "24": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "requirements-coverage.json",
+        "DEV_ROADMAP.md"
+      ]
+    },
+    "25": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "LOCAL_DEVELOPMENT.md",
+        "scripts/environment.ps1",
+        "CLEANUP_POLICY.md"
+      ]
+    },
+    "26": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "COLLECTOR_DESIGN.md",
+        "PARSER_SUPPORT.md",
+        "SOURCE_DISCOVERY.md",
+        "SSRF_SECURITY_AUDIT.md",
+        "COLLECTION_BENCHMARK.md"
+      ]
+    },
+    "27": {
+      "status": "implemented-local-evidence-and-completion-procedure",
+      "evidence": [
+        "scripts/complete-dev.mjs",
+        "GITHUB_WORKFLOW.md",
+        "RELEASE_CHECKLIST.md"
+      ]
+    },
+    "28": {
+      "status": "implemented-with-explicit-unverified-or-deferred-items",
+      "evidence": ["PROJECT_STATUS.md", "TEST_PLAN.md"]
+    },
+    "29": {
+      "status": "implemented-with-explicit-unverified-or-deferred-items",
+      "evidence": ["PROJECT_STATUS.md", "GITHUB_WORKFLOW.md"]
+    }
+  }
+}

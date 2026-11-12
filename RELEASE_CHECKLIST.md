@@ -16,3 +16,5 @@ DEV01 추가 gate: Free플랜/계정전체여유, 두DB실ID·provider/내부mar
 매 DEV 실행 양식이다. 실제 DEV00 결과는 PROJECT_STATUS와 PR/CI를 기준으로 한다.
 
 DEV02 gate: 원본0001/0002보존, Seed검증/현별커버리지/공식성-수집승인분리, 로컬D1 Import/DryRun/반복0쓰기/rollback/환경격리, 기존48회귀, 전체check 및 최신head CI/안전병합을확인한다. 47코드지원과47현공식출처확보 및active개수는별도보고한다. 未確認계정은Verified에포함하지않는다.
+
+DEV03 gate: 원본0001~0003보존·4형식파서·HTTP/정책/SSRF경계·리다이렉트robots·크기/인코딩·캐시/429·후보/이미지unknown·Discoveryreview·원자적복구/커서/소규모배치·벤치마크·기존79회귀·전요구감사·E/DryRun·최신PR HEAD CI/안전병합을확인한다. 실제공식수집0/승인0과Workers peer보장미확인·DEV01원격보류를성공으로바꾸지않는다.

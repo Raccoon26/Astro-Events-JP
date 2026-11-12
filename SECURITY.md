@@ -21,3 +21,7 @@ npm run security는 의존성 high 이상 취약점과 알려진 Secret 패턴/�
 ## DEV02 등록·Seed
 
 공식성Verified와active를분리하고robots/terms/파서승인없이는active를차단한다. URL구문/exacthost·IP/local/credential/민감query금지와SQL bind를검증한다. http후보는보관할수있지만active는HTTPS만허용한다. 등록/통계API는네트워크요청/원격텍스트명령실행을하지않는다. 동적SQL의column명은고정allowlist이고값은전부bind한다. Import는로컬staging 전용,全件사전검증·단위batch rollback·insert-only로수동정보를보호한다. VTuber미검증업데이트는모니터활성화를해제한다. DNS/redirect/rebinding을포함한완전Collector防御는DEV03에남는다. robots/약관불명소스는Seed전체에서자동수집되지않는다.
+
+## DEV03 네트워크 방어 결과
+
+URL/매hop/경로/robots/타임아웃/스트림압축상한·Node DNS pin/TLS peer 검사·owner CAS/원자적저장·XML DTD/ENTITY 거부·승인취소를구현했다. [SSRF_SECURITY_AUDIT](SSRF_SECURITY_AUDIT.md)는실제보장과Worker미지원경계를구분한다. DNS조회만으로완전한재바인딩방어라고표시하지않고Workers기본transport는fail closed다. 파서·Discovery는네트워크/명령실행을하지않으며모든결과는Review Required/unknown이다. 원문전체·민감토큰·후보실데이터를PublicGit에기록하지않았다.

@@ -7,5 +7,49 @@
     "state": "unsupported",
     "reason": "404 original path. Use separately verified NAOJ root; never activate this candidate.",
     "checkedAt": "2026-11-11T14:16:11.288Z"
+  },
+  {
+    "url": "https://www.city.kashiwazaki.lg.jp/k_museum/planetarium/hoshizora_kansatsukai/index.html",
+    "prefecture": 15,
+    "name": "柏崎市立博物館 星空観察会",
+    "evidenceUrl": "https://www.city.kashiwazaki.lg.jp/k_museum/planetarium/hoshizora_kansatsukai/index.html",
+    "reason": "Official museum annual observing lists directly reviewed; robots/terms and collection not approved",
+    "category": "local",
+    "state": "review",
+    "discoveredFrom": "https://www.city.kashiwazaki.lg.jp/k_museum/planetarium/hoshizora_kansatsukai/index.html",
+    "checkedDateJst": "2026-11-12"
+  },
+  {
+    "url": "https://www.city.koka.lg.jp/5999.htm",
+    "prefecture": 25,
+    "name": "みなくち子どもの森 催し",
+    "evidenceUrl": "https://www.city.koka.lg.jp/3721.htm",
+    "reason": "Official city newsletter links astronomy observing programme; announcement list varies by season; collection review pending",
+    "category": "local",
+    "state": "review",
+    "discoveredFrom": "https://www.city.koka.lg.jp/3721.htm",
+    "checkedDateJst": "2026-11-12"
+  },
+  {
+    "url": "https://www.pref.akita.lg.jp/pages/archive/80146",
+    "prefecture": 5,
+    "name": "秋田県総合教育センター 天文施設",
+    "evidenceUrl": "https://www.pref.akita.lg.jp/pages/archive/80146",
+    "reason": "Official prefectural education source describes planetarium/observing courses; event currency and access review pending",
+    "category": "local",
+    "state": "review",
+    "discoveredFrom": "https://www.pref.akita.lg.jp/pages/archive/80146",
+    "checkedDateJst": "2026-11-12"
+  },
+  {
+    "url": "https://www.pref.kochi.lg.jp/doc/2026040700142/",
+    "prefecture": 39,
+    "name": "芸西天文学習館 観測会再開案内",
+    "evidenceUrl": "https://www.pref.kochi.lg.jp/doc/2026040700142/",
+    "reason": "Official prefectural announcement distinguishes learning-hall works from observing-dome sessions; not general event cancellation evidence",
+    "category": "local",
+    "state": "review",
+    "discoveredFrom": "https://www.pref.kochi.lg.jp/doc/2026040700142/",
+    "checkedDateJst": "2026-11-12"
   }
 ]
