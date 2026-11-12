@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { validateStageSchedules } from './cron-policy.mjs';
 import { assertNoLinks, preflight } from './path-policy.mjs';
 export function getCloudflareToken() {
   if (process.env.CLOUDFLARE_API_TOKEN) return process.env.CLOUDFLARE_API_TOKEN;
@@ -24,13 +25,14 @@ export function cloudflareClient(token, accountId, fetcher = fetch) {
   return async (method, suffix, body) => {
     // No arbitrary URL or account mutation endpoints. Billing/subscription writes are impossible here.
     if (
-      !/^\/(?:d1\/database(?:\/[\da-f-]+(?:\/query)?)?|workers\/subdomain|workers\/scripts(?:\/[a-z0-9-]+(?:\/settings|\/schedules|\/deployments)?)?)$/.test(
+      !/^\/(?:subscriptions|d1\/database(?:\/[\da-f-]+(?:\/query)?)?|workers\/(?:subdomain|account-settings)|workers\/scripts(?:\/[a-z0-9-]+(?:\/settings|\/schedules|\/deployments)?)?)$/.test(
         suffix,
       )
     )
       throw new Error('Unsupported account endpoint');
     if (
       method !== 'GET' &&
+      !(method === 'PUT' && validateStageSchedules(suffix, body)) &&
       !(
         method === 'POST' &&
         (suffix === '/d1/database' ||

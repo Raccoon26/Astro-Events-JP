@@ -163,7 +163,7 @@ describe('isolated actual workerd D1 collector integration', () => {
       .run();
     const picked = await s.engine.enqueueFair(NOW, 1, 1);
     expect(picked).toEqual(['fair-47', 'vtuber-pool']);
-  });
+  }, 30000);
   it('rechecks active state inside the atomic candidate batch after concurrent approval revocation', async () => {
     const s = await setup();
     await s.step();

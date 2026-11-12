@@ -12,7 +12,7 @@ const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 if (git('remote', 'get-url', 'origin') !== `https://github.com/${repo}.git`)
   throw new Error('Unexpected remote');
 const branch = git('branch', '--show-current');
-if (!/^dev\/dev-\d{2}-[a-z0-9-]+$/.test(branch))
+if (!/^dev\/dev-(?:\d{2}|01r)-[a-z0-9-]+$/.test(branch))
   throw new Error('A DEV branch is required');
 const npm = spawnSync(
   process.execPath,

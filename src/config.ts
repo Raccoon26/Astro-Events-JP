@@ -1,13 +1,11 @@
-export interface Env {
-  APP_ENV: string;
-  REPORTS_REPOSITORY: string;
-  COLLECTION_ENABLED: string;
-  DB: D1Database;
-  DEPLOYMENT_ENV?: string;
-  DATABASE_ENVIRONMENT?: string;
-  DATABASE_NAME?: string;
-  NOTIFICATIONS_ENABLED?: string;
-}
+// DEV00's config-only fixtures may omit deployment fields; remote validation below requires them.
+type RequiredBindings =
+  | 'APP_ENV'
+  | 'REPORTS_REPOSITORY'
+  | 'COLLECTION_ENABLED'
+  | 'DB';
+export type Env = Pick<WranglerBindings, RequiredBindings> &
+  Partial<Omit<WranglerBindings, RequiredBindings>>;
 export function validateConfig(env: Env) {
   if (!['development', 'test', 'staging', 'production'].includes(env.APP_ENV))
     throw new Error('Invalid APP_ENV');

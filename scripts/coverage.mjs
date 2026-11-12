@@ -137,3 +137,13 @@ if (dev03.remoteDEV01 !== 'deferred-by-user-no-reauthentication')
 console.log(
   'DEV03 sections 0–29 mapped; local fixtures, live approval 0 and remote CPU/transport limitations explicit.',
 );
+const dev01r = JSON.parse(readFileSync('dev01r-coverage.json', 'utf8'));
+for (let section = 0; section <= 20; section++)
+  if (
+    !dev01r.sections[section]?.status ||
+    dev01r.sections[section].evidence?.some((file) => !existsSync(file))
+  )
+    throw new Error(`Unmapped DEV01R section ${section}`);
+console.log(
+  'DEV01R sections 0–20 mapped. Earlier DEV01–03 deferral records are historical; PROJECT_STATUS and DEV01R evidence determine current remote completion.',
+);

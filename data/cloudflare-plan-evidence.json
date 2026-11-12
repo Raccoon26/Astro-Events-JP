@@ -1,0 +1,10 @@
+{
+  "accountId": "1514f5aa90cda572796a699965567bee",
+  "plan": "free",
+  "source": "authenticated-cloudflare-dashboard",
+  "checkedAt": "2026-11-12T13:35:00.000Z",
+  "timestampPrecision": "minute",
+  "url": "https://dash.cloudflare.com/1514f5aa90cda572796a699965567bee/workers/plans",
+  "observed": ["Free", "Current plan", "$0", "D1 Free limits"],
+  "policy": "CI must also perform a fresh authenticated subscription safety check and account usage query; this historical UI observation alone is insufficient for deployment."
+}

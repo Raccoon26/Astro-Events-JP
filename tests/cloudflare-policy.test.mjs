@@ -50,7 +50,9 @@ describe('deployment safety policy', () => {
   });
   it('keeps separate local bindings and rejects unprovisioned remote resources', () => {
     expect(validateBindings(readConfig(), resources())).toBe(true);
-    expect(() => validateBindings(readConfig(), resources(), true)).toThrow();
+    const placeholder = resources();
+    placeholder.staging.databaseId = null;
+    expect(() => validateBindings(readConfig(), placeholder, true)).toThrow();
     const config = readConfig();
     config.env.production.d1_databases[0].database_id =
       config.env.staging.d1_databases[0].database_id;

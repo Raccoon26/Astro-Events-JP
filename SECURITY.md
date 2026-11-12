@@ -1,5 +1,7 @@
 # 보안 정책
 
+> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+
 DEV01: 공개 Health는 상태/안전코드/환경/DB가용성/collection=false만 반환한다. 인증정보·내부UUID·계정·요청헤더/query·raw오류는 반환/구조화로그에서 제외한다. JSON/no-store/nosniff·고정SELECT/bind·DB identity 및 schema gate를 시험했다. 사업수집/알림은 false를 강제한다.
 
 원격명령은 placeholder·계정불명·사용량불명·Paid·환경혼동·오래된근거·production 테스트복구를 차단한다. Wrapper는 raw원격배포와 credential출력 명령을 막는다. API client는 billing/subscription쓰기·DB삭제·다른계정endpoint를 제공하지 않는다. 승인된D1쿼리만 고정SQL/bind로 실행한다. 로컬OAuth파일은 E의 링크검사후 메모리에서읽으며 auth token stdout을 생성하지 않는다. 원격콘솔·Wrangler 자체의 디버그로그도 운영자가 보호하며 Git/공개artifact에 올리지 않는다.
@@ -25,3 +27,11 @@ npm run security는 의존성 high 이상 취약점과 알려진 Secret 패턴/�
 ## DEV03 네트워크 방어 결과
 
 URL/매hop/경로/robots/타임아웃/스트림압축상한·Node DNS pin/TLS peer 검사·owner CAS/원자적저장·XML DTD/ENTITY 거부·승인취소를구현했다. [SSRF_SECURITY_AUDIT](SSRF_SECURITY_AUDIT.md)는실제보장과Worker미지원경계를구분한다. DNS조회만으로완전한재바인딩방어라고표시하지않고Workers기본transport는fail closed다. 파서·Discovery는네트워크/명령실행을하지않으며모든결과는Review Required/unknown이다. 원문전체·민감토큰·후보실데이터를PublicGit에기록하지않았다.
+
+## DEV-01R 원격 기반
+
+원격 자원 조사/생성은 기존 Worker를 건드리지 않고 정확한 프로젝트명·실제 DB UUID·내부 marker를 다시 확인한다. Cron PUT은 astro-events-jp-staging의 한 진단 스케줄만 허용한다. production 복구/합성 시험·다른 Worker 변경·billing 쓰기는 API client가 거부한다.
+
+GitHub Actions 인증은 OAuth와 구분하고 환경별 Secret을 사용한다. cfut_/cfat_ 형식도 Secret 검사에 추가했다. 토큰 노출 시 즉시 폐기·재발급·환경 Secret 교체 후 메타데이터/실제 인증을 재검증하며 비밀값은 채팅·Git·보고서·공개artifact에 기록하지 않는다. generated Wrangler binding types를 사용하되 기존 DEV00 config-only fixture 계약은 보존한다.
+
+Worker fetch에는 검증된 peer IP 연결 고정 API를 확인하지 못했다. [TCP sockets](https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/)의 remoteAddress는 null일 수 있고 일반 HTTP fetch에 적용되지 않는다. [resolveOverride](https://developers.cloudflare.com/workers/runtime-apis/request/)는 자기 zone 제약이 있어 임의 일본 공식 사이트에 쓰는 IP pin 대안으로 간주하지 않는다. 직접 TLS/HTTP 재구현·유료 프록시를 추가하지 않고 기존 fail-closed를 유지한다. 실제 런타임 guard 시험과 네트워크 보장 해결을 구분한다.

@@ -1,7 +1,13 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.6.6/schema.json",
   "files": {
-    "includes": ["**", "!!**/node_modules", "!!**/dist", "!!package-lock.json"]
+    "includes": [
+      "**",
+      "!!**/node_modules",
+      "!!**/dist",
+      "!!package-lock.json",
+      "!!src/worker-bindings.d.ts"
+    ]
   },
   "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2 },
   "linter": { "enabled": true, "rules": { "preset": "none" } },

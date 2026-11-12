@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import path from 'node:path';
 import { cloudflareClient, getCloudflareToken } from './cloudflare-client.mjs';
 import {
   assertMigrationIntegrity,
@@ -28,17 +29,23 @@ if (
     'restore',
     'deploy',
     'rollback',
+    'benchmark',
   ].includes(operation)
 )
   throw new Error('Unknown guarded operation');
-if (['staging-probe', 'restore', 'rollback'].includes(operation))
+if (['staging-probe', 'restore', 'rollback', 'benchmark'].includes(operation))
   guardStagingWrite(target);
 assertMigrationIntegrity();
 const config = readConfig();
 const resources = JSON.parse(readFileSync('cloudflare-resources.json', 'utf8'));
 validateBindings(config, resources, true); // Placeholders are blocked before auth or any network call.
 const evidence = parseAccountEvidence(process.env.CF_ACCOUNT_EVIDENCE);
-checkFreeAccount(evidence, target);
+checkFreeAccount(
+  evidence,
+  target,
+  Date.now(),
+  resources[target].crons?.length ?? 2,
+);
 if (
   evidence.accountId !== resources.accountId ||
   evidence.source !== 'cloudflare-dashboard' ||
@@ -55,6 +62,7 @@ if (
   database.uuid !== resources[target].databaseId
 )
   throw new Error('Live database identity mismatch');
+const usage = { rowsRead: 0, rowsWritten: 0, queries: 0, complete: true };
 const query = async (sql, params = []) => {
   const result = await api('POST', `/d1/database/${database.uuid}/query`, {
     sql,
@@ -62,6 +70,18 @@ const query = async (sql, params = []) => {
   });
   if (!Array.isArray(result) || result.some((item) => item.success === false))
     throw new Error('D1_QUERY_FAILED');
+  usage.queries++;
+  for (const item of result) {
+    if (
+      !Number.isFinite(item.meta?.rows_read) ||
+      !Number.isFinite(item.meta?.rows_written)
+    )
+      usage.complete = false;
+    else {
+      usage.rowsRead += item.meta.rows_read;
+      usage.rowsWritten += item.meta.rows_written;
+    }
+  }
   return result;
 };
 async function checkIdentity() {
@@ -83,13 +103,33 @@ const report = {
   target,
   success: false,
   code: 'NOT_RUN',
+  remote: true,
+  databaseName: database.name,
+  databaseId: database.uuid,
+  d1: usage,
+  measurementScope:
+    'REST operations only; Wrangler DDL/restore and provider-delayed account analytics are separate',
 };
 try {
   if (operation === 'inspect') {
     await checkIdentity();
-    await query(
+    const inventory = await query(
       "SELECT name,type FROM sqlite_master WHERE type IN ('table','index') ORDER BY name",
     );
+    report.tables = inventory[0].results
+      .filter((row) => row.type === 'table')
+      .map((row) => row.name);
+    report.indexes = inventory[0].results
+      .filter((row) => row.type === 'index')
+      .map((row) => row.name);
+    report.migrations = (
+      await query('SELECT name FROM d1_migrations ORDER BY id')
+    )[0].results.map((row) => row.name);
+    report.dataCounts = (
+      await query(
+        'SELECT (SELECT COUNT(*) FROM sources) AS sources,(SELECT COUNT(*) FROM facilities) AS facilities,(SELECT COUNT(*) FROM events) AS events,(SELECT COUNT(*) FROM event_candidates) AS event_candidates',
+      )
+    )[0].results[0];
     const integrity = await query('PRAGMA quick_check');
     const foreignKeys = await query('PRAGMA foreign_key_check');
     if (
@@ -163,6 +203,16 @@ try {
       );
       if (row[0]?.results?.[0]?.candidate_id !== id)
         throw new Error('Staging probe mismatch');
+      await query(
+        'UPDATE discovery_candidates SET reason=?1 WHERE candidate_id=?2',
+        ['synthetic updated', id],
+      );
+      const updated = await query(
+        'SELECT reason FROM discovery_candidates WHERE candidate_id=?1',
+        [id],
+      );
+      if (updated[0]?.results?.[0]?.reason !== 'synthetic updated')
+        throw new Error('Staging update mismatch');
     } finally {
       await query('DELETE FROM discovery_candidates WHERE candidate_id = ?1', [
         id,
@@ -198,9 +248,9 @@ try {
       { capture: true, authorizedRemote: true },
     );
     await checkIdentity();
-  } else if (operation === 'deploy' || operation === 'rollback') {
+  } else if (['deploy', 'rollback', 'benchmark'].includes(operation)) {
     await checkIdentity();
-    if (operation === 'deploy') {
+    if (operation === 'deploy' || operation === 'benchmark') {
       const git = (...args) =>
         execFileSync('git', args, { encoding: 'utf8' }).trim();
       if (
@@ -236,7 +286,22 @@ try {
           );
       }
       // No migration or DB reset is part of deployment. Failed deploy leaves existing release intact.
-      runWrangler(['deploy', '--env', target], {
+      const extra = [];
+      if (operation === 'benchmark') {
+        const benchmarkConfig = structuredClone(config);
+        benchmarkConfig.main = path.resolve('src/remote-benchmark.ts');
+        for (const environment of Object.values(benchmarkConfig.env))
+          environment.d1_databases[0].migrations_dir =
+            path.resolve('migrations');
+        benchmarkConfig.d1_databases[0].migrations_dir =
+          path.resolve('migrations');
+        const file = `${state.root}/temp/dev01r-benchmark-${randomUUID()}.json`;
+        writeFileSync(file, JSON.stringify(benchmarkConfig, null, 2), {
+          flag: 'wx',
+        });
+        extra.push('--config', file);
+      }
+      runWrangler(['deploy', '--env', target, ...extra], {
         capture: true,
         authorizedRemote: true,
       });
@@ -257,6 +322,18 @@ try {
         throw new Error(
           'Deployed health verification failed; inspect previous release before rollback',
         );
+      report.health = {
+        httpStatus: health.status,
+        status: body.status,
+        environment: body.environment,
+        collectionEnabled: body.collectionEnabled,
+        database: body.database,
+      };
+      const deployment = await api(
+        'GET',
+        `/workers/scripts/${resources[target].workerName}/deployments`,
+      );
+      report.deployment = deployment;
     } else {
       const version = options[0];
       if (!/^[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12}$/.test(version ?? ''))
