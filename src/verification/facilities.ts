@@ -18,16 +18,30 @@ function jstDate(value: string | null | undefined) {
     ? new Date(time + 9 * 3600000).toISOString().slice(0, 10)
     : null;
 }
+function monthEnd(value: string | null | undefined) {
+  if (!value || !/^\d{4}-(?:0[1-9]|1[0-2])$/.test(value)) return null;
+  const [year, month] = value.split('-').map(Number);
+  return new Date(Date.UTC(year!, month!, 0)).toISOString().slice(0, 10);
+}
 export function facilityEffects(
   event: Pick<
     Event,
-    'startDate' | 'endDate' | 'startDatetime' | 'endDatetime' | 'startMonth'
+    | 'startDate'
+    | 'endDate'
+    | 'startDatetime'
+    | 'endDatetime'
+    | 'startMonth'
+    | 'endMonth'
   >,
   notices: Notice[],
 ): FacilityEffect[] {
   const start =
     event.startDate ?? jstDate(event.startDatetime) ?? event.startMonth ?? null;
-  const end = event.endDate ?? jstDate(event.endDatetime) ?? start;
+  const end =
+    event.endDate ??
+    jstDate(event.endDatetime) ??
+    monthEnd(event.endMonth ?? event.startMonth) ??
+    start;
   return notices
     .filter(
       (n) =>
@@ -42,15 +56,23 @@ export function facilityEffects(
         ].includes(n.kind),
     )
     .flatMap((n) => {
-      const a = n.period.startDate ?? n.period.startMonth,
-        b = n.period.endDate ?? n.period.endMonth;
+      const a =
+          n.period.startDate ??
+          (n.period.startMonth ? n.period.startMonth + '-01' : null),
+        b = n.period.endDate ?? monthEnd(n.period.endMonth);
       if (start && b && start > b) return [];
       if (end && a && end < a) return [];
       return [
         {
           noticeId: n.id,
           impact:
-            !start || !a || n.partial || start.length !== 10 || a.length !== 10
+            !start ||
+            !a ||
+            n.partial ||
+            Boolean(event.startMonth) ||
+            n.period.precision === 'month' ||
+            start.length !== 10 ||
+            a.length !== 10
               ? ('uncertain' as const)
               : ('overlap' as const),
           cancellationConfirmed: false as const,
@@ -195,6 +217,7 @@ export class D1FacilityMonitor implements FacilityMonitor {
               startDate: row.start_date as string | null,
               endDate: row.end_date as string | null,
               startMonth: row.start_month as string | null,
+              endMonth: row.end_month as string | null,
             },
             notices,
           ),
