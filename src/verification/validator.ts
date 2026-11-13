@@ -301,7 +301,11 @@ export class CandidateEventValidator implements EventValidator {
         )
       )
         reasons.push(`${field}:${j.state}`);
-    if (ctx.source.category === 'vtuber') {
+    if (
+      ctx.source.category === 'vtuber' ||
+      kind === 'vtuber' ||
+      packet?.vtuberIds.length
+    ) {
       if (
         !packet?.vtuberIds.length ||
         !confirmed(fields.vtuberRelation) ||

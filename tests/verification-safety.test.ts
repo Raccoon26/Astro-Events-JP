@@ -97,6 +97,22 @@ describe('synthetic independent institutional and local event attestations; zero
   });
 });
 describe('current document and evidence boundaries', () => {
+  it('requires the VTuber relationship even when the announcement comes from a general facility source', async () => {
+    const f = await verificationFixture({
+      kind: '特別配信',
+      vtuberRelation: '宇推くりあ 公式特別出演（合成）',
+    });
+    expect((await run(f)).result.reasons).toContain(
+      'vtuber-official-relationship-unconfirmed',
+    );
+    f.packet.vtuberIds = ['synthetic-clear'];
+    f.ctx.vtubers = [
+      { id: 'synthetic-clear', linked: true, status: 'Verified' },
+    ];
+    expect((await run(f)).verified).not.toBeNull();
+    f.ctx.vtubers[0]!.status = 'Review Required';
+    expect((await run(f)).verified).toBeNull();
+  });
   it('cannot reapprove an orphaned old candidate after a new document version omits it', async () => {
     const f = await verificationFixture();
     f.ctx.documents[0]!.changedAt = '2026-11-12T00:00:01.000Z';
