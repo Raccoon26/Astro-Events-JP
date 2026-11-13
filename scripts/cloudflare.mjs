@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { cloudflareClient, getCloudflareToken } from './cloudflare-client.mjs';
 import {
@@ -13,6 +13,7 @@ import {
   validateBindings,
   validateEnvironment,
 } from './cloudflare-policy.mjs';
+import { verifyDeploymentHealth } from './deployment-health.mjs';
 import { preflight } from './path-policy.mjs';
 import { runWrangler } from './wrangler-runner.mjs';
 
@@ -103,6 +104,7 @@ const report = {
   target,
   success: false,
   code: 'NOT_RUN',
+  phase: 'preflight-complete',
   remote: true,
   databaseName: database.name,
   databaseId: database.uuid,
@@ -295,12 +297,19 @@ try {
             path.resolve('migrations');
         benchmarkConfig.d1_databases[0].migrations_dir =
           path.resolve('migrations');
-        const file = `${state.root}/temp/dev01r-benchmark-${randomUUID()}.json`;
+        const temp = state.localDriveVerified
+          ? `${state.root}/temp`
+          : process.env.RUNNER_TEMP &&
+            `${process.env.RUNNER_TEMP}/astro-events-jp`;
+        if (!temp) throw new Error('Isolated runner temp required');
+        if (!state.localDriveVerified) mkdirSync(temp, { recursive: true });
+        const file = `${temp}/dev01r-benchmark-${randomUUID()}.json`;
         writeFileSync(file, JSON.stringify(benchmarkConfig, null, 2), {
           flag: 'wx',
         });
         extra.push('--config', file);
       }
+      report.phase = 'upload-and-triggers';
       runWrangler(['deploy', '--env', target, ...extra], {
         capture: true,
         authorizedRemote: true,
@@ -308,32 +317,25 @@ try {
       const subdomain = await api('GET', '/workers/subdomain');
       if (!/^[a-z0-9-]+$/.test(subdomain?.subdomain ?? ''))
         throw new Error('workers.dev subdomain unavailable');
-      const health = await fetch(
+      report.phase = 'public-health';
+      report.health = await verifyDeploymentHealth(
         `https://${resources[target].workerName}.${subdomain.subdomain}.workers.dev/health`,
-        { redirect: 'error', signal: AbortSignal.timeout(10000) },
+        target,
       );
-      const body = await health.json();
-      if (
-        !health.ok ||
-        body.status !== 'ok' ||
-        body.environment !== target ||
-        body.collectionEnabled !== false
-      )
-        throw new Error(
-          'Deployed health verification failed; inspect previous release before rollback',
-        );
-      report.health = {
-        httpStatus: health.status,
-        status: body.status,
-        environment: body.environment,
-        collectionEnabled: body.collectionEnabled,
-        database: body.database,
-      };
       const deployment = await api(
         'GET',
         `/workers/scripts/${resources[target].workerName}/deployments`,
       );
-      report.deployment = deployment;
+      report.deployment = {
+        deployments: deployment.deployments?.map(
+          ({ id, source, versions, created_on }) => ({
+            id,
+            source,
+            versions,
+            created_on,
+          }),
+        ),
+      };
     } else {
       const version = options[0];
       if (!/^[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12}$/.test(version ?? ''))
@@ -354,8 +356,12 @@ try {
   }
   report.success = true;
   report.code = 'OK';
-} catch {
+  report.phase = 'complete';
+} catch (error) {
   report.code = 'CLOUDFLARE_OPERATION_FAILED';
+  report.safeCause = /^HEALTH_[A-Z_]+$/.test(error.message)
+    ? error.message
+    : 'GUARDED_OPERATION_FAILED';
   process.exitCode = 1;
 }
 if (state.localDriveVerified)

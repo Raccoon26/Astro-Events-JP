@@ -22,7 +22,7 @@ if (
   end.getTime() > Date.now() + 60000
 )
   throw new Error('Invalid metrics window');
-const query = `query Metrics($accountTag:string!,$start:string!,$end:string!,$script:string!){unit:__type(name:"AccountWorkersInvocationsAdaptiveQuantiles"){fields{name description}} viewer{accounts(filter:{accountTag:$accountTag}){workersInvocationsAdaptive(limit:1000,filter:{scriptName:$script,datetime_geq:$start,datetime_leq:$end}){sum{requests errors subrequests}quantiles{cpuTimeP50 cpuTimeP99 memoryUsageBytesP50 memoryUsageBytesP99}dimensions{status}}}}}`;
+const query = `query Metrics($accountTag:string!,$start:string!,$end:string!,$script:string!){unit:__type(name:"AccountWorkersInvocationsAdaptiveQuantiles"){fields{name description}} viewer{accounts(filter:{accountTag:$accountTag}){workersInvocationsAdaptive(limit:1000,filter:{scriptName:$script,datetime_geq:$start,datetime_leq:$end}){sum{requests errors subrequests}quantiles{cpuTimeP50 cpuTimeP99 memoryUsageBytesP50 memoryUsageBytesP99}dimensions{status eventType scriptVersion}} workersInvocationsScheduled(limit:100,filter:{scriptName:$script,datetime_geq:$start,datetime_leq:$end}){cron scheduledDatetime datetime cpuTimeUs status}}}}`;
 const token = getCloudflareToken();
 let response;
 try {
@@ -83,8 +83,11 @@ const report = {
   scope: 'project Worker only; not account-wide budget evidence',
   cpuMetricUnit:
     'microseconds; live GraphQL introspection verified. ms = raw / 1000',
+  scheduledExecutions: json.data.viewer.accounts[0].workersInvocationsScheduled,
   groups: groups.map((group) => ({
     status: group.dimensions?.status,
+    eventType: group.dimensions?.eventType,
+    scriptVersion: group.dimensions?.scriptVersion,
     requests: group.sum?.requests,
     errors: group.sum?.errors,
     subrequests: group.sum?.subrequests,
