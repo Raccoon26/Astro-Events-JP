@@ -35,3 +35,7 @@ dev/dev-01r-cloudflare-remote를 허용하도록 complete:dev 브랜치 검사�
 ## DEV01R 최종 배포 정책
 
 validate는 읽기 전용 인증, diagnose는 staging 고정 합성 시험과 finally rollback, deploy는 환경별 실제 배포다. staging/production 토큰은 환경 Secret으로 분리한다. 두 활성화 변수가true여도 production은 명시적dispatch/확인문구/기존 사람 승인이 필요하다. main 자동배포는staging만 해당하며 수집/알림을 활성화하지 않는다. 초기 자동 승인 검토 거절은 사용자 명시 승인과 staging 최종 성공 후에만 재개했고 GitHub production 보호도 사용자가 직접 승인했다.
+
+## DEV04 완료 절차
+
+동일한 complete:dev와 필수quality/strict/관리자포함PR 보호를 유지한다. main자동배포는staging의 기존Health/Cron만 적용하고0005 migration은 실행하지 않는다. 고정 합성 verifier CPU는 최신main+CI+Free예산을 통과한 staging diagnose에서만 실행하며 임시 benchmark를 finally rollback한다. 외부사이트/실제후보/이미지파일/DB쓰기 없이 시험한다. production deploy/migration은 이번 자동완료에 포함하지 않는다. 실제 원격 결과를 추가로 기록해야 하면 별도DEV04 증거PR도 같은 검사를 거친다.

@@ -66,3 +66,7 @@ R01~R32와DEV03 0~29절을dev03-coverage.json에서대조한다. 천문/우주/J
 ## DEV-01R 원격 기반
 
 DEV01R은 기존 R01~R32를 축소하지 않는 원격 기반 보완이다. 원격 D1 생성/복구와 자동배포 검증을 수행하되 Source96/시설92/47현/VTuber4·active0·수집/알림false·SSRF fail-closed를 보존한다. 미래 사실/권리/일본어/X/Telegram/Private Issues/이메일·변경/중복·정리·전국스케줄은 DEV04~10 완료 조건 그대로다.
+
+## DEV04 구현 경계
+
+DEV04는 R02~R06/R08/R11~R14/R20에 대해 [검증 설계](VERIFICATION_DESIGN.md)와 현재버전 Verified게이트·시설 영향·권리 검증을 추가했다. 모든R01~R32 및 DEV04세부0~20은 [감사](dev04-coverage.json)로 연결한다. DEV05~10의 13종 템플릿/보고/변경/전국균형/운영/통합 완료 조건을 축소하지 않는다.

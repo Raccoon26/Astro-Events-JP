@@ -32,3 +32,7 @@ Cloudflare 재개는 [CLOUDFLARE_SETUP](CLOUDFLARE_SETUP.md), 배포는 [DEPLOYM
 수집 엔진은 [COLLECTOR_DESIGN](COLLECTOR_DESIGN.md), 형식은 [PARSER_SUPPORT](PARSER_SUPPORT.md), 보안 한계는 [SSRF_SECURITY_AUDIT](SSRF_SECURITY_AUDIT.md), 측정은 [COLLECTION_BENCHMARK](COLLECTION_BENCHMARK.md)를 참조합니다. 운영 Worker/Cron·알림에는 연결하지 않았습니다.
 
 DEV-01R: 실제 OAuth/Free·두 D1·마이그레이션·staging Time Travel/Worker rollback·두 Worker Health·Cron·CPU·승인된 Actions 배포를 검증했습니다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)와 [현재 상태](PROJECT_STATUS.md)를 참조하세요. 수집·알림은 계속 비활성화이며 DEV04는 자동 시작하지 않습니다.
+
+## DEV04 구현 경계
+
+DEV04는 후보→필드근거 검증→현재버전 VerifiedEvent 게이트, 시설 영향/이미지 권리, 원자적 D1저장과 안전한 로컬 CLI를 제공한다. [검증 설계](VERIFICATION_DESIGN.md)·[관리 안내](VERIFICATION_POLICY.md)·[검사 보고](DEV04_TEST_REPORT.md). 실제Source active0·실제 검증행사0, 수집/알림OFF이며 원격0005 미적용이다. 일본어 게시글/Telegram은 후속DEV다.

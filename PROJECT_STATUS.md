@@ -1,3 +1,17 @@
+# DEV04 프로젝트 상태
+
+DEV04 검증 엔진 구현·로컬 검증 및 GitHub 완료 절차를 진행한다. 기준 main07abbf8268ec0b8514baf01cf3309ffb1f98da00(PR9)에서 기존206개 목적·마이그레이션0001~0004·원격 기반을 보존했다.
+
+후보/필드별 공식 attestation·날짜/신청/요금/예약·공식취소/연기·시설영향·권리·현재Verified게이트·D1 CAS/rollback/경합·로컬CLI/0005를 구현했다. [설계](VERIFICATION_DESIGN.md), [검사/미검증](DEV04_TEST_REPORT.md), [요구감사](dev04-coverage.json)를 참조한다. 최신 check/PR/CI/병합/mainSHA는 E 완료보고서로 확인한다.
+
+실제 Source96/공식성77/47현/시설92/VTuber4와 active0/review85/unsupported9/paused2, 실제수집0/실제검증행사0를 유지한다. 猫谷ここな 교차링크 검토는 미완료다. Collection/Notifications=false·productionCron0, Workers peer/TLS 미검증 fail-closed를 보존한다.
+
+0005는 E 로컬 staging/격리 D1만 적용했다. 원격 staging/production은0001~0004이며 새 검증 기능OFF, 기존 Health/Cron 호환성 유지다. production 신규 migration/fixture import/수집 활성화는 하지 않았다. 기존 인증/Secrets/보호 규칙은 변경하지 않는다. DEV01R CPU는 과거 실측이며 DEV04 CPU와 구분한다. 새 staging합성 진단은 실제 실행·메트릭을 확인한 후만 성공으로 기록한다.
+
+남은 제한: 실제 공식자료 검증0, 특수 일본어/복잡한 가격/권리는 명시적 검토, 원격0005/실제검증DB CPU 미검증, 실제사이트 수집과 Workers 안전전송 미지원. DEV05~10 요구사항은 그대로 보존하며 DEV05를 자동 시작하지 않는다. 현재 새 인증/토큰 요청은 불필요하다.
+
+## 이전 단계 이력(현재 상태와 구분)
+
 # DEV-01R 프로젝트 상태
 
 2026-11-13 JST. **Cloudflare 원격 기반 검증 완료 / 실제 수집·알림 운영은 비활성화.** [실제 증거·수치·제약](DEV01R_REMOTE_REPORT.md)을 기준으로 한다. 최종문서PR의 필수CI/병합/main SHA는 E reports/github-completion 및 최종 완료 보고서에서 확인한다.

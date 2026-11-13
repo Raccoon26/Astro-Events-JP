@@ -120,7 +120,7 @@ export const unavailableTransport: Transport = {
 export interface ImageCandidate {
   url: string;
   sourceUrl: string;
-  type: 'poster' | 'key-visual' | 'representative';
+  type: 'poster' | 'key-visual' | 'representative' | 'facility';
   relation: string;
   rightsStatus: 'unknown';
   rightsEvidenceUrl: null;

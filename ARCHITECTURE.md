@@ -76,3 +76,7 @@ Collector 구현을 HTTP/정책/파서/Discovery/D1 orchestration으로 분리�
 구조/15계약/수집 파이프라인은 보존한다. 원격 account-snapshot은 인증된 공식 API의 계정전체 사용량·실DB 저장량·전체Cron을 집계하고 fresh evidence를 배포에 전달한다. plan은 직접 확인한 authenticated dashboard 근거와 새 subscription safety check를 결합한다. 기존 identity schema2와0001~0004를 그대로 쓴다.
 
 Health/Cron은 여전히 읽기 전용이다. 별도 remote-benchmark entrypoint는 임시 staging 버전에서만 네 개의 작은 합성 fixture를 파싱하고 D1 SELECT1회·network0/CPU null을 보고한다. 공식 CPU는 GraphQL에서 따로 얻는다. 고정 입력만 허용하고 사용자 제공 HTML/URL이나 실제 Source를 처리하지 않는다.
+
+## DEV04 구현 경계
+
+DEV04의 CandidateEventValidator·VerificationStore·D1FacilityMonitor가 기존 계약에 연결된다. 공식 근거 패킷과 현재 Source/문서/시설 snapshot을 결합하고 원자적 revision/Verified 읽기 게이트를 제공한다. 새 Worker 경로/수집/알림은 활성화하지 않는다. 상세는 [검증 설계](VERIFICATION_DESIGN.md).

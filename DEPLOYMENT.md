@@ -23,3 +23,7 @@ mode=validate를 추가해 배포 활성화 false 상태에서도 main CI/환경
 main-only·clean tree·quality·기존 production 리뷰 보호를 유지한다. staging 성공 후 production은 명시적 확인문구와 GitHub Environment의 사용자 승인을 거친다. 권한 오류나 API 스키마 불명은 배포를 중단한다. 최초 코드/설정 통합 PR 후 main 배포를 검증하고, 실제 원격 결과는 후속 문서 PR에 반영한다. 코드 병합 자체를 배포 성공으로 표시하지 않는다.
 
 benchmark staging은 CI 검증된 main에서만 고정 합성 입력을 제공하는 임시 staging 버전을 배포한다. production은 거부한다. 초기 정상 version ID를 기록하고 시험 후 그 버전으로 rollback해 Health를 다시 확인한다. 새 Worker·유료 프록시·실제 사이트 요청·Source 승인을 만들지 않는다.
+
+## DEV04 구현 경계
+
+DEV04 검증 라이브러리는 배포 진입점에 연결하지 않아 OFF다. main 병합 후 기존 staging 자동배포는 Health/Cron만 보존하며0005를 자동 적용하지 않는다. 원격0004에서 verifier 조회/쓰기는 schema-unavailable/null로 fail-closed다. production의 새 배포/0005는 기존 승인 게이트와 별도 승인 절차를 유지한다. 수집/알림false·productionCron0은 고정이다.

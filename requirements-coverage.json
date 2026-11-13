@@ -16,7 +16,9 @@
         "DEV_ROADMAP.md",
         "SOURCE_COVERAGE.md",
         "src/registry.ts",
-        "src/collection/html.ts"
+        "src/collection/html.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
       ]
     },
     "R03": {
@@ -26,7 +28,9 @@
         "DEV_ROADMAP.md",
         "SOURCE_COVERAGE.md",
         "src/registry.ts",
-        "src/collection/xml.ts"
+        "src/collection/xml.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
       ]
     },
     "R04": {
@@ -36,7 +40,9 @@
         "DEV_ROADMAP.md",
         "SOURCE_COVERAGE.md",
         "src/registry.ts",
-        "src/collection/html.ts"
+        "src/collection/html.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
       ]
     },
     "R05": {
@@ -46,12 +52,19 @@
         "DEV_ROADMAP.md",
         "SOURCE_COVERAGE.md",
         "src/registry.ts",
-        "src/collection/parse-common.ts"
+        "src/collection/parse-common.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
       ]
     },
     "R06": {
       "devs": [4, 7],
-      "evidence": ["ARCHITECTURE.md", "migrations/0001_foundation.sql"]
+      "evidence": [
+        "ARCHITECTURE.md",
+        "migrations/0001_foundation.sql",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
     },
     "R07": {
       "devs": [2],
@@ -67,7 +80,9 @@
       "evidence": [
         "SOURCE_POLICY.md",
         "DEV_ROADMAP.md",
-        "src/collection/parse-common.ts"
+        "src/collection/parse-common.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
       ]
     },
     "R09": {
@@ -91,11 +106,21 @@
     },
     "R11": {
       "devs": [4, 5, 6],
-      "evidence": ["src/domain.ts", "src/contracts.ts"]
+      "evidence": [
+        "src/domain.ts",
+        "src/contracts.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
     },
     "R12": {
       "devs": [0, 4],
-      "evidence": ["migrations/0001_foundation.sql", "src/domain.ts"]
+      "evidence": [
+        "migrations/0001_foundation.sql",
+        "src/domain.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
     },
     "R13": {
       "devs": [0, 3, 4],
@@ -103,12 +128,19 @@
         "DATA_MODEL.md",
         "src/domain.ts",
         "src/collection/types.ts",
-        "migrations/0004_collection.sql"
+        "migrations/0004_collection.sql",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
       ]
     },
     "R14": {
       "devs": [4, 6],
-      "evidence": ["SOURCE_POLICY.md", "src/contracts.ts"]
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/contracts.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
     },
     "R15": {
       "devs": [5, 10],
@@ -132,7 +164,12 @@
     },
     "R20": {
       "devs": [4, 7],
-      "evidence": ["DATA_MODEL.md", "DEV_ROADMAP.md"]
+      "evidence": [
+        "DATA_MODEL.md",
+        "DEV_ROADMAP.md",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
     },
     "R21": {
       "devs": [0, 9],

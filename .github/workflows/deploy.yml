@@ -9,7 +9,7 @@ on:
       mode:
         description: Validate credentials, deploy, or staging-only fixed diagnostics
         type: choice
-        options: [validate, deploy, diagnose]
+        options: [validate, deploy, diagnose, profile-verifier]
         default: deploy
         required: true
       environment:
@@ -31,7 +31,7 @@ jobs:
   deploy:
     if: >-
       (github.event_name == 'workflow_run' && vars.CF_STAGING_DEPLOY_ENABLED == 'true' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main') ||
-      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && (inputs.mode == 'validate' || (inputs.mode == 'diagnose' && inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.mode == 'deploy' && ((inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.environment == 'production' && vars.CF_PRODUCTION_DEPLOY_ENABLED == 'true' && inputs.confirm_production == 'astro-events-jp-production')))))
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && (inputs.mode == 'validate' || ((inputs.mode == 'diagnose' || inputs.mode == 'profile-verifier') && inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.mode == 'deploy' && ((inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.environment == 'production' && vars.CF_PRODUCTION_DEPLOY_ENABLED == 'true' && inputs.confirm_production == 'astro-events-jp-production')))))
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: ${{ github.event_name == 'workflow_run' && 'staging' || inputs.environment }}

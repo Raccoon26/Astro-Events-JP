@@ -59,6 +59,12 @@ export interface Facility {
   lastVerifiedAt: ISODateTime | null;
 }
 export interface Event {
+  /** DEV04: date/month values never masquerade as midnight timestamps. */
+  datePrecision?: 'datetime' | 'date' | 'month' | 'unknown';
+  startDate?: string | null;
+  endDate?: string | null;
+  startMonth?: string | null;
+  endMonth?: string | null;
   stableEventId: string;
   sourceId: string;
   facilityId: string | null;
@@ -84,6 +90,8 @@ export interface Event {
   edition: string | null;
 }
 export interface ImageMetadata {
+  available?: boolean | null;
+  related?: boolean;
   imageUrl: string;
   imageSourceUrl: string;
   imageType: 'poster' | 'key-visual' | 'representative' | 'facility';
@@ -93,6 +101,11 @@ export interface ImageMetadata {
   imageLastCheckedAt: ISODateTime | null;
 }
 export interface Evidence {
+  candidateFingerprint?: string;
+  documentDigest?: string;
+  documentVersion?: string;
+  ruleVersion?: string;
+  judgement?: 'confirmed' | 'unknown' | 'ambiguous' | 'conflicting';
   field: string;
   sourceUrl: string;
   checkedAt: ISODateTime;

@@ -119,8 +119,8 @@ export async function candidate(
   ]
     .sort(
       (a, b) =>
-        ['poster', 'key-visual', 'representative'].indexOf(a.type) -
-        ['poster', 'key-visual', 'representative'].indexOf(b.type),
+        ['poster', 'key-visual', 'representative', 'facility'].indexOf(a.type) -
+        ['poster', 'key-visual', 'representative', 'facility'].indexOf(b.type),
     )
     .slice(0, 2);
   const content = {

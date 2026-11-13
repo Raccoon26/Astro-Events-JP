@@ -12,7 +12,7 @@
     "lint": "biome check --error-on-warnings .",
     "format": "biome check --write .",
     "test": "vitest run",
-    "build": "node scripts/build.mjs && node scripts/build-collector.mjs",
+    "build": "node scripts/build.mjs && node scripts/build-collector.mjs && node scripts/build-verifier.mjs",
     "security": "node scripts/audit.mjs && npm audit --audit-level=high",
     "audit:requirements": "node scripts/coverage.mjs",
     "check": "node scripts/preflight.mjs && npm run check:cloudflare && npm run seed:validate && npm run typecheck && npm run lint && npm test && npm run build && npm run security && npm run audit:requirements && npm run d1:local",
@@ -32,7 +32,17 @@
     "d1:local": "node scripts/local-d1.mjs staging",
     "complete:dev": "node scripts/complete-dev.mjs",
     "check:cloudflare": "node scripts/check-cloudflare.mjs",
-    "types:check": "node scripts/wrangler.mjs types src/worker-bindings.d.ts --env staging --env-interface WranglerBindings --strict-vars=false --include-runtime=false --include-main-module=false --check"
+    "types:check": "node scripts/wrangler.mjs types src/worker-bindings.d.ts --env staging --env-interface WranglerBindings --strict-vars=false --include-runtime=false --include-main-module=false --check",
+    "verifier:init": "node scripts/verifier.mjs init",
+    "verifier:pending": "node scripts/verifier.mjs pending",
+    "verifier:review": "node scripts/verifier.mjs review",
+    "verifier:images": "node scripts/verifier.mjs images",
+    "verifier:stats": "node scripts/verifier.mjs stats",
+    "verifier:history": "node scripts/verifier.mjs history",
+    "verifier:facility": "node scripts/verifier.mjs facility",
+    "verifier:notice": "node scripts/verifier.mjs notice",
+    "verifier:notices": "node scripts/verifier.mjs notices",
+    "verifier:notice-history": "node scripts/verifier.mjs notice-history"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",

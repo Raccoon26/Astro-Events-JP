@@ -101,7 +101,7 @@ export function validateRegistration(s: Registration) {
   )
     throw new Error('Invalid registry classification');
 }
-interface RegistryRow {
+export interface RegistryRow {
   source_id: string;
   name: string;
   official_url: string;
@@ -122,7 +122,7 @@ interface RegistryRow {
   min_interval_seconds: number;
   payload: string | null;
 }
-function hydrate(row: RegistryRow): Registration {
+export function hydrate(row: RegistryRow): Registration {
   const metadata = row.payload
     ? JSON.parse(row.payload)
     : {

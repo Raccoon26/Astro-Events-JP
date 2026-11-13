@@ -33,3 +33,7 @@ DEV00의 0001_foundation.sql은 수정하지 않았다. 정규화된 LF 내용�
 ## DEV-01R 원격 진단 관측 및 확인 보강
 
 2026-11-13 run43431019676에서 실제 Health503→200·RSS/Atom/HTML/Sitemap 각3회와 SSRF fail-closed1회에 성공했다. benchmark version910454e2-5d11-4c1c-aa88-950653850789의 Cloudflare 실제 CPU P50=2.331ms/P99=8.490ms, 13 reported fetch/errors0/subrequests0(Health 포함, 수집기 전체 성능 보장 아님). CLI rollback은 성공했지만 직후 GET이 이전 deployment를 반환해 전체 workflow는 실패했다. 나중에 정확한 이전 version13ed466d-81fb-4d16-8c65-7c4d4a0f65c1·Health200·benchmark404를 직접 확인했다. mutation을 반복하지 않고 GET만 최대8회/1초 간격 재조회해 exact version/100% traffic을 검증하도록 보강한다. 새3개 시험과 전체206개 check/CI 후 동일 staging 진단을 재검증한다. Production은 여전히 배포되지 않았고 승인 대기다.
+
+## DEV04 구현 경계
+
+DEV04 0005는 additive이며 로컬 registry ledger와 단일 D1.batch로 적용해 재실행은 skip한다. 원본0001~0004 변경/DB초기화/자동DROP은 금지한다. 기능OFF 및 이전 Worker 버전으로의 코드 rollback은0004/0005와 호환된다. 스키마 되돌리기는 자동 down migration으로 데이터 삭제하지 않고 공식 Bookmark/백업·대상 identity 검증 후 별도 승인/검토한다. 이번 DEV의 원격 복구 시험을 했다고 주장하지 않는다. 검증 쓰기 실패/경합은 local nativeD1에서 재실행·원자성을 검사한다.
