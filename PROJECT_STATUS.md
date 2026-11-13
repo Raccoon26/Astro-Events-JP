@@ -1,26 +1,29 @@
 # DEV-01R 프로젝트 상태
 
-> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
+2026-11-13 JST. **Cloudflare 원격 기반 검증 완료 / 실제 수집·알림 운영은 비활성화.** [실제 증거·수치·제약](DEV01R_REMOTE_REPORT.md)을 기준으로 한다. 최종문서PR의 필수CI/병합/main SHA는 E reports/github-completion 및 최종 완료 보고서에서 확인한다.
 
-배포 진단 개선: 최대8회·5초 간격의 공개 Health 전파 확인(5초 요청 timeout/4KiB 본문 제한), JSON DB_IDENTITY/환경/비활성화/민감 필드 오류는 즉시 중단한다. staging 전용 diagnose Actions는 최신 main/CI/Free 사용량을 재확인하고 합성 파서별3회·SSRF fail-closed1회만 실행한다. 임시 benchmark 버전은 finally에서 검증된 원래 staging 버전으로 되돌리고 D1을 복구/삭제하지 않는다. production에서는 diagnose를 거부한다.
+## 구현·로컬·원격 검증 완료
 
-2026-11-12 JST. **원격 기반 구축 진행 중이며 전체 완료가 아니다.** DEV03 PR4/main8cfca1ab9555505509c28514582d093c2396de44를 확인하고 최신 main에서 요청 브랜치를 만들었다.
+- 공식OAuth·Workers Free 직접확인과Actions subscription/계정전체예산 검사. 환경별Secret 실제검증.
+- staging/production별도D1(실ID manifest)·0001~0004·schema2·테이블/인덱스/FK/무결성. 기존migration수정0.
+- staging합성CRUD·Bookmark/TimeTravel·실패DDL/ledger보존·복구. production에는시험/삭제/Seed없음.
+- 두Worker 실제배포/Health200·정확한D1 binding/disabled flags. staging실제오류503→200/Worker rollback 성공.
+- 실제Cron5회성공·UTC/JST검증, staging1slot/production0slot. 실제CloudflareCPU/메모리·D1meta측정.
+- staging자동배포·최신mainCI·production사용자명시승인과GitHub Environment직접승인 후run43432927707성공.
+- 기존178목적보존·총206테스트/18파일,types/Biome/build/SQL/Seed/요구사항/secret/npm audit0.
+- 실제E preflight·cache/temp/auth/log/report 경로검증·정리DryRun. 다른Worker변경시각/지문보존. Reports Private/Issues확인.
 
-## 실제 완료한 원격 검증
+## 미구현·미검증·남은 제약
 
-공식 OAuth 로그인·계정1개 조회·로그인된 Workers plans의 Free/Current plan/$0 직접 확인. 기존 Worker1개·D1 0개·Cron0개/이름충돌없음을 확인했고 다른 프로젝트는 변경하지 않았다. 계정전체 GraphQL의 reported usage0과 분석 지연을 구분했다.
+DEV01의계정인증/원격D1/Worker배포/복구/CPU기반 보류항목은 이번실증으로해소했다. 제품실운영이 시작된것은아니다. Source96/공식성77/47현47/시설92/VTuber4/active0을유지한다. 실제공식사이트수집0이며 Workers fetch peer/TLS pinning은미검증이라fail-closed를유지한다. 실제RSS/HTML본문 크기별CPU·전국처리량/장기운영은후속실측이필요하다.
 
-실제 D1: staging14a756a0-4721-482a-9021-47d237be6f02 / production497d64ba-c18f-404b-b1b5-1dd13676ed39. 두 DB에 원본0001~0004 적용·환경marker2·FK/quick_check를 확인했다. staging 합성 CRUD와 실제 Bookmark/Time Travel restore·실패DDL/ledger불변·합성변경부재 검증에 성공했다. production에는 스키마/marker만 생성하고 Seed/행사 테스트/삭제/복구는 하지 않았다.
+날짜/요금/예약·시설영향/공식취소·이미지권리·일본어X글/해시태그·Telegram/PrivateIssues/메일·중복/변경·전국공정성·보관/정리/장애운영·통합은DEV04~10범위로보존한다. COLLECTION_ENABLED/NOTIFICATIONS_ENABLED=false. ProductionCron0·Seed/이벤트/후보0. 월추가비용0엔목표와유료자동전환금지유지.
 
-## 구현·검증 중인 항목
+외장하드물리분리시험은하지않았다. missing-path회귀로분리시안전중단을검증했다. C/D전체잔여물없음을주장하지않고지정프로젝트후보만DryRun했다. 알려진진단버그3건은수정후원격최종성공으로검증했으며실패이력은삭제하지않았다.
 
-live 계정 사용량/구독 가드, 환경별Actions 인증 validate모드·main-only배포, staging1/prod0 Cron정책, generated bindings, staging전용 합성 benchmark·rollback/실제CPU단위 확인 도구를 추가했다. GitHub 환경 Secret은 값 없이 등록 메타데이터만 확인했다. **실제 Workers 배포/Health/Cron 실행·CPU·Actions 토큰 동작/production 승인은 아직 성공으로 표시하지 않는다.** 첫 설정 PR/CI/main통합 후 실제 배포를 진행하고 원격 결과를 후속문서 PR/최종 E 보고서에 기록한다.
+## GitHub·다음 단계
 
-기존178개 검증목적과0001~0004를 보존한다. 기존5초짜리47현등록 통합시험은 기본시간을 초과해 명시적30초로 수정했고 null placeholder 부정시험을 실제 provision 상태와 분리했다. 새14개 시험을 추가해 최종192개 check/CI를 실행한다. 수집승인0/Source96/시설92/47현47/VTuber4와Collection/Notifications false·Worker수집fail-closed를 유지한다. 실제외부수집·게시·보고·자동삭제는 시작하지 않는다.
-
-## 안전·남은 승인
-
-모든 개발/인증cache/temp/log/report는 E전용 경로를 사용한다. 전후경로/정리DryRun과 원격증거를 E reports에 저장한다. 토큰을 Git/보고서/원문로그에 저장하지 않으며 GitHub에는 환경별Secret만 둔다. production은 기존Environment승인 보호를 유지하며 사용자의 직접 승인이 필요하다. API403/지표불명/무료한도부족/CI실패는 중단하고 우회하지 않는다. **DEV04는 시작하지 않는다.**
+배포코드main8cfa441163c307b7efdf97e88e289dbb8528bb32. PR5~8필수CI/보호준수병합, 최종문서PR도complete:dev로검증한다. main직접개발Push/force/보호우회/브랜치삭제없음. 사용자의추가인증/토큰설정은현재불필요하다. DEV04의로컬개발기반은준비됐지만자동진입하지않는다.
 
 ## DEV03 종료 스냅샷(이력)
 
@@ -82,11 +85,3 @@ Workers DNS 조회만으로 실제 peer를 보장할 수 없어 기본 전송기
 계속 변경되는 큰 목록의 과거 항목 지연, national/null 지역 자동 배정, 장기 lease/완전 Cron 복구·전국 최적화는 DEV08/09다. 무제한 탐색/재시도를 허용하지 않는다. 정책 불명확/형식 한도 초과는 검토·미지원으로 유지한다.
 
 DEV04 사실/요금/예약/취소·시설 영향·이미지 권리, DEV05 일본어 X/해시태그/길이, DEV06 Telegram/Private Issues/이메일·게시 완료, DEV07 변경·중복, DEV08/09 전국 실운영·계정 예산·자동 정리, DEV10 통합/실운영 검증 요구는 모두 유지한다. **DEV04 로컬 후보 검증 기반은 준비되지만 자동 시작하지 않는다. 현재 추가 인증·토큰·설정은 요구하지 않는다.**
-
-## DEV-01R 진단 수정 (2026-11-13)
-
-실제 staging 자동배포 run43429571095는 성공했다. 후속 diagnose run43429666817은 기존 schema_version=2 CHECK 제약 때문에 실패했고 성공으로 계산하지 않는다. 원본0002를 수정하지 않고 staging DB의 environment/database_name을 함께 임시 불일치로 바꿔 Health503을 확인한다. initialized_at의 고유 owner와 compare-and-set 조건으로 이 시험의 변경만 finally에서 원복하며 전체 원래 marker를 대조한다. production DB에는 접근하지 않는다. 실제 원본0002를 로드한 SQLite 회귀3개가 CHECK 유지·HTTP 실패 후 복구·production 거부·동시 관리자 변경 보존을 검증한다. 전체203개 check/최신 PR CI 후 diagnose를 재실행한다. production 활성화/배포는 자동 승인 검토가 staging 진단 진행 및 구체적인 배포 승인 미확인으로 거절했으므로 보류 상태다.
-
-## DEV-01R 원격 진단 관측 및 확인 보강
-
-2026-11-13 run43431019676에서 실제 Health503→200·RSS/Atom/HTML/Sitemap 각3회와 SSRF fail-closed1회에 성공했다. benchmark version910454e2-5d11-4c1c-aa88-950653850789의 Cloudflare 실제 CPU P50=2.331ms/P99=8.490ms, 13 reported fetch/errors0/subrequests0(Health 포함, 수집기 전체 성능 보장 아님). CLI rollback은 성공했지만 직후 GET이 이전 deployment를 반환해 전체 workflow는 실패했다. 나중에 정확한 이전 version13ed466d-81fb-4d16-8c65-7c4d4a0f65c1·Health200·benchmark404를 직접 확인했다. mutation을 반복하지 않고 GET만 최대8회/1초 간격 재조회해 exact version/100% traffic을 검증하도록 보강한다. 새3개 시험과 전체206개 check/CI 후 동일 staging 진단을 재검증한다. Production은 여전히 배포되지 않았고 승인 대기다.

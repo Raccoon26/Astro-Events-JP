@@ -1,90 +1,180 @@
 {
   "scope": "DEV01 remote resumption",
-  "overallCompletion": "in-progress",
+  "overallCompletion": "remote-verification-complete-final-github-gate",
   "sections": {
     "0": {
-      "status": "remote-evidence-recorded-with-explicit-limits",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "1": {
-      "status": "remote-evidence-recorded-with-explicit-limits",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "2": {
-      "status": "remote-evidence-recorded-with-explicit-limits",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "3": {
-      "status": "remote-evidence-recorded-with-explicit-limits",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "4": {
-      "status": "remote-evidence-recorded-with-explicit-limits",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "5": {
-      "status": "remote-evidence-recorded-with-explicit-limits",
-      "evidence": ["PROJECT_STATUS.md", "scripts/staging-recovery.mjs"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "scripts/staging-recovery.mjs",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "6": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "7": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "8": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "scripts/cloudflare-metrics.mjs"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "scripts/cloudflare-metrics.mjs",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "9": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "10": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", ".github/workflows/deploy.yml"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        ".github/workflows/deploy.yml",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "11": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "12": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "13": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "LOCAL_DEVELOPMENT.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "LOCAL_DEVELOPMENT.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "14": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "15": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "16": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "17": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "scripts/complete-dev.mjs"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "scripts/complete-dev.mjs",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "18": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "19": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     },
     "20": {
-      "status": "implemented-or-validation-in-progress",
-      "evidence": ["PROJECT_STATUS.md", "CLOUDFLARE_SETUP.md"]
+      "status": "verified-with-explicit-scope-and-limits",
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "CLOUDFLARE_SETUP.md",
+        "DEV01R_REMOTE_REPORT.md"
+      ]
     }
-  }
+  },
+  "verificationDate": "2026-11-13",
+  "limits": [
+    "Worker collector peer/TLS IP guarantee unverified; fail-closed maintained",
+    "Small synthetic CPU samples do not certify real sites or maximum page size",
+    "No physical drive disconnection test; missing-path regression preserved"
+  ]
 }

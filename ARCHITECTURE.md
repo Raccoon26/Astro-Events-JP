@@ -1,10 +1,8 @@
-> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
-
 # 아키텍처
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
-목표는 개인 서버 없이 월 추가 비용 0엔으로 공식 정보 기반 일본어 X 복사용 글을 전달하는 것이다. DEV00의15계약·도메인·스키마를 보존했다. DEV01은 분리된 staging/production과 D1 환경 식별, Health/Cron 진단, 안전한 조건부 배포를 추가했다. 원격 인증은 사용자 요청으로 보류되어 아직 Cloudflare에 배포하지 않았다.
+목표는 개인 서버 없이 월 추가 비용 0엔으로 공식 정보 기반 일본어 X 복사용 글을 전달하는 것이다. DEV00의15계약·도메인·스키마를 보존했다. DEV01은 분리된 staging/production과 D1 환경 식별, Health/Cron 진단, 안전한 조건부 배포를 추가했다. DEV01 당시 보류했던 원격 기반은 DEV01R에서 실제 staging/production에 배포하고 검증했다. 제품 수집·알림은 비활성화이며 Worker 진입점은 여전히 Collector를 호출하지 않는다.
 
 ## DEV01 진단 경계
 

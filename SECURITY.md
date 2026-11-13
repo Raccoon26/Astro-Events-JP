@@ -1,8 +1,6 @@
-> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
-
 # 보안 정책
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01: 공개 Health는 상태/안전코드/환경/DB가용성/collection=false만 반환한다. 인증정보·내부UUID·계정·요청헤더/query·raw오류는 반환/구조화로그에서 제외한다. JSON/no-store/nosniff·고정SELECT/bind·DB identity 및 schema gate를 시험했다. 사업수집/알림은 false를 강제한다.
 
@@ -37,3 +35,7 @@ URL/매hop/경로/robots/타임아웃/스트림압축상한·Node DNS pin/TLS pe
 GitHub Actions 인증은 OAuth와 구분하고 환경별 Secret을 사용한다. cfut_/cfat_ 형식도 Secret 검사에 추가했다. 토큰 노출 시 즉시 폐기·재발급·환경 Secret 교체 후 메타데이터/실제 인증을 재검증하며 비밀값은 채팅·Git·보고서·공개artifact에 기록하지 않는다. generated Wrangler binding types를 사용하되 기존 DEV00 config-only fixture 계약은 보존한다.
 
 Worker fetch에는 검증된 peer IP 연결 고정 API를 확인하지 못했다. [TCP sockets](https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/)의 remoteAddress는 null일 수 있고 일반 HTTP fetch에 적용되지 않는다. [resolveOverride](https://developers.cloudflare.com/workers/runtime-apis/request/)는 자기 zone 제약이 있어 임의 일본 공식 사이트에 쓰는 IP pin 대안으로 간주하지 않는다. 직접 TLS/HTTP 재구현·유료 프록시를 추가하지 않고 기존 fail-closed를 유지한다. 실제 런타임 guard 시험과 네트워크 보장 해결을 구분한다.
+
+## DEV01R 원격 감사 결과
+
+[원격 검증 결과](DEV01R_REMOTE_REPORT.md)의 최소 Health 필드·실제503복구·D1 환경 분리·토큰 메타데이터만 조회·고정 대상 guard·production 직접 리뷰를 검증했다. Workers peer/TLS pinning은 미해결이므로 원격 수집은 계속fail-closed다. 합성 benchmark 임시경로는 rollback 후404이며 production에는배포하지 않았다. 이전 노출토큰의 폐기·교체는사용자 확인으로 기록하고 값·폐기독립검증을 보고하지 않는다.

@@ -1,10 +1,10 @@
 # 데이터 모델
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01은 기존0001을 수정하지 않고 `0002_deployment_identity.sql`을 추가했다. deployment_identity는 singleton=1 PK, staging/production 환경, 환경과일치하는database_name, schema_version=2, 초기화시각을 보관한다. 마이그레이션 자체는 marker를 추측해 넣지 않으며, 대상의 provider ID/이름과 빈 DB를 검증한 guarded initialize에서 단한번 설정한다. Worker는 marker를 수정하지 않는다. 이 테이블은 운영 상세/이벤트 테이블과 독립하며 보관정리 대상이 아니다.
 
-기존 테이블/컬럼/관계/인덱스/보관기간은 그대로다. 0001의 정규화LF SHA256 회귀검사를 추가했다. 로컬 실제 Wrangler D1과 workerd에서 두 migration·테이블/인덱스·FK/quick_check·합성staging CRUD를 검증했다. 실제 원격D1 적용과 Time Travel은 인증보류로 미검증이다. 마이그레이션/복구는 DISASTER_RECOVERY를 따른다.
+기존 테이블/컬럼/관계/인덱스/보관기간은 그대로다. 0001의 정규화LF SHA256 회귀검사를 추가했다. 로컬 실제 Wrangler D1과 workerd에서 두 migration·테이블/인덱스·FK/quick_check·합성staging CRUD를 검증했다. DEV01 당시 보류했던 실제 원격D1 적용·staging Time Travel은 DEV01R에서 검증했다. 마이그레이션/복구는 DISASTER_RECOVERY를 따른다.
 
 실행 가능한 기준은 `migrations/0001_foundation.sql`; D1 호환 SQLite, UUID 계열 TEXT PK, UTC ISO-8601 정규화 시각과 `Asia/Tokyo` 표시 시간대를 사용한다. 날짜만 확인되면 date_precision=date, 미확정 값은 NULL이다. SQL 값은 반드시 bind한다. 마이그레이션은 새 번호 파일로 추가하며 기존 적용 파일을 수정하지 않는다. DEV01에서 원격 DB ID를 구성하고 staging 적용·백업/복구를 검증한다.
 
@@ -56,3 +56,7 @@ sources_due를유지하고category/state/prefecture/next시각, prefecture/sourc
 ## DEV-01R 원격 기반
 
 DEV-01R 원격 staging/production에 기존0001~0004를 적용했다. 기존 SQL 파일은 수정하지 않았고0004도 LF SHA 검사를 추가했다. 실제 ID는 manifest/config에 분리 기록한다. deployment_identity.schema_version2는 런타임 marker이며 migration ledger에는4개 파일을 별도로 기록한다. production에는 marker와 스키마만 있으며 Seed/행사 테스트 데이터는 넣지 않는다.
+
+## DEV01R 실제 배포 상태
+
+원격 두D1에0001~0004·deployment_identity schema2를 적용하고 테이블/인덱스·FK/무결성을 확인했다. 새 migration은 필요하지 않았다. staging fault injection은 CHECK를 바꾸지 않고 owner/CAS 표식 변경만 원복한다. production에는스키마/환경표식만 있고 Seed/이벤트/후보/시험데이터는0이다.
