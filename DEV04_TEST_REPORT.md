@@ -31,3 +31,13 @@ R01~R32 및 DEV04 요청0~20은 dev04-coverage.json으로 연결한다. DEV05 �
 로컬 합성 commit 표본은4 API calls/8 SQL statements/46행읽기/13행쓰기였다. 2,001후보 시험의 초기2,000행 insert/index 쓰기는8,000행, 커서 읽기는2,002행/쓰기0이었다. CPU가 아닌 로컬 elapsed 약13.75초이며 fixture 생성·삽입·검증을 포함한다. 최신값은 E 보고서 기준이다.
 
 원격 CPU 진단은 mode=profile-verifier로 staging에만 허용한다. 기존 diagnose는4파서/SSRF 목적을 보존한다. verifier-only는 고정 합성3회와 Health SELECT만 수행하며 DB marker 오류 주입/DDL/Seed/실제Source 변경 없이 임시 benchmark를 finally rollback한다. main+필수CI+Free계정 예산을 먼저 검사한다. 실제 실행 결과는 확인 후 별도 기록한다.
+
+## 최초 원격 실행과 배포 이력 회귀 수정
+
+PR10(head20e392028a6afe761e1c55c5dd280964d5f255d6)이 필수CI 후 squash병합되어 main067e315bbc79eac2a77f407f4d05460d57821b4a와 로컬을 동기화했다. 최신315개/23파일 전체 check와 main CI run43450684341은 통과했다.
+
+자동staging run43450938834는 업로드 후 Health200에 성공했으나 현재 배포 이력 조회에서 실패했다. 배포11개로 API의 total_pages=2가 되면서 전체 자원 목록용 pagination 검사가 이력에도 적용됐다. 따라서 workflow 전체는 실패로 보존하며 배포 성공으로 계산하지 않는다. version e5cf25a3-61d2-4b60-b09d-d13af18741bd/100%와 Health는 유지됐다. profile-verifier run43451095505도 같은 첫 조회에서 중단되어 합성 검증은 아직0회다. 원격DB/production은 변경하지 않았다.
+
+수정은 현재 배포만 필요한 경로를 프로젝트 두Worker의 GET /deployments?page=1&per_page=1로 제한한다. 응답 page=1/per_page=1/배포1개를 확인하며 /workers/scripts·D1 등 전체 자원 인벤토리의 불완전 페이지 거부는 유지한다. 공식API는 첫 배포가 현재 traffic을 처리한다고 명시한다. [공식 목록 API](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/deployments/methods/list/). 원격 읽기1회에서 최신배포1개 반환을 확인했고6개 독립 회귀시험을 추가했다. 수정 후 전체검사/CI/자동배포/고정진단을 다시 실행한다.
+
+2026-11-13 15:15UTC 원격 읽기 검증에서 staging/production 두DB0001~0004·source/event/candidate0·verification_schema없음, 별도DB binding, 수집/알림false·stagingCron1/production0을 확인했다. 기존OAuth는 공식Wrangler whoami로 자동갱신됐고 추가권한/로그인 요구가 없었다. Reports Private/Issues=true를 기존 GitHub 인증으로 확인했다(연결도구의 Private 조회404는 성공으로 간주하지 않음). 첫 배포 계정snapshot은 Free, 당일요청50/D1읽기564·쓰기9/저장778240B/Cron1이었다. provider 지연이 있는 계정전체 집계이며 DEV04 단독비용이 아니다.

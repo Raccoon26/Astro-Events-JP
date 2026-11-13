@@ -19,12 +19,23 @@ export function getCloudflareToken() {
   if (!token) throw new Error('Existing Cloudflare authentication required');
   return token;
 }
+export function latestDeploymentPath(worker) {
+  if (!/^astro-events-jp-(staging|production)$/.test(worker))
+    throw new Error('INVALID_DEPLOYMENT_TARGET');
+  return `/workers/scripts/${worker}/deployments?page=1&per_page=1`;
+}
 export function cloudflareClient(token, accountId, fetcher = fetch) {
   if (!/^[a-f0-9]{32}$/.test(accountId))
     throw new Error('Explicit account ID required');
   return async (method, suffix, body) => {
+    const latestOnly =
+      method === 'GET' &&
+      /^\/workers\/scripts\/astro-events-jp-(staging|production)\/deployments\?page=1&per_page=1$/.test(
+        suffix,
+      );
     // No arbitrary URL or account mutation endpoints. Billing/subscription writes are impossible here.
     if (
+      !latestOnly &&
       !/^\/(?:subscriptions|d1\/database(?:\/[\da-f-]+(?:\/query)?)?|workers\/(?:subdomain|account-settings)|workers\/scripts(?:\/[a-z0-9-]+(?:\/settings|\/schedules|\/deployments)?)?)$/.test(
         suffix,
       )
@@ -66,7 +77,15 @@ export function cloudflareClient(token, accountId, fetcher = fetch) {
     }
     if (!response.ok || data.success !== true)
       throw new Error(`CLOUDFLARE_API_FAILED_${response.status}`);
-    if (data.result_info?.total_pages > 1)
+    if (
+      latestOnly &&
+      (data.result_info?.page !== 1 ||
+        data.result_info?.per_page !== 1 ||
+        !Array.isArray(data.result?.deployments) ||
+        data.result.deployments.length !== 1)
+    )
+      throw new Error('DEPLOYMENT_LIST_UNVERIFIED');
+    if (!latestOnly && data.result_info?.total_pages > 1)
       throw new Error(
         'Inventory pagination needs review; no partial inventory accepted',
       );
