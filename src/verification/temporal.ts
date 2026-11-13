@@ -68,7 +68,15 @@ export function parseTemporal(
   ];
   if (!matches.length) {
     const month = text.match(/(\d{4})年(\d{1,2})月(?!\d)/u);
-    if (month && Number(month[2]) >= 1 && Number(month[2]) <= 12) {
+    if ([...text.matchAll(/\d{1,2}月/gu)].length > 1)
+      return ambiguous('unsupported-month-range');
+    if (
+      month &&
+      Number(month[1]) >= 1900 &&
+      Number(month[1]) <= 2199 &&
+      Number(month[2]) >= 1 &&
+      Number(month[2]) <= 12
+    ) {
       out.precision = 'month';
       out.startMonth = `${month[1]}-${pad(Number(month[2]))}`;
       return judgement(raw, out);

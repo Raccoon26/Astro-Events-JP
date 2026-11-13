@@ -324,7 +324,12 @@ export class CandidateEventValidator implements EventValidator {
         reasons.push('ordinary-stream-out-of-scope');
     }
     const impacts = event.facilityId ? facilityEffects(event, ctx.notices) : [];
-    if (impacts.length && !noticeKind)
+    if (
+      impacts.length &&
+      !noticeKind &&
+      kind !== 'closure' &&
+      kind !== 'reopening'
+    )
       reasons.push('facility-impact-review-required');
     if (ctx.notices.length >= 50)
       reasons.push('facility-notice-page-incomplete');
