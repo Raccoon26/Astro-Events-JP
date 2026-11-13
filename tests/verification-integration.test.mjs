@@ -53,6 +53,7 @@ afterAll(async () => {
 });
 beforeEach(async () => {
   for (const table of [
+    'collection_jobs',
     'facility_notice_history',
     'facility_notices',
     'event_changes',
@@ -756,5 +757,48 @@ describe('schema compatibility, revisions and facility conflict regression', () 
     expect(
       await db.prepare('SELECT COUNT(*) AS n FROM facility_notices').first('n'),
     ).toBe(0);
+  });
+});
+
+describe('collection checkpoints and verification freshness integration', () => {
+  it('keeps the real content-change time across later pagination checkpoints and invalidates an omitted old candidate only on changed content', async () => {
+    const f = await setup(),
+      p = await f.store.preview(f.ctx.candidate.id, f.packet);
+    await f.store.commit(p.loaded, p.result, usage);
+    const store = new CollectionStore(db),
+      later = '2026-11-12T01:00:00.000Z';
+    await store.enqueue(f.ctx.source, NOW);
+    const job = await store.next(later),
+      owner = await store.claim(job, later);
+    await store.finish(job, owner, f.ctx.source, {
+      parsed: { candidates: [], discoveries: [], sitemaps: [], nextOffset: 10 },
+      url: f.ctx.source.officialUrl,
+      digest: 'a'.repeat(64),
+      etag: null,
+      lastModified: null,
+      at: later,
+      requests: 1,
+    });
+    expect(
+      (await store.document(f.ctx.source.id, f.ctx.source.officialUrl))
+        .changed_at,
+    ).toBe(NOW);
+    expect(await f.store.verified(p.result.event.stableEventId)).not.toBeNull();
+    const next = await store.next('2026-11-12T02:00:00.000Z'),
+      nextOwner = await store.claim(next, '2026-11-12T02:00:00.000Z');
+    await store.finish(next, nextOwner, f.ctx.source, {
+      parsed: { candidates: [], discoveries: [], sitemaps: [] },
+      url: f.ctx.source.officialUrl,
+      digest: 'b'.repeat(64),
+      etag: null,
+      lastModified: null,
+      at: '2026-11-12T02:00:00.000Z',
+      requests: 1,
+    });
+    expect(
+      (await store.document(f.ctx.source.id, f.ctx.source.officialUrl))
+        .changed_at,
+    ).toBe('2026-11-12T02:00:00.000Z');
+    expect(await f.store.verified(p.result.event.stableEventId)).toBeNull();
   });
 });
