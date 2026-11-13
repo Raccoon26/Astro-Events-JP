@@ -82,3 +82,7 @@ Workers DNS 조회만으로 실제 peer를 보장할 수 없어 기본 전송기
 계속 변경되는 큰 목록의 과거 항목 지연, national/null 지역 자동 배정, 장기 lease/완전 Cron 복구·전국 최적화는 DEV08/09다. 무제한 탐색/재시도를 허용하지 않는다. 정책 불명확/형식 한도 초과는 검토·미지원으로 유지한다.
 
 DEV04 사실/요금/예약/취소·시설 영향·이미지 권리, DEV05 일본어 X/해시태그/길이, DEV06 Telegram/Private Issues/이메일·게시 완료, DEV07 변경·중복, DEV08/09 전국 실운영·계정 예산·자동 정리, DEV10 통합/실운영 검증 요구는 모두 유지한다. **DEV04 로컬 후보 검증 기반은 준비되지만 자동 시작하지 않는다. 현재 추가 인증·토큰·설정은 요구하지 않는다.**
+
+## DEV-01R 진단 수정 (2026-11-13)
+
+실제 staging 자동배포 run43429571095는 성공했다. 후속 diagnose run43429666817은 기존 schema_version=2 CHECK 제약 때문에 실패했고 성공으로 계산하지 않는다. 원본0002를 수정하지 않고 staging DB의 environment/database_name을 함께 임시 불일치로 바꿔 Health503을 확인한다. initialized_at의 고유 owner와 compare-and-set 조건으로 이 시험의 변경만 finally에서 원복하며 전체 원래 marker를 대조한다. production DB에는 접근하지 않는다. 실제 원본0002를 로드한 SQLite 회귀3개가 CHECK 유지·HTTP 실패 후 복구·production 거부·동시 관리자 변경 보존을 검증한다. 전체203개 check/최신 PR CI 후 diagnose를 재실행한다. production 활성화/배포는 자동 승인 검토가 staging 진단 진행 및 구체적인 배포 승인 미확인으로 거절했으므로 보류 상태다.

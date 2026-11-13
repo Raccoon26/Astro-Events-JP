@@ -27,3 +27,7 @@ DEV00의 0001_foundation.sql은 수정하지 않았다. 정규화된 LF 내용�
 2026-11-12 실제 staging DB에서 Bookmark를 취득하고 합성 Discovery 행 insert/update/read, 의도한 실패 DDL 감지, migration ledger 불변, Time Travel restore 후 합성행 부재·marker·quick_check/FK를 검증했다. 결과는 E reports/dev01r-staging-recovery-*.json이다. production은 구조/무결성만 검사하며 테스트행·restore·삭제를 실행하지 않았다. 원격 Worker rollback은 staging 배포 후 별도 검증 대상이다.
 
 새 staging-recovery.mjs --apply는 production 인자를 거부하며 provider ID/이름/내부 marker·Free 근거를 먼저 검사한다. 부분 실패 시 Bookmark와 phase를 먼저 저장하고 DB를 자동 삭제하거나 무제한 재시도하지 않는다. failed DDL은 별도의 고정 구문오류 시험이며 기존 migration 파일을 변조하지 않는다.
+
+## DEV-01R 진단 수정 (2026-11-13)
+
+실제 staging 자동배포 run43429571095는 성공했다. 후속 diagnose run43429666817은 기존 schema_version=2 CHECK 제약 때문에 실패했고 성공으로 계산하지 않는다. 원본0002를 수정하지 않고 staging DB의 environment/database_name을 함께 임시 불일치로 바꿔 Health503을 확인한다. initialized_at의 고유 owner와 compare-and-set 조건으로 이 시험의 변경만 finally에서 원복하며 전체 원래 marker를 대조한다. production DB에는 접근하지 않는다. 실제 원본0002를 로드한 SQLite 회귀3개가 CHECK 유지·HTTP 실패 후 복구·production 거부·동시 관리자 변경 보존을 검증한다. 전체203개 check/최신 PR CI 후 diagnose를 재실행한다. production 활성화/배포는 자동 승인 검토가 staging 진단 진행 및 구체적인 배포 승인 미확인으로 거절했으므로 보류 상태다.

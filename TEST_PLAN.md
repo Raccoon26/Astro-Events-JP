@@ -41,3 +41,7 @@ DEV03은 DNS/redirect/body/timeout/429/robots fixture, DEV04는 날짜/공식취
 ## DEV-01R 원격 기반
 
 기존178개 시험을 보존한다. 47현 D1등록 시험은 기본5초를 초과해 검증 내용 그대로 명시적30초를 지정했고, placeholder 부정 시험은 실제 config가 provision된 뒤에도 명시적 null fixture로 계속 검사한다. 새 account-snapshot/recovery/Cron 정책·고정 benchmark/production 거부·D1 identity·Worker fail-closed 시험을 추가한다. 실제 원격 D1/Time Travel 결과와 mock/로컬 결과를 구분한다. 최신 check/CI의 실제 통과 수를 최종 보고에 기록한다.
+
+## DEV-01R 진단 수정 (2026-11-13)
+
+실제 staging 자동배포 run43429571095는 성공했다. 후속 diagnose run43429666817은 기존 schema_version=2 CHECK 제약 때문에 실패했고 성공으로 계산하지 않는다. 원본0002를 수정하지 않고 staging DB의 environment/database_name을 함께 임시 불일치로 바꿔 Health503을 확인한다. initialized_at의 고유 owner와 compare-and-set 조건으로 이 시험의 변경만 finally에서 원복하며 전체 원래 marker를 대조한다. production DB에는 접근하지 않는다. 실제 원본0002를 로드한 SQLite 회귀3개가 CHECK 유지·HTTP 실패 후 복구·production 거부·동시 관리자 변경 보존을 검증한다. 전체203개 check/최신 PR CI 후 diagnose를 재실행한다. production 활성화/배포는 자동 승인 검토가 staging 진단 진행 및 구체적인 배포 승인 미확인으로 거절했으므로 보류 상태다.
