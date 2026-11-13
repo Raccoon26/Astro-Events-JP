@@ -41,3 +41,7 @@ PR10(head20e392028a6afe761e1c55c5dd280964d5f255d6)이 필수CI 후 squash병합�
 수정은 현재 배포만 필요한 경로를 프로젝트 두Worker의 GET /deployments?page=1&per_page=1로 제한한다. 응답 page=1/per_page=1/배포1개를 확인하며 /workers/scripts·D1 등 전체 자원 인벤토리의 불완전 페이지 거부는 유지한다. 공식API는 첫 배포가 현재 traffic을 처리한다고 명시한다. [공식 목록 API](https://developers.cloudflare.com/api/resources/workers/subresources/scripts/subresources/deployments/methods/list/). 원격 읽기1회에서 최신배포1개 반환을 확인했고6개 독립 회귀시험을 추가했다. 수정 후 전체검사/CI/자동배포/고정진단을 다시 실행한다.
 
 2026-11-13 15:15UTC 원격 읽기 검증에서 staging/production 두DB0001~0004·source/event/candidate0·verification_schema없음, 별도DB binding, 수집/알림false·stagingCron1/production0을 확인했다. 기존OAuth는 공식Wrangler whoami로 자동갱신됐고 추가권한/로그인 요구가 없었다. Reports Private/Issues=true를 기존 GitHub 인증으로 확인했다(연결도구의 Private 조회404는 성공으로 간주하지 않음). 첫 배포 계정snapshot은 Free, 당일요청50/D1읽기564·쓰기9/저장778240B/Cron1이었다. provider 지연이 있는 계정전체 집계이며 DEV04 단독비용이 아니다.
+
+## 최종 입력 감사 보강
+
+PR11(head3715c2c350fb251e212f88256e1c2cdccc058c42)은321개/24파일 전체검사·필수CI 후 main144ca468522077b8d7bbfa3e2ae383e4aa8be869에 병합됐다. 후속 감사에서 입관료 문맥의 성인/어린이 요금이 참가비로 분류되는 경우와 지역명만 있고 장소는 미정인 경우를 확인해 보강했다. 소수/잘못된 쉼표/음수/근사·최소금액, 동일요금등급 충돌, 비정상/충돌 정원, 추첨 부정형도 보류한다. 별도8개 회귀를 추가했으며 임의로 지원 범위를 확대해 추정하지 않는다. 최종전체check/CI는 이 변경까지 포함한다.

@@ -25,3 +25,5 @@ npm run verifier:pending -- --limit 25 --cursor ID --group general (또는 vtube
 npm run verifier:review -- --candidate ID --file E:/Astro-Events-JP/reports/review.json 은 필드·근거·이유 Dry Run이다. 파일은24KiB 이하 E 전용 경로·링크 없음 검사를 통과해야 한다. 적용하려면 --apply --enable-verifier --local-budget --source SOURCE --fingerprint CURRENT_SHA256를 추가한다. reviewedAt/reason/relationship/documents/assertions는 src/verification/types.ts의 ReviewPacket을 따른다. 현재 후보와 맞지 않거나 근거가 오래되면 거부/보류된다.
 
 verifier:images는 권리·추천 미리보기, verifier:facility는 패킷의 연결 시설 영향, verifier:notice는 공지 미리보기/동일한 명시적 적용 장치를 제공한다. 승인되지 않은 사이트를 방문하거나 Source를 active로 전환하는 명령은 없다. 보고서는 E reports/dev04-verifier-*.json, 에러는 안전한 코드만 기록한다. 실제 행사 적용0, 합성 자료는 격리 시험 DB에만 넣는다.
+
+입장료 문맥의 大人/小学生 금액은 entrance에 보존한다. 참가/입장 문맥이 혼합되어 등급의 소속을 알 수 없으면 보류한다. 소수엔·잘못된 천단위 구분·음수·근사/이상·할인/회원/별도요금·예정 등 범용 지원 범위를 벗어난 조건은 Review Required다. 같은 등급의 모순 금액·정원 충돌도 보류하고, 지역이 있어도 장소 미정이면 현장 행사를 Verified로 만들지 않는다.
