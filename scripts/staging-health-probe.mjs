@@ -6,6 +6,7 @@ import {
   readConfig,
   validateBindings,
 } from './cloudflare-policy.mjs';
+import { verifyStagingHealthRecovery } from './health-probe-policy.mjs';
 import { preflight } from './path-policy.mjs';
 
 const state = preflight();
@@ -86,32 +87,8 @@ async function health() {
 }
 const report = {
   at: new Date().toISOString(),
-  target: 'staging',
-  remote: true,
-  success: false,
+  ...(await verifyStagingHealthRecovery({ target: 'staging', query, health })),
 };
-try {
-  await query(
-    'UPDATE deployment_identity SET schema_version=?1 WHERE singleton=?2',
-    [1, 1],
-  );
-  report.failure = await health();
-  if (
-    report.failure.httpStatus !== 503 ||
-    report.failure.code !== 'DB_IDENTITY' ||
-    report.failure.collectionEnabled !== false
-  )
-    throw new Error('Expected safe remote failure not observed');
-} finally {
-  await query(
-    'UPDATE deployment_identity SET schema_version=?1 WHERE singleton=?2',
-    [2, 1],
-  );
-}
-report.recovered = await health();
-if (report.recovered.httpStatus !== 200 || report.recovered.code !== 'OK')
-  throw new Error('Remote recovery failed');
-report.success = true;
 if (state.localDriveVerified)
   writeFileSync(
     `${state.root}/reports/dev01r-health-recovery-${Date.now()}.json`,
