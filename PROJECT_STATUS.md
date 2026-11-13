@@ -1,5 +1,9 @@
 # DEV-01R 프로젝트 상태
 
+> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
+
+배포 진단 개선: 최대8회·5초 간격의 공개 Health 전파 확인(5초 요청 timeout/4KiB 본문 제한), JSON DB_IDENTITY/환경/비활성화/민감 필드 오류는 즉시 중단한다. staging 전용 diagnose Actions는 최신 main/CI/Free 사용량을 재확인하고 합성 파서별3회·SSRF fail-closed1회만 실행한다. 임시 benchmark 버전은 finally에서 검증된 원래 staging 버전으로 되돌리고 D1을 복구/삭제하지 않는다. production에서는 diagnose를 거부한다.
+
 2026-11-12 JST. **원격 기반 구축 진행 중이며 전체 완료가 아니다.** DEV03 PR4/main8cfca1ab9555505509c28514582d093c2396de44를 확인하고 최신 main에서 요청 브랜치를 만들었다.
 
 ## 실제 완료한 원격 검증

@@ -14,7 +14,10 @@ import { preflight } from './path-policy.mjs';
 preflight();
 const target = validateEnvironment(process.argv[2]),
   mode = process.argv[3];
-if (!['validate', 'deploy'].includes(mode))
+if (
+  !['validate', 'deploy', 'diagnose'].includes(mode) ||
+  (mode === 'diagnose' && target !== 'staging')
+)
   throw new Error('Explicit validate/deploy required');
 const resources = JSON.parse(readFileSync('cloudflare-resources.json', 'utf8'));
 assertMigrationIntegrity();
@@ -64,13 +67,13 @@ console.log(
     analyticsCaveat: snapshot.analyticsCaveat,
   }),
 );
-if (mode === 'deploy') {
+if (mode === 'deploy' || mode === 'diagnose') {
   const result = spawnSync(
     process.execPath,
     [
-      'scripts/cloudflare.mjs',
-      'deploy',
-      target,
+      ...(mode === 'diagnose'
+        ? ['scripts/staging-diagnostics.mjs', target]
+        : ['scripts/cloudflare.mjs', 'deploy', target]),
       ...(target === 'production'
         ? ['--confirm-astro-events-jp-production']
         : []),
