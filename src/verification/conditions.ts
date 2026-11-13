@@ -10,7 +10,7 @@ export function parseFees(raw: string) {
   };
   if (!text.trim()) return judgement<Fees>(raw, null);
   if (
-    /無料.{0,4}(?:ではありません|ではない|でない)|未定|調整中|(?:費|料)\s*-\s*\d/u.test(
+    /\.\d+\s*円|[-−]\s*\d+\s*円|約\s*\d|円(?:以上|以下|から)|程度|予定|別料金|別途|割引|会員|無料.{0,4}(?:ではありません|ではない|でない)|未定|調整中|(?:費|料)\s*-\s*\d/u.test(
       text,
     )
   )
@@ -23,10 +23,29 @@ export function parseFees(raw: string) {
     const label = match[1] ?? '未分類';
     if (/入(?:場|館)(?:料)?無料/u.test(text) && !/参加費/u.test(label))
       return judgement(raw, value, 'ambiguous', ['fee-scope-unclear']);
-    const scope = /入場料|入館料/u.test(label) ? 'entrance' : 'participation';
+    const entranceContext = /入場料|入館料|入場料金|入館料金/u.test(text);
+    if (
+      entranceContext &&
+      /参加費/u.test(text) &&
+      !/参加費|入場料|入館料/u.test(label)
+    )
+      return judgement(raw, value, 'ambiguous', ['fee-scope-unclear']);
+    const scope =
+      /入場料|入館料/u.test(label) ||
+      (entranceContext && !/参加費/u.test(label))
+        ? 'entrance'
+        : 'participation';
+    if (!/^(?:\d+|\d{1,3}(?:,\d{3})+)$/.test(match[2] ?? ''))
+      return judgement(raw, value, 'ambiguous', ['unsupported-fee']);
     const yen = Number(match[2]?.replaceAll(',', ''));
     if (!Number.isSafeInteger(yen) || yen > 10000000)
       return judgement(raw, value, 'ambiguous', ['unsupported-fee']);
+    if (
+      value.tiers.some(
+        (t) => t.label === label && t.scope === scope && t.yen !== yen,
+      )
+    )
+      return judgement(raw, value, 'conflicting', ['fee-tier-conflict']);
     value.tiers.push({ label, yen, scope });
     if (value[scope] === 'free' && yen > 0)
       return judgement(raw, value, 'conflicting', ['free-and-paid-conflict']);
@@ -46,7 +65,11 @@ export function parseReservation(raw: string) {
     reception: null,
   };
   if (!text.trim()) return judgement<Reservation>(raw, null);
-  if (/不要では|必須では|必要では|要(?:事前)?予約では|未定|調整中/u.test(text))
+  if (
+    /不要では|必須では|必要では|要(?:事前)?予約では|抽選.{0,6}(?:しない|行いません|なし)|未定|調整中/u.test(
+      text,
+    )
+  )
     return judgement(raw, value, 'ambiguous', [
       'reservation-negated-or-undecided',
     ]);
@@ -65,8 +88,14 @@ export function parseReservation(raw: string) {
   if (first && lottery)
     return judgement(raw, value, 'conflicting', ['selection-conflict']);
   value.selection = first ? 'first-come' : lottery ? 'lottery' : null;
-  const capacity = text.match(/定員\s*(\d+)\s*名/u);
-  if (capacity) value.capacity = Number(capacity[1]);
+  const capacities = [...text.matchAll(/定員\s*(\d+)\s*名/gu)].map((m) =>
+    Number(m[1]),
+  );
+  if (capacities.some((n) => !Number.isSafeInteger(n) || n < 1 || n > 1000000))
+    return judgement(raw, value, 'ambiguous', ['invalid-capacity']);
+  if (new Set(capacities).size > 1)
+    return judgement(raw, value, 'conflicting', ['capacity-conflict']);
+  value.capacity = capacities[0] ?? null;
   const states: Reservation['reception'][] = [];
   if (/キャンセル待ち/u.test(text)) states.push('waitlist');
   else if (/満席/u.test(text)) states.push('full');

@@ -79,6 +79,33 @@ describe('image permissions are independently evidenced and conservative', () =>
   });
 });
 describe('negated conditions never become confident free/optional/online claims', () => {
+  it('keeps admission tiers out of event participation fees', () => {
+    const r = parseFees('入館料 大人500円 / 小学生200円');
+    expect(r.state).toBe('confirmed');
+    expect(r.value?.participation).toBe('unknown');
+    expect(r.value?.entrance).toBe('paid');
+    expect(r.value?.tiers.every((t) => t.scope === 'entrance')).toBe(true);
+  });
+  it.each([
+    '参加費500.5円',
+    '参加費50,00円',
+    '大人-500円',
+    '参加費約500円',
+    '参加費500円以上',
+  ])('holds unsupported money syntax %s', (raw) =>
+    expect(parseFees(raw).state).toBe('ambiguous'),
+  );
+  it('holds inconsistent price tiers and impossible or conflicting capacities', () => {
+    expect(parseFees('大人500円 / 大人700円').state).toBe('conflicting');
+    expect(parseReservation('定員99999999999999名 要予約').state).toBe(
+      'ambiguous',
+    );
+    expect(parseReservation('定員30名 定員20名').state).toBe('conflicting');
+    expect(parseReservation('抽選は行いません').state).toBe('ambiguous');
+  });
+  it('holds a named region when the actual venue remains undecided', () => {
+    expect(parseLocation('会場：未定（北海道）').state).toBe('ambiguous');
+  });
   it.each(['参加無料ではありません', '参加費未定', '参加費-500円'])(
     'holds %s',
     (raw) => expect(parseFees(raw).state).toBe('ambiguous'),

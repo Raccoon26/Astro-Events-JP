@@ -41,7 +41,7 @@ export function parseKind(raw: string) {
 }
 export function parseLocation(raw: string) {
   if (
-    /オンライン.{0,6}(?:ではありません|ではない|未定)|配信なし|ハイブリッド|現地とオンライン/u.test(
+    /未定|調整中|後日発表|オンライン.{0,6}(?:ではありません|ではない)|配信なし|ハイブリッド|現地とオンライン/u.test(
       raw,
     )
   )
