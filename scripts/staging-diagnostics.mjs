@@ -1,7 +1,11 @@
 import { spawnSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { accountSnapshot } from './account-snapshot.mjs';
-import { cloudflareClient, getCloudflareToken } from './cloudflare-client.mjs';
+import {
+  cloudflareClient,
+  getCloudflareToken,
+  latestDeploymentPath,
+} from './cloudflare-client.mjs';
 import {
   checkFreeAccount,
   readConfig,
@@ -45,7 +49,7 @@ async function command(file, ...args) {
   if (result.status !== 0) throw new Error('STAGING_DIAGNOSTIC_COMMAND_FAILED');
 }
 const name = resources.staging.workerName;
-const deployment = await api('GET', `/workers/scripts/${name}/deployments`);
+const deployment = await api('GET', latestDeploymentPath(name));
 const prior = deployment.deployments?.[0]?.versions;
 if (
   prior?.length !== 1 ||
@@ -60,7 +64,7 @@ const base = `https://${name}.${subdomain.subdomain}.workers.dev`;
 if (!verifierOnly) await command('staging-health-probe', '--apply');
 try {
   await command('cloudflare', 'benchmark', 'staging');
-  const version = (await api('GET', `/workers/scripts/${name}/deployments`))
+  const version = (await api('GET', latestDeploymentPath(name)))
     .deployments?.[0]?.versions?.[0]?.version_id;
   console.log(
     JSON.stringify({
@@ -109,7 +113,7 @@ try {
   // Worker version rollback does not roll back D1. The benchmark only SELECTs.
   await command('cloudflare', 'rollback', 'staging', prior[0].version_id);
   const restored = await verifyDeploymentVersion(
-    () => api('GET', `/workers/scripts/${name}/deployments`),
+    () => api('GET', latestDeploymentPath(name)),
     prior[0].version_id,
   );
   const health = await verifyDeploymentHealth(`${base}/health`, 'staging');

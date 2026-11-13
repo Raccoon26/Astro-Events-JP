@@ -2,7 +2,11 @@ import { execFileSync } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { cloudflareClient, getCloudflareToken } from './cloudflare-client.mjs';
+import {
+  cloudflareClient,
+  getCloudflareToken,
+  latestDeploymentPath,
+} from './cloudflare-client.mjs';
 import {
   assertMigrationIntegrity,
   checkFreeAccount,
@@ -322,9 +326,10 @@ try {
         `https://${resources[target].workerName}.${subdomain.subdomain}.workers.dev/health`,
         target,
       );
+      report.phase = 'deployment-inventory';
       const deployment = await api(
         'GET',
-        `/workers/scripts/${resources[target].workerName}/deployments`,
+        latestDeploymentPath(resources[target].workerName),
       );
       report.deployment = {
         deployments: deployment.deployments?.map(
