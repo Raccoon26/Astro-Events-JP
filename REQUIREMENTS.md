@@ -1,6 +1,6 @@
 # v1.0 요구사항 기준선
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 이 문서는 DEV-00에서 확정한 제품 범위이다. 구현 완료와 설계 완료를 구분한다. 코드의 기능 추가·삭제는 이 기준선, `requirements-coverage.json`, 로드맵을 함께 감사한다. 실제 X 자동 게시, 유료 AI·검색 API, VPS, 개인 서버는 사용하지 않는다. Telegram에서 사람이 일본어 완성 글을 복사해 게시한다.
 

@@ -1,27 +1,25 @@
-> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
-
 # 무료 운영 정책
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
-DEV01 재확인: 아래 공식 한도는 유지된다. **사용자 계정의 실제 플랜/사용량은 인증 보류로 미확인**이며 Free라고 추정하지 않는다. 로컬 Health의 D1 identity SELECT는 rows_read=1, rows_written=0이었다. 실제 Cloudflare CPU·D1 비용/계정여유를 실측했다고 표시하지 않는다.
+DEV01 당시 기록(현재 실제 검증은 위 보고서): 아래 공식 한도는 유지된다. **사용자 계정의 실제 플랜/사용량은 인증 보류로 미확인**이며 Free라고 추정하지 않는다. 로컬 Health의 D1 identity SELECT는 rows_read=1, rows_written=0이었다. 실제 Cloudflare CPU·D1 비용/계정여유를 실측했다고 표시하지 않는다.
 
-현재 env당 진단Cron2개, 두환경 합계4개를 계획하므로 계정5개 제한과 기존스케줄을 함께 확인해야 한다. 배포/provision guard는 실제ID·Free/당일 계정usage·15분 이내 근거·추가Cron슬롯을 검사하고 불명/초과시 중단한다. CF_ACCOUNT_EVIDENCE는 인증된 Dashboard를 확인한 운영자 근거이며 자동증명으로 취급하지 않는다. 현재 자동갱신은 원격검증 전이다. 프로젝트 자체지표와 계정전체예산을 혼동하지 않는다.
+현재 staging 진단Cron1개/production0개다. 계정5개 제한과 기존스케줄을 함께 확인한다. 과거 환경별2개 계획은 현재 배포에 적용하지 않으며 미래 일일정리는 DEV09에서 검토한다. 배포/provision guard는 실제ID·Free/당일 계정usage·15분 이내 근거·추가Cron슬롯을 검사하고 불명/초과시 중단한다. CF_ACCOUNT_EVIDENCE는 인증된 Dashboard를 확인한 운영자 근거이며 자동증명으로 취급하지 않는다. 현재 Actions는 공식 API의 당일 구독·사용량·인벤토리 snapshot을 자동 생성한다. 프로젝트 자체지표와 계정전체예산을 혼동하지 않는다.
 
 Cloudflare 제공 [CPU/Workers GraphQL](https://developers.cloudflare.com/analytics/graphql-api/tutorials/querying-workers-metrics/) 조회 도구를 준비했다. 수치가 없거나 API스키마/권한이 맞지 않으면 실패하고0으로 대체하지 않는다. raw cpuTimeP50/P99의 provider단위를 확인한 뒤에만 ms로 환산한다. Worker 로그 wallTimeMs 및 로컬 workerd 시간은 원격CPU 기준선이 아니다. 실제 CPU기준선·원격계정지표는 DEV01 재개시 필수이며 RSS/HTML 프로파일은 DEV03에 남긴다.
 
 확인일: 2026-11-11 (JST). 공식 문서 기준이며 계정 전체 사용량을 공유한다. 배포 전/각 DEV09 재검증한다. 요금이나 할당량이 바뀌면 운영을 축소하고 사용자 검토 없이 유료플랜으로 전환하지 않는다.
 
-| 항목            | Free 한도 / 설계 영향                                                                   |
-| --------------- | --------------------------------------------------------------------------------------- |
-| Workers 요청    | 100,000/일, UTC 자정 갱신                                                               |
-| CPU             | HTTP 및 Cron 각10ms; 대기시간은 CPU와 별개                                              |
-| 외부 subrequest | 호출당50, redirect도 포함; 내부서비스는 별도한도, D1 쿼리는50/호출 기준으로 보수 관리   |
-| 메모리/연결     | isolate128MB / 동시 outgoing6                                                           |
-| Cron            | 계정5개; 환경당 진단2개·전체4개 계획, scheduled wall time15분과 CPU10ms를 혼동하지 않음 |
-| D1              | 계정10DB, 단일DB500MB, 계정총5GB                                                        |
-| D1 일일 처리    | 읽기500만행 / 쓰기10만행, 인덱스쓰기도 가산; UTC 자정 갱신                              |
-| D1 쿼리/복구    | 호출당50쿼리, Time Travel7일                                                            |
+| 항목            | Free 한도 / 설계 영향                                                                 |
+| --------------- | ------------------------------------------------------------------------------------- |
+| Workers 요청    | 100,000/일, UTC 자정 갱신                                                             |
+| CPU             | HTTP 및 Cron 각10ms; 대기시간은 CPU와 별개                                            |
+| 외부 subrequest | 호출당50, redirect도 포함; 내부서비스는 별도한도, D1 쿼리는50/호출 기준으로 보수 관리 |
+| 메모리/연결     | isolate128MB / 동시 outgoing6                                                         |
+| Cron            | 계정5개; staging1개·production0개, scheduled wall time15분과 CPU10ms를 혼동하지 않음  |
+| D1              | 계정10DB, 단일DB500MB, 계정총5GB                                                      |
+| D1 일일 처리    | 읽기500만행 / 쓰기10만행, 인덱스쓰기도 가산; UTC 자정 갱신                            |
+| D1 쿼리/복구    | 호출당50쿼리, Time Travel7일                                                          |
 
 근거: [Workers limits](https://developers.cloudflare.com/workers/platform/limits/), [D1 pricing](https://developers.cloudflare.com/d1/platform/pricing/), [D1 limits](https://developers.cloudflare.com/d1/platform/limits/). Workers/Cron/D1 기능은 Free에서 제공된다. 플랫폼 한도와 프로젝트 자체 보수적 budget은 구분한다.
 
@@ -47,7 +45,7 @@ Import는Node관리도구에서여러작은batch를순차실행하므로50쿼리
 
 ## DEV-01R 원격 기반
 
-계정 Free는 사용자 화면뿐 아니라 로그인된 공식 대시보드를 직접 확인했다. 구독 API403을 Free 성공으로 해석하지 않았다. 현재 계획은 staging 읽기 전용 진단Cron1개(0 */3 * * *), production0개다. 미래 일일정리 Cron은 DEV09에 별도로 검토한다. 진단 시험 중 staging의 같은1개 슬롯만 임시 매분으로 바꾸며20분 안에 원래 주기로 복원한다. 다른 프로젝트의 Cron은 조회만 한다.
+계정 Free는 사용자 화면뿐 아니라 로그인된 공식 대시보드를 직접 확인했다. 구독 API403을 Free 성공으로 해석하지 않았다. 현재 계획은 staging 읽기 전용 진단Cron1개(0 */3 * * *), production0개다. 미래 일일정리 Cron은 DEV09에 별도로 검토한다. 이번 실제 시험은 기존3시간 Cron의 성공 지표를 확인해 매분 임시 Trigger를 설치하지 않았다. 향후 진단 도구를 사용하면 같은1개 슬롯만 임시 변경하고20분 안에 복원한다. 다른 프로젝트의 Cron은 조회만 한다.
 
 CPU GraphQL의 cpuTimeP50/P99 단위는 실제 schema introspection에서 microseconds임을 확인했다. cloudflare-metrics.mjs는 단위를 재확인해1000으로 나눈 ms와 raw값을 함께 기록한다. 메모리 지표는 provider가 제공할 때만 기록한다. 로컬 경과시간/합성시험을 원격 CPU로 바꾸지 않는다.
 

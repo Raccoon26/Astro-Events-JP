@@ -1,8 +1,6 @@
-> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
-
 # GitHub 자동 완료
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01도 검증된 complete:dev를 그대로 사용한다. 작업브랜치는 dev/dev-01-cloudflare-foundation이며 기존main quality/보호는 완화하지 않는다. 원격인증차단은 검사실패와 구분하여 문서/PR에 명시하고 안전한로컬코드는 기존PR/CI절차로 통합한다. 운영환경DEV01완료판정은 별도이다.
 
@@ -33,3 +31,7 @@ DEV03도complete:dev로동일한자동완료절차를수행한다. 기존CI를�
 ## DEV-01R 원격 기반
 
 dev/dev-01r-cloudflare-remote를 허용하도록 complete:dev 브랜치 검사를 확장했다. quality/strict/PR/관리자 포함·force push/삭제 금지는 그대로다. 배포workflow mode=validate는 활성화 변수false에서도 main+필수CI+환경승인 후 읽기 전용 인증을 시험한다. deploy는 기존 활성화/production 확인/리뷰를 모두 요구하고 live 계정 근거를 생성한다. staging 자동배포와 production 사람 승인을 분리한다. 인증/실행 검증 전에는 변수를true로 바꾸지 않는다.
+
+## DEV01R 최종 배포 정책
+
+validate는 읽기 전용 인증, diagnose는 staging 고정 합성 시험과 finally rollback, deploy는 환경별 실제 배포다. staging/production 토큰은 환경 Secret으로 분리한다. 두 활성화 변수가true여도 production은 명시적dispatch/확인문구/기존 사람 승인이 필요하다. main 자동배포는staging만 해당하며 수집/알림을 활성화하지 않는다. 초기 자동 승인 검토 거절은 사용자 명시 승인과 staging 최종 성공 후에만 재개했고 GitHub production 보호도 사용자가 직접 승인했다.

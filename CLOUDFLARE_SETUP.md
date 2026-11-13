@@ -1,22 +1,20 @@
-> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
-
 # Cloudflare 연결·환경 구축
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
-DEV-01 원격 인증은 사용자 요청으로 보류되었다. 현재 Workers Free 플랜, 계정 전체 사용량, 실제 DB ID, 권한, 원격 자원 충돌 여부는 **미확인**이다. 로컬 D1/workerd 결과는 원격 성공의 증거가 아니다. `cloudflare-resources.json`의 null 및 Wrangler의 0000… ID는 로컬 식별자이며 실제 Cloudflare ID가 아니다. 원격 guard가 이를 거부한다.
+DEV01 당시의 인증 보류는 DEV01R에서 재개했다. 현재 두 DB 실제 ID를 cloudflare-resources.json/wrangler.jsonc에 반영했고 환경별 Worker·권한·원격 배포를 확인했다. 최상위 local DB의0000 ID는 원격 대상이 아니며 staging/production placeholder는 계속 거부한다.
 
 ## 인증을 재개할 때
 
-사용자가 재개를 요청하면 E repo에서 environment.ps1을 적용한 후 공식 Wrangler OAuth를 사용한다. `node scripts/wrangler.mjs login --browser=false --scopes account:read user:read workers:write d1:write`는 계정조회/Worker/D1 설정용이다. OAuth는 세밀한 개별자원 제한이 제한적이므로 승인 화면을 확인한다. 지속갱신 offline_access를 자동 추가하지 않는다. 현재는 새 동의를 요청하거나 로그인을 재시도하지 않는다. 비밀번호/토큰을 채팅에 넣지 않는다. 자격증명은 E tools/config 아래, API 호출은 메모리에서만 읽고 auth token CLI 출력을 로그로 남기지 않는다.
+사용자가 재개를 요청하면 E repo에서 environment.ps1을 적용한 후 공식 Wrangler OAuth를 사용한다. `node scripts/wrangler.mjs login --browser=false --scopes account:read user:read workers_scripts:write workers_tail:read d1:write`는 계정조회/Worker/D1 설정용이다. OAuth는 세밀한 개별자원 제한이 제한적이므로 승인 화면을 확인한다. 현재 pinned Wrangler는 offline_access를 자동 포함한다. 유효한 기존 인증을 재사용하고 필요한 경우에만 공식 로그인/사용자 승인을 재개한다. 비밀번호/토큰을 채팅에 넣지 않는다. 자격증명은 E tools/config 아래, API 호출은 메모리에서만 읽고 auth token CLI 출력을 로그로 남기지 않는다.
 
-CI에는 별도의 **환경별** API 토큰을 사용한다. Cloudflare Dashboard → My Profile → API Tokens → Create Custom Token에서 대상 계정의 Workers Scripts Edit·D1 Edit를 필요한 자원에 한정한다. 조회/metrics에는 Account Analytics Read 등 해당 조회 권한만 추가한다. DNS·Routes·KV·유료제품·Billing Write는 필요없다. 초기 D1 생성은 해당 계정 D1 생성권한, 생성 후에는 가능한 범위에서 각 DB/Worker로 축소한다. 토큰을 GitHub Settings → Environments → staging 또는 production → Environment secrets의 CLOUDFLARE_API_TOKEN에 저장한다. 두 환경에 같은 토큰을 복사하지 않는다. 현재 Secrets는 등록하지 않았다.
+CI에는 별도의 **환경별** API 토큰을 사용한다. Cloudflare Dashboard → My Profile → API Tokens → Create Custom Token에서 대상 계정의 Workers Scripts Edit·D1 Edit를 필요한 자원에 한정한다. 조회/metrics에는 Account Analytics Read 등 해당 조회 권한만 추가한다. DNS·Routes·KV·유료제품·Billing Write는 필요없다. 초기 D1 생성은 해당 계정 D1 생성권한, 생성 후에는 가능한 범위에서 각 DB/Worker로 축소한다. 토큰을 GitHub Settings → Environments → staging 또는 production → Environment secrets의 CLOUDFLARE_API_TOKEN에 저장한다. 두 환경에 같은 토큰을 복사하지 않는다. 현재 두 GitHub Environment Secret의 등록과 실제 API 동작을 독립 검증했다. Billing Read는 현재 구독 안전 검사에 필요하고 Billing Write는 금지한다.
 
 ## 실제 Free 계정과 사용량 확인
 
 Cloudflare Dashboard의 Workers & Pages 플랜과 Billing → Subscriptions에서 Workers Free를 확인한다. 계정 전체 Workers 요청, 모든 D1 읽기/쓰기·저장량, 현재 Cron 수, 기존 Worker/DB 목록을 확인한다. 계정조회 권한이 없거나 일부 지표가 모호하면 배포하지 않는다. 단순히 유료 구독이 보이지 않거나 프로젝트 자체 트래픽이 적다는 이유로 여유를 추정하지 않는다.
 
-guard는 `CF_ACCOUNT_EVIDENCE` 환경 Secret에 아래 **실측값**을 요구한다. 예시 숫자를 그대로 승인근거로 사용하지 않는다. source는 실제 인증된 Dashboard 확인을 뜻한다. checkedAt은 UTC 확인시각, utcDay는 해당 UTC일이다. 15분이 지나거나 날짜가 바뀌면 새 근거가 필요하다. 프로젝트별 Cron 수를 모르면 0으로 보수 계산해 추가 슬롯을 확보한다. 이 근거는 운영자 확인이며 자동 플랜 인증 시스템을 완성했다고 주장하지 않는다.
+로컬 guard는 CF_ACCOUNT_EVIDENCE 프로세스 환경에 아래 형식의 검증 근거를 요구한다. Actions는 장기 Secret으로 저장하지 않고 cloudflare-ci.mjs가 공식 API에서 실행마다 새 snapshot을 만든다. 아래는 수동/기존 형식 설명이다. 예시 숫자를 그대로 승인근거로 사용하지 않는다. source는 실제 인증된 Dashboard 확인을 뜻한다. checkedAt은 UTC 확인시각, utcDay는 해당 UTC일이다. 15분이 지나거나 날짜가 바뀌면 새 근거가 필요하다. 프로젝트별 Cron 수를 모르면 0으로 보수 계산해 추가 슬롯을 확보한다. 이 근거는 운영자 확인이며 자동 플랜 인증 시스템을 완성했다고 주장하지 않는다.
 
 ```json
 {

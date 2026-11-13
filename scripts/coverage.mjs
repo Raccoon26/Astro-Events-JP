@@ -105,7 +105,7 @@ if (dev01.operationalCompletion !== 'blocked-authentication-deferred-by-user')
     'Update DEV01 completion audit only after actual remote verification',
   );
 console.log(
-  'DEV01 sections 0–18 mapped; remote authentication/operational completion explicitly blocked.',
+  'DEV01 sections 0–18 historical deferrals retained; current remote verification is audited in DEV01R.',
 );
 const dev02 = JSON.parse(readFileSync('dev02-coverage.json', 'utf8'));
 for (let section = 0; section <= 24; section++) {
@@ -135,7 +135,7 @@ for (let section = 0; section <= 29; section++) {
 if (dev03.remoteDEV01 !== 'deferred-by-user-no-reauthentication')
   throw new Error('DEV01 deferral must remain');
 console.log(
-  'DEV03 sections 0–29 mapped; local fixtures, live approval 0 and remote CPU/transport limitations explicit.',
+  'DEV03 sections 0–29 mapped; historical CPU deferral retained, DEV01R small-fixture CPU measured; active0 and transport limitations remain explicit.',
 );
 const dev01r = JSON.parse(readFileSync('dev01r-coverage.json', 'utf8'));
 for (let section = 0; section <= 20; section++)

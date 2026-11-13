@@ -1,6 +1,6 @@
 # Windows E드라이브 개발
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01 시작 전 실제 E 접근·정확한repo·깨끗한Git·npm cache/temp/log/build 경로와 DryRun 보고를 확인했다. 원격OAuth는 미인증이며 사용자요청으로 나중에 수행한다. 시스템C의 기존Wrangler설정은 존재여부만읽었고 파일을 생성/수정하지 않았다.
 

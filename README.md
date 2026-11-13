@@ -1,10 +1,10 @@
-> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
-
 # Astro-Events-JP
+
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 일본 전국 천문·우주·연구기관·지역 소규모 행사, 시설 운영 정보, 관련 VTuber 소식을 공식 출처로 검증하고 일본어 X 복사용 완성 글과 이미지 출처를 전달하는 무료 운영 프로젝트입니다. X 게시자는 사용자입니다.
 
-현재 DEV-03 로컬 수집·파싱·후보/이미지·Discovery 엔진을 구현했습니다. 실제 수집 승인과 실전 Collector 시험은0개입니다. DEV-01 Cloudflare 인증·원격 검증은 사용자 요청으로 보류했습니다. **실제 원격 운영 환경 구축 완료 상태는 아닙니다.** 수집·게시글 생성·Telegram Bot은 후속 DEV 범위입니다. TypeScript / Workers Free·Cron / D1 / GitHub CI·Private Reports Issues / Telegram을 사용합니다.
+DEV-03의 RSS/Atom/HTML/Sitemap 수집·후보/이미지·Discovery 라이브러리와 DEV-01R의 실제 staging/production Workers·별도 D1 기반을 검증했습니다. 실제 정보원 수집 승인과 실전 Collector 시험은0개이며 수집/알림은 비활성화입니다. 행사 검증·일본어 게시글·Telegram 등은 후속 DEV 범위입니다. TypeScript / Workers Free·Cron / D1 / GitHub CI·Private Reports Issues / Telegram을 사용합니다.
 
 ```powershell
 Set-Location E:\Astro-Events-JP\repo
@@ -31,4 +31,4 @@ Cloudflare 재개는 [CLOUDFLARE_SETUP](CLOUDFLARE_SETUP.md), 배포는 [DEPLOYM
 
 수집 엔진은 [COLLECTOR_DESIGN](COLLECTOR_DESIGN.md), 형식은 [PARSER_SUPPORT](PARSER_SUPPORT.md), 보안 한계는 [SSRF_SECURITY_AUDIT](SSRF_SECURITY_AUDIT.md), 측정은 [COLLECTION_BENCHMARK](COLLECTION_BENCHMARK.md)를 참조합니다. 운영 Worker/Cron·알림에는 연결하지 않았습니다.
 
-DEV-01R: 원격OAuth/Free·D1두개/마이그레이션·staging Time Travel은 실제 검증했다. Workers/Actions/CPU 및 production 승인 검증은 진행 중이며 [PROJECT_STATUS](PROJECT_STATUS.md)의 현재 판정을 따른다. Collection/Notifications는 false다.
+DEV-01R: 실제 OAuth/Free·두 D1·마이그레이션·staging Time Travel/Worker rollback·두 Worker Health·Cron·CPU·승인된 Actions 배포를 검증했습니다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)와 [현재 상태](PROJECT_STATUS.md)를 참조하세요. 수집·알림은 계속 비활성화이며 DEV04는 자동 시작하지 않습니다.

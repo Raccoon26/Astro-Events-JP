@@ -23,3 +23,7 @@ robots의 User-Agent/Allow/Disallow/경로 우선/동률Allow/일반 wildcard·C
 스트림을 읽으며256KiB를 검사하고 5초 timeout/30초 HTTP 단계 deadline/외부 abort를 적용한다. 로컬 transport는 gzip/deflate/br 해제와 wire 상한을 적용하며 해제된 스트림도 별도로 검사한다. 요청 gap·호스트 gate·3회 job claim 한도·429/503 Retry-After 이월로 반복 부하를 줄인다. 입력 페이지/selector/XML을 코드로 실행하지 않고 SQL은 bind한다. DTD/ENTITY를 모두 거부한다.
 
 후보/이미지/이력/진행 상태는 owner 조건이 있는 원자적 batch로 보존한다. 승인 취소/재심사는 Source를 review/unsupported로 바꾼다. 공개 HTTP 관리 경로·인증 헤더 전달·원문/비밀 로그가 없다. 실제 수집기/분산 일예산·장기 lease·정리 운영은 DEV09 원격 검증 전 활성화하지 않는다.
+
+## DEV01R 공식 문서·실제 런타임 확인
+
+2026-11-13 공식 TCP sockets/Request·Node DNS 문서를 재검토했다. SocketInfo.remoteAddress는nullable이며 fetch peer를 노출하는 API가 아니다. DNS 조회·정확한 hostname·manual redirect만으로 DNS 결과와 실제 TLS 연결 pinning을 증명하지 못했다. 실제 staging benchmark의 unavailableTransport가dns-protection-unavailable/외부요청0을 반환했음을 검증했다. 이것은의도한 차단 검증이며 접속IP 보장 성공이 아니다. [원격CPU/실행 증거](DEV01R_REMOTE_REPORT.md)를 참조한다. 유료 프록시·다른 프로젝트 DNS/라우팅 변경은 하지 않았다.

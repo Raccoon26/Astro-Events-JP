@@ -1,14 +1,12 @@
-> DEV-01R 2026-11-13 진행: PR5/main c92995d 이후 staging Worker·별도 D1·3시간 진단 Cron과 실제 Health HTTP200을 확인했다. API 기반 Actions 인증은 staging/production 모두 성공했다. 초기 staging 배포 run43234942275는 Health 확인 실패로 종료되어 배포 성공으로 계산하지 않는다. 전파 지연만 bounded 재확인하며 DB/환경 오류는 즉시 실패한다. Cloudflare GraphQL 실제 CPU: fetch 4.004ms, cron P50 1.799ms/P99 2.815ms(6 reported invocations, errors0). 파서 원격 측정·staging rollback·production 배포는 아직 진행 중이다. 모든 Collection/Notifications=false, active0/96정보원/92시설/47현을 유지한다.
-
 # D1·Worker 복구
 
-> DEV-01R 현재 상태(2026-11-12 JST): 공식 OAuth/Free 화면 확인, 원격 D1 두 개·0001~0004 적용·staging CRUD/Time Travel 복구를 실제 검증했다. Worker 배포·Cron 실행·CPU·Actions 인증/production 승인은 이 스냅샷에서 아직 검증 중이다. 아래 과거 DEV01~03의 보류 기록은 당시 이력이며 현재 결과는 DEV-01R 절과 PROJECT_STATUS를 따른다.
+> DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV00의 0001_foundation.sql은 수정하지 않았다. 정규화된 LF 내용의 SHA256을 검사하며 CRLF checkout 차이는 허용한다. DEV01은 0002_deployment_identity.sql만 추가했다. 적용 전 migrations list와 schema/index inventory·quick_check·foreign_key_check를 확인하고, 원격은 현재 Time Travel bookmark를 E reports에 저장한다. additive DDL만 guard에서 허용하며 향후 ALTER/DROP/데이터수정 마이그레이션은 별도 검토·명시적 승인·호환성 계획이 필요하다.
 
 [D1 공식 Time Travel](https://developers.cloudflare.com/d1/reference/time-travel/)은 Workers Free에서 과거7일까지 복구하며 무제한이 아니다. [D1 limits](https://developers.cloudflare.com/d1/platform/limits/)는 DB당10분내10회 복구 한도를 명시한다. Time Travel은 SQL down migration이나 다른 DB로의 자동복제와 다르다. Worker rollback도 DB schema를 되돌리지 않는다. R2·Workflows·유료보관 서비스를 추가하지 않는다.
 
-## staging 전용 원격 검증 (현재 차단)
+## staging 전용 원격 검증 절차 (DEV01R 실제 검증 완료)
 
 1. 계정 Free/사용량·대상명/ID·내부 marker가 staging인지 검증한다. 테스트용 staging에 동시 변경을 중지한다.
 2. migrate/initialize/inspect 후 `node scripts/cloudflare.mjs bookmark staging`으로 **schema2와 marker가 있는 시점**을 기록한다. 확인된 bookmark를 복구 대상과 함께 보존한다.
@@ -24,7 +22,7 @@ DEV00의 0001_foundation.sql은 수정하지 않았다. 정규화된 LF 내용�
 
 ## DEV-01R 원격 기반
 
-2026-11-12 실제 staging DB에서 Bookmark를 취득하고 합성 Discovery 행 insert/update/read, 의도한 실패 DDL 감지, migration ledger 불변, Time Travel restore 후 합성행 부재·marker·quick_check/FK를 검증했다. 결과는 E reports/dev01r-staging-recovery-*.json이다. production은 구조/무결성만 검사하며 테스트행·restore·삭제를 실행하지 않았다. 원격 Worker rollback은 staging 배포 후 별도 검증 대상이다.
+2026-11-12 실제 staging DB에서 Bookmark를 취득하고 합성 Discovery 행 insert/update/read, 의도한 실패 DDL 감지, migration ledger 불변, Time Travel restore 후 합성행 부재·marker·quick_check/FK를 검증했다. 결과는 E reports/dev01r-staging-recovery-*.json이다. production은 구조/무결성만 검사하며 테스트행·restore·삭제를 실행하지 않았다. 원격 Worker rollback도 최종 diagnose에서 정확한 이전 version/100% traffic·Health200·임시 benchmark404로 검증했다.
 
 새 staging-recovery.mjs --apply는 production 인자를 거부하며 provider ID/이름/내부 marker·Free 근거를 먼저 검사한다. 부분 실패 시 Bookmark와 phase를 먼저 저장하고 DB를 자동 삭제하거나 무제한 재시도하지 않는다. failed DDL은 별도의 고정 구문오류 시험이며 기존 migration 파일을 변조하지 않는다.
 
