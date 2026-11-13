@@ -27,3 +27,5 @@ npm run verifier:review -- --candidate ID --file E:/Astro-Events-JP/reports/revi
 verifier:images는 권리·추천 미리보기, verifier:facility는 패킷의 연결 시설 영향, verifier:notice는 공지 미리보기/동일한 명시적 적용 장치를 제공한다. 승인되지 않은 사이트를 방문하거나 Source를 active로 전환하는 명령은 없다. 보고서는 E reports/dev04-verifier-*.json, 에러는 안전한 코드만 기록한다. 실제 행사 적용0, 합성 자료는 격리 시험 DB에만 넣는다.
 
 입장료 문맥의 大人/小学生 금액은 entrance에 보존한다. 참가/입장 문맥이 혼합되어 등급의 소속을 알 수 없으면 보류한다. 소수엔·잘못된 천단위 구분·음수·근사/이상·할인/회원/별도요금·예정 등 범용 지원 범위를 벗어난 조건은 Review Required다. 같은 등급의 모순 금액·정원 충돌도 보류하고, 지역이 있어도 장소 미정이면 현장 행사를 Verified로 만들지 않는다.
+
+VTuber 관계 게이트는 Source category뿐 아니라 VTuber 행사 유형 또는 명시적 vtuberIds에도 적용한다. 일반 과학시설·행사주최자의 Source에서 나온 공지라도 VTuber 공식관계·연결·검증상태를 생략하지 않는다. 猫谷ここな의 미확인 상태를 일반시설 경로로 우회할 수 없다.
