@@ -24,3 +24,7 @@ DEV03 gate: 원본0001~0003보존·4형식파서·HTTP/정책/SSRF경계·리다
 ## DEV-01R 원격 기반
 
 DEV01R 게이트: Free 직접확인/OAuth·계정사용량·자원충돌, 두D1/ID/0001~4/marker·CRUD/원격복구는 실증한다. staging 배포/Health/오류·Cron 실제실행·공식CPU/메모리·D1카운터·별도CI토큰 검증/배포·production 승인/배포·rollback·사용량 재조회·기존178회귀·E/DryRun·최신PR quality/보호/병합/main동기화까지 확인해야 전체완료다. 아직 실행하지 않은 항목은 보고서에서 pending으로 남긴다.
+
+## DEV04 구현 경계
+
+DEV04: 기존206 목적/0001~0004 checksum·신규0005 로컬FK/무결성·원자성/경쟁·현재Verified게이트·도구DryRun/원격거부·제한크기/secret·두환경/collector/verifier build·전체check·원본요구R01~32와DEV04감사·E정리를 확인한다. production migration은 별도 사용자승인 전 금지다. 실제active/수집0·Collection/Notifications=false·productionCron0과 기존Health를 보존한다. CPU 로컬/원격은 별도 보고한다.

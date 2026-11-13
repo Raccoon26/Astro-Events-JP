@@ -147,3 +147,22 @@ for (let section = 0; section <= 20; section++)
 console.log(
   'DEV01R sections 0–20 mapped. Earlier DEV01–03 deferral records are historical; PROJECT_STATUS and DEV01R evidence determine current remote completion.',
 );
+
+const dev04 = JSON.parse(readFileSync('dev04-coverage.json', 'utf8'));
+for (let i = 0; i <= 20; i++) {
+  const item = dev04.sections[i];
+  if (
+    !item?.status ||
+    !item.evidence?.length ||
+    item.evidence.some((file) => !existsSync(file))
+  )
+    throw new Error('Unmapped DEV04 section ' + i);
+}
+for (let i = 1; i <= 32; i++) {
+  const id = 'R' + String(i).padStart(2, '0');
+  if (!dev04.requirements[id]?.evidence.length)
+    throw new Error('Missing DEV04 preservation audit ' + id);
+}
+console.log(
+  'DEV04 sections0–20 and R01–R32 mapped; real verification0 and later DEV scope remain explicit.',
+);

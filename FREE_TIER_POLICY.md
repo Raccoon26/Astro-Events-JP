@@ -50,3 +50,7 @@ Import는Node관리도구에서여러작은batch를순차실행하므로50쿼리
 CPU GraphQL의 cpuTimeP50/P99 단위는 실제 schema introspection에서 microseconds임을 확인했다. cloudflare-metrics.mjs는 단위를 재확인해1000으로 나눈 ms와 raw값을 함께 기록한다. 메모리 지표는 provider가 제공할 때만 기록한다. 로컬 경과시간/합성시험을 원격 CPU로 바꾸지 않는다.
 
 Workers Logs Free의 현재200,000 events/day·3일 보관과 Traces를 확인했다. 2026-12-01부터 [Observability 요금](https://developers.cloudflare.com/observability/pricing/)의 Free0.5GB/day·7일 보관/한도 후 수집중단으로 변경 예정이며 유료 업그레이드/외부 export는 하지 않는다. 계정전체 허용량을 공유하므로 운영 재개 전 재확인한다.
+
+## DEV04 구현 경계
+
+DEV04도 Workers Free CPU10ms/128MB·외부subrequest50·D1쿼리50과 계정 전체 한도를 전제로 한다. 2026-11-13 공식 Workers limits/D1 pricing 및 D1.batch transaction 문서를 재확인했다. 후보 커서≤50/검증1후보 단위/최대8이미지·공지 pagination·조회 인덱스·로컬 D1 meter를 사용한다. 수천건 검증은 Node관리 도구의 여러 작업이며1Worker 호출 처리량이 아니다. unknown 계정 예산은 commit 차단, --local-budget은 로컬에만 유효하다. DEV01R CPU는 DEV04 성능 보장이 아니다. [측정](DEV04_TEST_REPORT.md).

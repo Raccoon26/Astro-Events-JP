@@ -51,3 +51,7 @@ DEV03은 DNS/redirect/body/timeout/429/robots fixture, DEV04는 날짜/공식취
 ## DEV01R 최종 검사 기준
 
 기존178개 목적을 유지한206개/18파일 전체 check와 최신HEAD필수CI, 실제staging deploy/Health503→200·고정4파서·fail-closed·정확한version rollback·production사용자승인배포를 검증했다. 실패한 초기3workflow는실패 이력으로 보존한다. 최종문서PR도같은quality/보호/안전병합을 거친다. 실제사이트수집·대형본문CPU·물리드라이브분리·제품알림/메일은시험하지 않았으며 성공으로 계산하지 않는다.
+
+## DEV04 구현 경계
+
+DEV04의 정책·합성 기관/지역·이미지·CLI·native D1/workerd 통합 및2,001건 커서 시험을 추가한다. 기존206개를 삭제하지 않는다. [시험 범위와 로컬/원격 구분](DEV04_TEST_REPORT.md), [감사](dev04-coverage.json). 최종 npm run check는 verifier build/신규 migration/기존 회귀까지 검사한다.

@@ -25,3 +25,7 @@ DEV01 당시 로컬 구현에는 제품 수집·검증·X 생성·Telegram Bot·
 ## DEV-01R 원격 기반
 
 DEV-01R은 기존01의 원격 보류 조건을 재개한 보완 단계이며 DEV04가 아니다. 현재 실제 OAuth/Free 대시보드/계정 조사·원격 D1 두개/마이그레이션/CRUD·staging Time Travel을 검증했고 staging/production 배포·실제CPU·Actions·사용자 production 승인을 검증했다. 전체 완료 조건을 삭제하지 않는다. DEV02~03의96정보원·92시설·47현·수집승인0, DEV04~10의 모든 제품 범위를 보존하며 다음DEV는 자동 시작하지 않는다.
+
+## DEV04 검증 기반
+
+후보의 근거/정밀도/조건·공식 상태/시설 영향·이미지 권리·CAS/revision과 현재 VerifiedEvent 게이트, 로컬 관리 명령을 추가한다. 실제 출처 승인0/수집0과 Workers fail-closed는 유지한다. 원격0005/production 변경 없이 로컬 및 격리 D1을 검증한다. DEV05는 이 게이트와 확인된 필드만 사용하도록 준비하되 자동 시작하지 않는다. [검사 결과](DEV04_TEST_REPORT.md).

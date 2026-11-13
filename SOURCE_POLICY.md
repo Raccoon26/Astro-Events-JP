@@ -17,3 +17,7 @@ DEV02의공식성/robots/이용조건/파서승인을분리하고미확인정책
 실제 active는 계속0이다. CollectionStore.approve는 공식 주체·URL·robots/약관·scope/host·형식·간격·유효기간·성공한 시험 근거를 명시적으로 요구한다. approve/review CLI는 기본DryRun이며 실제 파일 근거 없이 결과를 만들지 않는다. approve는 inactive Source를 자동 시험하지 않는다. robots404는 개별 absence 승인 없이는 수집 허가가 아니다. robots 지문이 바뀌거나 심사가 만료되면 재검토한다. review/unsupported 재심사는 기존 active를 차단한다.
 
 실제 NAOJ 정책 검토는 원문 이용규정 확인/robots 확인 불가로review다. 수집기 실전 시험은0이며 합성 fixture의 승인을 실제 사이트 승인에 포함하지 않는다. 파서와 접근의 기술적 제약은 [PARSER_SUPPORT](PARSER_SUPPORT.md)와 [SSRF_SECURITY_AUDIT](SSRF_SECURITY_AUDIT.md)를 따른다.
+
+## DEV04 구현 경계
+
+DEV04의 공식 사실 검증도 현재 active 승인·robots/약관/host/scope를 요구한다. 출처 공식성77개는 수집/검증 승인77개라는 의미가 아니다. 실제active0을 보존한다. 원문 변경 후 관측되지 않은 후보/철회된 승인/공식 관계 불명은 보류하며 관리 CLI는 외부 요청을 하지 않는다. [판정](VERIFICATION_POLICY.md).

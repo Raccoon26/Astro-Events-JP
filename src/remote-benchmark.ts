@@ -10,6 +10,7 @@ import {
 import type { Env } from './config';
 import { diagnose } from './diagnostics';
 import worker from './index';
+import { syntheticVerification } from './verification/benchmark';
 
 const fixtures: Record<Format, string> = {
   html: '<ul><li><a href="/events/1">合成 星空観望会</a><p>2026年12月1日 会場：合成施設</p><img src="/poster.jpg" alt="ポスター"></li></ul>',
@@ -86,12 +87,21 @@ export default {
     const format = path.slice('/benchmark/'.length);
     if (
       !path.startsWith('/benchmark/') ||
-      !['rss', 'atom', 'html', 'sitemap', 'ssrf'].includes(format)
+      !['rss', 'atom', 'html', 'sitemap', 'ssrf', 'verifier'].includes(format)
     )
       return Response.json({ code: 'NOT_FOUND' }, { status: 404 });
     const health = await diagnose(env);
     if (health.code !== 'OK')
       return Response.json({ code: health.code }, { status: 503 });
+    if (format === 'verifier')
+      return Response.json({
+        format,
+        candidates: 1,
+        ...(await syntheticVerification(new Date().toISOString())),
+        dbRowsRead: health.rowsRead,
+        dbRowsWritten: health.rowsWritten,
+        cpuTimeMs: null,
+      });
     if (format === 'ssrf') {
       try {
         await unavailableTransport.request(

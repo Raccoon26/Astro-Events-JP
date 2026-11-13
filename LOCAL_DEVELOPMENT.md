@@ -50,3 +50,7 @@ Seed명령은[SEED_GUIDE](SEED_GUIDE.md)를따른다. Miniflare resourcePersiste
 ## DEV-01R 원격 기반
 
 DEV01R에서 공식 OAuth를 재개했다. 사용자 브라우저 로그인과 Wrangler 자격증명은 별개이며 인증 파일은 E tools/config/.wrangler/config/default.toml이다. 현재 Wrangler가 offline_access를 자동 포함함을 실제 흐름으로 확인했다. 로그/캐시/임시 benchmark config·DB/원격검증 보고서는 E에 둔다. generated worker-bindings.d.ts는 Wrangler types로 만들고 check로 drift를 검사한다. 비밀값을 콘솔에 출력하거나 C/D로 옮기지 않는다.
+
+## DEV04 구현 경계
+
+DEV04 관리는 E 로컬 staging 전용 npm run verifier:* 명령을 사용한다. 기본 DryRun이고 --apply --enable-verifier --local-budget 및 대상 source/fingerprint가 필요하다. 새DB를 임의 대체 생성하지 않는다. [명령/패킷 정책](VERIFICATION_POLICY.md). 원격 production 수정/fixture import는 지원하지 않는다.

@@ -39,3 +39,7 @@ Worker fetch에는 검증된 peer IP 연결 고정 API를 확인하지 못했다
 ## DEV01R 원격 감사 결과
 
 [원격 검증 결과](DEV01R_REMOTE_REPORT.md)의 최소 Health 필드·실제503복구·D1 환경 분리·토큰 메타데이터만 조회·고정 대상 guard·production 직접 리뷰를 검증했다. Workers peer/TLS pinning은 미해결이므로 원격 수집은 계속fail-closed다. 합성 benchmark 임시경로는 rollback 후404이며 production에는배포하지 않았다. 이전 노출토큰의 폐기·교체는사용자 확인으로 기록하고 값·폐기독립검증을 보고하지 않는다.
+
+## DEV04 구현 경계
+
+DEV04는 패킷 크기/깊이/배열·URL/호스트/문서지문·시각/인용·현재 source/candidate/identity CAS를 검사한다. SQL은 bind, D1.batch 실패 rollback, enum 위조·오래된 Verified/경쟁 실행을 차단한다. 공개 Health에 검증 근거/토큰/SQL을 추가하지 않는다. 로컬 CLI는 remote/production을 거부하고 E 파일만 읽으며 오류 코드를 제한한다. 원문 텍스트를 코드/명령으로 실행하지 않는다. 실제 Worker 전송기 fail-closed는 유지한다.

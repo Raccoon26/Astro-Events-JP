@@ -1,0 +1,388 @@
+{
+  "scope": "DEV04 local verifier; real approvals/events 0; remote schema0004 and collection disabled",
+  "sections": {
+    "0": {
+      "status": "implemented-audited",
+      "evidence": ["AGENTS.md", "DEV04_TEST_REPORT.md"]
+    },
+    "1": {
+      "status": "implemented-audited",
+      "evidence": ["src/verification/validator.ts"]
+    },
+    "2": {
+      "status": "implemented-audited",
+      "evidence": ["src/contracts.ts", "src/domain.ts"]
+    },
+    "3": {
+      "status": "implemented-audited",
+      "evidence": [
+        "src/verification/evidence.ts",
+        "src/verification/validator.ts"
+      ]
+    },
+    "4": {
+      "status": "implemented-audited",
+      "evidence": ["src/verification/temporal.ts"]
+    },
+    "5": {
+      "status": "implemented-audited",
+      "evidence": ["src/verification/conditions.ts"]
+    },
+    "6": {
+      "status": "implemented-audited",
+      "evidence": ["src/verification/evidence.ts", "scripts/verifier.mjs"]
+    },
+    "7": {
+      "status": "implemented-audited",
+      "evidence": [
+        "src/verification/conditions.ts",
+        "src/verification/store.ts"
+      ]
+    },
+    "8": {
+      "status": "implemented-audited",
+      "evidence": ["src/verification/facilities.ts", "FACILITY_VERIFICATION.md"]
+    },
+    "9": {
+      "status": "implemented-audited",
+      "evidence": ["src/verification/images.ts", "IMAGE_RIGHTS_POLICY.md"]
+    },
+    "10": {
+      "status": "implemented-audited",
+      "evidence": ["tests/verification-safety.test.ts", "data/vtubers.json"]
+    },
+    "11": {
+      "status": "implemented-audited",
+      "evidence": [
+        "migrations/0005_verification.sql",
+        "src/verification/store.ts"
+      ]
+    },
+    "12": {
+      "status": "implemented-audited",
+      "evidence": ["scripts/verifier.mjs", "tests/verifier-cli.test.mjs"]
+    },
+    "13": {
+      "status": "local-measured-remote-profile-separate",
+      "evidence": ["DEV04_TEST_REPORT.md", "src/verification/benchmark.ts"]
+    },
+    "14": {
+      "status": "preserved-no-production-migration",
+      "evidence": ["DEPLOYMENT.md", "src/index.ts"]
+    },
+    "15": {
+      "status": "implemented-audited",
+      "evidence": [
+        "tests/verification-policy.test.ts",
+        "tests/verification-integration.test.mjs"
+      ]
+    },
+    "16": {
+      "status": "implemented-audited",
+      "evidence": ["requirements-coverage.json", "DEV_ROADMAP.md"]
+    },
+    "17": {
+      "status": "implemented-audited",
+      "evidence": ["VERIFICATION_DESIGN.md", "PROJECT_STATUS.md"]
+    },
+    "18": {
+      "status": "implemented-audited",
+      "evidence": ["scripts/path-policy.mjs", "scripts/cleanup.mjs"]
+    },
+    "19": {
+      "status": "implemented-audited",
+      "evidence": ["scripts/complete-dev.mjs", "package.json"]
+    },
+    "20": {
+      "status": "implemented-audited",
+      "evidence": ["DEV04_TEST_REPORT.md"]
+    }
+  },
+  "requirements": {
+    "R01": {
+      "devs": [2, 8, 9],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "ARCHITECTURE.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
+    },
+    "R02": {
+      "devs": [2, 3, 4, 8],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/html.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R03": {
+      "devs": [2, 3, 4],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/xml.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R04": {
+      "devs": [2, 3, 4, 8],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/html.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R05": {
+      "devs": [2, 3, 4, 8],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/parse-common.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R06": {
+      "devs": [4, 7],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "ARCHITECTURE.md",
+        "migrations/0001_foundation.sql",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R07": {
+      "devs": [2],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/domain.ts",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts"
+      ]
+    },
+    "R08": {
+      "devs": [3, 4, 7, 8],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "src/collection/parse-common.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R09": {
+      "devs": [1, 3, 8, 9],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "wrangler.jsonc",
+        "ARCHITECTURE.md",
+        "src/collection/orchestrator.ts"
+      ]
+    },
+    "R10": {
+      "devs": [2, 3, 9],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/contracts.ts",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/discovery.ts",
+        "src/collection/http.ts"
+      ]
+    },
+    "R11": {
+      "devs": [4, 5, 6],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "src/domain.ts",
+        "src/contracts.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R12": {
+      "devs": [0, 4],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "migrations/0001_foundation.sql",
+        "src/domain.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R13": {
+      "devs": [0, 3, 4],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "DATA_MODEL.md",
+        "src/domain.ts",
+        "src/collection/types.ts",
+        "migrations/0004_collection.sql",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R14": {
+      "devs": [4, 6],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/contracts.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R15": {
+      "devs": [5, 10],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": ["DEV_ROADMAP.md", "src/contracts.ts"]
+    },
+    "R16": {
+      "devs": [5, 10],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": ["src/domain.ts", "DEV_ROADMAP.md"]
+    },
+    "R17": {
+      "devs": [6, 7],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": ["ARCHITECTURE.md", "src/contracts.ts"]
+    },
+    "R18": {
+      "devs": [0, 6],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": ["ARCHITECTURE.md", "GITHUB_WORKFLOW.md"]
+    },
+    "R19": {
+      "devs": [0, 6, 7],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": ["migrations/0001_foundation.sql", "ARCHITECTURE.md"]
+    },
+    "R20": {
+      "devs": [4, 7],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "DATA_MODEL.md",
+        "DEV_ROADMAP.md",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md"
+      ]
+    },
+    "R21": {
+      "devs": [0, 9],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "src/retention.ts",
+        "DATA_MODEL.md",
+        "tests/foundation.test.ts"
+      ]
+    },
+    "R22": {
+      "devs": [0, 1, 9],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "FREE_TIER_POLICY.md",
+        "src/budget.ts",
+        "COLLECTION_BENCHMARK.md"
+      ]
+    },
+    "R23": {
+      "devs": [0, 3, 6, 10],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "SECURITY.md",
+        "scripts/audit.mjs",
+        "tests/foundation.test.ts",
+        "SSRF_SECURITY_AUDIT.md",
+        "tests/collection-http.test.ts"
+      ]
+    },
+    "R24": {
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "scripts/path-policy.mjs",
+        "scripts/environment.ps1",
+        "tests/local-safety.test.mjs"
+      ]
+    },
+    "R25": {
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "scripts/cleanup-policy.mjs",
+        "CLEANUP_POLICY.md",
+        "tests/local-safety.test.mjs"
+      ]
+    },
+    "R26": {
+      "devs": [0],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": ["PROJECT_STATUS.md", "GITHUB_WORKFLOW.md"]
+    },
+    "R27": {
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [".github/workflows/ci.yml", "GITHUB_WORKFLOW.md"]
+    },
+    "R28": {
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "status": "DEV04-scope-implemented-fixture-validated",
+      "evidence": [
+        "scripts/complete-dev.mjs",
+        "AGENTS.md",
+        "RELEASE_CHECKLIST.md"
+      ]
+    },
+    "R29": {
+      "devs": [0],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "src/contracts.ts",
+        "migrations/0001_foundation.sql",
+        "scripts/coverage.mjs"
+      ]
+    },
+    "R30": {
+      "devs": [0, 10],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": [
+        "TEST_PLAN.md",
+        ".github/workflows/ci.yml",
+        "tests/collection-integration.test.mjs"
+      ]
+    },
+    "R31": {
+      "devs": [0, 1, 6],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": ["PROJECT_STATUS.md", "SECURITY.md"]
+    },
+    "R32": {
+      "devs": [8, 9, 10],
+      "status": "preserved-previous-or-future-scope",
+      "evidence": ["DEV_ROADMAP.md", "TEST_PLAN.md"]
+    }
+  }
+}
