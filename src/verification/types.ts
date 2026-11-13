@@ -10,7 +10,7 @@ import type {
 } from '../domain';
 import type { Registration } from '../registry';
 
-export const VERIFICATION_RULE = 'dev04-1';
+export const VERIFICATION_RULE = 'dev04-2';
 export type JudgementState =
   | 'confirmed'
   | 'unknown'

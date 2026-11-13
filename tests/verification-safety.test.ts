@@ -97,6 +97,20 @@ describe('synthetic independent institutional and local event attestations; zero
   });
 });
 describe('current document and evidence boundaries', () => {
+  it('expires a sealed decision at its oldest evidence deadline rather than extending it from the later review time', async () => {
+    const f = await verificationFixture();
+    const checked = Date.parse(f.ctx.now) - 6 * 86400000;
+    f.ctx.candidate.collectedAt = new Date(checked).toISOString();
+    f.ctx.documents[0]!.changedAt = f.ctx.candidate.collectedAt;
+    f.packet.documents[0]!.checkedAt = f.ctx.candidate.collectedAt;
+    let now = Date.parse(f.ctx.now);
+    const v = new CandidateEventValidator(f.ctx, f.packet, () => now);
+    const r = await v.validate(await candidateToEvent(f.ctx));
+    expect(v.verify(r)).not.toBeNull();
+    expect(r.expiresAt).toBe(new Date(checked + 7 * 86400000).toISOString());
+    now += 86400000;
+    expect(v.verify(r)).toBeNull();
+  });
   it('requires the VTuber relationship even when the announcement comes from a general facility source', async () => {
     const f = await verificationFixture({
       kind: '特別配信',
