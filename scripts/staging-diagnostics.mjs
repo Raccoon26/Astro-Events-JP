@@ -7,7 +7,10 @@ import {
   readConfig,
   validateBindings,
 } from './cloudflare-policy.mjs';
-import { verifyDeploymentHealth } from './deployment-health.mjs';
+import {
+  verifyDeploymentHealth,
+  verifyDeploymentVersion,
+} from './deployment-health.mjs';
 import { preflight } from './path-policy.mjs';
 
 preflight();
@@ -97,19 +100,16 @@ try {
 } finally {
   // Worker version rollback does not roll back D1. The benchmark only SELECTs.
   await command('cloudflare', 'rollback', 'staging', prior[0].version_id);
-  const restored = (await api('GET', `/workers/scripts/${name}/deployments`))
-    .deployments?.[0]?.versions;
-  if (
-    restored?.length !== 1 ||
-    restored[0].version_id !== prior[0].version_id ||
-    restored[0].percentage !== 100
-  )
-    throw new Error('STAGING_ROLLBACK_UNVERIFIED');
+  const restored = await verifyDeploymentVersion(
+    () => api('GET', `/workers/scripts/${name}/deployments`),
+    prior[0].version_id,
+  );
   const health = await verifyDeploymentHealth(`${base}/health`, 'staging');
   console.log(
     JSON.stringify({
       phase: 'normal-version-restored',
       version: prior[0].version_id,
+      restored,
       health,
     }),
   );

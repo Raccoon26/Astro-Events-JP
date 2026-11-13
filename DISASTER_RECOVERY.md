@@ -31,3 +31,7 @@ DEV00의 0001_foundation.sql은 수정하지 않았다. 정규화된 LF 내용�
 ## DEV-01R 진단 수정 (2026-11-13)
 
 실제 staging 자동배포 run43429571095는 성공했다. 후속 diagnose run43429666817은 기존 schema_version=2 CHECK 제약 때문에 실패했고 성공으로 계산하지 않는다. 원본0002를 수정하지 않고 staging DB의 environment/database_name을 함께 임시 불일치로 바꿔 Health503을 확인한다. initialized_at의 고유 owner와 compare-and-set 조건으로 이 시험의 변경만 finally에서 원복하며 전체 원래 marker를 대조한다. production DB에는 접근하지 않는다. 실제 원본0002를 로드한 SQLite 회귀3개가 CHECK 유지·HTTP 실패 후 복구·production 거부·동시 관리자 변경 보존을 검증한다. 전체203개 check/최신 PR CI 후 diagnose를 재실행한다. production 활성화/배포는 자동 승인 검토가 staging 진단 진행 및 구체적인 배포 승인 미확인으로 거절했으므로 보류 상태다.
+
+## DEV-01R 원격 진단 관측 및 확인 보강
+
+2026-11-13 run43431019676에서 실제 Health503→200·RSS/Atom/HTML/Sitemap 각3회와 SSRF fail-closed1회에 성공했다. benchmark version910454e2-5d11-4c1c-aa88-950653850789의 Cloudflare 실제 CPU P50=2.331ms/P99=8.490ms, 13 reported fetch/errors0/subrequests0(Health 포함, 수집기 전체 성능 보장 아님). CLI rollback은 성공했지만 직후 GET이 이전 deployment를 반환해 전체 workflow는 실패했다. 나중에 정확한 이전 version13ed466d-81fb-4d16-8c65-7c4d4a0f65c1·Health200·benchmark404를 직접 확인했다. mutation을 반복하지 않고 GET만 최대8회/1초 간격 재조회해 exact version/100% traffic을 검증하도록 보강한다. 새3개 시험과 전체206개 check/CI 후 동일 staging 진단을 재검증한다. Production은 여전히 배포되지 않았고 승인 대기다.

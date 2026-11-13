@@ -1,6 +1,56 @@
 import { spawnSync } from 'node:child_process';
 import { describe, expect, it, vi } from 'vitest';
-import { verifyDeploymentHealth } from '../scripts/deployment-health.mjs';
+import {
+  verifyDeploymentHealth,
+  verifyDeploymentVersion,
+} from '../scripts/deployment-health.mjs';
+
+describe('eventually consistent deployment version receipts', () => {
+  const expected = '11111111-1111-4111-8111-111111111111';
+  const prior = '22222222-2222-4222-8222-222222222222';
+  const receipt = (version, percentage = 100) => ({
+    deployments: [
+      { id: 'receipt', versions: [{ version_id: version, percentage }] },
+    ],
+  });
+  it('accepts the exact rollback version after stale GET receipts without repeating the mutation', async () => {
+    const read = vi
+      .fn()
+      .mockResolvedValueOnce(receipt(prior))
+      .mockResolvedValueOnce(receipt(expected));
+    const delay = vi.fn();
+    expect(
+      await verifyDeploymentVersion(read, expected, { delay }),
+    ).toMatchObject({
+      versions: [{ version_id: expected, percentage: 100 }],
+      attempts: 2,
+    });
+    expect(delay).toHaveBeenCalledExactlyOnceWith(1000);
+  });
+  it('never accepts a different version or partial traffic and caps the read attempts', async () => {
+    for (const value of [receipt(prior), receipt(expected, 50)]) {
+      const read = vi.fn(async () => value);
+      await expect(
+        verifyDeploymentVersion(read, expected, {
+          delay: vi.fn(),
+          attempts: 2,
+        }),
+      ).rejects.toThrow('DEPLOYMENT_VERSION_UNVERIFIED');
+      expect(read).toHaveBeenCalledTimes(2);
+    }
+  });
+  it('rejects missing receipts, invalid IDs and unbounded retries', async () => {
+    await expect(
+      verifyDeploymentVersion(async () => ({}), expected),
+    ).rejects.toThrow('DEPLOYMENT_VERSION_UNAVAILABLE');
+    await expect(verifyDeploymentVersion(vi.fn(), 'latest')).rejects.toThrow(
+      'INVALID_DEPLOYMENT_VERSION_CHECK',
+    );
+    await expect(
+      verifyDeploymentVersion(vi.fn(), expected, { attempts: 9 }),
+    ).rejects.toThrow('INVALID_DEPLOYMENT_VERSION_CHECK');
+  });
+});
 
 const good = () =>
   Response.json({
