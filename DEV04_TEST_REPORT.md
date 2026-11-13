@@ -63,3 +63,7 @@ Source category만으로 VTuber 관계검사를 선택하면 일반시설의 협
 ## 최종 규칙 만료 경계
 
 검토일이 근거확인일보다 늦더라도 근거의 유효기간을 연장하지 않도록 결정만료를 가장 오래된 근거의 확인일+7일로 제한했다. 메모리 EventValidator.verify와 D1 재검증/대기목록의 만료가 일치한다. 규칙버전을 dev04-2로 올려 이전판정은 enum값과 무관하게 보류/재검증한다. 시간경계와 구버전D1판정 거부 회귀를 추가했다.
+
+## 최종 실제 staging/CPU 결과
+
+구현main 1c3c8d5ddec1248fd62d03e31ff018f43fa0c83e의350개/25파일과main CI43497755667·자동staging43497992437가 성공했다. profile-verifier43498151862에서 고정합성3회 Verified/외부요청0/D1읽기1·쓰기0, version14bd4938-6ae8-4daa-aa68-3199fedf4aa9/100%와Health200 원복을 확인했다. 공식GraphQL unit introspection(microseconds) 후 진단version0de1476e-5ee4-420b-a504-5624617e4c9e의4 reported requests(검증3+Health1) CPU P50 3.392/P99 8.608ms·memoryP99 3908122B·errors/subrequests0을 얻었다. 원격0005 저장·큰입력/전국운영의10ms 보장은 아니다. [25항목완료보고](DEV04_COMPLETION.md)에실제/합성·잔여제약·실패이력을구분했다.

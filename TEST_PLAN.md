@@ -55,3 +55,5 @@ DEV03은 DNS/redirect/body/timeout/429/robots fixture, DEV04는 날짜/공식취
 ## DEV04 구현 경계
 
 DEV04의 정책·합성 기관/지역·이미지·CLI·native D1/workerd 통합 및2,001건 커서 시험을 추가한다. 기존206개를 삭제하지 않는다. [시험 범위와 로컬/원격 구분](DEV04_TEST_REPORT.md), [감사](dev04-coverage.json). 최종 npm run check는 verifier build/신규 migration/기존 회귀까지 검사한다.
+
+DEV04 최종인벤토리는350개/25파일(기존206+신규144)이다. 13종공통양성/시설공지·월정밀도·VTuber경로·오래된근거/구규칙·pagination변경시각을추가했고, 실제staging 고정합성3회와공식CPU/정확한rollback도별도로확인했다. 공식행사검증은0이며원격0005 저장은미시험이다. [25항목보고](DEV04_COMPLETION.md).

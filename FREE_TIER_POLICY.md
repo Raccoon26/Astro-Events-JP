@@ -54,3 +54,7 @@ Workers Logs Free의 현재200,000 events/day·3일 보관과 Traces를 확인�
 ## DEV04 구현 경계
 
 DEV04도 Workers Free CPU10ms/128MB·외부subrequest50·D1쿼리50과 계정 전체 한도를 전제로 한다. 2026-11-13 공식 Workers limits/D1 pricing 및 D1.batch transaction 문서를 재확인했다. 후보 커서≤50/검증1후보 단위/최대8이미지·공지 pagination·조회 인덱스·로컬 D1 meter를 사용한다. 수천건 검증은 Node관리 도구의 여러 작업이며1Worker 호출 처리량이 아니다. unknown 계정 예산은 commit 차단, --local-budget은 로컬에만 유효하다. DEV01R CPU는 DEV04 성능 보장이 아니다. [측정](DEV04_TEST_REPORT.md).
+
+## DEV04 실제 소형 표본
+
+2026-11-14 JST staging고정검증3회/Health1회의공식GraphQL CPU P50=3.392ms/P99=8.608ms, memoryP99=3908122B·errors/subrequests0. 각검증의Health SELECT rows_read=1/rows_written=0이다. 원격검증저장/큰근거/시설다중공지/전체수집CPU를측정한것은아니다. DEV01R 기존기준선은유지한다. [수치와한계](DEV04_COMPLETION.md).
