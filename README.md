@@ -1,5 +1,7 @@
 # Astro-Events-JP
 
+> DEV04 현재 결과: 350개 검사·실제 staging합성3회/CPU·복구를 확인했다. 수집/알림OFF·실제승인/수집/검증행사0·원격0005미적용이다. [완료보고](DEV04_COMPLETION.md)를 참조하며 아래 과거상태는 이력이다. DEV05는 자동 시작하지 않는다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 일본 전국 천문·우주·연구기관·지역 소규모 행사, 시설 운영 정보, 관련 VTuber 소식을 공식 출처로 검증하고 일본어 X 복사용 완성 글과 이미지 출처를 전달하는 무료 운영 프로젝트입니다. X 게시자는 사용자입니다.

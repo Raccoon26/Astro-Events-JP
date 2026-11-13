@@ -1,3 +1,17 @@
+# DEV04 프로젝트 상태 — 2026-11-14 JST
+
+**DEV04 구현·검증 완료 / 제품 수집·알림 운영 OFF.** [25항목 완료보고](DEV04_COMPLETION.md)와 [시험/실패이력](DEV04_TEST_REPORT.md)을 현재 근거로 사용한다. 최종문서PR의 실제CI·병합/main SHA는 E reports/github-completion 및 최종대화보고에서 확인한다. 아래 이전상태는 이력이다.
+
+- 기존206개 목적·20개파일·migration0001~0004 보존. 전체350개/25파일 check·types/Biome·두환경/collector/verifier build·D1/FK/무결성·secret/npm audit0·요구감사 통과.
+- dev04-2: 후보→필드별근거·정밀도/조건·공식변경·시설/이미지→현재Verified 게이트. 원자적CAS/revision·경합/rollback/재개·로컬DryRun관리·0005를 구현했다.
+- 실제staging 고정합성3회Verified·외부요청0·DB읽기1/쓰기0. 공식CPU 집계(Health포함4요청) P50 3.392/P99 8.608ms·오류0. 정확한이전Worker/Health200 복구. 전체/대형입력/원격0005저장의성능보장아님.
+- 원격두환경Health200·별도D1·0001~0004·Source/Event/Candidate0. 0005는E로컬/격리에만적용. 수집/알림false·productionCron0·Workers안전전송fail-closed.
+- Seed/로컬Source96·공식성77·47현/시설92/VTuber4·active0/review85/unsupported9/paused2 유지. 실제공식수집/검증행사0. 猫谷ここな의공식교차링크는미확인이다.
+- 기존인증/Secrets/보호정책유지·Reports Private/Issues=true·실제E경로/전후DryRun·지정C/D후보없음/삭제0. 물리분리·C/D전체무잔여미검증.
+- DEV05~10 범위와무료정책을유지한다. DEV05 로컬입력계약은준비됐으며자동시작하지않는다. 현재새인증/토큰요구없음. 원격0005/production변경·실수집승인은후속단계에서별도검토한다.
+
+## 이전 진행 기록 (최종상태 아님)
+
 # DEV04 프로젝트 상태
 
 DEV04 검증 엔진 구현·로컬 검증 및 GitHub 완료 절차를 진행한다. 기준 main07abbf8268ec0b8514baf01cf3309ffb1f98da00(PR9)에서 기존206개 목적·마이그레이션0001~0004·원격 기반을 보존했다.

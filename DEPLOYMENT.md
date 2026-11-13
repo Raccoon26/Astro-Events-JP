@@ -29,3 +29,5 @@ benchmark staging은 CI 검증된 main에서만 고정 합성 입력을 제공�
 DEV04 검증 라이브러리는 배포 진입점에 연결하지 않아 OFF다. main 병합 후 기존 staging 자동배포는 Health/Cron만 보존하며0005를 자동 적용하지 않는다. 원격0004에서 verifier 조회/쓰기는 schema-unavailable/null로 fail-closed다. production의 새 배포/0005는 기존 승인 게이트와 별도 승인 절차를 유지한다. 수집/알림false·productionCron0은 고정이다.
 
 DEV04 배포 이력11개 이후 회귀: 현재traffic 확인은 공식 최신배포1개 전용 쿼리를 사용한다. 계정전체 Worker/D1 인벤토리의 pagination 거부는 유지한다. 최초실패 run43450938834/43451095505는 실제실패 이력으로 보존하고 수정 후재검증한다.
+
+DEV04 최종 재검증: main1c3c8d5의350개 검사·CI43497755667·staging 자동배포43497992437와고정진단43498151862는실제성공했다. 원격0005/production변경은없으며두Health200·OFF플래그·productionCron0을재확인했다. [최종증거](DEV04_COMPLETION.md).

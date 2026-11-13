@@ -63,7 +63,7 @@
       "evidence": ["scripts/verifier.mjs", "tests/verifier-cli.test.mjs"]
     },
     "13": {
-      "status": "local-measured-remote-profile-separate",
+      "status": "local-measured-and-remote-small-synthetic-profile-verified",
       "evidence": ["DEV04_TEST_REPORT.md", "src/verification/benchmark.ts"]
     },
     "14": {
@@ -95,7 +95,7 @@
     },
     "20": {
       "status": "implemented-audited",
-      "evidence": ["DEV04_TEST_REPORT.md"]
+      "evidence": ["DEV04_TEST_REPORT.md", "DEV04_COMPLETION.md"]
     }
   },
   "requirements": {
@@ -384,5 +384,20 @@
       "status": "preserved-previous-or-future-scope",
       "evidence": ["DEV_ROADMAP.md", "TEST_PLAN.md"]
     }
+  },
+  "finalRule": "dev04-2",
+  "localTests": 350,
+  "originalTestsPreserved": 206,
+  "actualOfficialVerifiedEvents": 0,
+  "remoteProfile": {
+    "run": 43498151862,
+    "sourceCommit": "1c3c8d5ddec1248fd62d03e31ff018f43fa0c83e",
+    "syntheticSamples": 3,
+    "reportedRequestsIncludingHealth": 4,
+    "cpuP50Ms": 3.392,
+    "cpuP99Ms": 8.608,
+    "errors": 0,
+    "externalSubrequests": 0,
+    "remoteMigration0005": false
   }
 }
