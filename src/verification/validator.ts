@@ -338,6 +338,9 @@ export class CandidateEventValidator implements EventValidator {
       Math.min(
         Date.parse(checkedAt) + 7 * 86400000,
         Date.parse(ctx.approval?.expiresAt ?? checkedAt),
+        ...(packet?.documents.map(
+          (doc) => Date.parse(doc.checkedAt) + 7 * 86400000,
+        ) ?? []),
         packet
           ? Date.parse(packet.reviewedAt) + 7 * 86400000
           : Date.parse(checkedAt),

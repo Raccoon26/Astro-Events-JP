@@ -802,3 +802,16 @@ describe('collection checkpoints and verification freshness integration', () => 
     expect(await f.store.verified(p.result.event.stableEventId)).toBeNull();
   });
 });
+
+describe('verification rule compatibility', () => {
+  it('queues and rejects an older rule decision even when its Event enum still says Verified', async () => {
+    const f = await setup(),
+      p = await f.store.preview(f.ctx.candidate.id, f.packet);
+    await f.store.commit(p.loaded, p.result, usage);
+    await db
+      .prepare("UPDATE verification_decisions SET rule_version='dev04-1'")
+      .run();
+    expect(await f.store.verified(p.result.event.stableEventId)).toBeNull();
+    expect(await f.store.pending()).toHaveLength(1);
+  });
+});

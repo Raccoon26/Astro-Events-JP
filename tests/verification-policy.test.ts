@@ -167,7 +167,7 @@ describe('candidate-bound semantic verification gate', () => {
     expect(r.reasons).toEqual([]);
     expect(r.event.verificationStatus).toBe('Verified');
     expect(v.verify(r)?.verification.fields.schedule.evidence[0]).toMatchObject(
-      { candidateFingerprint: r.fingerprint, ruleVersion: 'dev04-1' },
+      { candidateFingerprint: r.fingerprint, ruleVersion: 'dev04-2' },
     );
     expect(r.event.participationFee).toBeNull();
     expect(r.event.reservationRequired).toBeNull();
