@@ -1,4 +1,38 @@
 // Only retry propagation/network failures. Configuration/identity errors fail immediately.
+export async function verifyDeploymentVersion(
+  read,
+  expected,
+  {
+    delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
+    attempts = 8,
+  } = {},
+) {
+  if (
+    !/^[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12}$/.test(expected ?? '') ||
+    !Number.isInteger(attempts) ||
+    attempts < 1 ||
+    attempts > 8
+  )
+    throw new Error('INVALID_DEPLOYMENT_VERSION_CHECK');
+  for (let attempt = 1; attempt <= attempts; attempt++) {
+    const current = (await read())?.deployments?.[0];
+    if (
+      !current ||
+      !Array.isArray(current.versions) ||
+      current.versions.length === 0
+    )
+      throw new Error('DEPLOYMENT_VERSION_UNAVAILABLE');
+    if (
+      current.versions.length === 1 &&
+      current.versions[0].version_id === expected &&
+      current.versions[0].percentage === 100
+    )
+      return { id: current.id, versions: current.versions, attempts: attempt };
+    if (attempt < attempts) await delay(1000);
+  }
+  throw new Error('DEPLOYMENT_VERSION_UNVERIFIED');
+}
+
 export async function verifyDeploymentHealth(
   url,
   target,
