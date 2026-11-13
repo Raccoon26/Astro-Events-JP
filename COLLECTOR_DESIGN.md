@@ -48,3 +48,7 @@ npm run collector:run -- --apply
 run-one은 active0이면 요청0으로 끝난다. 승인 후 실제 로컬 네트워크 시험에는 별도 --local-budget가 필요하다. 이 옵션의0 사용량은 Cloudflare 미사용 로컬 실행을 뜻하며 계정 전체 여유 증명이 아니다. Workers의 기본 전송기는 DNS/peer 보장 미확인으로 차단된다. [SSRF 감사](SSRF_SECURITY_AUDIT.md)를 따른다. review/unsupported 재심사는 원자적으로 Source를 비활성 상태로 바꾸며 이전 승인 기록은 감사용으로 보존한다.
 
 DEV04는 CollectionStore.listForVerification의 최대50행 커서 페이지로 후보를 읽는다. 날짜/요금/예약/취소/시설 영향/이미지 권리는 그 단계에서 검증한다. 변경된 후보는 Review Required로 되돌리고 이전 지문별 관측 버전을 보존한다. 실제 events/generated_posts/notification_deliveries에는 쓰지 않는다.
+
+## DEV04 검증 신선도 통합
+
+collection_documents.changed_at은 실제본문 digest 변경시각이다. 같은본문의 다음pagination/checkpoint·304는 성공/시도시각만 바꾸고 changed_at을 이동시키지 않는다. DEV04는 이 시각보다 전에만 관측된 과거후보를 보류하므로 정상첫페이지 후보를 불필요하게 무효화하지 않도록 nativeD1 회귀로 연결한다.

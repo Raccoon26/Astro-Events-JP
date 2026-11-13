@@ -321,7 +321,7 @@ export class CollectionStore {
     statements.push(
       this.db
         .prepare(
-          `INSERT INTO collection_documents(source_id,url,etag,last_modified,digest,attempted_at,succeeded_at,changed_at,failures,complete) SELECT ?1,?2,?3,?4,?5,?6,?6,?7,0,?8 WHERE ${guard} ON CONFLICT(source_id,url) DO UPDATE SET etag=excluded.etag,last_modified=excluded.last_modified,digest=excluded.digest,attempted_at=excluded.attempted_at,succeeded_at=excluded.succeeded_at,changed_at=COALESCE(excluded.changed_at,collection_documents.changed_at),failures=0,complete=excluded.complete`,
+          `INSERT INTO collection_documents(source_id,url,etag,last_modified,digest,attempted_at,succeeded_at,changed_at,failures,complete) SELECT ?1,?2,?3,?4,?5,?6,?6,?7,0,?8 WHERE ${guard} ON CONFLICT(source_id,url) DO UPDATE SET etag=excluded.etag,last_modified=excluded.last_modified,digest=excluded.digest,attempted_at=excluded.attempted_at,succeeded_at=excluded.succeeded_at,changed_at=CASE WHEN collection_documents.digest IS NOT excluded.digest THEN excluded.changed_at ELSE collection_documents.changed_at END,failures=0,complete=excluded.complete`,
         )
         .bind(
           source.id,
