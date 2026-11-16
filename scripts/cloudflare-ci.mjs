@@ -22,12 +22,14 @@ if (
     'profile-verifier',
     'profile-posts',
     'profile-cpu-matrix',
+    'profile-cpu-optimized',
   ].includes(mode) ||
   ([
     'diagnose',
     'profile-verifier',
     'profile-posts',
     'profile-cpu-matrix',
+    'profile-cpu-optimized',
   ].includes(mode) &&
     target !== 'staging')
 )
@@ -87,13 +89,18 @@ if (
     'profile-verifier',
     'profile-posts',
     'profile-cpu-matrix',
+    'profile-cpu-optimized',
   ].includes(mode)
 ) {
   const result = spawnSync(
     process.execPath,
     [
-      ...(mode === 'profile-cpu-matrix'
-        ? ['scripts/staging-cpu-matrix.mjs', target]
+      ...(['profile-cpu-matrix', 'profile-cpu-optimized'].includes(mode)
+        ? [
+            'scripts/staging-cpu-matrix.mjs',
+            target,
+            ...(mode === 'profile-cpu-optimized' ? ['--optimized-only'] : []),
+          ]
         : ['diagnose', 'profile-verifier', 'profile-posts'].includes(mode)
           ? [
               'scripts/staging-diagnostics.mjs',

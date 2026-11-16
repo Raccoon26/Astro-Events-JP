@@ -5,6 +5,8 @@ export async function queryCpuMetrics({
   scriptName,
   start,
   end,
+  grouped = true,
+  scriptVersion = null,
   fetcher = fetch,
 }) {
   if (
@@ -14,7 +16,12 @@ export async function queryCpuMetrics({
     !(Date.parse(end) > Date.parse(start))
   )
     throw Error('CPU_METRICS_TARGET');
-  const query = `query CPU($a:string!,$s:string!,$b:string!,$e:string!){unit:__type(name:"AccountWorkersInvocationsAdaptiveQuantiles"){fields{name description}}viewer{accounts(filter:{accountTag:$a}){workersInvocationsAdaptive(limit:1000,filter:{scriptName:$s,datetime_geq:$b,datetime_leq:$e,eventType:"fetch"}){sum{requests errors subrequests}quantiles{cpuTimeP50 cpuTimeP95 cpuTimeP99 wallTimeP50 wallTimeP99 memoryUsageBytesP99 startupCpuTimeUsP99}dimensions{datetime scriptVersion status coloCode httpResponseStatus}}}}}`;
+  if (
+    scriptVersion !== null &&
+    !/^[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12}$/.test(scriptVersion)
+  )
+    throw Error('CPU_VERSION_REQUIRED');
+  const query = `query CPU($a:string!,$s:string!,$b:string!,$e:string!${scriptVersion ? ',$v:string!' : ''}){unit:__type(name:"AccountWorkersInvocationsAdaptiveQuantiles"){fields{name description}}viewer{accounts(filter:{accountTag:$a}){workersInvocationsAdaptive(limit:1000,filter:{scriptName:$s,datetime_geq:$b,datetime_leq:$e,eventType:"fetch"${scriptVersion ? ',scriptVersion:$v' : ''}}){sum{requests errors subrequests}quantiles{cpuTimeP50 cpuTimeP95 cpuTimeP99 wallTimeP50 wallTimeP99 memoryUsageBytesP99 startupCpuTimeUsP99}dimensions{${grouped ? 'datetime scriptVersion status coloCode httpResponseStatus' : 'scriptVersion status'}}}}}}`;
   const response = await fetcher(
     'https://api.cloudflare.com/client/v4/graphql',
     {
@@ -27,7 +34,13 @@ export async function queryCpuMetrics({
       },
       body: JSON.stringify({
         query,
-        variables: { a: accountId, s: scriptName, b: start, e: end },
+        variables: {
+          a: accountId,
+          s: scriptName,
+          b: start,
+          e: end,
+          ...(scriptVersion ? { v: scriptVersion } : {}),
+        },
       }),
     },
   );
@@ -134,7 +147,11 @@ export function correlateCpu(report, samples, version) {
         ? values.filter((v) => v > 10).length / values.length
         : null,
       httpFailures: items.filter((s) => s.httpStatus !== 200).length,
-      providerErrors: observed.reduce((n, s) => n + (s.providerErrors ?? 0), 0),
+      providerErrors:
+        observed.length &&
+        observed.every((s) => Number.isFinite(s.providerErrors))
+          ? observed.reduce((n, s) => n + s.providerErrors, 0)
+          : null,
       scope:
         'observed matched single-invocation CPU samples only; not an unsampled provider-wide maximum',
     };

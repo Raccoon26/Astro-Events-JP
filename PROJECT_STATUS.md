@@ -1,3 +1,9 @@
+# DEV05R 현재: 첫 실증 완료 / cold 비용 보완 검증 중
+
+PR23/main17b5122·576검사/37파일과 고정340요청·정확한 staging 복구를 확인했다. 관측pool P99는 baseline5.182/optimized7.423ms지만 optimized 첫 생성12.805ms가 남아 운영 활성화는 차단한다. 순수 preparePost의 startup 준비와170회 optimized-only 후속 비교를 준비했다. [실제 결과·미검증](DEV05R_CPU_REPORT.md)을 따른다. production/원격0004·수집/알림OFF·active0·실제사이트0·SSRF fail-closed·DEV06미시작을 유지한다.
+
+## 이전 진행 기록
+
 # DEV05R CPU 조사 진행
 
 최신 main157aaab6eb284f3e65df85d5207ee6efcf8a60b8에서 dev/dev-05r-cpu-optimization을 시작했다. 기존539목적/32파일·0001~0007을 보존한다. [조사 설계](CPU_PROFILE_DESIGN.md), [실제 측정과 미검증](DEV05R_CPU_REPORT.md), [독립 invocation 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 로컬 실제 workerd CDP 조사·scalar/startup/동일 proof 재사용·D1 marker 조회33→27문장을 보완했다. 원격340회 비교는 아직 실행하지 않았으며8ms 목표를 충족했다고 표시하지 않는다. production/원격0004·수집/알림OFF·active0·실제사이트0·SSRF fail-closed를 유지한다. DEV06은 시작하지 않는다.

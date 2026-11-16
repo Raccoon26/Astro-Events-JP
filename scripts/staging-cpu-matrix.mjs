@@ -19,7 +19,9 @@ import {
 import { preflight } from './path-policy.mjs';
 
 const state = preflight();
-if (process.argv.slice(2).join(' ') !== 'staging')
+const optimizedOnly =
+  process.argv.slice(2).join(' ') === 'staging --optimized-only';
+if (process.argv.slice(2).join(' ') !== 'staging' && !optimizedOnly)
   throw Error('STAGING_CPU_MATRIX_ONLY');
 const git = (...args) => execFileSync('git', args, { encoding: 'utf8' }).trim();
 if (
@@ -95,7 +97,7 @@ const report = {
   baseline: '157aaab6eb284f3e65df85d5207ee6efcf8a60b8',
   rounds: 10,
   requestSpacingMs: 1250,
-  expectedRequests: 340,
+  expectedRequests: optimizedOnly ? 170 : 340,
   externalRequests: 0,
   remoteWrites: 0,
   samples: [],
@@ -110,11 +112,13 @@ try {
   console.log(
     JSON.stringify({
       phase: 'cpu-matrix-start',
-      requests: 340,
+      requests: report.expectedRequests,
       scenarios: 17,
     }),
   );
-  for (const implementation of ['baseline', 'optimized']) {
+  for (const implementation of optimizedOnly
+    ? ['optimized']
+    : ['baseline', 'optimized']) {
     const deployed = await command(
       'benchmark',
       'staging',
