@@ -17,7 +17,10 @@ import {
   validateBindings,
   validateEnvironment,
 } from './cloudflare-policy.mjs';
-import { verifyDeploymentHealth } from './deployment-health.mjs';
+import {
+  verifyDeploymentHealth,
+  workerStartupMs,
+} from './deployment-health.mjs';
 import { preflight } from './path-policy.mjs';
 import { nativeTwitterAliases } from './post-bundle-policy.mjs';
 import { runWrangler } from './wrangler-runner.mjs';
@@ -329,10 +332,14 @@ try {
         extra.push('--config', file);
       }
       report.phase = 'upload-and-triggers';
-      runWrangler(['deploy', '--env', target, ...extra], {
-        capture: true,
-        authorizedRemote: true,
-      });
+      const deploymentOutput = runWrangler(
+        ['deploy', '--env', target, ...extra],
+        {
+          capture: true,
+          authorizedRemote: true,
+        },
+      );
+      report.startupTimeMs = workerStartupMs(deploymentOutput);
       const subdomain = await api('GET', '/workers/subdomain');
       if (!/^[a-z0-9-]+$/.test(subdomain?.subdomain ?? ''))
         throw new Error('workers.dev subdomain unavailable');

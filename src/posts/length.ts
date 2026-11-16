@@ -10,6 +10,13 @@ export const LENGTH_POLICY = 'twitter-text-3.1.0-v3/input-1';
 for (const range of config.ranges) Object.freeze(range);
 Object.freeze(config.ranges);
 export const X_CONFIG = Object.freeze(config);
+// Pure, bounded parser initialization belongs to the Worker's documented startup
+// budget. No network, event facts, D1 work or validation is moved out of a request.
+// Every real text is still independently checked below using the same official rules.
+const initialization = parseTweet('天文 🌙 https://example.jp/', X_CONFIG);
+if (!initialization.valid || initialization.weightedLength !== 31)
+  throw new Error('X_RULE_INITIALIZATION_FAILED');
+
 export { extractHashtags, extractUrls };
 
 function looksSecret(text: string) {
