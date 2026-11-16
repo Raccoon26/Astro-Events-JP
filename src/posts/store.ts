@@ -58,18 +58,28 @@ export class PostStore {
   async schema() {
     if (!this.options.enabled) throw new PostError('feature-disabled');
     try {
-      const identity = await this.verifier.schema();
+      // One statement checks the same markers. Do not cache across captures:
+      // environment/schema changes still invalidate every fresh gate.
+      const identity = await this.db
+        .prepare(
+          'SELECT environment,database_name,schema_version,(SELECT version FROM verification_schema) AS verification_version,(SELECT version FROM post_generation_schema) AS post_version FROM deployment_identity WHERE singleton=1',
+        )
+        .first<{
+          environment: string;
+          database_name: string;
+          schema_version: number;
+          verification_version: number;
+          post_version: number;
+        }>();
       if (
+        !identity ||
         !this.options.localOnly ||
         identity.environment !== 'staging' ||
-        identity.database_name !== 'astro-events-jp-staging'
+        identity.database_name !== 'astro-events-jp-staging' ||
+        identity.schema_version !== 2
       )
         throw new PostError('environment-mismatch');
-      if (
-        (await this.db
-          .prepare('SELECT version FROM post_generation_schema')
-          .first('version')) !== 1
-      )
+      if (identity.verification_version !== 1 || identity.post_version !== 1)
         throw new PostError('schema-unavailable');
       return identity;
     } catch (e) {
@@ -83,7 +93,8 @@ export class PostStore {
       throw new PostError('unsafe-input');
     const snapshot = await this.verifier.capture(eventId);
     if (!snapshot) throw new PostError('not-currently-verified');
-    return snapshot;
+    // Immutable-for-this-operation proof only: never a cached authorization.
+    return { ...snapshot, postProof: await this.proof(snapshot) };
   }
   private async proof(c: Capture) {
     return digest(
@@ -126,10 +137,10 @@ export class PostStore {
       },
     };
   }
-  private async recheck(c: Capture, p: PostDraft) {
+  private async recheck(c: Capture & { postProof: string }, p: PostDraft) {
     const fresh = await this.capture(p.eventId);
     if (
-      (await this.proof(c)) !== (await this.proof(fresh)) ||
+      c.postProof !== fresh.postProof ||
       Date.parse(p.validUntil) <= this.clock()
     )
       throw new PostError('write-conflict');
@@ -163,7 +174,12 @@ export class PostStore {
       .bind(id)
       .first<Row>();
   }
-  private async matches(row: Row, c: Capture, p: PostDraft) {
+  private matches(
+    row: Row,
+    c: Capture & { postProof: string },
+    p: PostDraft,
+    contentDigest: string,
+  ) {
     return (
       row.post_id === p.id &&
       row.event_id === p.eventId &&
@@ -174,8 +190,8 @@ export class PostStore {
       row.hashtags_json === JSON.stringify(p.hashtags) &&
       row.template_version === p.templateVersion &&
       row.verification_decision_id === c.decisionId &&
-      row.input_digest === (await this.proof(c)) &&
-      row.content_digest === (await digest(p.text)) &&
+      row.input_digest === c.postProof &&
+      row.content_digest === contentDigest &&
       row.length_policy === p.lengthPolicy &&
       row.valid_until === p.validUntil &&
       row.omissions_json === JSON.stringify(p.omitted)
@@ -200,7 +216,8 @@ export class PostStore {
       throw new PostError('budget-exhausted');
     const c = await this.capture(eventId),
       p = await this.draft(c, kind, version),
-      prior = await this.row(p.id);
+      prior = await this.row(p.id),
+      contentDigest = await digest(p.text);
     if (
       expected &&
       (c.event.sourceId !== expected.sourceId ||
@@ -209,7 +226,7 @@ export class PostStore {
     )
       throw new PostError('write-conflict');
     if (prior) {
-      if (!(await this.matches(prior, c, p)))
+      if (!this.matches(prior, c, p, contentDigest))
         throw new PostError('stored-post-invalid');
       await this.recheck(c, p);
       return { changed: false, delivery: this.delivery(c, p) };
@@ -232,8 +249,8 @@ export class PostStore {
           p.templateVersion,
           new Date(this.clock()).toISOString(),
           c.decisionId,
-          await this.proof(c),
-          await digest(p.text),
+          c.postProof,
+          contentDigest,
           p.lengthPolicy,
           p.validUntil,
           JSON.stringify(p.omitted),
@@ -243,7 +260,7 @@ export class PostStore {
         ),
     ]);
     const stored = await this.row(p.id);
-    if (!stored || !(await this.matches(stored, c, p)))
+    if (!stored || !this.matches(stored, c, p, contentDigest))
       throw new PostError('write-conflict');
     await this.recheck(c, p);
     return {
@@ -260,7 +277,7 @@ export class PostStore {
       if (!row || !row.input_digest) return null;
       const c = await this.capture(row.event_id),
         p = await this.draft(c, row.kind, row.template_version);
-      if (!(await this.matches(row, c, p))) return null;
+      if (!this.matches(row, c, p, await digest(p.text))) return null;
       return this.delivery(await this.recheck(c, p), p);
     } catch {
       return null;

@@ -42,14 +42,23 @@ function safeJoiners(text: string) {
 export function scalarText(value: unknown): asserts value is string {
   if (typeof value !== 'string' || value.length > 8192)
     throw new PostError('unsafe-input');
-  for (const char of value) {
-    const cp = char.codePointAt(0)!;
-    if (cp >= 0xd800 && cp <= 0xdfff) throw new PostError('unsafe-input');
+  for (let i = 0; i < value.length; i++) {
+    const cp = value.charCodeAt(i);
+    if (cp >= 0xd800 && cp <= 0xdbff) {
+      const next = value.charCodeAt(++i);
+      if (!(next >= 0xdc00 && next <= 0xdfff))
+        throw new PostError('unsafe-input');
+    } else if (cp >= 0xdc00 && cp <= 0xdfff)
+      throw new PostError('unsafe-input');
   }
 }
 /** Official weighting is separate from the stricter project publication-input policy. */
 export function officialMeasure(text: string) {
   scalarText(text);
+  return measureScalar(text);
+}
+/** Only receives scalar strings; NFC does not create lone surrogates. */
+function measureScalar(text: string) {
   // Proven emoji-free subset only. All possible emoji (including #/digit keycap
   // combiners, VS, supplementary characters and ©/®/〰/㊗) take the full official path.
   const noEmoji =
@@ -65,7 +74,7 @@ export function validateLength(text: string) {
   try {
     scalarText(text);
     const normalized = text.normalize('NFC'),
-      m = officialMeasure(normalized);
+      m = measureScalar(normalized);
     const safe =
       !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f\u00ad\u061c\u200b\u200c\u200e\u200f\u202a-\u202e\u2060\u2066-\u2069\ufeff\ufffe\uffff]/u.test(
         text,
@@ -102,4 +111,23 @@ export function plain(value: string): string {
   )
     throw new PostError('unsafe-input');
   return text;
+}
+
+// V8 lazily compiles and tiers the upstream URL/hashtag/mention/emoji regexes.
+// The old single parseTweet call never exercised hashtag/mention extraction and
+// left their first use (and tier-up) in the first real request. Initialize those
+// immutable algorithms with bounded synthetic data in the separate startup budget.
+// No event, trust decision, mutable result cache, network, D1, or I/O is involved.
+const startupSamples = [
+  '天体観望会 https://example.jp/events/synthetic #天文イベント #星空観察',
+  '月と星 🌙 👨‍👩‍👧‍👦 https://example.jp/space?year=2099 #宇宙',
+] as const;
+for (let i = 0; i < 8; i++) {
+  for (const sample of startupSamples) {
+    if (!validateLength(sample).valid)
+      throw new Error('X_RULE_INITIALIZATION_FAILED');
+    extractHashtags(sample);
+  }
+  plain('合成・天文台の観望会');
+  extractMentions('synthetic @example');
 }

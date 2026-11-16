@@ -1,4 +1,13 @@
 // Only retry propagation/network failures. Configuration/identity errors fail immediately.
+export function workerVersionId(output) {
+  const clean = String(output).replace(/\u001b\[[0-9;]*m/g, '');
+  const found = [
+    ...clean.matchAll(
+      /Current Version ID:\s*([\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12})\b/g,
+    ),
+  ].map((m) => m[1]);
+  return found.length === 1 ? found[0] : null;
+}
 export async function verifyDeploymentVersion(
   read,
   expected,

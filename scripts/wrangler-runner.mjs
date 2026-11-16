@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { validateWranglerOperation } from './cloudflare-policy.mjs';
 import { preflight } from './path-policy.mjs';
+import { wranglerFailure } from './wrangler-failure.mjs';
 export function runWrangler(
   args,
   { capture = false, authorizedRemote = false, input } = {},
@@ -33,9 +34,11 @@ export function runWrangler(
         : { stdio: 'inherit' }),
     },
   );
-  if (result.status !== 0)
-    throw new Error(
-      'WRANGLER_FAILED: operation stopped; no automatic retry or data reset',
-    );
+  if (result.status !== 0) {
+    const failure = wranglerFailure(result);
+    const error = new Error(`WRANGLER_FAILED_${failure.category}`);
+    error.safeDetails = failure;
+    throw error;
+  }
   return result.stdout;
 }

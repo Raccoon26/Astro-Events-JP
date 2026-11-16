@@ -21,8 +21,14 @@ if (
     'diagnose',
     'profile-verifier',
     'profile-posts',
+    'profile-cpu-matrix',
   ].includes(mode) ||
-  (['diagnose', 'profile-verifier', 'profile-posts'].includes(mode) &&
+  ([
+    'diagnose',
+    'profile-verifier',
+    'profile-posts',
+    'profile-cpu-matrix',
+  ].includes(mode) &&
     target !== 'staging')
 )
   throw new Error('Explicit validate/deploy required');
@@ -75,22 +81,30 @@ console.log(
   }),
 );
 if (
-  ['deploy', 'diagnose', 'profile-verifier', 'profile-posts'].includes(mode)
+  [
+    'deploy',
+    'diagnose',
+    'profile-verifier',
+    'profile-posts',
+    'profile-cpu-matrix',
+  ].includes(mode)
 ) {
   const result = spawnSync(
     process.execPath,
     [
-      ...(['diagnose', 'profile-verifier', 'profile-posts'].includes(mode)
-        ? [
-            'scripts/staging-diagnostics.mjs',
-            target,
-            ...(mode === 'profile-posts'
-              ? ['--posts-only']
-              : mode === 'profile-verifier'
-                ? ['--verifier-only']
-                : []),
-          ]
-        : ['scripts/cloudflare.mjs', 'deploy', target]),
+      ...(mode === 'profile-cpu-matrix'
+        ? ['scripts/staging-cpu-matrix.mjs', target]
+        : ['diagnose', 'profile-verifier', 'profile-posts'].includes(mode)
+          ? [
+              'scripts/staging-diagnostics.mjs',
+              target,
+              ...(mode === 'profile-posts'
+                ? ['--posts-only']
+                : mode === 'profile-verifier'
+                  ? ['--verifier-only']
+                  : []),
+            ]
+          : ['scripts/cloudflare.mjs', 'deploy', target]),
       ...(target === 'production'
         ? ['--confirm-astro-events-jp-production']
         : []),
