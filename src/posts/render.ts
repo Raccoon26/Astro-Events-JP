@@ -12,6 +12,7 @@ import {
   plain,
   validateLength,
 } from './length';
+import startupFixture from './synthetic-profile.json';
 import { formatTemporal, temporalEnd } from './temporal';
 import {
   POST_KINDS,
@@ -143,13 +144,13 @@ function hashtags(event: DetailedVerifiedEvent, kind: PostKind) {
   return [...new Set([...found, ...fallback])].slice(0, 2).map((t) => `#${t}`);
 }
 /** Pure kernel. Its input is NOT a trust boundary: production/CLI callers must use PostStore. */
-export async function renderPost(
+function preparePost(
   event: DetailedVerifiedEvent,
   revision: number,
   kind: PostKind,
   now: number,
   templateVersion: string = TEMPLATE_VERSION,
-): Promise<PostDraft> {
+): Omit<PostDraft, 'id'> {
   if (!TEMPLATE_VERSIONS.some((v) => v === templateVersion))
     throw new PostError('unsupported-template');
   if (
@@ -529,13 +530,7 @@ export async function renderPost(
       JSON.stringify(selected)
   )
     throw new PostError('length-uncertain');
-  const id =
-    'post-' +
-    (await digest(
-      JSON.stringify([event.stableEventId, revision, kind, templateVersion]),
-    ));
   return {
-    id,
     eventId: event.stableEventId,
     eventRevision: revision,
     kind,
@@ -548,4 +543,40 @@ export async function renderPost(
     omitted,
     validUntil: new Date(validUntil).toISOString(),
   };
+}
+
+/** I/O (WebCrypto) remains request-scoped; all fact and length checks still run. */
+export async function renderPost(
+  event: DetailedVerifiedEvent,
+  revision: number,
+  kind: PostKind,
+  now: number,
+  templateVersion: string = TEMPLATE_VERSION,
+): Promise<PostDraft> {
+  const prepared = preparePost(event, revision, kind, now, templateVersion);
+  const id =
+    'post-' +
+    (await digest(
+      JSON.stringify([event.stableEventId, revision, kind, templateVersion]),
+    ));
+  return { id, ...prepared };
+}
+
+// Pure, fixed synthetic preparation exercises the full common renderer before
+// the first invocation. Never performs WebCrypto/I/O, approves facts or caches a
+// real event. The fixture's historical clock is not a current verification.
+const startupEvent = startupFixture.event as DetailedVerifiedEvent;
+{
+  const startupDraft = preparePost(
+    startupEvent,
+    1,
+    'observation',
+    Date.parse(startupEvent.verification.checkedAt),
+  );
+  if (
+    !startupFixture.synthetic ||
+    startupDraft.weightedLength > 280 ||
+    !startupDraft.text
+  )
+    throw Error('POST_PREPARATION_INITIALIZATION_FAILED');
 }

@@ -99,3 +99,42 @@ describe('provider CPU evidence, never inferred elapsed CPU', () => {
     ).rejects.toThrow('UNIT_UNVERIFIED');
   });
 });
+
+it('does not label unavailable provider errors as zero', () => {
+  const r = correlateCpu({ groups: [] }, [sample], 'v');
+  expect(r.summary.optimized.providerErrors).toBeNull();
+  expect(r.summary.optimized.observed).toBe(0);
+});
+it.each([true, false])(
+  'keeps grouped=%s GraphQL structurally balanced and uses version variables',
+  async (grouped) => {
+    let captured;
+    const units = ['cpuTimeP50', 'cpuTimeP95', 'cpuTimeP99'].map((name) => ({
+      name,
+      description: 'microseconds',
+    }));
+    await queryCpuMetrics({
+      token: 'synthetic',
+      accountId: 'a'.repeat(32),
+      scriptName: 'astro-events-jp-staging',
+      start: '2026-11-16T15:00Z',
+      end: '2026-11-16T15:01Z',
+      grouped,
+      scriptVersion: 'dec92dbb-f5b2-452c-85ec-0d6a133adfac',
+      fetcher: async (_url, init) => {
+        captured = JSON.parse(init.body);
+        return Response.json({
+          data: {
+            unit: { fields: units },
+            viewer: { accounts: [{ workersInvocationsAdaptive: [] }] },
+          },
+        });
+      },
+    });
+    expect([...captured.query].filter((c) => c === '{').length).toBe(
+      [...captured.query].filter((c) => c === '}').length,
+    );
+    expect(captured.variables.v).toBe('dec92dbb-f5b2-452c-85ec-0d6a133adfac');
+    expect(captured.query).toContain('scriptVersion:$v');
+  },
+);

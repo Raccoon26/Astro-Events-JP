@@ -33,3 +33,7 @@ CPU P50/P95/P99·관측 최대·관측10ms 초과 건수/분모·입력별/첫·
 [Workers CPU/startup 한도](https://developers.cloudflare.com/workers/platform/limits/), [공식 DevTools CPU profiling](https://developers.cloudflare.com/workers/observability/dev-tools/cpu-usage/), [GraphQL Workers metrics](https://developers.cloudflare.com/analytics/graphql-api/tutorials/querying-workers-metrics/), [원격 profile API](https://developers.cloudflare.com/workers/observability/profiling-in-production/)를 확인했다. 후자는 계정 profiling feature가 활성화되어 있어야 하며 현재 Free/기존 권한에서의 이용 가능성을 가정하거나 유료 feature를 켜지 않는다. 이 작업은 실제 local workerd CDP와 기존 공식 GraphQL을 사용한다. 추가 Observability Write/광범위 토큰을 기본 해결책으로 요청하지 않는다.
 
 과거 실패 중 Health/rollback 전파와 deployment history 첫페이지 가정은 기존 bounded GET/latest1 회귀를 유지한다. 43452628109의 업로드 실패는 원래 원인이 비식별 GUARD 오류로만 기록되어 특정 원인을 확정할 수 없다. 이제 CLI 오류의 timeout/network/auth/startup/provider/exit와 숫자 code만 허용목록으로 보존하며 Secrets/원문 stderr는 출력하지 않는다. mutation 자동 재시도는0이고 실패를 재실행으로 숨기지 않는다.
+
+## 첫 비교 이후의 한정 후속 실험
+
+Actions43894888853의340회는 종료·원래 버전 복구됐고 pool P99는8ms 이하였지만 optimized의 첫 생성12.805ms는 남았다. [실제 결과](DEV05R_CPU_REPORT.md)를 따른다. preparePost를 순수 함수로 분리해 고정 합성 한 건을 startup에서 준비하고 요청별 WebCrypto/SHA를 유지했다. 후속 profile-cpu-optimized는 baseline 반복 없이 optimized170회만, 같은17입력/10라운드/1250ms를 사용한다. 새main/필수CI/Free예산·원래버전 복구는 동일하다. 아직 원격 목표 달성을 선언하지 않는다.

@@ -19,3 +19,5 @@
 실제 계정의 전체 request/subrequest·D1읽기/쓰기/저장·Cron 슬롯을 live 근거로 확인하고 불명/여유 부족이면 이월한다. invocation 분할은 CPU를 나누지만 요청·D1읽기/쓰기와 운영 복잡성을 늘리므로 무료 비용을 자동으로 줄인다고 가정하지 않는다. 별도 자원이 필요해지면 Free 지원·계정 여유·사용자 승인 필요 여부를 먼저 검토한다. Workers Paid·유료 프록시/VPS·AI/API 자동 전환은 없다.
 
 Workers DNS 조회는 fetch의 실제 TLS peer를 고정하지 못하고 TCP socket의 remoteAddress는 nullable이다. 공식 fetch/DNS/TCP API의 peer/SNI/인증서/리다이렉트 결합을 무료 환경에서 검증하기 전까지 기존 unavailableTransport를 유지한다. DNS resolve만 추가하거나 보안 정책을 낮춰 해결됐다고 하지 않는다. 후속 안전 실증은 승인 호스트·robots/약관·요청 예산을 별도로 통과한 경우에만 가능하며 이번 작업의 실제 사이트 요청은0이다.
+
+DEV05R 추가 조사: 현재 고정 Workers types에는 Socket.startTls({expectedServerHostname})와 literal SocketAddress가 존재한다. 공개 IP로 직접 connect→원래 hostname으로 TLS 업그레이드→인증서/peer 검증을 결합하는 무료 후보 경로를 후속 실증 대상으로 삼을 수 있다. 그러나 문서/타입 존재는 실제 원격 인증서 검증·IP pinning 성공 증거가 아니다. Cloudflare IP/사설 주소 제한·remoteAddress 부재·HTTP framing/chunked/압축/body 제한·redirect마다 재검증·IPv4/IPv6/혼합DNS·wrong-host/잘못된 인증서 거부를 독립 fixture와 승인된 통제 endpoint에서 검증해야 한다. 이번에는 실제 외부 사이트 연결이나 해당 전송기 활성화를 하지 않는다. [TCP 공식 문서](https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/)를 따르며 node:https의 lookup/Agent 옵션이 그대로 작동한다고 가정하지 않는다.

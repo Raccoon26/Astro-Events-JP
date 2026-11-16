@@ -17,6 +17,7 @@ on:
             profile-verifier,
             profile-posts,
             profile-cpu-matrix,
+            profile-cpu-optimized,
           ]
         default: deploy
         required: true
@@ -39,7 +40,7 @@ jobs:
   deploy:
     if: >-
       (github.event_name == 'workflow_run' && vars.CF_STAGING_DEPLOY_ENABLED == 'true' && github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push' && github.event.workflow_run.head_branch == 'main') ||
-      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && (inputs.mode == 'validate' || ((inputs.mode == 'diagnose' || inputs.mode == 'profile-verifier' || inputs.mode == 'profile-posts' || inputs.mode == 'profile-cpu-matrix') && inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.mode == 'deploy' && ((inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.environment == 'production' && vars.CF_PRODUCTION_DEPLOY_ENABLED == 'true' && inputs.confirm_production == 'astro-events-jp-production')))))
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main' && (inputs.mode == 'validate' || ((inputs.mode == 'diagnose' || inputs.mode == 'profile-verifier' || inputs.mode == 'profile-posts' || inputs.mode == 'profile-cpu-matrix' || inputs.mode == 'profile-cpu-optimized') && inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.mode == 'deploy' && ((inputs.environment == 'staging' && vars.CF_STAGING_DEPLOY_ENABLED == 'true') || (inputs.environment == 'production' && vars.CF_PRODUCTION_DEPLOY_ENABLED == 'true' && inputs.confirm_production == 'astro-events-jp-production')))))
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment: ${{ github.event_name == 'workflow_run' && 'staging' || inputs.environment }}
@@ -75,7 +76,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: node scripts/cloudflare-ci.mjs "$DEPLOY_TARGET" "$DEPLOY_MODE"
       - name: Preserve sanitized CPU diagnostic evidence
-        if: ${{ always() && inputs.mode == 'profile-cpu-matrix' && inputs.environment == 'staging' }}
+        if: ${{ always() && (inputs.mode == 'profile-cpu-matrix' || inputs.mode == 'profile-cpu-optimized') && inputs.environment == 'staging' }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: dev05r-cpu-matrix
