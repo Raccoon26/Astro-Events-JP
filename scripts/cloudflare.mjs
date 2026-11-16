@@ -19,6 +19,7 @@ import {
 } from './cloudflare-policy.mjs';
 import { verifyDeploymentHealth } from './deployment-health.mjs';
 import { preflight } from './path-policy.mjs';
+import { nativeTwitterAliases } from './post-bundle-policy.mjs';
 import { runWrangler } from './wrangler-runner.mjs';
 
 const state = preflight();
@@ -295,7 +296,21 @@ try {
       const extra = [];
       if (operation === 'benchmark') {
         const benchmarkConfig = structuredClone(config);
-        benchmarkConfig.main = path.resolve('src/remote-benchmark.ts');
+        benchmarkConfig.alias = {
+          ...benchmarkConfig.alias,
+          ...nativeTwitterAliases(),
+        };
+        if (
+          options.length &&
+          !(options.length === 1 && options[0] === '--posts-only')
+        )
+          throw new Error('Unknown benchmark profile option');
+        benchmarkConfig.main = path.resolve(
+          options[0] === '--posts-only'
+            ? 'src/posts/remote-benchmark.ts'
+            : 'src/remote-benchmark.ts',
+        );
+        benchmarkConfig.minify = true;
         for (const environment of Object.values(benchmarkConfig.env))
           environment.d1_databases[0].migrations_dir =
             path.resolve('migrations');

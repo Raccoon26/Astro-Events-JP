@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { Env } from '../src/config';
-import benchmark from '../src/remote-benchmark';
+import benchmark from '../src/posts/remote-benchmark';
+import legacyBenchmark from '../src/remote-benchmark';
 
 function environment(): Env {
   return {
@@ -31,7 +32,19 @@ function environment(): Env {
   };
 }
 afterEach(() => vi.unstubAllGlobals());
-describe('fixed staging post diagnostic isolation', () => {
+describe('fixed isolated staging post diagnostic', () => {
+  it('keeps the original collector/verifier diagnostic entry separate from generation', async () => {
+    const env = environment();
+    expect(
+      (
+        await legacyBenchmark.fetch(
+          new Request('https://example.test/benchmark/posts'),
+          env,
+        )
+      ).status,
+    ).toBe(404);
+    expect(env.DB.prepare).not.toHaveBeenCalled();
+  });
   it('ignores supplied URLs/text, performs SELECT only and never calls an external fetch', async () => {
     const fetch = vi.fn(() => {
       throw new Error('external-disabled');

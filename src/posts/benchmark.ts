@@ -10,11 +10,8 @@ export async function syntheticPost(at: string) {
     Date.parse(at) + 3600000,
   ).toISOString();
   // Fixed pure generation workload: no validator/DB writes or arbitrary request input.
-  // Its historical event date is replaced by a fixed future date relative to this diagnostic only.
-  event.verification.fields.schedule.value!.startDatetime =
-    '2099-11-23T04:30:00Z';
-  event.verification.fields.schedule.value!.endDatetime =
-    '2099-11-23T06:00:00Z';
+  // The committed fixture already has coherent fixed 2099 dates/evidence; only the
+  // synthetic diagnostic lifetime is renewed, never a persisted real verification.
   const p = await renderPost(event, 1, 'observation', Date.parse(at));
   return {
     synthetic: true,

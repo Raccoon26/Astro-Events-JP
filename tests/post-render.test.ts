@@ -6,6 +6,21 @@ import { parseFees } from '../src/verification/conditions';
 import { examples, POST_NOW, postFixture } from './post-fixtures';
 
 describe('all thirteen deterministic Japanese templates, synthetic facts only', () => {
+  it('keeps a freshly verified open-ended closure after its start without inventing reopening', async () => {
+    const f = await postFixture('closure', {
+        schedule: '休館期間2026年11月1日から終了未定',
+      }),
+      p = await renderPost(f.event, 1, 'closure', POST_NOW);
+    expect(p.text).toContain('対象開始日：2026年11月1日');
+    expect(p.validUntil).toBe(f.event.verification.expiresAt);
+    expect(p.text).not.toMatch(/再開館|中止が発表/);
+  });
+  it('still blocks an expired one-day closure instead of extending it indefinitely', async () => {
+    const f = await postFixture('closure', { schedule: '休館日2026年11月1日' });
+    await expect(renderPost(f.event, 1, 'closure', POST_NOW)).rejects.toThrow(
+      'time-expired',
+    );
+  });
   it('does not let a relative raw headline or unchecked free/booking claim bypass confirmed fields', async () => {
     for (const title of [
       '合成観望会 受付中',

@@ -192,6 +192,7 @@ export async function renderPost(
   if (!status || title !== plain(event.title))
     throw new PostError('not-currently-verified');
   const url = new URL(event.officialUrl);
+  const recognizedUrl = extractUrls(url.href);
   if (
     [...url.searchParams.keys()].some((key) =>
       /^(?:access_token|api[_-]?key|authorization|auth|token|password|secret)$/i.test(
@@ -207,8 +208,8 @@ export async function renderPost(
     url.port ||
     url.hash ||
     url.href !== event.officialUrl ||
-    extractUrls(url.href).length !== 1 ||
-    extractUrls(url.href)[0]?.url !== url.href
+    recognizedUrl.length !== 1 ||
+    recognizedUrl[0]?.url !== url.href
   )
     throw new PostError('length-uncertain');
   const omitted: PostDraft['omitted'] = [],
@@ -309,7 +310,15 @@ export async function renderPost(
       lines.push(dateText);
       shortLines.push(dateText);
       if (!exceptional) {
-        validUntil = Math.min(validUntil, temporalEnd(t));
+        const ongoingClosure =
+          kind === 'closure' &&
+          !t.endDate &&
+          !t.endDatetime &&
+          !t.endMonth &&
+          /終了未定|再開未定|当面|当分|から/u.test(t.raw);
+        // An explicitly open-ended closure remains current until its attestation expires.
+        // A one-day closure without that evidence still ends at its stated calendar boundary.
+        if (!ongoingClosure) validUntil = Math.min(validUntil, temporalEnd(t));
         if (!(validUntil > now)) throw new PostError('time-expired');
       }
     }
@@ -477,11 +486,13 @@ export async function renderPost(
       .normalize('NFC');
   let text = compose(false, optional, selected),
     compact = false;
-  if (!validateLength(text).valid) {
+  let measurement = validateLength(text);
+  if (!measurement.valid) {
     compact = true;
     text = compose(true, optional, selected);
+    measurement = validateLength(text);
   }
-  while (!validateLength(text).valid && optional.length) {
+  while (!measurement.valid && optional.length) {
     const priority: Record<string, number> = {
       doorsTime: 0,
       capacity: 1,
@@ -500,17 +511,20 @@ export async function renderPost(
     const removed = optional.splice(index, 1)[0]!;
     omitted.push({ field: removed.field, reason: 'weighted-length-budget' });
     text = compose(compact, optional, selected);
+    measurement = validateLength(text);
   }
-  if (!validateLength(text).valid && selected.length > 1) {
+  if (!measurement.valid && selected.length > 1) {
     selected.pop();
     text = compose(compact, optional, selected);
+    measurement = validateLength(text);
   }
-  const length = validateLength(text);
+  const length = measurement;
   if (!length.valid || length.remaining === null)
     throw new PostError('essential-info-too-long');
+  const finalUrls = extractUrls(text);
   if (
-    extractUrls(text).length !== 1 ||
-    extractUrls(text)[0]?.url !== url.href ||
+    finalUrls.length !== 1 ||
+    finalUrls[0]?.url !== url.href ||
     JSON.stringify(extractHashtags(text).map((t) => `#${t}`)) !==
       JSON.stringify(selected)
   )
