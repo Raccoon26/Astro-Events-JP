@@ -1,5 +1,5 @@
 // Temporary staging diagnostic only. Fixed synthetic inputs, never an authorization API.
-import { implementation, renderPost } from 'dev05r:renderer';
+import { implementation, profileMarker, renderPost } from 'dev05r:renderer';
 import type { Env } from '../config';
 import { diagnose } from '../diagnostics';
 import type { PostKind } from '../domain';
@@ -13,6 +13,17 @@ export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const path = new URL(request.url).pathname;
     if (path === '/health') return worker.fetch(request, env);
+    if (
+      env.APP_ENV === 'staging' &&
+      request.method === 'GET' &&
+      path === '/benchmark/cpu/ready'
+    )
+      return Response.json(
+        { implementation, profileMarker },
+        {
+          headers: { 'Cache-Control': 'no-store' },
+        },
+      );
     const match = /^\/benchmark\/cpu\/(baseline|optimized)\/([a-z-]+)$/.exec(
       path,
     );

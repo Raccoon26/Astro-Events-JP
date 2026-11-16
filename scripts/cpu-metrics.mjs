@@ -45,8 +45,21 @@ export async function queryCpuMetrics({
     },
   );
   const json = await response.json();
-  if (!response.ok || json.errors?.length)
-    throw Error(`CPU_METRICS_QUERY_FAILED_${response.status}`);
+  if (!response.ok || json.errors?.length) {
+    const messages = (json.errors ?? [])
+      .map((e) => String(e.message ?? ''))
+      .join(' ');
+    const category = [401, 403].includes(response.status)
+      ? 'AUTHORIZATION'
+      : response.status === 429
+        ? 'RATE_LIMITED'
+        : /syntax|parse error|expected.*name/i.test(messages)
+          ? 'QUERY_SYNTAX'
+          : /cannot query field|unknown (?:field|argument|type)/i.test(messages)
+            ? 'QUERY_SCHEMA'
+            : 'QUERY_REJECTED';
+    throw Error(`CPU_METRICS_${category}_${response.status}`);
+  }
   const fields = json.data?.unit?.fields;
   const units = Object.fromEntries(
     [
