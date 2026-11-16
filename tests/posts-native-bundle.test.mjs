@@ -23,7 +23,7 @@ describe('ES2022 Workers native built-ins retain the unmodified official algorit
     ];
     const built = await build({
       stdin: {
-        contents: `import parseTweet from 'twitter-text/dist/esm/parseTweet.js';import configs from 'twitter-text/dist/esm/configs.js';const cases=${JSON.stringify(cases)};export default {fetch(){globalThis.fetch=()=>{throw Error('outbound-disabled')};return Response.json({polyfilled:Object.hasOwn(globalThis,'__core-js_shared__'),results:cases.map(c=>parseTweet(c.text,c.legacy?configs.version2:configs.version3))})}}`,
+        contents: `import parseTweet from 'twitter-text/dist/esm/parseTweet.js';import configs from 'twitter-text/dist/esm/configs.js';import {officialMeasure} from './src/posts/length';const cases=${JSON.stringify(cases)};export default {fetch(){globalThis.fetch=()=>{throw Error('outbound-disabled')};return Response.json({polyfilled:Object.hasOwn(globalThis,'__core-js_shared__'),results:cases.map(c=>parseTweet(c.text,c.legacy?configs.version2:configs.version3)),wrapper:cases.map(c=>{if(c.legacy)return null;try{return officialMeasure(c.text)}catch(error){return {error:error.code}}})})}}`,
         resolveDir: process.cwd(),
       },
       bundle: true,
@@ -48,10 +48,19 @@ describe('ES2022 Workers native built-ins retain the unmodified official algorit
       const r = await (await worker.dispatchFetch('http://localhost/')).json();
       expect(r.polyfilled).toBe(false);
       expect(r.results).toHaveLength(44);
-      for (let i = 0; i < cases.length; i++)
+      for (let i = 0; i < cases.length; i++) {
         expect(r.results[i], cases[i].description).toMatchObject(
           cases[i].expected,
         );
+        if (!cases[i].legacy) {
+          if (cases[i].text.length > 8192)
+            expect(r.wrapper[i]).toEqual({ error: 'unsafe-input' });
+          else
+            expect(r.wrapper[i], cases[i].description).toMatchObject(
+              cases[i].expected,
+            );
+        }
+      }
     } finally {
       await worker.dispose();
     }

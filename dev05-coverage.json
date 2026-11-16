@@ -33,7 +33,12 @@
     },
     "7": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
-      "evidence": ["X_WEIGHTED_LENGTH.md", "tests/post-length.test.ts"]
+      "evidence": [
+        "X_WEIGHTED_LENGTH.md",
+        "tests/post-length.test.ts",
+        "tests/posts-native-bundle.test.mjs",
+        "migrations/0007_post_read_indexes.sql"
+      ]
     },
     "8": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
@@ -52,7 +57,9 @@
       "evidence": [
         "migrations/0006_posts.sql",
         "src/posts/store.ts",
-        "tests/posts-integration.test.mjs"
+        "tests/posts-integration.test.mjs",
+        "tests/posts-native-bundle.test.mjs",
+        "migrations/0007_post_read_indexes.sql"
       ]
     },
     "12": {
@@ -73,11 +80,21 @@
     },
     "15": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
-      "evidence": ["DEV05_TEST_REPORT.md", "tests/posts-integration.test.mjs"]
+      "evidence": [
+        "DEV05_TEST_REPORT.md",
+        "tests/posts-integration.test.mjs",
+        "tests/posts-native-bundle.test.mjs",
+        "migrations/0007_post_read_indexes.sql"
+      ]
     },
     "16": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
-      "evidence": ["FREE_TIER_POLICY.md", "src/posts/benchmark.ts"]
+      "evidence": [
+        "FREE_TIER_POLICY.md",
+        "src/posts/benchmark.ts",
+        "tests/posts-native-bundle.test.mjs",
+        "migrations/0007_post_read_indexes.sql"
+      ]
     },
     "17": {
       "status": "implemented-local-and-documented; remote evidence reported separately",

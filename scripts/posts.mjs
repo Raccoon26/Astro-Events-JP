@@ -100,26 +100,37 @@ try {
         .first())
     )
       throw new api.PostError('schema-unavailable');
-    const file = '0006_posts.sql',
-      applied = await db
-        .prepare('SELECT name FROM registry_migrations WHERE name=?1')
-        .bind(file)
-        .first();
-    const statements = readFileSync(`migrations/${file}`, 'utf8')
-      .split(';')
-      .map((s) => s.trim())
-      .filter(Boolean);
-    if (apply && !applied)
-      await db.batch([
-        ...statements.map((s) => db.prepare(s)),
-        db.prepare('INSERT INTO registry_migrations VALUES(?1)').bind(file),
-      ]);
-    if (apply || applied) await store.schema();
+    const migrations = [],
+      pending = [];
+    for (const file of ['0006_posts.sql', '0007_post_read_indexes.sql']) {
+      const applied = Boolean(
+        await db
+          .prepare('SELECT name FROM registry_migrations WHERE name=?1')
+          .bind(file)
+          .first(),
+      );
+      const statements = readFileSync(`migrations/${file}`, 'utf8')
+        .split(';')
+        .map((s) => s.trim())
+        .filter(Boolean);
+      migrations.push({
+        migration: file,
+        applied: applied || apply,
+        changed: Boolean(apply && !applied),
+        preview: statements,
+      });
+      if (!applied)
+        pending.push(
+          ...statements.map((s) => db.prepare(s)),
+          db.prepare('INSERT INTO registry_migrations VALUES(?1)').bind(file),
+        );
+    }
+    if (apply && pending.length) await db.batch(pending);
+    if (apply || migrations.every((m) => m.applied)) await store.schema();
     result = {
-      migration: file,
-      changed: Boolean(apply && !applied),
-      applied: Boolean(applied || apply),
-      preview: statements,
+      migrations,
+      changed: Boolean(apply && pending.length),
+      applied: migrations.every((m) => m.applied),
     };
   } else if (command === 'list')
     result = {

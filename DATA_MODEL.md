@@ -70,3 +70,5 @@ DEV04 최종규칙dev04-2·350회귀와0005는로컬/격리D1에서확인했다.
 ## DEV05 현재 구현
 
 0006_posts.sql은 기존 generated_posts/UNIQUE를 보존하고 verification_decision_id FK, input/content digest, length_policy, valid_until, 생략JSON을 추가한다. post_generation_schema view1을 마지막에 둔다. 기존행은 NULL증거로 출력불가다. local staging/격리만 적용하며 원격0005/0006은 적용하지 않는다. identity2 및 기존 Health/Cron은 유지한다. [원자성/버전 설계](POST_GENERATOR_DESIGN.md).
+
+DEV05 최종읽기비용보강:0007_post_read_indexes.sql은 events(Verified상태만,stable_event_id,revision) 부분covering index와generated_posts(event_id,post_id) 커서인덱스를추가한다. 기존테이블/UNIQUE/0001~0006을보존한다. 목록/이력은해당인덱스를명시해부재시안전실패하며로컬init은0006/0007과ledger를한batch로적용/재실행한다. 원격두DB는0004로유지한다.

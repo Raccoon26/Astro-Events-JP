@@ -516,6 +516,58 @@ describe('native local D1 post generation and current Verified output, no remote
         ),
       );
   }, 30000);
+  it('does not scan thousands of review rows to find current decision hints', async () => {
+    const f = await setup();
+    for (let base = 0; base < 5000; base += 50)
+      await db.batch(
+        Array.from({ length: 50 }, (_, i) =>
+          db
+            .prepare(
+              "INSERT INTO events(stable_event_id,source_id,title,category,official_url,first_seen_at) VALUES(?1,?2,'合成未検証','local','https://example.jp/events/synthetic',?3)",
+            )
+            .bind(
+              'review-' + String(base + i).padStart(5, '0'),
+              f.ctx.source.id,
+              NOW,
+            ),
+        ),
+      );
+    const before = f.store.meter.snapshot(),
+      rows = await f.store.list('', 25),
+      after = f.store.meter.snapshot();
+    expect(rows.map((r) => r.eventId)).toEqual([f.eventId]);
+    expect(after.rowsRead - before.rowsRead).toBeLessThan(20);
+    const state = preflight();
+    if (state.localDriveVerified)
+      writeFileSync(
+        state.root + '/reports/dev05-sparse-verified-cursor.json',
+        JSON.stringify(
+          {
+            synthetic: true,
+            remote: false,
+            reviewRows: 5000,
+            verifiedHints: 1,
+            rowsRead: after.rowsRead - before.rowsRead,
+            rowsWritten: after.rowsWritten - before.rowsWritten,
+          },
+          null,
+          2,
+        ),
+      );
+  }, 30000);
+  it('fails closed if cursor indexes are absent rather than silently scanning', async () => {
+    const f = await setup();
+    await db.prepare('DROP INDEX events_verified_cursor').run();
+    try {
+      await expect(f.store.list()).rejects.toThrow('schema-unavailable');
+    } finally {
+      await db
+        .prepare(
+          "CREATE INDEX events_verified_cursor ON events(stable_event_id,revision) WHERE verification_status='Verified'",
+        )
+        .run();
+    }
+  });
   it('benchmarks 2000 pure generations separately from Cloudflare CPU and schema writes', async () => {
     const f = await postFixture(),
       start = performance.now(),
