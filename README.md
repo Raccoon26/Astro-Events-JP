@@ -1,6 +1,6 @@
 # Astro-Events-JP
 
-DEV05 현재 구현: 현재Verified 전용13종 일본어/X가중280·로컬저장/CLI를 제공한다. [현재상태](PROJECT_STATUS.md), [게시글설계](POST_GENERATOR_DESIGN.md), [합성샘플](POST_SAMPLES.md). 원격0005/0006·실수집/발행은OFF이며 아래 이전DEV결과는 이력이다.
+DEV05는 현재 Verified 전용 13종 일본어/X 가중280·로컬 저장/CLI를 구현하고 전체539개 검사를 통과했다. [완료보고·성능 제한](DEV05_COMPLETION.md), [게시글 설계](POST_GENERATOR_DESIGN.md), [13종 합성 샘플](POST_SAMPLES.md). 최신 소표본 CPU P99 16.958ms로 Free 10ms 충족은 보장하지 않는다. 원격0005~0007·실수집/발행은 OFF이며 아래 이전 DEV 결과는 이력이다.
 
 > DEV04 결과(이력): 350개 검사·실제 staging합성3회/CPU·복구를 확인했다. 수집/알림OFF·실제승인/수집/검증행사0·원격0005미적용이다. [완료보고](DEV04_COMPLETION.md)를 참조하며 아래 과거상태는 이력이다. DEV05는 자동 시작하지 않는다.
 

@@ -36,6 +36,7 @@ const requiredDocs = [
   'POST_TEMPLATES',
   'POST_SAMPLES',
   'DEV05_TEST_REPORT',
+  'DEV05_COMPLETION',
 ];
 for (const name of requiredDocs)
   if (
