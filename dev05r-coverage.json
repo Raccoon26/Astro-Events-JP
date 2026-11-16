@@ -1,0 +1,397 @@
+{
+  "0": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "1": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "2": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "3": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "4": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "5": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "6": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "7": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "8": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "9": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "10": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "11": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "12": {
+    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "evidence": [
+      "CPU_PROFILE_DESIGN.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "productionChanged": false,
+  "remoteMigrations": false,
+  "realSiteRequests": 0,
+  "R01": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R02": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R03": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R04": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R05": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R06": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R07": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R08": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R09": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R10": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R11": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R12": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R13": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R14": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R15": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R16": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R17": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R18": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R19": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R20": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R21": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R22": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R23": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R24": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R25": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R26": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R27": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R28": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R29": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R30": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R31": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  },
+  "R32": {
+    "status": "scope preserved; DEV05R does not complete DEV06–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "data/dev05r-baseline.json",
+      "DEV05R_CPU_REPORT.md"
+    ]
+  }
+}

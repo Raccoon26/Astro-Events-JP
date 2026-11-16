@@ -35,3 +35,7 @@ DEV04 최종 재검증: main1c3c8d5의350개 검사·CI43497755667·staging 자�
 ## DEV05 현재 구현
 
 DEV05 생성/저장라이브러리는 배포 index와 분리해 OFF다. staging 자동배포도0005/0006을 적용하지 않으며 구스키마에서 PostStore는 fail-closed다. profile-posts는 기존 staging 진단 경로로 고정 순수 fixture3회만 실행해 외부요청/DB쓰기0, 기존버전 복구를 확인한다. 실제실행 전에는 성공으로 계산하지 않는다. production 배포/DB변경/새인증은 이번DEV 자동완료에 포함하지 않는다.
+
+## DEV05R CPU 조사
+
+[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 staging의 한 번의 고정340요청 비교와 정확한 finally rollback만 허용하며 지연 지표는 읽기 전용 재조회한다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.

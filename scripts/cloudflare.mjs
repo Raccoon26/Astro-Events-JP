@@ -19,7 +19,9 @@ import {
 } from './cloudflare-policy.mjs';
 import {
   verifyDeploymentHealth,
+  verifyDeploymentVersion,
   workerStartupMs,
+  workerVersionId,
 } from './deployment-health.mjs';
 import { preflight } from './path-policy.mjs';
 import { nativeTwitterAliases } from './post-bundle-policy.mjs';
@@ -305,13 +307,22 @@ try {
         };
         if (
           options.length &&
-          !(options.length === 1 && options[0] === '--posts-only')
+          !(
+            options.length === 1 &&
+            [
+              '--posts-only',
+              '--cpu-matrix-baseline',
+              '--cpu-matrix-optimized',
+            ].includes(options[0])
+          )
         )
           throw new Error('Unknown benchmark profile option');
         benchmarkConfig.main = path.resolve(
-          options[0] === '--posts-only'
-            ? 'src/posts/remote-benchmark.ts'
-            : 'src/remote-benchmark.ts',
+          options[0]?.startsWith('--cpu-matrix-')
+            ? 'src/posts/cpu-benchmark.ts'
+            : options[0] === '--posts-only'
+              ? 'src/posts/remote-benchmark.ts'
+              : 'src/remote-benchmark.ts',
         );
         benchmarkConfig.minify = true;
         for (const environment of Object.values(benchmarkConfig.env))
@@ -325,6 +336,20 @@ try {
             `${process.env.RUNNER_TEMP}/astro-events-jp`;
         if (!temp) throw new Error('Isolated runner temp required');
         if (!state.localDriveVerified) mkdirSync(temp, { recursive: true });
+        if (options[0]?.startsWith('--cpu-matrix-')) {
+          const { postProfileBuild } = await import('./post-profile-build.mjs');
+          const implementation =
+            options[0] === '--cpu-matrix-baseline' ? 'baseline' : 'optimized';
+          const baseline = await postProfileBuild(
+            `export {renderPost} from './src/posts/render';export const implementation='${implementation}';`,
+            implementation === 'baseline',
+          );
+          const baselineFile = `${temp}/dev05r-baseline-${randomUUID()}.mjs`;
+          writeFileSync(baselineFile, baseline.outputFiles[0].text, {
+            flag: 'wx',
+          });
+          benchmarkConfig.alias['dev05r:renderer'] = baselineFile;
+        }
         const file = `${temp}/dev01r-benchmark-${randomUUID()}.json`;
         writeFileSync(file, JSON.stringify(benchmarkConfig, null, 2), {
           flag: 'wx',
@@ -340,6 +365,18 @@ try {
         },
       );
       report.startupTimeMs = workerStartupMs(deploymentOutput);
+      report.uploadedVersionId = workerVersionId(deploymentOutput);
+      if (
+        operation === 'benchmark' &&
+        options[0]?.startsWith('--cpu-matrix-')
+      ) {
+        if (!report.uploadedVersionId)
+          throw Error('UPLOADED_VERSION_UNVERIFIED');
+        report.versionConfirmation = await verifyDeploymentVersion(
+          () => api('GET', latestDeploymentPath(resources[target].workerName)),
+          report.uploadedVersionId,
+        );
+      }
       const subdomain = await api('GET', '/workers/subdomain');
       if (!/^[a-z0-9-]+$/.test(subdomain?.subdomain ?? ''))
         throw new Error('workers.dev subdomain unavailable');
@@ -386,9 +423,25 @@ try {
   report.phase = 'complete';
 } catch (error) {
   report.code = 'CLOUDFLARE_OPERATION_FAILED';
-  report.safeCause = /^HEALTH_[A-Z_]+$/.test(error.message)
+  report.safeCause = /^(?:HEALTH|WRANGLER_FAILED)_[A-Z_]+$/.test(error.message)
     ? error.message
     : 'GUARDED_OPERATION_FAILED';
+  if (
+    error.safeDetails &&
+    [
+      'TIMEOUT',
+      'STARTUP_LIMIT',
+      'NETWORK',
+      'AUTH',
+      'PROVIDER',
+      'EXIT',
+    ].includes(error.safeDetails.category)
+  )
+    report.failureDetails = {
+      category: error.safeDetails.category,
+      exitCode: error.safeDetails.exitCode,
+      providerCode: error.safeDetails.providerCode,
+    };
   process.exitCode = 1;
 }
 if (state.localDriveVerified)

@@ -37,6 +37,9 @@ const requiredDocs = [
   'POST_SAMPLES',
   'DEV05_TEST_REPORT',
   'DEV05_COMPLETION',
+  'CPU_PROFILE_DESIGN',
+  'FREE_EXECUTION_PIPELINE',
+  'DEV05R_CPU_REPORT',
 ];
 for (const name of requiredDocs)
   if (
@@ -179,3 +182,5 @@ console.log(
   'DEV04 sections0–20 and R01–R32 mapped; real verification0 and later DEV scope remain explicit.',
 );
 await import('./audit-dev05.mjs');
+
+await import('./audit-dev05r.mjs');

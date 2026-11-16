@@ -37,3 +37,7 @@ DEV-01R은 기존01의 원격 보류 조건을 재개한 보완 단계이며 DEV
 ## DEV05 현재 구현
 
 DEV05는 전13종/현재Verified연결·결정적일본어·공식가중규칙·안전축약·로컬저장/CLI/샘플을 구현한다. 실제완료검사/PR증거는 DEV05_TEST_REPORT와 E완료기록을 따른다. DEV06~10 조건은 위 표 그대로이며 DEV06을 자동 시작하지 않는다. 원격0005/0006 활성화는 별도 승인/검증 대상이다.
+
+## DEV05R CPU 조사
+
+[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 staging의 한 번의 고정340요청 비교와 정확한 finally rollback만 허용하며 지연 지표는 읽기 전용 재조회한다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.

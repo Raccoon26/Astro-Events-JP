@@ -86,3 +86,7 @@ main714d01bafca05166b67a65fad2268fe410a402ed / 진단43879903909에서 고정210
 ## DEV05 최종 측정과 완료 범위
 
 최신 구현 main d56ebbb676bdbc16c8a069f847ae288e3a46ec56/PR21은 전체539개/32파일 및 npm run check/필수 CI를 통과했다. staging 진단43882405606은 고정합성210가중자 생성3회·각D1읽기1/쓰기0·외부요청0·정확한 원래버전 복구에 성공했다. 공식 집계는 임시버전1d200e4d-842e-42e2-9b54-648ec687cf79의 Health 포함4요청, CPU P50 4.453ms/P99 16.958ms, memoryP99 3236140B·오류/subrequests0이다. Wrangler startup22ms는 별도 초기화 예산이며 요청 CPU와 합치거나 경과시간으로 대체하지 않는다. 10ms 충족/전체 파이프라인 성능은 미확인이다. [25항목 완료보고·전체파일](DEV05_COMPLETION.md)에 실제 결과·로컬 비용·운영 제한을 구분했다. 원격0001~0004·생성/수집/알림OFF·production불변·active0을 유지하며 DEV06은 자동 시작하지 않는다.
+
+## DEV05R CPU 조사
+
+[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 staging의 한 번의 고정340요청 비교와 정확한 finally rollback만 허용하며 지연 지표는 읽기 전용 재조회한다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.

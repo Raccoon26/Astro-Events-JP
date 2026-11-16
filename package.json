@@ -49,7 +49,10 @@
     "posts:get": "node scripts/posts.mjs get",
     "posts:history": "node scripts/posts.mjs history",
     "posts:samples": "node scripts/post-samples.mjs",
-    "posts:conformance": "vitest run tests/post-length.test.ts"
+    "posts:conformance": "vitest run tests/post-length.test.ts",
+    "profile:posts:local": "node scripts/profile-posts.mjs",
+    "profile:store:local": "node scripts/profile-post-store.mjs",
+    "profile:corpus": "node scripts/post-profile-corpus.mjs --write"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",

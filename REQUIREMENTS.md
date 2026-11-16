@@ -74,3 +74,7 @@ DEV04는 R02~R06/R08/R11~R14/R20에 대해 [검증 설계](VERIFICATION_DESIGN.m
 ## DEV05 현재 구현
 
 R11/R12/R13/R14/R15/R16/R19/R20 및 무료/보안/E/자동완료 요구를 dev05-coverage.json에서 전체R01~32와 대조한다. 현재Verified만 전13종 일본어·공식가중280·URL·태그1~2·버전/저장을 제공한다. DEV06~10, 전국 일반행사/지방/4VTuber, 실제Source승인·Workers안전전송을 축소/완료표시하지 않는다. 실제발행/수집0이다.
+
+## DEV05R CPU 조사
+
+[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 staging의 한 번의 고정340요청 비교와 정확한 finally rollback만 허용하며 지연 지표는 읽기 전용 재조회한다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.

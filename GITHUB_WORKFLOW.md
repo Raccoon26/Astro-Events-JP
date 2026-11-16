@@ -43,3 +43,7 @@ validate는 읽기 전용 인증, diagnose는 staging 고정 합성 시험과 fi
 ## DEV05 현재 구현
 
 DEV05도 complete:dev -- --reviewed로 전체check·commit/push/PR·최신quality·보호준수squash·main동기화를 수행한다. 기존권한/production리뷰/CI를 완화하지 않는다. profile-posts는 main+CI·Free예산·staging-only의 고정합성 진단이며0004/SELECT만 사용하고 정확한 이전버전으로 finally rollback한다. production프로파일은 자격증명 조회 전에 거부한다. 기존일반diagnose/DEV04 profile-verifier 목적은 유지한다.
+
+## DEV05R CPU 조사
+
+[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 staging의 한 번의 고정340요청 비교와 정확한 finally rollback만 허용하며 지연 지표는 읽기 전용 재조회한다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.

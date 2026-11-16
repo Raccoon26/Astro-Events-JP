@@ -1,3 +1,9 @@
+# DEV05R CPU 조사 진행
+
+최신 main157aaab6eb284f3e65df85d5207ee6efcf8a60b8에서 dev/dev-05r-cpu-optimization을 시작했다. 기존539목적/32파일·0001~0007을 보존한다. [조사 설계](CPU_PROFILE_DESIGN.md), [실제 측정과 미검증](DEV05R_CPU_REPORT.md), [독립 invocation 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 로컬 실제 workerd CDP 조사·scalar/startup/동일 proof 재사용·D1 marker 조회33→27문장을 보완했다. 원격340회 비교는 아직 실행하지 않았으며8ms 목표를 충족했다고 표시하지 않는다. production/원격0004·수집/알림OFF·active0·실제사이트0·SSRF fail-closed를 유지한다. DEV06은 시작하지 않는다.
+
+## DEV05 완료 이력
+
 # DEV05 프로젝트 상태 — 2026-11-16 JST
 
 **DEV05 로컬 기능 구현·검사 완료 / 원격 CPU 10ms 충족은 미확인 / 제품 운영 OFF.** [25항목 완료보고·전체 변경 파일](DEV05_COMPLETION.md), [13종 합성 샘플](POST_SAMPLES.md), [검사·실패 이력](DEV05_TEST_REPORT.md)을 현재 근거로 사용한다. 구현 PR18~21은 필수 CI·보호 조건을 충족해 병합했고 최신 구현 main은 d56ebbb676bdbc16c8a069f847ae288e3a46ec56이다. 마지막 증거 문서 PR도 complete:dev로 전체 검사·CI·병합·main 동기화를 확인하며 실제 최종 SHA는 E reports/github-completion 및 최종 대화 보고에서 제공한다.

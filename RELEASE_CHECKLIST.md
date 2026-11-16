@@ -34,3 +34,7 @@ DEV04: 기존206 목적/0001~0004 checksum·신규0005 로컬FK/무결성·원�
 DEV05 gate: 기존350목적/25파일·0001~5 SHA, 13종샘플 자기검토, 공식길이fixture hash/conformance·Unicode, 현재Verified재검사/출력/원자저장/재실행0쓰기·실패/경쟁, 로컬0006/FK/무결성, 두환경/collector/verifier/posts build, 전체check·E정리·R01~32/0~21감사·최신PR HEAD quality/보호/병합/main clean을 확인한다. production/원격migration·실수집·발행은 금지한다. 실제staging CPU는 실행증거가 있을 때만 별도 기록한다.
 
 DEV05 최종 결과는 [완료보고](DEV05_COMPLETION.md)를 따른다. 전체539개/32파일 검사·기존350목적을 보존했고0006/0007은 E 로컬/격리만 적용했다. 원격두DB0004·생성/수집/알림OFF이며 최신 소표본 CPU P99 16.958ms로10ms 충족을 보장하지 않는다. 마지막 증거 PR도 complete:dev의 전체검사·필수CI·보호준수병합·main동기화 대상이다.
+
+## DEV05R CPU 조사
+
+[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 staging의 한 번의 고정340요청 비교와 정확한 finally rollback만 허용하며 지연 지표는 읽기 전용 재조회한다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.
