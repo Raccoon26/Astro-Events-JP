@@ -276,14 +276,18 @@ export class PostStore {
       cursor.length > 200
     )
       throw new PostError('unsafe-input');
-    return (
-      await this.db
-        .prepare(
-          "SELECT stable_event_id AS eventId,revision FROM events WHERE stable_event_id>?1 AND verification_status='Verified' ORDER BY stable_event_id LIMIT ?2",
-        )
-        .bind(cursor, limit)
-        .all<{ eventId: string; revision: number }>()
-    ).results;
+    try {
+      return (
+        await this.db
+          .prepare(
+            "SELECT stable_event_id AS eventId,revision FROM events INDEXED BY events_verified_cursor WHERE stable_event_id>?1 AND verification_status='Verified' ORDER BY stable_event_id LIMIT ?2",
+          )
+          .bind(cursor, limit)
+          .all<{ eventId: string; revision: number }>()
+      ).results;
+    } catch {
+      throw new PostError('schema-unavailable');
+    }
   }
   async history(eventId: string, cursor = '', limit = 25) {
     await this.schema();
@@ -296,14 +300,18 @@ export class PostStore {
     )
       throw new PostError('unsafe-input');
     // Text is deliberately absent; call get() to obtain a current copyable post.
-    return (
-      await this.db
-        .prepare(
-          'SELECT post_id,revision,kind,template_version,created_at,weighted_length FROM generated_posts WHERE event_id=?1 AND post_id>?2 ORDER BY post_id LIMIT ?3',
-        )
-        .bind(eventId, cursor, limit)
-        .all()
-    ).results;
+    try {
+      return (
+        await this.db
+          .prepare(
+            'SELECT post_id,revision,kind,template_version,created_at,weighted_length FROM generated_posts INDEXED BY generated_posts_event_cursor WHERE event_id=?1 AND post_id>?2 ORDER BY post_id LIMIT ?3',
+          )
+          .bind(eventId, cursor, limit)
+          .all()
+      ).results;
+    } catch {
+      throw new PostError('schema-unavailable');
+    }
   }
 }
 export class JapanesePostGenerator implements PostGenerator {

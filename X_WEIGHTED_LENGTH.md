@@ -13,3 +13,7 @@
 ## ES2022 Workers 번들
 
 공식 twitter-text의 알고리즘은 그대로 사용한다. Workers 전용 bundle에서만 이미 ES2022에 포함된23개 core-js2 side-effect import를 native-compat의 기본기능 검사로 치환한다. NFC/가중/emoji/URL 계산을 대체하거나 생략하지 않는다. 공식44사례는 Miniflare workerd의 minified/native bundle에서도 모든기대필드가 일치하며 core-js global initializer가 없는지 검사한다. 로컬 일반 패키지 경로도 별도 conformance를 유지한다. 미지원 런타임은 fail-closed이며 유료서비스를 추가하지 않는다.
+
+## Emoji 없는 문자 부분집합의 동등 경로
+
+잠재emoji가없는제한된ASCII/일본어범위에서만공식parseTweet의emoji탐색을생략한다. 최대길이/URL변환/NFC/가중/range/유효성검사는동일한공식알고리즘이다. ©/®/〰/〽/㊗/㊙·keycap/VS/ZWJ/국기/보충평면등은full공식경로다. 허용범위전체를100자씩원본emoji-enabled구현과대조하고공식fixture/실제native workerd에서도대조한다. 과대8KiB초과fixture는공식원본검사와프로젝트입력거부를각각확인해입력제한을약화하지않는다.

@@ -27,3 +27,5 @@ preview 저장은 `--apply --enable-posts --local-budget --source SOURCE --finge
 DEV05 자기검토에서 발견한 요금 범위 버그 수정으로 현행 VerificationStore 규칙은 dev04-3이다. 기존 dev04-2 판정은 게이트에서 재검증을 요구하며 새 Source 승인이나 원격데이터 변경을 만들지 않는다. 실제Source/행사0 상태를 유지한다.
 
 추가회귀: 공식 근거가 종료일미정/계속휴관임을 명시하면 시작일이 지났어도 검증만료까지 공지를 생성할 수 있다. 날짜 하나만 있는 종료된 단일휴관을 무기한 연장하지 않는다. CPU 진단은 src/posts/remote-benchmark.ts의 별도 고정 생성 진입점을 써 Collector/Validator 초기화를 분리하며 기존4파서/검증 진단은 본래 진입점을 보존한다.
+
+posts:init는최종적으로0006/0007의미적용파일만미리보고명시적apply에서단일batch로적용한다. Verified목록은0007부분인덱스, 이력은0007 event/post인덱스를명시하므로다수Review행/다른Event이력전체를스캔하지않는다. 인덱스없는구환경의해당목록은fail-closed다.

@@ -29,3 +29,11 @@ DEV04 요금 파서의 유료+0엔 등급 순서에 따른 전체무료 오분�
 main ff79092d6620adb5a630921b556fe60842b5fdcc / Actions43872693538에서 고정합성212가중자 생성3회·외부요청0·D1각읽기1/쓰기0·정확한원본버전복구가 성공했다. 임시버전1f04e554-ea31-4f67-8336-f7864150300f의 공식GraphQL은 Health등을포함한5요청, errors/subrequests0, CPU P50=3.041ms/P99=19.583ms, memoryP99=5462999B였다. 이는 10ms 기준 충족으로 계산하지 않는다. 보고된 계정사용량은 요청6/D1읽기5·쓰기0/저장778240B/Cron1이며 지연집계다.
 
 종료일미정 장기휴관의 잘못된 만료차단을 보완하고 단일휴관일 만료와 구별했다. 이어서 동일본문의 가중길이 재계산을 없애고, 생성 전용 임시 Worker를 수집/검증 진단과 분리했다. Workers ES2022의 native built-in이 대신하는 twitter-text3.1.0의 정확한23개 ES5 polyfill import만 alias하며 알고리즘/규칙/검증을 생략하지 않는다. 기본기능이 없으면 안전하게 실패한다. 공식원본44가중/방향사례를 최적화된 실제workerd에서 그대로 대조한다. [공식alias설명](https://developers.cloudflare.com/workers/wrangler/configuration/#module-aliasing). 번들축소나 로컬elapsed를 원격CPU성공으로 바꾸지 않고 새main/필수CI/Free예산/원본버전복구로 재측정한다.
+
+## 추가 CPU 관측과 읽기 비용 보강
+
+main53dcd7a12bd8e54e60e5f271039614db13f713ce의 전용/minified/native 진단43875528015는 고정합성210가중자3회와 정확한rollback에 성공했다. 임시버전f11f9bd7-336e-4c5b-8b8a-99cc92c4453b의 공식집계4요청은 P50=2.614ms/P99=20.720ms, memoryP99=3236140B·오류/subrequests0이었다. 첫 표본과 입력변형/포함Health수가 달라 엄밀한 동일조건 성능비교가 아니며10ms충족으로 표시하지 않는다.
+
+이에 emoji가 존재할 수 없는 ASCII/일본어의 제한된 범위만 공식 parseTweet의 동일가중·URL 경로에서 emoji탐색을 생략한다. emoji 가능문자/결합문자/VS/보충평면은 그대로 full공식경로다. 전체허용범위와 원본emoji-enabled 결과를 대조하고 공식v3 fixture/실제workerd에서도 동등성을 확인한다. 8KiB를 넘는 공식과대fixture는 원본알고리즘의 기대값을 계속 검사하면서 프로젝트wrapper의 안전한 거부도 별도로 검사한다. 입력상한이나길이규칙을낮추지않는다. 새main/CI후실제CPU를재측정한다.
+
+검토대기행이 많아도 제한된목록조회가 전체테이블을읽지 않도록0007_post_read_indexes.sql에 Verified부분covering index와(event_id,post_id)이력인덱스를추가했다.0001~0006은변경하지않는다. INDEXED BY로필수인덱스가없으면전체스캔대신fail-closed다. 격리D1의5,000 Review행+1Verified힌트에서2행읽기/0쓰기, 저장33문장/95읽기/4쓰기·반복0쓰기를관측했다. 인덱스추가의쓰기비용도포함한다.0007은E로컬/격리에만적용하며원격은계속0004다.

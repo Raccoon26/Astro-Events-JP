@@ -43,7 +43,16 @@ export function scalarText(value: unknown): asserts value is string {
 /** Official weighting is separate from the stricter project publication-input policy. */
 export function officialMeasure(text: string) {
   scalarText(text);
-  return parseTweet(text, X_CONFIG);
+  // Proven emoji-free subset only. All possible emoji (including #/digit keycap
+  // combiners, VS, supplementary characters and ©/®/〰/㊗) take the full official path.
+  const noEmoji =
+    /^[\u0009\u000a\u000d\u0020-\u007e\u3000-\u302f\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uff01-\uff60\uff65-\uff9f]*$/u.test(
+      text,
+    );
+  return parseTweet(
+    text,
+    noEmoji ? { ...X_CONFIG, emojiParsingEnabled: false } : X_CONFIG,
+  );
 }
 export function validateLength(text: string) {
   try {

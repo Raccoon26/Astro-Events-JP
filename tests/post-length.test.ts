@@ -25,6 +25,12 @@ describe('pinned upstream twitter-text conformance (unmodified Apache-2.0 fixtur
   ] as const) {
     it.each(fixtures[group]!)(`${group}: $description`, (fixture) => {
       expect(parseTweet(fixture.text, options)).toMatchObject(fixture.expected);
+      if (group !== 'WeightedTweetsCounterTest') {
+        if (fixture.text.length > 8192)
+          expect(() => officialMeasure(fixture.text)).toThrow('unsafe-input');
+        else
+          expect(officialMeasure(fixture.text)).toMatchObject(fixture.expected);
+      }
     });
   }
   it('verifies fixture hashes and runtime config against the pinned upstream bytes', () => {
@@ -45,6 +51,28 @@ describe('pinned upstream twitter-text conformance (unmodified Apache-2.0 fixtur
   });
 });
 describe('project publication policy and weighted boundaries', () => {
+  it('matches unmodified official emoji-enabled v3 across the entire fast-path character subset', () => {
+    const ranges = [
+      [0x20, 0x7e],
+      [0x3000, 0x302f],
+      [0x3040, 0x30ff],
+      [0x3400, 0x4dbf],
+      [0x4e00, 0x9fff],
+      [0xff01, 0xff60],
+      [0xff65, 0xff9f],
+    ];
+    let text = '\t\n\r';
+    for (const [start, end] of ranges)
+      for (let cp = start!; cp <= end!; cp++) text += String.fromCodePoint(cp);
+    for (let offset = 0; offset < text.length; offset += 100) {
+      const chunk = text.substring(offset, offset + 100);
+      expect(officialMeasure(chunk)).toEqual(parseTweet(chunk, X_CONFIG));
+    }
+  });
+  it.each(['©', '®', '〰', '〽', '㊗', '㊙', '#️⃣', '1️⃣', '👩‍👩‍👧‍👦', '🇯🇵', '🆕'])(
+    'retains full official emoji parsing for %s',
+    (text) => expect(officialMeasure(text)).toEqual(parseTweet(text, X_CONFIG)),
+  );
   it('keeps nested official ranges immutable as well as limit constants', () => {
     expect(Object.isFrozen(X_CONFIG)).toBe(true);
     expect(Object.isFrozen(X_CONFIG.ranges)).toBe(true);
