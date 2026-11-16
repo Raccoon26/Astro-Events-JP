@@ -138,3 +138,23 @@ it.each([true, false])(
     expect(captured.query).toContain('scriptVersion:$v');
   },
 );
+it.each([
+  [401, 'credentials hidden', 'AUTHORIZATION'],
+  [200, 'Syntax Error: private details', 'QUERY_SYNTAX'],
+  [200, 'Cannot query field: private details', 'QUERY_SCHEMA'],
+])(
+  'reports safe metric failure category %i',
+  async (status, message, category) => {
+    await expect(
+      queryCpuMetrics({
+        token: 'synthetic',
+        accountId: 'a'.repeat(32),
+        scriptName: 'astro-events-jp-staging',
+        start: '2026-11-16T15:00Z',
+        end: '2026-11-16T15:01Z',
+        fetcher: async () =>
+          Response.json({ errors: [{ message }] }, { status }),
+      }),
+    ).rejects.toThrow(`CPU_METRICS_${category}_${status}`);
+  },
+);

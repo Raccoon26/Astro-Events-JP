@@ -7,7 +7,7 @@ import { preflight } from '../scripts/path-policy.mjs';
 import { nativeTwitterAliases } from '../scripts/post-bundle-policy.mjs';
 import { postProfileBuild } from '../scripts/post-profile-build.mjs';
 
-it('the actual workerd matrix keeps both implementations identical and refuses production without DB access', async () => {
+it('native optimized invocations retain the committed baseline posts and refuse production without DB access', async () => {
   const state = preflight();
   const temp = state.localDriveVerified
     ? `${state.root}/temp`
@@ -16,7 +16,7 @@ it('the actual workerd matrix keeps both implementations identical and refuses p
   // Native tests compare the optimized renderer to the immutable committed corpus.
   // The remote matrix additionally compiles the original Git baseline separately.
   const base = await postProfileBuild(
-    "export {renderPost} from './src/posts/render';export const implementation='optimized';",
+    "export {renderPost} from './src/posts/render';export const implementation='optimized';export const profileMarker='test-marker';",
   );
   const file = `${temp}/dev05r-test-baseline-${randomUUID()}.mjs`;
   fs.writeFileSync(file, base.outputFiles[0].text, { flag: 'wx' });
@@ -53,6 +53,11 @@ it('the actual workerd matrix keeps both implementations identical and refuses p
       }),
     );
     const db = await mf.getD1Database('DB');
+    expect(
+      await (
+        await mf.dispatchFetch('https://example.test/benchmark/cpu/ready')
+      ).json(),
+    ).toEqual({ implementation: 'optimized', profileMarker: 'test-marker' });
     await db
       .prepare(
         'CREATE TABLE deployment_identity(singleton INTEGER,environment TEXT,database_name TEXT,schema_version INTEGER)',

@@ -12,6 +12,7 @@ import {
   validateBindings,
 } from './cloudflare-policy.mjs';
 import { correlateCpu, queryCpuMetrics } from './cpu-metrics.mjs';
+import { verifyCpuReadiness } from './cpu-readiness.mjs';
 import {
   verifyDeploymentHealth,
   verifyDeploymentVersion,
@@ -130,11 +131,24 @@ try {
       version,
     );
     report.versions[implementation] = version;
+    const readiness = await verifyCpuReadiness(
+      `${base}/benchmark/cpu/ready`,
+      implementation,
+      deployed.profileMarker,
+    );
+    console.log(
+      JSON.stringify({
+        phase: 'cpu-matrix-readiness',
+        implementation,
+        ...readiness,
+      }),
+    );
     report.phases.push({
       implementation,
       version,
       start: new Date().toISOString(),
       startupTimeMs: deployed.startupTimeMs,
+      readiness,
     });
     console.log(
       JSON.stringify({
@@ -233,11 +247,17 @@ try {
       complete: report.correlated.complete,
     }),
   );
-} catch {
+} catch (error) {
   report.metricsUnavailable = true;
+  report.metricsFailureCode = /^CPU_METRICS_[A-Z_]+(?:_\d{3})?$/.test(
+    error.message,
+  )
+    ? error.message
+    : 'CPU_METRICS_UNAVAILABLE';
   console.log(
     JSON.stringify({
       phase: 'cpu-matrix-metrics-unavailable',
+      code: report.metricsFailureCode,
       reason:
         'Read-only metrics can be queried later; no wall-time CPU substitution',
     }),

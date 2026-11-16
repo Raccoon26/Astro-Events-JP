@@ -340,8 +340,10 @@ try {
           const { postProfileBuild } = await import('./post-profile-build.mjs');
           const implementation =
             options[0] === '--cpu-matrix-baseline' ? 'baseline' : 'optimized';
+          const profileMarker = randomUUID(); // public diagnostic deployment identifier, not authentication
+          report.profileMarker = profileMarker;
           const baseline = await postProfileBuild(
-            `export {renderPost} from './src/posts/render';export const implementation='${implementation}';`,
+            `export {renderPost} from './src/posts/render';export const implementation='${implementation}';export const profileMarker='${profileMarker}';`,
             implementation === 'baseline',
           );
           const baselineFile = `${temp}/dev05r-baseline-${randomUUID()}.mjs`;
