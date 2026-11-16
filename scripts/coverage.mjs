@@ -30,6 +30,12 @@ const requiredDocs = [
   'FACILITY_VERIFICATION',
   'IMAGE_RIGHTS_POLICY',
   'DEV04_TEST_REPORT',
+  'POST_GENERATOR_DESIGN',
+  'JAPANESE_STYLE_GUIDE',
+  'X_WEIGHTED_LENGTH',
+  'POST_TEMPLATES',
+  'POST_SAMPLES',
+  'DEV05_TEST_REPORT',
 ];
 for (const name of requiredDocs)
   if (
@@ -171,3 +177,4 @@ for (let i = 1; i <= 32; i++) {
 console.log(
   'DEV04 sections0–20 and R01–R32 mapped; real verification0 and later DEV scope remain explicit.',
 );
+await import('./audit-dev05.mjs');

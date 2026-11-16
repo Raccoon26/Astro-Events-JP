@@ -39,3 +39,7 @@ DEV00의 0001_foundation.sql은 수정하지 않았다. 정규화된 LF 내용�
 DEV04 0005는 additive이며 로컬 registry ledger와 단일 D1.batch로 적용해 재실행은 skip한다. 원본0001~0004 변경/DB초기화/자동DROP은 금지한다. 기능OFF 및 이전 Worker 버전으로의 코드 rollback은0004/0005와 호환된다. 스키마 되돌리기는 자동 down migration으로 데이터 삭제하지 않고 공식 Bookmark/백업·대상 identity 검증 후 별도 승인/검토한다. 이번 DEV의 원격 복구 시험을 했다고 주장하지 않는다. 검증 쓰기 실패/경합은 local nativeD1에서 재실행·원자성을 검사한다.
 
 DEV04 고정검증 진단43498151862는D1쓰기/DDL없이임시Worker0de1476e-5ee4-420b-a504-5624617e4c9e를사용한뒤, 정확한이전버전14bd4938-6ae8-4daa-aa68-3199fedf4aa9/100%·Health200으로복구했다. 0005 원격복구나production시험을한것은아니다. [실제범위](DEV04_COMPLETION.md).
+
+## DEV05 현재 구현
+
+DEV05 0006은 로컬 registry ledger/identity/기존0005를 확인하고 단일batch로 적용해 재실행변경0을 보장한다.0001~5는불변이다. 이전행/스키마를DROP해복구하지 않고 기능OFF/코드rollback을 우선한다. 글저장은단일CAS INSERT·UNIQUE로원자적이며 DB실패/경합후재실행을격리D1에서검사한다. 원격복구나production시험을한것은아니다.

@@ -110,7 +110,11 @@
         "src/domain.ts",
         "src/contracts.ts",
         "src/verification/validator.ts",
-        "VERIFICATION_POLICY.md"
+        "VERIFICATION_POLICY.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R12": {
@@ -119,7 +123,11 @@
         "migrations/0001_foundation.sql",
         "src/domain.ts",
         "src/verification/validator.ts",
-        "VERIFICATION_POLICY.md"
+        "VERIFICATION_POLICY.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R13": {
@@ -130,7 +138,11 @@
         "src/collection/types.ts",
         "migrations/0004_collection.sql",
         "src/verification/validator.ts",
-        "VERIFICATION_POLICY.md"
+        "VERIFICATION_POLICY.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R14": {
@@ -139,16 +151,34 @@
         "SOURCE_POLICY.md",
         "src/contracts.ts",
         "src/verification/validator.ts",
-        "VERIFICATION_POLICY.md"
+        "VERIFICATION_POLICY.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R15": {
       "devs": [5, 10],
-      "evidence": ["DEV_ROADMAP.md", "src/contracts.ts"]
+      "evidence": [
+        "DEV_ROADMAP.md",
+        "src/contracts.ts",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
     },
     "R16": {
       "devs": [5, 10],
-      "evidence": ["src/domain.ts", "DEV_ROADMAP.md"]
+      "evidence": [
+        "src/domain.ts",
+        "DEV_ROADMAP.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
     },
     "R17": {
       "devs": [6, 7],
@@ -160,7 +190,14 @@
     },
     "R19": {
       "devs": [0, 6, 7],
-      "evidence": ["migrations/0001_foundation.sql", "ARCHITECTURE.md"]
+      "evidence": [
+        "migrations/0001_foundation.sql",
+        "ARCHITECTURE.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
     },
     "R20": {
       "devs": [4, 7],
@@ -168,7 +205,11 @@
         "DATA_MODEL.md",
         "DEV_ROADMAP.md",
         "src/verification/validator.ts",
-        "VERIFICATION_POLICY.md"
+        "VERIFICATION_POLICY.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R21": {
@@ -184,7 +225,11 @@
       "evidence": [
         "FREE_TIER_POLICY.md",
         "src/budget.ts",
-        "COLLECTION_BENCHMARK.md"
+        "COLLECTION_BENCHMARK.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R23": {
@@ -194,7 +239,11 @@
         "scripts/audit.mjs",
         "tests/foundation.test.ts",
         "SSRF_SECURITY_AUDIT.md",
-        "tests/collection-http.test.ts"
+        "tests/collection-http.test.ts",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R24": {
@@ -202,7 +251,11 @@
       "evidence": [
         "scripts/path-policy.mjs",
         "scripts/environment.ps1",
-        "tests/local-safety.test.mjs"
+        "tests/local-safety.test.mjs",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R25": {
@@ -210,7 +263,11 @@
       "evidence": [
         "scripts/cleanup-policy.mjs",
         "CLEANUP_POLICY.md",
-        "tests/local-safety.test.mjs"
+        "tests/local-safety.test.mjs",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R26": {
@@ -219,14 +276,25 @@
     },
     "R27": {
       "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      "evidence": [".github/workflows/ci.yml", "GITHUB_WORKFLOW.md"]
+      "evidence": [
+        ".github/workflows/ci.yml",
+        "GITHUB_WORKFLOW.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
     },
     "R28": {
       "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
       "evidence": [
         "scripts/complete-dev.mjs",
         "AGENTS.md",
-        "RELEASE_CHECKLIST.md"
+        "RELEASE_CHECKLIST.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
       ]
     },
     "R29": {
@@ -247,7 +315,14 @@
     },
     "R31": {
       "devs": [0, 1, 6],
-      "evidence": ["PROJECT_STATUS.md", "SECURITY.md"]
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "SECURITY.md",
+        "src/posts/store.ts",
+        "src/posts/render.ts",
+        "tests/posts-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
     },
     "R32": {
       "devs": [8, 9, 10],

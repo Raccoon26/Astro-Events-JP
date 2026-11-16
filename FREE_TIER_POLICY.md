@@ -58,3 +58,7 @@ DEV04도 Workers Free CPU10ms/128MB·외부subrequest50·D1쿼리50과 계정 �
 ## DEV04 실제 소형 표본
 
 2026-11-14 JST staging고정검증3회/Health1회의공식GraphQL CPU P50=3.392ms/P99=8.608ms, memoryP99=3908122B·errors/subrequests0. 각검증의Health SELECT rows_read=1/rows_written=0이다. 원격검증저장/큰근거/시설다중공지/전체수집CPU를측정한것은아니다. DEV01R 기존기준선은유지한다. [수치와한계](DEV04_COMPLETION.md).
+
+## DEV05 현재 구현
+
+2026-11-16 공식 Workers limits와 D1 pricing을 재확인했다. Workers Free10ms/128MB/외부요청50, D1일읽기500만/쓰기10만/계정5GB를 기준으로 한다. DEV05는 로컬33문장/저장1건 소표본과 순수생성2000건을 별도 계측하며 Cloudflare CPU로 바꾸지 않는다. remote profile-posts는 staging 고정3회/SELECT만, mainCI·Free/계정전체예산 확인 후 임시버전과 정확한rollback을 사용한다. 원격전체검증/저장10ms 보장은 없고 구스키마의 실제생성OFF다. [검사와 한계](DEV05_TEST_REPORT.md).

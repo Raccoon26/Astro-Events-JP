@@ -15,8 +15,15 @@ preflight();
 const target = validateEnvironment(process.argv[2]),
   mode = process.argv[3];
 if (
-  !['validate', 'deploy', 'diagnose', 'profile-verifier'].includes(mode) ||
-  (['diagnose', 'profile-verifier'].includes(mode) && target !== 'staging')
+  ![
+    'validate',
+    'deploy',
+    'diagnose',
+    'profile-verifier',
+    'profile-posts',
+  ].includes(mode) ||
+  (['diagnose', 'profile-verifier', 'profile-posts'].includes(mode) &&
+    target !== 'staging')
 )
   throw new Error('Explicit validate/deploy required');
 const resources = JSON.parse(readFileSync('cloudflare-resources.json', 'utf8'));
@@ -67,15 +74,21 @@ console.log(
     analyticsCaveat: snapshot.analyticsCaveat,
   }),
 );
-if (['deploy', 'diagnose', 'profile-verifier'].includes(mode)) {
+if (
+  ['deploy', 'diagnose', 'profile-verifier', 'profile-posts'].includes(mode)
+) {
   const result = spawnSync(
     process.execPath,
     [
-      ...(['diagnose', 'profile-verifier'].includes(mode)
+      ...(['diagnose', 'profile-verifier', 'profile-posts'].includes(mode)
         ? [
             'scripts/staging-diagnostics.mjs',
             target,
-            ...(mode === 'profile-verifier' ? ['--verifier-only'] : []),
+            ...(mode === 'profile-posts'
+              ? ['--posts-only']
+              : mode === 'profile-verifier'
+                ? ['--verifier-only']
+                : []),
           ]
         : ['scripts/cloudflare.mjs', 'deploy', target]),
       ...(target === 'production'

@@ -486,6 +486,10 @@ export class VerificationStore {
     return { decisionId: id, changed: true };
   }
   async verified(eventId: string): Promise<DetailedVerifiedEvent | null> {
+    return (await this.capture(eventId))?.event ?? null;
+  }
+  /** A fresh gate result and its exact DB compare-and-set boundary, for downstream transactional writes. */
+  async capture(eventId: string) {
     if (!this.options.enabled) return null;
     try {
       await this.schema();
@@ -537,7 +541,21 @@ export class VerificationStore {
           .first('ok')) !== 1
       )
         return null;
-      return validator.verify(fresh);
+      const event = validator.verify(fresh);
+      if (event) {
+        // Rechecking a decision must not renew the original attestation lifetime.
+        event.verification.checkedAt = old.checkedAt;
+        event.verification.expiresAt = old.expiresAt;
+        event.lastVerifiedAt = old.event.lastVerifiedAt;
+      }
+      return event
+        ? {
+            event,
+            revision: saved.generation,
+            decisionId: saved.decision_id,
+            guard,
+          }
+        : null;
     } catch {
       return null;
     }

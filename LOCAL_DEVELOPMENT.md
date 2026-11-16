@@ -54,3 +54,7 @@ DEV01R에서 공식 OAuth를 재개했다. 사용자 브라우저 로그인과 W
 ## DEV04 구현 경계
 
 DEV04 관리는 E 로컬 staging 전용 npm run verifier:* 명령을 사용한다. 기본 DryRun이고 --apply --enable-verifier --local-budget 및 대상 source/fingerprint가 필요하다. 새DB를 임의 대체 생성하지 않는다. [명령/패킷 정책](VERIFICATION_POLICY.md). 원격 production 수정/fixture import는 지원하지 않는다.
+
+## DEV05 현재 구현
+
+DEV05 관리도 E환경과 기존전용local registry staging을 쓴다. npm run posts:init/ posts:list/ posts:preview/ posts:get/ posts:history는 [관리명령](POST_GENERATOR_DESIGN.md)을 따른다. 미리보기/샘플은 E reports에 저장한다. 명시적인 --apply/enable-posts/local-budget/대상버전 없이 DB쓰기를 하지 않으며 원격/production명령은 없다. vendor공식fixture는포맷하지않는다.

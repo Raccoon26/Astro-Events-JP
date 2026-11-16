@@ -43,3 +43,9 @@ Worker fetch에는 검증된 peer IP 연결 고정 API를 확인하지 못했다
 ## DEV04 구현 경계
 
 DEV04는 패킷 크기/깊이/배열·URL/호스트/문서지문·시각/인용·현재 source/candidate/identity CAS를 검사한다. SQL은 bind, D1.batch 실패 rollback, enum 위조·오래된 Verified/경쟁 실행을 차단한다. 공개 Health에 검증 근거/토큰/SQL을 추가하지 않는다. 로컬 CLI는 remote/production을 거부하고 E 파일만 읽으며 오류 코드를 제한한다. 원문 텍스트를 코드/명령으로 실행하지 않는다. 실제 Worker 전송기 fail-closed는 유지한다.
+
+## DEV05 현재 구현
+
+DEV05는 caller Verified객체/저장본문을 신뢰하지 않는다. 현재 D1게이트/CAS·규칙/만료·candidate/source/facility/VTuber snapshot을 재검사한다. 본문필드의 HTML·제어/방향/제로폭·URL/태그/멘션 주입은 보류하고 Unicode/공식길이를 확인한다. bind와 bounded입력을 유지한다. CLI는 로컬staging만/기본DryRun/쓰기명시플래그·source/fingerprint/revision을 요구하며 원격·production/자동외부접속을 거부한다. 비밀/권한/production/SSRF fail-closed는 변경하지 않는다.
+
+DEV05 본문/필드의 알려진 토큰 형식과 공식URL의 인증·비밀 query parameter도 거부한다. 기존행의 과대본문/JSON은 SQL 길이 필터로 읽기 전에 제외하고 다시 덮어쓰지 않는다. schema/현재게이트/최종출력 재검사와 비밀 스캔을 모두 유지한다.

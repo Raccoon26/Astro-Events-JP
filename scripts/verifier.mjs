@@ -1,7 +1,5 @@
 import { readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
-import { build } from 'esbuild';
-import { convertV4MiniflareOptions, Miniflare } from 'miniflare';
 import { assertMigrationIntegrity } from './cloudflare-policy.mjs';
 import { assertNoLinks, preflight } from './path-policy.mjs';
 
@@ -62,6 +60,9 @@ if (
   throw new Error(
     'Apply requires --enable-verifier and --local-budget; no remote budget is inferred',
   );
+// Reject unsafe flags before loading the expensive local runtime (also avoids cold-start test races).
+const { build } = await import('esbuild');
+const { convertV4MiniflareOptions, Miniflare } = await import('miniflare');
 const bundle = await build({
   entryPoints: ['src/verifier-management-api.ts'],
   bundle: true,

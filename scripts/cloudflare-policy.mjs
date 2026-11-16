@@ -66,6 +66,18 @@ export function assertMigrationIntegrity() {
   if (
     createHash('sha256')
       .update(
+        readFileSync('migrations/0005_verification.sql', 'utf8').replace(
+          /\r\n/g,
+          '\n',
+        ),
+      )
+      .digest('hex') !==
+    '141dbf35da832d76000331dc84117f60b0e168c1f3fc3e2d9994304cf2a6470f'
+  )
+    throw new Error('DEV-04 migration changed');
+  if (
+    createHash('sha256')
+      .update(
         readFileSync('migrations/0004_collection.sql', 'utf8').replace(
           /\r\n/g,
           '\n',
