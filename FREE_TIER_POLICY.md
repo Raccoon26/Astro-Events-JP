@@ -76,3 +76,9 @@ main53dcd7a12bd8e54e60e5f271039614db13f713ce의 전용/minified/native 진단438
 이에 emoji가 존재할 수 없는 ASCII/일본어의 제한된 범위만 공식 parseTweet의 동일가중·URL 경로에서 emoji탐색을 생략한다. emoji 가능문자/결합문자/VS/보충평면은 그대로 full공식경로다. 전체허용범위와 원본emoji-enabled 결과를 대조하고 공식v3 fixture/실제workerd에서도 동등성을 확인한다. 8KiB를 넘는 공식과대fixture는 원본알고리즘의 기대값을 계속 검사하면서 프로젝트wrapper의 안전한 거부도 별도로 검사한다. 입력상한이나길이규칙을낮추지않는다. 새main/CI후실제CPU를재측정한다.
 
 검토대기행이 많아도 제한된목록조회가 전체테이블을읽지 않도록0007_post_read_indexes.sql에 Verified부분covering index와(event_id,post_id)이력인덱스를추가했다.0001~0006은변경하지않는다. INDEXED BY로필수인덱스가없으면전체스캔대신fail-closed다. 격리D1의5,000 Review행+1Verified힌트에서2행읽기/0쓰기, 저장33문장/95읽기/4쓰기·반복0쓰기를관측했다. 인덱스추가의쓰기비용도포함한다.0007은E로컬/격리에만적용하며원격은계속0004다.
+
+## 세 번째 실제 표본과 초기화 예산 분리
+
+main714d01bafca05166b67a65fad2268fe410a402ed / 진단43879903909에서 고정210가중자3회/외부요청0/각D1읽기1·쓰기0 및 정확한이전버전복구에성공했다. 임시버전a9cb8d74-17c8-4393-8a2b-bf7a204ee1ab의공식집계는Health등포함5요청/P50=5.293ms/P99=23.064ms·오류/subrequests0이다. 이역시10ms충족으로계산하지않는다. Cloudflare는드문초과에buffer를두지만반복초과는1102로중단할수있으므로성공응답만으로CPU보장을하지않는다.
+
+공식Workers한도는전역초기화1초와요청CPU10ms를구분한다. 이를명시적으로활용해고정31가중자의합성문자열로순수공식파서를전역초기화한다. 네트워크/DB/행사근거/실제검증을초기화로옮기지않으며요청마다모든실제본문을별도검사한다. Wrangler의공식startup시간을안전하게숫자로추출해요청CPU와함께기록하고새main/CI/staging/rollback에서확인한다. 초기화/요청수치가실제로없으면성공으로표시하지않는다. [공식startup한도](https://developers.cloudflare.com/workers/platform/limits/#worker-startup-time).

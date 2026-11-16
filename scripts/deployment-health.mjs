@@ -117,3 +117,9 @@ export async function verifyDeploymentHealth(
   }
   throw new Error('HEALTH_PROPAGATION_TIMEOUT');
 }
+export function workerStartupMs(output) {
+  const plain = output.replace(/\u001b\[[0-?]*[ -/]*[@-~]/gu, '');
+  const match = plain.match(/Worker Startup Time:\s*([\d.]+)\s*ms/i);
+  const value = match ? Number(match[1]) : NaN;
+  return Number.isFinite(value) && value >= 0 && value <= 1000 ? value : null;
+}

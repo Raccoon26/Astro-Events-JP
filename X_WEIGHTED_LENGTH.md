@@ -17,3 +17,5 @@
 ## Emoji 없는 문자 부분집합의 동등 경로
 
 잠재emoji가없는제한된ASCII/일본어범위에서만공식parseTweet의emoji탐색을생략한다. 최대길이/URL변환/NFC/가중/range/유효성검사는동일한공식알고리즘이다. ©/®/〰/〽/㊗/㊙·keycap/VS/ZWJ/국기/보충평면등은full공식경로다. 허용범위전체를100자씩원본emoji-enabled구현과대조하고공식fixture/실제native workerd에서도대조한다. 과대8KiB초과fixture는공식원본검사와프로젝트입력거부를각각확인해입력제한을약화하지않는다.
+
+공식파서는고정합성문자열(31가중자)로동기전역초기화한다. 초기화는네트워크/DB/행사사실을사용하지않고실제본문의검사를생략하지않는다. Worker startup1초와요청CPU10ms를별도공식지표로확인한다. 초기화자체가부정확하면안전하게실패하며Core규칙/Unicode/URL/emoji conformance를계속검사한다.
