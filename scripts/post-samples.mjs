@@ -40,7 +40,9 @@ if (process.argv.includes('--check')) {
 } else {
   if (process.argv.includes('--write')) {
     writeFileSync('POST_SAMPLES.md', markdown);
-    const f = await api.postFixture();
+    const f = await api.postFixture('observation', {
+      schedule: '開催日2099年11月23日 13:30〜15:00',
+    });
     writeFileSync(
       'src/posts/synthetic-profile.json',
       JSON.stringify({ synthetic: true, event: f.event }, null, 2) + '\n',

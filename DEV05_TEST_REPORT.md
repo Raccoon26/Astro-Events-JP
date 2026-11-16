@@ -23,3 +23,9 @@ DEV04 요금 파서의 유료+0엔 등급 순서에 따른 전체무료 오분�
 ## PR 전 검증 상태
 
 최종 사전 전체check는511개/30파일·타입/Biome·두Worker/collector/verifier/posts build·공식fixture·Secret/의존성취약점0·요구감사·로컬D1에 통과했다. 이후 설정불변/입관·입장범위/제목주장 게이트 시험을 추가했고 최신관련122개가 통과했다. complete:dev는 최신전체를 다시 검사한 후에만 commit/PR을 만든다. E로컬registry의0006적용·재실행변경0·쓰기0·ID목록0을 실제명령으로 확인했고 원격DB변경은없다. 전후DryRun의지정C/D후보는없음/삭제0이며물리분리·C/D전체무잔여는미검증이다.
+
+## DEV05 실제 첫 CPU 표본과 보완
+
+main ff79092d6620adb5a630921b556fe60842b5fdcc / Actions43872693538에서 고정합성212가중자 생성3회·외부요청0·D1각읽기1/쓰기0·정확한원본버전복구가 성공했다. 임시버전1f04e554-ea31-4f67-8336-f7864150300f의 공식GraphQL은 Health등을포함한5요청, errors/subrequests0, CPU P50=3.041ms/P99=19.583ms, memoryP99=5462999B였다. 이는 10ms 기준 충족으로 계산하지 않는다. 보고된 계정사용량은 요청6/D1읽기5·쓰기0/저장778240B/Cron1이며 지연집계다.
+
+종료일미정 장기휴관의 잘못된 만료차단을 보완하고 단일휴관일 만료와 구별했다. 이어서 동일본문의 가중길이 재계산을 없애고, 생성 전용 임시 Worker를 수집/검증 진단과 분리했다. Workers ES2022의 native built-in이 대신하는 twitter-text3.1.0의 정확한23개 ES5 polyfill import만 alias하며 알고리즘/규칙/검증을 생략하지 않는다. 기본기능이 없으면 안전하게 실패한다. 공식원본44가중/방향사례를 최적화된 실제workerd에서 그대로 대조한다. [공식alias설명](https://developers.cloudflare.com/workers/wrangler/configuration/#module-aliasing). 번들축소나 로컬elapsed를 원격CPU성공으로 바꾸지 않고 새main/필수CI/Free예산/원본버전복구로 재측정한다.

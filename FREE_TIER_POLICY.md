@@ -62,3 +62,9 @@ DEV04도 Workers Free CPU10ms/128MB·외부subrequest50·D1쿼리50과 계정 �
 ## DEV05 현재 구현
 
 2026-11-16 공식 Workers limits와 D1 pricing을 재확인했다. Workers Free10ms/128MB/외부요청50, D1일읽기500만/쓰기10만/계정5GB를 기준으로 한다. DEV05는 로컬33문장/저장1건 소표본과 순수생성2000건을 별도 계측하며 Cloudflare CPU로 바꾸지 않는다. remote profile-posts는 staging 고정3회/SELECT만, mainCI·Free/계정전체예산 확인 후 임시버전과 정확한rollback을 사용한다. 원격전체검증/저장10ms 보장은 없고 구스키마의 실제생성OFF다. [검사와 한계](DEV05_TEST_REPORT.md).
+
+## DEV05 실제 첫 CPU 표본과 보완
+
+main ff79092d6620adb5a630921b556fe60842b5fdcc / Actions43872693538에서 고정합성212가중자 생성3회·외부요청0·D1각읽기1/쓰기0·정확한원본버전복구가 성공했다. 임시버전1f04e554-ea31-4f67-8336-f7864150300f의 공식GraphQL은 Health등을포함한5요청, errors/subrequests0, CPU P50=3.041ms/P99=19.583ms, memoryP99=5462999B였다. 이는 10ms 기준 충족으로 계산하지 않는다. 보고된 계정사용량은 요청6/D1읽기5·쓰기0/저장778240B/Cron1이며 지연집계다.
+
+종료일미정 장기휴관의 잘못된 만료차단을 보완하고 단일휴관일 만료와 구별했다. 이어서 동일본문의 가중길이 재계산을 없애고, 생성 전용 임시 Worker를 수집/검증 진단과 분리했다. Workers ES2022의 native built-in이 대신하는 twitter-text3.1.0의 정확한23개 ES5 polyfill import만 alias하며 알고리즘/규칙/검증을 생략하지 않는다. 기본기능이 없으면 안전하게 실패한다. 공식원본44가중/방향사례를 최적화된 실제workerd에서 그대로 대조한다. [공식alias설명](https://developers.cloudflare.com/workers/wrangler/configuration/#module-aliasing). 번들축소나 로컬elapsed를 원격CPU성공으로 바꾸지 않고 새main/필수CI/Free예산/원본버전복구로 재측정한다.

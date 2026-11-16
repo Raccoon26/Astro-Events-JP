@@ -3,6 +3,7 @@ import { build } from 'esbuild';
 import { convertV4MiniflareOptions, Miniflare } from 'miniflare';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { preflight } from '../scripts/path-policy.mjs';
+import { nativeTwitterAliases } from '../scripts/post-bundle-policy.mjs';
 import { NOW, usage } from './collection-fixtures';
 import { POST_NOW, postFixture } from './post-fixtures';
 import { verificationFixture } from './verification-fixtures';
@@ -15,6 +16,7 @@ const options = {
 };
 beforeAll(async () => {
   const built = await build({
+    alias: nativeTwitterAliases(),
     entryPoints: ['src/post-management-api.ts'],
     bundle: true,
     write: false,
@@ -416,6 +418,7 @@ describe('native local D1 post generation and current Verified output, no remote
   });
   it('runs official weighted text and all 13 pure templates in actual isolated workerd with outbound blocked', async () => {
     const built = await build({
+      alias: nativeTwitterAliases(),
       stdin: {
         contents:
           "import {examples,postFixture,POST_NOW} from './tests/post-fixtures';import {renderPost} from './src/posts/render';export default {async fetch(){globalThis.fetch=()=>{throw Error('outbound-disabled')};const results=[];for(const sample of examples){const f=await postFixture(sample.kind);const p=await renderPost(f.event,1,sample.kind,POST_NOW);results.push({kind:p.kind,length:p.weightedLength});}return Response.json({results,externalRequests:0})}}",

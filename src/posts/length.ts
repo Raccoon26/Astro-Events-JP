@@ -20,9 +20,10 @@ function looksSecret(text: string) {
 
 function safeJoiners(text: string) {
   // Only the pinned official emoji parser may authorize invisible emoji joiners/selectors.
-  const spans = emojiSpans(text);
   if (/[\p{Cf}]/u.test(text.replace(/\u200d/gu, '')) || /\u034f/u.test(text))
     return false;
+  if (!/[\u200d\ufe0e\ufe0f]/u.test(text)) return true;
+  const spans = emojiSpans(text);
   for (let i = 0; i < text.length; i++)
     if (
       /[\u200d\ufe0e\ufe0f]/u.test(text[i]!) &&

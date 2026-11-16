@@ -9,3 +9,7 @@
 본문은 공식 URL을 한 개 포함하고 일반 데이터 필드의 URL/멘션/태그 주입을 거부한다. URL이 공식 추출기에 정확히 한 개로 인식되지 않으면 보류한다. 전체 본문·태그·공백·줄바꿈을 함께 계산한다. 길이 초과 시 간결한 전체 문장 템플릿→개장/정원/요금 등 선택 블록 생략→두 번째 태그 생략을 적용한다. 제목·날짜 역할·상태·장소·핵심 예약/선택 조건·공식 URL·태그 한 개는 유지한다. 그래도 초과하면 essential-info-too-long이며 저장하지 않는다. 생략은 필드 단위로 이유를 기록한다.
 
 공식 구현은 오래된 core-js2/punycode 의존성 경고가 있다. 검사 시 npm audit 결과를 별도 확인하며 경고를 취약점0과 혼동하지 않는다. browser bundle과 실제 격리 workerd에서 실행을 검증한다. 플랫폼 CPU는 로컬 elapsed와 구별한다.
+
+## ES2022 Workers 번들
+
+공식 twitter-text의 알고리즘은 그대로 사용한다. Workers 전용 bundle에서만 이미 ES2022에 포함된23개 core-js2 side-effect import를 native-compat의 기본기능 검사로 치환한다. NFC/가중/emoji/URL 계산을 대체하거나 생략하지 않는다. 공식44사례는 Miniflare workerd의 minified/native bundle에서도 모든기대필드가 일치하며 core-js global initializer가 없는지 검사한다. 로컬 일반 패키지 경로도 별도 conformance를 유지한다. 미지원 런타임은 fail-closed이며 유료서비스를 추가하지 않는다.

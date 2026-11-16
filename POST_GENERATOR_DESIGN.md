@@ -25,3 +25,5 @@ preview 저장은 `--apply --enable-posts --local-budget --source SOURCE --finge
 0001~0005를 수정하지 않고 LF SHA를 검사한다.0006은 로컬/격리에만 적용한다. 원격 두DB는0004이며 schema view가 없어 fail-closed다. 기존 Health/Cron은 영향을 받지 않는다. down migration으로 데이터를 지우지 않고 기능OFF·코드 rollback을 기본으로 한다. 원격 적용은 후속 별도 승인·Bookmark·호환성 검토 대상이다.
 
 DEV05 자기검토에서 발견한 요금 범위 버그 수정으로 현행 VerificationStore 규칙은 dev04-3이다. 기존 dev04-2 판정은 게이트에서 재검증을 요구하며 새 Source 승인이나 원격데이터 변경을 만들지 않는다. 실제Source/행사0 상태를 유지한다.
+
+추가회귀: 공식 근거가 종료일미정/계속휴관임을 명시하면 시작일이 지났어도 검증만료까지 공지를 생성할 수 있다. 날짜 하나만 있는 종료된 단일휴관을 무기한 연장하지 않는다. CPU 진단은 src/posts/remote-benchmark.ts의 별도 고정 생성 진입점을 써 Collector/Validator 초기화를 분리하며 기존4파서/검증 진단은 본래 진입점을 보존한다.

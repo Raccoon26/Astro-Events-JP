@@ -10,7 +10,6 @@ import {
 import type { Env } from './config';
 import { diagnose } from './diagnostics';
 import worker from './index';
-import { syntheticPost } from './posts/benchmark';
 import { syntheticVerification } from './verification/benchmark';
 
 const fixtures: Record<Format, string> = {
@@ -88,23 +87,12 @@ export default {
     const format = path.slice('/benchmark/'.length);
     if (
       !path.startsWith('/benchmark/') ||
-      !['rss', 'atom', 'html', 'sitemap', 'ssrf', 'verifier', 'posts'].includes(
-        format,
-      )
+      !['rss', 'atom', 'html', 'sitemap', 'ssrf', 'verifier'].includes(format)
     )
       return Response.json({ code: 'NOT_FOUND' }, { status: 404 });
     const health = await diagnose(env);
     if (health.code !== 'OK')
       return Response.json({ code: health.code }, { status: 503 });
-    if (format === 'posts')
-      return Response.json({
-        format,
-        candidates: 1,
-        ...(await syntheticPost(new Date().toISOString())),
-        dbRowsRead: health.rowsRead,
-        dbRowsWritten: health.rowsWritten,
-        cpuTimeMs: null,
-      });
     if (format === 'verifier')
       return Response.json({
         format,

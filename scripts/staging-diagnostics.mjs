@@ -66,7 +66,12 @@ const base = `https://${name}.${subdomain.subdomain}.workers.dev`;
 if (!verifierOnly && !postsOnly)
   await command('staging-health-probe', '--apply');
 try {
-  await command('cloudflare', 'benchmark', 'staging');
+  await command(
+    'cloudflare',
+    'benchmark',
+    'staging',
+    ...(postsOnly ? ['--posts-only'] : []),
+  );
   const version = (await api('GET', latestDeploymentPath(name)))
     .deployments?.[0]?.versions?.[0]?.version_id;
   console.log(
