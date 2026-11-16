@@ -19,9 +19,11 @@ import { preflight } from './path-policy.mjs';
 
 preflight();
 const verifierOnly = process.argv[3] === '--verifier-only';
+const postsOnly = process.argv[3] === '--posts-only';
 if (
   process.argv[2] !== 'staging' ||
-  (process.argv.length !== 3 && !(verifierOnly && process.argv.length === 4))
+  (process.argv.length !== 3 &&
+    !((verifierOnly || postsOnly) && process.argv.length === 4))
 )
   throw new Error('Explicit staging-only diagnostics required');
 const resources = JSON.parse(readFileSync('cloudflare-resources.json', 'utf8'));
@@ -61,7 +63,8 @@ const subdomain = await api('GET', '/workers/subdomain');
 if (!/^[a-z0-9-]+$/.test(subdomain.subdomain))
   throw new Error('Invalid worker subdomain');
 const base = `https://${name}.${subdomain.subdomain}.workers.dev`;
-if (!verifierOnly) await command('staging-health-probe', '--apply');
+if (!verifierOnly && !postsOnly)
+  await command('staging-health-probe', '--apply');
 try {
   await command('cloudflare', 'benchmark', 'staging');
   const version = (await api('GET', latestDeploymentPath(name)))
@@ -74,9 +77,11 @@ try {
       synthetic: true,
     }),
   );
-  for (const format of verifierOnly
-    ? ['verifier']
-    : ['rss', 'atom', 'html', 'sitemap', 'ssrf', 'verifier']) {
+  for (const format of postsOnly
+    ? ['posts']
+    : verifierOnly
+      ? ['verifier']
+      : ['rss', 'atom', 'html', 'sitemap', 'ssrf', 'verifier']) {
     // Three fixed invocations per parser; no supplied URLs or external website requests.
     for (let i = 0; i < (format === 'ssrf' ? 1 : 3); i++) {
       const response = await fetch(`${base}/benchmark/${format}`, {
@@ -95,6 +100,10 @@ try {
             body.dbRowsRead !== 1 ||
             body.dbRowsWritten !== 0 ||
             body.synthetic !== true ||
+            (format === 'posts' &&
+              (!body.valid ||
+                body.weightedLength > 280 ||
+                body.weightedLength < 1)) ||
             (format === 'verifier' &&
               (body.status !== 'Verified' || body.verified !== true)))
       )

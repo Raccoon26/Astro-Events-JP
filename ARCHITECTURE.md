@@ -80,3 +80,7 @@ Health/Cron은 여전히 읽기 전용이다. 별도 remote-benchmark entrypoint
 ## DEV04 구현 경계
 
 DEV04의 CandidateEventValidator·VerificationStore·D1FacilityMonitor가 기존 계약에 연결된다. 공식 근거 패킷과 현재 Source/문서/시설 snapshot을 결합하고 원자적 revision/Verified 읽기 게이트를 제공한다. 새 Worker 경로/수집/알림은 활성화하지 않는다. 상세는 [검증 설계](VERIFICATION_DESIGN.md).
+
+## DEV05 현재 구현
+
+DEV05는 기존 PostGenerator 계약과 DEV04 capture 게이트를 연결했다. 순수 템플릿/공식길이 계산, 현재 게이트/원자적 저장, 복사용 본문/관리메타를 분리한다. 배포 index에는 연결하지 않고 외부발행0을 유지한다. [게시글 설계](POST_GENERATOR_DESIGN.md).

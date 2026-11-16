@@ -1,0 +1,248 @@
+{
+  "synthetic": true,
+  "event": {
+    "stableEventId": "evt-a0b104ec7658551e828b637657a5da79",
+    "sourceId": "fixture-source",
+    "facilityId": null,
+    "title": "合成・北海道市民観望会",
+    "category": "local",
+    "organizer": "合成天文台",
+    "prefecture": 1,
+    "municipality": null,
+    "venue": "合成天文台（北海道合成町）",
+    "startDatetime": "2026-11-23T04:30:00.000Z",
+    "endDatetime": "2026-11-23T06:00:00.000Z",
+    "datePrecision": "datetime",
+    "startDate": "2026-11-23",
+    "endDate": "2026-11-23",
+    "startMonth": null,
+    "endMonth": null,
+    "timezone": "Asia/Tokyo",
+    "applicationStart": null,
+    "applicationDeadline": null,
+    "reservationRequired": true,
+    "participationFee": "参加無料",
+    "officialUrl": "https://example.jp/events/synthetic",
+    "status": "scheduled",
+    "verificationStatus": "Verified",
+    "firstSeenAt": "2026-11-12T00:00:00.000Z",
+    "lastVerifiedAt": "2026-11-12T00:00:00.000Z",
+    "editionYear": 2026,
+    "edition": null,
+    "verification": {
+      "primaryDateField": "schedule",
+      "candidateId": "b90fa64c280f48840abab2ad30d6ac4624544fc86166b902e96f8d26cac30f92",
+      "fingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+      "ruleVersion": "dev04-3",
+      "checkedAt": "2026-11-12T00:00:00.000Z",
+      "expiresAt": "2026-11-18T00:00:00.000Z",
+      "kind": "observation",
+      "fields": {
+        "title": {
+          "state": "confirmed",
+          "value": "合成・北海道市民観望会",
+          "raw": ["合成・北海道市民観望会"],
+          "reasons": [],
+          "evidence": [
+            {
+              "field": "title",
+              "sourceUrl": "https://example.jp/events/synthetic",
+              "checkedAt": "2026-11-12T00:00:00.000Z",
+              "excerpt": "合成・北海道市民観望会",
+              "candidateFingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+              "documentDigest": "7aa7f9d4611b8b3db5a429382837bf89e0db230369d492785dcf22199fe38021",
+              "documentVersion": "synthetic-official-excerpt-1",
+              "ruleVersion": "dev04-3",
+              "judgement": "confirmed"
+            }
+          ]
+        },
+        "kind": {
+          "state": "confirmed",
+          "value": "observation",
+          "raw": ["天体観望会"],
+          "reasons": [],
+          "evidence": [
+            {
+              "field": "kind",
+              "sourceUrl": "https://example.jp/events/synthetic",
+              "checkedAt": "2026-11-12T00:00:00.000Z",
+              "excerpt": "天体観望会",
+              "candidateFingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+              "documentDigest": "7aa7f9d4611b8b3db5a429382837bf89e0db230369d492785dcf22199fe38021",
+              "documentVersion": "synthetic-official-excerpt-1",
+              "ruleVersion": "dev04-3",
+              "judgement": "confirmed"
+            }
+          ]
+        },
+        "organizer": {
+          "state": "confirmed",
+          "value": "合成天文台",
+          "raw": ["主催：合成天文台"],
+          "reasons": [],
+          "evidence": [
+            {
+              "field": "organizer",
+              "sourceUrl": "https://example.jp/events/synthetic",
+              "checkedAt": "2026-11-12T00:00:00.000Z",
+              "excerpt": "主催：合成天文台",
+              "candidateFingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+              "documentDigest": "7aa7f9d4611b8b3db5a429382837bf89e0db230369d492785dcf22199fe38021",
+              "documentVersion": "synthetic-official-excerpt-1",
+              "ruleVersion": "dev04-3",
+              "judgement": "confirmed"
+            }
+          ]
+        },
+        "location": {
+          "state": "confirmed",
+          "value": {
+            "online": false,
+            "venue": "合成天文台（北海道合成町）",
+            "prefecture": 1,
+            "municipality": null
+          },
+          "raw": ["会場：合成天文台（北海道合成町）"],
+          "reasons": [],
+          "evidence": [
+            {
+              "field": "location",
+              "sourceUrl": "https://example.jp/events/synthetic",
+              "checkedAt": "2026-11-12T00:00:00.000Z",
+              "excerpt": "会場：合成天文台（北海道合成町）",
+              "candidateFingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+              "documentDigest": "7aa7f9d4611b8b3db5a429382837bf89e0db230369d492785dcf22199fe38021",
+              "documentVersion": "synthetic-official-excerpt-1",
+              "ruleVersion": "dev04-3",
+              "judgement": "confirmed"
+            }
+          ]
+        },
+        "schedule": {
+          "state": "confirmed",
+          "value": {
+            "precision": "datetime",
+            "startDate": "2026-11-23",
+            "endDate": "2026-11-23",
+            "startMonth": null,
+            "endMonth": null,
+            "startDatetime": "2026-11-23T13:30:00+09:00",
+            "endDatetime": "2026-11-23T15:00:00+09:00",
+            "doorsTime": null,
+            "raw": "開催日2026年11月23日 13:30〜15:00"
+          },
+          "raw": ["開催日2026年11月23日 13:30〜15:00"],
+          "reasons": [],
+          "evidence": [
+            {
+              "field": "schedule",
+              "sourceUrl": "https://example.jp/events/synthetic",
+              "checkedAt": "2026-11-12T00:00:00.000Z",
+              "excerpt": "開催日2026年11月23日 13:30〜15:00",
+              "candidateFingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+              "documentDigest": "7aa7f9d4611b8b3db5a429382837bf89e0db230369d492785dcf22199fe38021",
+              "documentVersion": "synthetic-official-excerpt-1",
+              "ruleVersion": "dev04-3",
+              "judgement": "confirmed"
+            }
+          ]
+        },
+        "applicationStart": {
+          "state": "unknown",
+          "value": null,
+          "raw": [],
+          "reasons": [],
+          "evidence": []
+        },
+        "applicationDeadline": {
+          "state": "unknown",
+          "value": null,
+          "raw": [],
+          "reasons": [],
+          "evidence": []
+        },
+        "fee": {
+          "state": "confirmed",
+          "value": {
+            "participation": "free",
+            "entrance": "unknown",
+            "tiers": []
+          },
+          "raw": ["参加無料"],
+          "reasons": [],
+          "evidence": [
+            {
+              "field": "fee",
+              "sourceUrl": "https://example.jp/events/synthetic",
+              "checkedAt": "2026-11-12T00:00:00.000Z",
+              "excerpt": "参加無料",
+              "candidateFingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+              "documentDigest": "7aa7f9d4611b8b3db5a429382837bf89e0db230369d492785dcf22199fe38021",
+              "documentVersion": "synthetic-official-excerpt-1",
+              "ruleVersion": "dev04-3",
+              "judgement": "confirmed"
+            }
+          ]
+        },
+        "reservation": {
+          "state": "confirmed",
+          "value": {
+            "required": true,
+            "method": "advance",
+            "selection": null,
+            "capacity": null,
+            "reception": null
+          },
+          "raw": ["要事前予約"],
+          "reasons": [],
+          "evidence": [
+            {
+              "field": "reservation",
+              "sourceUrl": "https://example.jp/events/synthetic",
+              "checkedAt": "2026-11-12T00:00:00.000Z",
+              "excerpt": "要事前予約",
+              "candidateFingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+              "documentDigest": "7aa7f9d4611b8b3db5a429382837bf89e0db230369d492785dcf22199fe38021",
+              "documentVersion": "synthetic-official-excerpt-1",
+              "ruleVersion": "dev04-3",
+              "judgement": "confirmed"
+            }
+          ]
+        },
+        "status": {
+          "state": "confirmed",
+          "value": {
+            "status": "scheduled",
+            "conditional": [],
+            "tentative": true
+          },
+          "raw": ["開催予定"],
+          "reasons": [],
+          "evidence": [
+            {
+              "field": "status",
+              "sourceUrl": "https://example.jp/events/synthetic",
+              "checkedAt": "2026-11-12T00:00:00.000Z",
+              "excerpt": "開催予定",
+              "candidateFingerprint": "c6705d2d910fda340fd068916d187df3588024fc0cf9b67a09d90d414ea77fef",
+              "documentDigest": "7aa7f9d4611b8b3db5a429382837bf89e0db230369d492785dcf22199fe38021",
+              "documentVersion": "synthetic-official-excerpt-1",
+              "ruleVersion": "dev04-3",
+              "judgement": "confirmed"
+            }
+          ]
+        },
+        "vtuberRelation": {
+          "state": "unknown",
+          "value": null,
+          "raw": [],
+          "reasons": [],
+          "evidence": []
+        }
+      },
+      "images": [],
+      "impacts": []
+    }
+  }
+}

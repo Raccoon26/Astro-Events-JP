@@ -17,10 +17,22 @@ export function parseFees(raw: string) {
     return judgement(raw, value, 'ambiguous', ['fee-negated-or-undecided']);
   if (/参加(?:費)?無料/u.test(text)) value.participation = 'free';
   if (/入(?:場|館)(?:料)?無料/u.test(text)) value.entrance = 'free';
+  const explicitFree = {
+    participation: value.participation === 'free',
+    entrance: value.entrance === 'free',
+  };
   for (const match of text.matchAll(
     /(参加費|入場料|入館料|大人|小学生|中学生|高校生|子ども|子供|一般|学生)?\s*([\d,]+)円/gu,
   )) {
-    const label = match[1] ?? '未分類';
+    const label =
+      match[1] ??
+      (/入場料|入館料/.test(text) && !/参加費/.test(text)
+        ? '入場料'
+        : /参加費/.test(text) && !/入場料|入館料/.test(text)
+          ? '参加費'
+          : '未分類');
+    if (label === '未分類' && !/参加費|入場料|入館料/.test(text))
+      return judgement(raw, value, 'ambiguous', ['fee-scope-unclear']);
     if (/入(?:場|館)(?:料)?無料/u.test(text) && !/参加費/u.test(label))
       return judgement(raw, value, 'ambiguous', ['fee-scope-unclear']);
     const entranceContext = /入場料|入館料|入場料金|入館料金/u.test(text);
@@ -47,9 +59,11 @@ export function parseFees(raw: string) {
     )
       return judgement(raw, value, 'conflicting', ['fee-tier-conflict']);
     value.tiers.push({ label, yen, scope });
-    if (value[scope] === 'free' && yen > 0)
+    if (explicitFree[scope] && yen > 0)
       return judgement(raw, value, 'conflicting', ['free-and-paid-conflict']);
-    value[scope] = yen > 0 ? 'paid' : 'free';
+    value[scope] = value.tiers.some((t) => t.scope === scope && t.yen > 0)
+      ? 'paid'
+      : 'free';
   }
   if (value.participation === 'unknown' && value.entrance === 'unknown')
     return judgement(raw, value, 'ambiguous', ['fee-scope-unclear']);

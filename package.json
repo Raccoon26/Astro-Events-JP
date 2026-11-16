@@ -12,10 +12,10 @@
     "lint": "biome check --error-on-warnings .",
     "format": "biome check --write .",
     "test": "vitest run",
-    "build": "node scripts/build.mjs && node scripts/build-collector.mjs && node scripts/build-verifier.mjs",
+    "build": "node scripts/build.mjs && node scripts/build-collector.mjs && node scripts/build-verifier.mjs && node scripts/build-posts.mjs",
     "security": "node scripts/audit.mjs && npm audit --audit-level=high",
     "audit:requirements": "node scripts/coverage.mjs",
-    "check": "node scripts/preflight.mjs && npm run check:cloudflare && npm run seed:validate && npm run typecheck && npm run lint && npm test && npm run build && npm run security && npm run audit:requirements && npm run d1:local",
+    "check": "node scripts/preflight.mjs && npm run check:cloudflare && npm run seed:validate && node scripts/post-samples.mjs --check && npm run typecheck && npm run lint && npm test && npm run build && npm run security && npm run audit:requirements && npm run d1:local",
     "seed:validate": "node scripts/registry.mjs validate",
     "seed:init": "node scripts/registry.mjs init",
     "seed:import": "node scripts/registry.mjs import",
@@ -42,7 +42,14 @@
     "verifier:facility": "node scripts/verifier.mjs facility",
     "verifier:notice": "node scripts/verifier.mjs notice",
     "verifier:notices": "node scripts/verifier.mjs notices",
-    "verifier:notice-history": "node scripts/verifier.mjs notice-history"
+    "verifier:notice-history": "node scripts/verifier.mjs notice-history",
+    "posts:init": "node scripts/posts.mjs init",
+    "posts:list": "node scripts/posts.mjs list",
+    "posts:preview": "node scripts/posts.mjs preview",
+    "posts:get": "node scripts/posts.mjs get",
+    "posts:history": "node scripts/posts.mjs history",
+    "posts:samples": "node scripts/post-samples.mjs",
+    "posts:conformance": "vitest run tests/post-length.test.ts"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",
@@ -54,13 +61,16 @@
     "sql.js": "1.16.0",
     "typescript": "5.9.3",
     "vitest": "5.1.0",
-    "wrangler": "4.160.0"
+    "wrangler": "4.160.0",
+    "yaml": "2.9.1"
   },
   "dependencies": {
     "css-select": "7.0.0",
     "domhandler": "6.0.1",
     "domutils": "4.0.2",
     "htmlparser2": "12.0.0",
-    "saxes": "6.0.0"
+    "saxes": "6.0.0",
+    "twemoji-parser": "11.0.2",
+    "twitter-text": "3.1.0"
   }
 }

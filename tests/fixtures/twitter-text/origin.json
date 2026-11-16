@@ -1,0 +1,10 @@
+{
+  "repository": "twitter/twitter-text",
+  "commit": "30e2430d90cff3b46393ea54caf511441983c260",
+  "package": "twitter-text@3.1.0",
+  "files": {
+    "validate.yml": "29fa1be663676f3d0bb0a67f393b32c15d92c5dd10db9be401bf7708d7c5b703",
+    "v3.json": "2aca8d4a5d1f10e2d680a7d7421ca3afe446c879c19d0fe835c1df7aa19c124a",
+    "LICENSE": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
+  }
+}

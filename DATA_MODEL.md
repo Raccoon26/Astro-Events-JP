@@ -66,3 +66,7 @@ DEV-01R 원격 staging/production에 기존0001~0004를 적용했다. 기존 SQL
 신규0005_verification.sql만 추가한다. 후보 verification_generation, 시설 verification_epoch, 불변 verification_decisions(snapshot/근거/규칙/만료/nonce), events의 candidate/verification FK·date/month 필드, 이미지 availability_status/related, 시설 공지 검증 payload/revision/history와 관련 인덱스를 추가한다. DATE만 있으면 datetime NULL, 확인된 시간은 UTC, 원문/JST는 검증 payload에 보존한다. schema2 identity는 바꾸지 않고 verification_schema view1로 별도 호환성을 확인한다. 출처별 Event ID는 source+candidate의 SHA256이다. 의미 중복 병합은DEV07. 로컬/격리만 적용하며 원격 두DB는0004 유지. 상세 [설계](VERIFICATION_DESIGN.md).
 
 DEV04 최종규칙dev04-2·350회귀와0005는로컬/격리D1에서확인했다. 원격두DB는0004/identity2이며검증기능OFF/스키마불일치fail-closed를유지한다. [완료와적용범위](DEV04_COMPLETION.md).
+
+## DEV05 현재 구현
+
+0006_posts.sql은 기존 generated_posts/UNIQUE를 보존하고 verification_decision_id FK, input/content digest, length_policy, valid_until, 생략JSON을 추가한다. post_generation_schema view1을 마지막에 둔다. 기존행은 NULL증거로 출력불가다. local staging/격리만 적용하며 원격0005/0006은 적용하지 않는다. identity2 및 기존 Health/Cron은 유지한다. [원자성/버전 설계](POST_GENERATOR_DESIGN.md).

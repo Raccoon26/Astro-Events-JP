@@ -28,3 +28,7 @@ DEV01R 게이트: Free 직접확인/OAuth·계정사용량·자원충돌, 두D1/
 ## DEV04 구현 경계
 
 DEV04: 기존206 목적/0001~0004 checksum·신규0005 로컬FK/무결성·원자성/경쟁·현재Verified게이트·도구DryRun/원격거부·제한크기/secret·두환경/collector/verifier build·전체check·원본요구R01~32와DEV04감사·E정리를 확인한다. production migration은 별도 사용자승인 전 금지다. 실제active/수집0·Collection/Notifications=false·productionCron0과 기존Health를 보존한다. CPU 로컬/원격은 별도 보고한다.
+
+## DEV05 현재 구현
+
+DEV05 gate: 기존350목적/25파일·0001~5 SHA, 13종샘플 자기검토, 공식길이fixture hash/conformance·Unicode, 현재Verified재검사/출력/원자저장/재실행0쓰기·실패/경쟁, 로컬0006/FK/무결성, 두환경/collector/verifier/posts build, 전체check·E정리·R01~32/0~21감사·최신PR HEAD quality/보호/병합/main clean을 확인한다. production/원격migration·실수집·발행은 금지한다. 실제staging CPU는 실행증거가 있을 때만 별도 기록한다.

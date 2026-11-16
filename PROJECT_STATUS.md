@@ -1,3 +1,14 @@
+# DEV05 프로젝트 상태 — 2026-11-16 JST
+
+로컬 구현·검증과 GitHub 완료 절차 진행 중이다. 사전 전체511개/30파일 check와 typecheck를 통과했고 이후 관련122개 추가회귀도 통과했다. complete:dev가 최신 전체를 재검사한 뒤 GitHub 완료한다. 최종전체check/CI/병합·원격순수생성CPU는 아직 성공으로 표시하지 않는다. [설계](POST_GENERATOR_DESIGN.md), [샘플](POST_SAMPLES.md), [검사/한계](DEV05_TEST_REPORT.md)를 따른다.
+
+- 13종 결정적 일본어·현재Verified 재검사·공식가중길이/안전축약·URL/태그·버전/원자저장/로컬관리 구현.
+- 기존350목적·0001~0005를 보존. 24시험파일은 불변이고 1파일의 규칙버전 기대값만2→3으로 갱신했으며 원본목적/SHA감사를 유지한다.0006은로컬/격리만, 원격두DB는0004유지.
+- 실제Source96/공식성77/47현/시설92/VTuber4·active0·실제수집/검증행사0·Collection/Notifications=false·productionCron0·Workers전송fail-closed 유지.
+- DEV06 발행/보고·DEV07중복변경·DEV08균형·DEV09운영정리·DEV10통합/실사용일본어검수는후속범위다. DEV06자동진입없음. 추가사용자토큰/권한요구없음.
+
+## 이전 DEV04 기록
+
 # DEV04 프로젝트 상태 — 2026-11-14 JST
 
 **DEV04 구현·검증 완료 / 제품 수집·알림 운영 OFF.** [25항목 완료보고](DEV04_COMPLETION.md)와 [시험/실패이력](DEV04_TEST_REPORT.md)을 현재 근거로 사용한다. 최종문서PR의 실제CI·병합/main SHA는 E reports/github-completion 및 최종대화보고에서 확인한다. 아래 이전상태는 이력이다.

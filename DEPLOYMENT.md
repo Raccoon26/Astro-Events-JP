@@ -31,3 +31,7 @@ DEV04 검증 라이브러리는 배포 진입점에 연결하지 않아 OFF다. 
 DEV04 배포 이력11개 이후 회귀: 현재traffic 확인은 공식 최신배포1개 전용 쿼리를 사용한다. 계정전체 Worker/D1 인벤토리의 pagination 거부는 유지한다. 최초실패 run43450938834/43451095505는 실제실패 이력으로 보존하고 수정 후재검증한다.
 
 DEV04 최종 재검증: main1c3c8d5의350개 검사·CI43497755667·staging 자동배포43497992437와고정진단43498151862는실제성공했다. 원격0005/production변경은없으며두Health200·OFF플래그·productionCron0을재확인했다. [최종증거](DEV04_COMPLETION.md).
+
+## DEV05 현재 구현
+
+DEV05 생성/저장라이브러리는 배포 index와 분리해 OFF다. staging 자동배포도0005/0006을 적용하지 않으며 구스키마에서 PostStore는 fail-closed다. profile-posts는 기존 staging 진단 경로로 고정 순수 fixture3회만 실행해 외부요청/DB쓰기0, 기존버전 복구를 확인한다. 실제실행 전에는 성공으로 계산하지 않는다. production 배포/DB변경/새인증은 이번DEV 자동완료에 포함하지 않는다.

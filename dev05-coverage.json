@@ -1,0 +1,441 @@
+{
+  "baseline": "24b8880936a76167ad286f592620c51cdbd5e0ef",
+  "realEvents": 0,
+  "remoteMigrations": false,
+  "sections": {
+    "0": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["data/dev05-baseline.json", "PROJECT_STATUS.md"]
+    },
+    "1": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["src/posts/render.ts", "tests/post-render.test.ts"]
+    },
+    "2": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["src/posts/store.ts", "tests/posts-integration.test.mjs"]
+    },
+    "3": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["POST_TEMPLATES.md", "tests/post-fixtures.ts"]
+    },
+    "4": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["JAPANESE_STYLE_GUIDE.md", "POST_SAMPLES.md"]
+    },
+    "5": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["src/posts/temporal.ts", "tests/post-render.test.ts"]
+    },
+    "6": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["src/posts/render.ts", "tests/post-render.test.ts"]
+    },
+    "7": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["X_WEIGHTED_LENGTH.md", "tests/post-length.test.ts"]
+    },
+    "8": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["src/posts/render.ts", "tests/post-render.test.ts"]
+    },
+    "9": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["src/posts/render.ts", "tests/post-render.test.ts"]
+    },
+    "10": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["src/posts/length.ts", "tests/post-length.test.ts"]
+    },
+    "11": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": [
+        "migrations/0006_posts.sql",
+        "src/posts/store.ts",
+        "tests/posts-integration.test.mjs"
+      ]
+    },
+    "12": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": [
+        "scripts/posts.mjs",
+        "scripts/post-samples.mjs",
+        "tests/posts-cli.test.mjs"
+      ]
+    },
+    "13": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["src/posts/types.ts", "POST_GENERATOR_DESIGN.md"]
+    },
+    "14": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["POST_SAMPLES.md", "JAPANESE_STYLE_GUIDE.md"]
+    },
+    "15": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["DEV05_TEST_REPORT.md", "tests/posts-integration.test.mjs"]
+    },
+    "16": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["FREE_TIER_POLICY.md", "src/posts/benchmark.ts"]
+    },
+    "17": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["LOCAL_DEVELOPMENT.md", "CLEANUP_POLICY.md", "SECURITY.md"]
+    },
+    "18": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["REQUIREMENTS.md", "dev05-coverage.json"]
+    },
+    "19": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["POST_GENERATOR_DESIGN.md", "DATA_MODEL.md"]
+    },
+    "20": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["GITHUB_WORKFLOW.md", "RELEASE_CHECKLIST.md"]
+    },
+    "21": {
+      "status": "implemented-local-and-documented; remote evidence reported separately",
+      "evidence": ["DEV05_TEST_REPORT.md", "PROJECT_STATUS.md"]
+    }
+  },
+  "requirements": {
+    "R01": {
+      "status": "preserved-future-scope",
+      "devs": [2, 8, 9],
+      "evidence": [
+        "ARCHITECTURE.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R02": {
+      "status": "preserved-future-scope",
+      "devs": [2, 3, 4, 8],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/html.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R03": {
+      "status": "preserved-future-scope",
+      "devs": [2, 3, 4],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/xml.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R04": {
+      "status": "preserved-future-scope",
+      "devs": [2, 3, 4, 8],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/html.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R05": {
+      "status": "preserved-future-scope",
+      "devs": [2, 3, 4, 8],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/parse-common.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R06": {
+      "status": "preserved-future-scope",
+      "devs": [4, 7],
+      "evidence": [
+        "ARCHITECTURE.md",
+        "migrations/0001_foundation.sql",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R07": {
+      "status": "preserved-future-scope",
+      "devs": [2],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/domain.ts",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R08": {
+      "status": "preserved-future-scope",
+      "devs": [3, 4, 7, 8],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "DEV_ROADMAP.md",
+        "src/collection/parse-common.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R09": {
+      "status": "preserved-future-scope",
+      "devs": [1, 3, 8, 9],
+      "evidence": [
+        "wrangler.jsonc",
+        "ARCHITECTURE.md",
+        "src/collection/orchestrator.ts",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R10": {
+      "status": "preserved-future-scope",
+      "devs": [2, 3, 9],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/contracts.ts",
+        "SOURCE_COVERAGE.md",
+        "src/registry.ts",
+        "src/collection/discovery.ts",
+        "src/collection/http.ts",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R11": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [4, 5, 6],
+      "evidence": [
+        "src/domain.ts",
+        "src/contracts.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R12": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 4],
+      "evidence": [
+        "migrations/0001_foundation.sql",
+        "src/domain.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R13": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 3, 4],
+      "evidence": [
+        "DATA_MODEL.md",
+        "src/domain.ts",
+        "src/collection/types.ts",
+        "migrations/0004_collection.sql",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R14": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [4, 6],
+      "evidence": [
+        "SOURCE_POLICY.md",
+        "src/contracts.ts",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R15": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [5, 10],
+      "evidence": ["DEV_ROADMAP.md", "src/contracts.ts", "DEV05_TEST_REPORT.md"]
+    },
+    "R16": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [5, 10],
+      "evidence": ["src/domain.ts", "DEV_ROADMAP.md", "DEV05_TEST_REPORT.md"]
+    },
+    "R17": {
+      "status": "preserved-future-scope",
+      "devs": [6, 7],
+      "evidence": [
+        "ARCHITECTURE.md",
+        "src/contracts.ts",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R18": {
+      "status": "preserved-future-scope",
+      "devs": [0, 6],
+      "evidence": [
+        "ARCHITECTURE.md",
+        "GITHUB_WORKFLOW.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R19": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 6, 7],
+      "evidence": [
+        "migrations/0001_foundation.sql",
+        "ARCHITECTURE.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R20": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [4, 7],
+      "evidence": [
+        "DATA_MODEL.md",
+        "DEV_ROADMAP.md",
+        "src/verification/validator.ts",
+        "VERIFICATION_POLICY.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R21": {
+      "status": "preserved-future-scope",
+      "devs": [0, 9],
+      "evidence": [
+        "src/retention.ts",
+        "DATA_MODEL.md",
+        "tests/foundation.test.ts",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R22": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 1, 9],
+      "evidence": [
+        "FREE_TIER_POLICY.md",
+        "src/budget.ts",
+        "COLLECTION_BENCHMARK.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R23": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 3, 6, 10],
+      "evidence": [
+        "SECURITY.md",
+        "scripts/audit.mjs",
+        "tests/foundation.test.ts",
+        "SSRF_SECURITY_AUDIT.md",
+        "tests/collection-http.test.ts",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R24": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "evidence": [
+        "scripts/path-policy.mjs",
+        "scripts/environment.ps1",
+        "tests/local-safety.test.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R25": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "evidence": [
+        "scripts/cleanup-policy.mjs",
+        "CLEANUP_POLICY.md",
+        "tests/local-safety.test.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R26": {
+      "status": "preserved-future-scope",
+      "devs": [0],
+      "evidence": [
+        "PROJECT_STATUS.md",
+        "GITHUB_WORKFLOW.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R27": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "evidence": [
+        ".github/workflows/ci.yml",
+        "GITHUB_WORKFLOW.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R28": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "evidence": [
+        "scripts/complete-dev.mjs",
+        "AGENTS.md",
+        "RELEASE_CHECKLIST.md",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R29": {
+      "status": "preserved-future-scope",
+      "devs": [0],
+      "evidence": [
+        "src/contracts.ts",
+        "migrations/0001_foundation.sql",
+        "scripts/coverage.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R30": {
+      "status": "preserved-future-scope",
+      "devs": [0, 10],
+      "evidence": [
+        "TEST_PLAN.md",
+        ".github/workflows/ci.yml",
+        "tests/collection-integration.test.mjs",
+        "DEV05_TEST_REPORT.md"
+      ]
+    },
+    "R31": {
+      "status": "implemented-or-preserved-with-DEV05-tests",
+      "devs": [0, 1, 6],
+      "evidence": ["PROJECT_STATUS.md", "SECURITY.md", "DEV05_TEST_REPORT.md"]
+    },
+    "R32": {
+      "status": "preserved-future-scope",
+      "devs": [8, 9, 10],
+      "evidence": ["DEV_ROADMAP.md", "TEST_PLAN.md", "DEV05_TEST_REPORT.md"]
+    }
+  },
+  "remaining": {
+    "DEV06": "Telegram/Private Issues/email/outbox",
+    "DEV07": "semantic dedup/change tracking",
+    "DEV08": "nationwide fairness/weekend summaries",
+    "DEV09": "3-hour collection/retention/recovery",
+    "DEV10": "integrated real operation/native user Japanese review",
+    "workersTransport": "peer/TLS unresolved; fail-closed"
+  }
+}
