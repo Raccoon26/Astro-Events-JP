@@ -5,7 +5,11 @@
   "sections": {
     "0": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
-      "evidence": ["data/dev05-baseline.json", "PROJECT_STATUS.md"]
+      "evidence": [
+        "data/dev05-baseline.json",
+        "PROJECT_STATUS.md",
+        "DEV05_COMPLETION.md"
+      ]
     },
     "1": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
@@ -93,7 +97,8 @@
         "FREE_TIER_POLICY.md",
         "src/posts/benchmark.ts",
         "tests/posts-native-bundle.test.mjs",
-        "migrations/0007_post_read_indexes.sql"
+        "migrations/0007_post_read_indexes.sql",
+        "DEV05_COMPLETION.md"
       ]
     },
     "17": {
@@ -106,15 +111,27 @@
     },
     "19": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
-      "evidence": ["POST_GENERATOR_DESIGN.md", "DATA_MODEL.md"]
+      "evidence": [
+        "POST_GENERATOR_DESIGN.md",
+        "DATA_MODEL.md",
+        "DEV05_COMPLETION.md"
+      ]
     },
     "20": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
-      "evidence": ["GITHUB_WORKFLOW.md", "RELEASE_CHECKLIST.md"]
+      "evidence": [
+        "GITHUB_WORKFLOW.md",
+        "RELEASE_CHECKLIST.md",
+        "DEV05_COMPLETION.md"
+      ]
     },
     "21": {
       "status": "implemented-local-and-documented; remote evidence reported separately",
-      "evidence": ["DEV05_TEST_REPORT.md", "PROJECT_STATUS.md"]
+      "evidence": [
+        "DEV05_TEST_REPORT.md",
+        "PROJECT_STATUS.md",
+        "DEV05_COMPLETION.md"
+      ]
     }
   },
   "requirements": {
