@@ -74,3 +74,7 @@ DEV04 최종규칙dev04-2·350회귀와0005는로컬/격리D1에서확인했다.
 DEV05 최종읽기비용보강:0007_post_read_indexes.sql은 events(Verified상태만,stable_event_id,revision) 부분covering index와generated_posts(event_id,post_id) 커서인덱스를추가한다. 기존테이블/UNIQUE/0001~0006을보존한다. 목록/이력은해당인덱스를명시해부재시안전실패하며로컬init은0006/0007과ledger를한batch로적용/재실행한다. 원격두DB는0004로유지한다.
 
 DEV05 최종 결과는 [완료보고](DEV05_COMPLETION.md)를 따른다. 전체539개/32파일 검사·기존350목적을 보존했고0006/0007은 E 로컬/격리만 적용했다. 원격두DB0004·생성/수집/알림OFF이며 최신 소표본 CPU P99 16.958ms로10ms 충족을 보장하지 않는다. 마지막 증거 PR도 complete:dev의 전체검사·필수CI·보호준수병합·main동기화 대상이다.
+
+## DEV05R 저장 비용
+
+새 migration/컬럼/인덱스는 없다. PostStore의 identity/verification/post schema 세 marker를 동일 SELECT에서 확인하고 capture마다 재검사한다. 원격0004에는 후속 schema view가 없으므로 계속 fail-closed다. 로컬 native D1 save는33→27문장/95읽기4쓰기, replay0쓰기였으며 원격 저장의 CPU·rows 비용 증거로 대체하지 않는다. 상세는 DEV05R_COMPLETION.md를 따른다.

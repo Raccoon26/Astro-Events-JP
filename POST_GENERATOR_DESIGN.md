@@ -29,3 +29,7 @@ DEV05 자기검토에서 발견한 요금 범위 버그 수정으로 현행 Veri
 추가회귀: 공식 근거가 종료일미정/계속휴관임을 명시하면 시작일이 지났어도 검증만료까지 공지를 생성할 수 있다. 날짜 하나만 있는 종료된 단일휴관을 무기한 연장하지 않는다. CPU 진단은 src/posts/remote-benchmark.ts의 별도 고정 생성 진입점을 써 Collector/Validator 초기화를 분리하며 기존4파서/검증 진단은 본래 진입점을 보존한다.
 
 posts:init는최종적으로0006/0007의미적용파일만미리보고명시적apply에서단일batch로적용한다. Verified목록은0007부분인덱스, 이력은0007 event/post인덱스를명시하므로다수Review행/다른Event이력전체를스캔하지않는다. 인덱스없는구환경의해당목록은fail-closed다.
+
+## DEV05R 최적화의 계약
+
+preparePost는 모든 실제 입력의 사실/길이를 재검사하고, renderPost의 요청별 SHA ID와 기존 JSON property 순서를 보존한다. startup은 고정 합성1건의 순수 준비만 수행하며 WebCrypto/DB/외부 I/O·실제 사실 캐시를 만들지 않는다. 저장은 fresh snapshot proof를 매번 만들되 한 작업 내 동일 proof/body digest만 재사용한다. 현재 gate/만료/문서/시설/VTuber/revision/CAS는 생략하지 않는다. 원격 성능의 범위는 DEV05R_COMPLETION.md와 DEV05R_CPU_REPORT.md를 따른다.

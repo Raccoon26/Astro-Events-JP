@@ -1,0 +1,453 @@
+{
+  "synthetic": true,
+  "run": 44095339230,
+  "main": "041a6626a2ed4b583f473894f84f4e430bd858c6",
+  "start": "2026-11-17T13:43:44.731Z",
+  "end": "2026-11-17T13:47:54.254Z",
+  "versions": {
+    "optimized": "0fa93b94-292f-41e9-a300-7339a4bd3814"
+  },
+  "summary": {
+    "sent": 170,
+    "observed": 140,
+    "missingOrAmbiguous": 30,
+    "p50Ms": 2.407,
+    "p95Ms": 4.689,
+    "p99Ms": 6.364,
+    "maxObservedMs": 8.77,
+    "over10ms": 0,
+    "over10Rate": 0,
+    "httpFailures": 0,
+    "providerErrors": 0,
+    "scope": "observed matched single-invocation CPU samples only; not an unsampled provider-wide maximum"
+  },
+  "first": {
+    "sent": 1,
+    "observed": 1,
+    "p50Ms": 5.224,
+    "p95Ms": 5.224,
+    "p99Ms": 5.224,
+    "maxObservedMs": 5.224,
+    "over10ms": 0
+  },
+  "subsequent": {
+    "sent": 169,
+    "observed": 139,
+    "p50Ms": 2.407,
+    "p95Ms": 4.689,
+    "p99Ms": 6.364,
+    "maxObservedMs": 8.77,
+    "over10ms": 0
+  },
+  "startupTimeMs": 19,
+  "providerAggregate": {
+    "start": "2026-11-17T13:43:45.000Z",
+    "end": "2026-11-17T13:47:54.000Z",
+    "source": "Cloudflare GraphQL workersInvocationsAdaptive",
+    "sampling": "provider adaptive data; missing/ambiguous invocations are never estimated",
+    "units": {
+      "cpuTimeP50": "CPU time 50th percentile - microseconds",
+      "cpuTimeP95": "CPU time 95th percentile - microseconds",
+      "cpuTimeP99": "CPU time 99th percentile - microseconds",
+      "wallTimeP50": "Wall time 50th percentile - microseconds",
+      "wallTimeP99": "Wall time 99th percentile - microseconds",
+      "startupCpuTimeUsP99": "Isolate startup CPU time 99th percentile across Worker invocations, 0 for invocations that did not report an isolate startup - microseconds"
+    },
+    "groups": [
+      {
+        "dimensions": {
+          "scriptVersion": "0fa93b94-292f-41e9-a300-7339a4bd3814",
+          "status": "success"
+        },
+        "quantiles": {
+          "cpuTimeP50": 2306,
+          "cpuTimeP95": 4664,
+          "cpuTimeP99": 6364,
+          "memoryUsageBytesP99": 5342808,
+          "startupCpuTimeUsP99": 0,
+          "wallTimeP50": 187951,
+          "wallTimeP99": 228895
+        },
+        "sum": {
+          "errors": 0,
+          "requests": 178,
+          "subrequests": 0
+        }
+      }
+    ]
+  },
+  "restored": {
+    "phase": "cpu-matrix-restored",
+    "id": "71e98260-8fc3-4b36-b71e-b9d8dbb4b520",
+    "versions": [
+      {
+        "version_id": "3c12380a-d4b5-4ccc-b864-9a717a53b99e",
+        "percentage": 100
+      }
+    ],
+    "attempts": 1,
+    "health": {
+      "httpStatus": 200,
+      "status": "ok",
+      "code": "OK",
+      "environment": "staging",
+      "database": "ok",
+      "collectionEnabled": false,
+      "mode": "diagnostic-only",
+      "attempts": 1
+    }
+  },
+  "productionChanged": false,
+  "remoteMigrationMax": 4,
+  "collectionEnabled": false,
+  "notificationsEnabled": false,
+  "productionReadiness": false,
+  "realSiteRequests": 0,
+  "pooledObservedP99GoalMet": true,
+  "allScenarioObservedP99GoalMet": false,
+  "cohorts": {
+    "baseline/observation": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/open-day": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/space": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/lecture": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/exhibition": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/vtuber": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/merchandise": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/closure": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/reopening": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/cancellation": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/postponement": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/applications-open": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/deadline": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/emoji": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/long-url": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/recompose": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/near-limit": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/first-in-isolate": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "baseline/subsequent-in-isolate": {
+      "sent": 0,
+      "observed": 0,
+      "p50Ms": null,
+      "p95Ms": null,
+      "p99Ms": null,
+      "maxObservedMs": null,
+      "over10ms": 0
+    },
+    "optimized/observation": {
+      "sent": 10,
+      "observed": 9,
+      "p50Ms": 2.356,
+      "p95Ms": 5.224,
+      "p99Ms": 5.224,
+      "maxObservedMs": 5.224,
+      "over10ms": 0
+    },
+    "optimized/open-day": {
+      "sent": 10,
+      "observed": 10,
+      "p50Ms": 2.068,
+      "p95Ms": 6.364,
+      "p99Ms": 6.364,
+      "maxObservedMs": 6.364,
+      "over10ms": 0
+    },
+    "optimized/space": {
+      "sent": 10,
+      "observed": 7,
+      "p50Ms": 1.898,
+      "p95Ms": 2.804,
+      "p99Ms": 2.804,
+      "maxObservedMs": 2.804,
+      "over10ms": 0
+    },
+    "optimized/lecture": {
+      "sent": 10,
+      "observed": 8,
+      "p50Ms": 2.316,
+      "p95Ms": 3.553,
+      "p99Ms": 3.553,
+      "maxObservedMs": 3.553,
+      "over10ms": 0
+    },
+    "optimized/exhibition": {
+      "sent": 10,
+      "observed": 9,
+      "p50Ms": 1.968,
+      "p95Ms": 4.973,
+      "p99Ms": 4.973,
+      "maxObservedMs": 4.973,
+      "over10ms": 0
+    },
+    "optimized/vtuber": {
+      "sent": 10,
+      "observed": 9,
+      "p50Ms": 2.583,
+      "p95Ms": 3.588,
+      "p99Ms": 3.588,
+      "maxObservedMs": 3.588,
+      "over10ms": 0
+    },
+    "optimized/merchandise": {
+      "sent": 10,
+      "observed": 8,
+      "p50Ms": 2.357,
+      "p95Ms": 4.69,
+      "p99Ms": 4.69,
+      "maxObservedMs": 4.69,
+      "over10ms": 0
+    },
+    "optimized/closure": {
+      "sent": 10,
+      "observed": 8,
+      "p50Ms": 2.401,
+      "p95Ms": 4.892,
+      "p99Ms": 4.892,
+      "maxObservedMs": 4.892,
+      "over10ms": 0
+    },
+    "optimized/reopening": {
+      "sent": 10,
+      "observed": 8,
+      "p50Ms": 2.104,
+      "p95Ms": 2.889,
+      "p99Ms": 2.889,
+      "maxObservedMs": 2.889,
+      "over10ms": 0
+    },
+    "optimized/cancellation": {
+      "sent": 10,
+      "observed": 7,
+      "p50Ms": 2.669,
+      "p95Ms": 4.52,
+      "p99Ms": 4.52,
+      "maxObservedMs": 4.52,
+      "over10ms": 0
+    },
+    "optimized/postponement": {
+      "sent": 10,
+      "observed": 7,
+      "p50Ms": 2.205,
+      "p95Ms": 2.711,
+      "p99Ms": 2.711,
+      "maxObservedMs": 2.711,
+      "over10ms": 0
+    },
+    "optimized/applications-open": {
+      "sent": 10,
+      "observed": 8,
+      "p50Ms": 2.278,
+      "p95Ms": 3.621,
+      "p99Ms": 3.621,
+      "maxObservedMs": 3.621,
+      "over10ms": 0
+    },
+    "optimized/deadline": {
+      "sent": 10,
+      "observed": 7,
+      "p50Ms": 2.373,
+      "p95Ms": 3.391,
+      "p99Ms": 3.391,
+      "maxObservedMs": 3.391,
+      "over10ms": 0
+    },
+    "optimized/emoji": {
+      "sent": 10,
+      "observed": 9,
+      "p50Ms": 2.904,
+      "p95Ms": 8.77,
+      "p99Ms": 8.77,
+      "maxObservedMs": 8.77,
+      "over10ms": 0
+    },
+    "optimized/long-url": {
+      "sent": 10,
+      "observed": 9,
+      "p50Ms": 2.758,
+      "p95Ms": 3.338,
+      "p99Ms": 3.338,
+      "maxObservedMs": 3.338,
+      "over10ms": 0
+    },
+    "optimized/recompose": {
+      "sent": 10,
+      "observed": 9,
+      "p50Ms": 3.39,
+      "p95Ms": 5.825,
+      "p99Ms": 5.825,
+      "maxObservedMs": 5.825,
+      "over10ms": 0
+    },
+    "optimized/near-limit": {
+      "sent": 10,
+      "observed": 8,
+      "p50Ms": 2.294,
+      "p95Ms": 3.432,
+      "p99Ms": 3.432,
+      "maxObservedMs": 3.432,
+      "over10ms": 0
+    },
+    "optimized/first-in-isolate": {
+      "sent": 1,
+      "observed": 1,
+      "p50Ms": 5.224,
+      "p95Ms": 5.224,
+      "p99Ms": 5.224,
+      "maxObservedMs": 5.224,
+      "over10ms": 0
+    },
+    "optimized/subsequent-in-isolate": {
+      "sent": 169,
+      "observed": 139,
+      "p50Ms": 2.407,
+      "p95Ms": 4.689,
+      "p99Ms": 6.364,
+      "maxObservedMs": 8.77,
+      "over10ms": 0
+    }
+  },
+  "performanceStatus": "partial: emoji cohort P99 8.770ms >8ms; unobserved CPU and all-cold/full pipeline unresolved"
+}

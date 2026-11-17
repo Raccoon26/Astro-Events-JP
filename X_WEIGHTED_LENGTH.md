@@ -19,3 +19,7 @@
 잠재emoji가없는제한된ASCII/일본어범위에서만공식parseTweet의emoji탐색을생략한다. 최대길이/URL변환/NFC/가중/range/유효성검사는동일한공식알고리즘이다. ©/®/〰/〽/㊗/㊙·keycap/VS/ZWJ/국기/보충평면등은full공식경로다. 허용범위전체를100자씩원본emoji-enabled구현과대조하고공식fixture/실제native workerd에서도대조한다. 8192 UTF-16 code unit 초과 fixture는공식원본검사와프로젝트입력거부를각각확인해입력제한을약화하지않는다.
 
 공식파서는고정합성문자열(31가중자)로동기전역초기화한다. 초기화는네트워크/DB/행사사실을사용하지않고실제본문의검사를생략하지않는다. Worker startup1초와요청CPU10ms를별도공식지표로확인한다. 초기화자체가부정확하면안전하게실패하며Core규칙/Unicode/URL/emoji conformance를계속검사한다.
+
+## DEV05R 동등성 보존
+
+중복 scalar 검사를 제거하되 8192 UTF-16 상한과 잘못된 surrogate 거부는 유지한다. NFC 결과가 새 lone surrogate를 만들지 않는 내부 경로에서만 이미 검사한 값을 재사용한다. 공개 officialMeasure는 계속 scalar를 검사하며 공식 twitter-text3.1.0/v3·URL23·280/emoji/Unicode 알고리즘을 바꾸지 않았다. 원래 conformance와 고정17결과·독립 native runtime 비교는 tests/cpu-optimization.test.ts와 tests/cpu-native.test.mjs가 검증한다. 실제 글 출력은 항상 최신 PostStore 게이트를 거친다.
