@@ -92,7 +92,9 @@
       "DEV05R_CPU_REPORT.md",
       "scripts/wrangler-failure.mjs",
       "tests/wrangler-failure.test.mjs",
-      "scripts/deployment-health.mjs"
+      "scripts/deployment-health.mjs",
+      "scripts/install-ci.mjs",
+      "tests/ci-install.test.mjs"
     ]
   },
   "9": {

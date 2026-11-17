@@ -65,7 +65,8 @@ jobs:
           XDG_CONFIG_HOME=$RUNNER_TEMP/astro-events-jp/config
           XDG_CACHE_HOME=$RUNNER_TEMP/astro-events-jp/cache
           EOF
-      - run: npm ci
+      - name: Install locked dependencies and verify native tools
+        run: node scripts/install-ci.mjs
       - run: npm run check
       - name: Verify current deployment commit CI
         env:

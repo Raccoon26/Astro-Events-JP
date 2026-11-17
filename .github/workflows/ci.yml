@@ -38,5 +38,6 @@ jobs:
         run: |
           go install github.com/rhysd/actionlint/cmd/actionlint@v1.7.12
           "$GOBIN/actionlint" -color
-      - run: npm ci
+      - name: Install locked dependencies and verify native tools
+        run: node scripts/install-ci.mjs
       - run: npm run check
