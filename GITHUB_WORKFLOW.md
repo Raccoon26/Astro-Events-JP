@@ -46,4 +46,12 @@ DEV05도 complete:dev -- --reviewed로 전체check·commit/push/PR·최신qualit
 
 ## DEV05R CPU 조사
 
-[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 고정340요청 비교와 의미 있는 순수 준비 변경의170요청 후속 실험을 완료했다. 중간404 실패3건도 보존하고 준비 marker 회귀 후 재검증했다. 각 실험은 정확한 finally rollback을 확인했고 지연 지표는 읽기 전용 재조회했다. 최신590개/38파일·실측의 범위와 누락은 [최종 보고](DEV05R_COMPLETION.md)를 따른다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.
+[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 고정340요청 비교와 의미 있는 순수 준비 변경의170요청 후속 실험을 완료했다. 중간404 실패3건도 보존하고 준비 marker 회귀 후 재검증했다. 각 실험은 정확한 finally rollback을 확인했고 지연 지표는 읽기 전용 재조회했다. 최신597개/39파일·실측의 범위와 누락은 [최종 보고](DEV05R_COMPLETION.md)를 따른다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.
+
+## main CI44098229138의 Biome 설치 누락과 예방
+
+main193da0e의 설치 이후 lint에서 Cannot find module @biomejs/cli-linux-x64/biome가 발생했다. npm ci는 성공했지만 필수 플랫폼 실행 파일이 없었다. 다운로드 누락의 근본 네트워크 원인은 기존 로그만으로 확정하지 않는다. 이 실패 뒤 배포44099561158은 skipped이며 배포 성공으로 계산하지 않는다. 실패한 커밋을 재실행하거나 lint를 제거하지 않았다.
+
+CI/배포의 설치 한 단계만 scripts/install-ci.mjs로 확장했다. Linux x64 격리 runner 전용·npm ci --include=optional·고정 manifest SHA 불변·각 설치4분/네트워크30초 timeout을 적용한다. 정확히 이 Biome optional binary 누락만 확인된 경우 한번 재설치하고 실제 CLI 버전을 고정 버전과 비교한다. 일반 npm 실패/timeout·다른 native 오류/버전 불일치·manifest 변경에는 재시도하지 않으며 실패를 숨기지 않는다. 기존 read-only GITHUB_TOKEN·필수 전체 check·production 승인·배포 조건은 유지한다. 제어·성공/복구/재실패/격리 거부 회귀7개를 추가해 최신597개/39파일이다.
+
+공식 근거: [npm ci의 고정 lock/optional include](https://docs.npmjs.com/cli/v10/commands/npm-ci/), [Biome 설치·버전 고정](https://biomejs.dev/installation/install-biome/). 이 사전 검사는 설치 누락을 더 일찍 식별하고 확인된 누락에만 bounded 복구를 시도하는 것이며 외부 npm 장애 자체를 방지한다고 주장하지 않는다. 새 패키지/버전·유료 제품·원격 migration·production 변경은 없다.
