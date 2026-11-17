@@ -92,3 +92,9 @@ E 증거: reports/dev05r-matrix-remote-44095339230.json, dev05r-matrix-analysis-
 전체140관측 pool P99 6.364ms와 각 유형의 P99는 서로 다른 분모다. 이모지 유형8.770ms를 숨기거나 전체6.364ms로 대체하지 않는다. 9개 표본의 P99는 관측최대이며 안정적인 장기 tail의 추정에는 부족하다. 첫 생성5.224ms 역시 Health/ready 이후의 첫 본문 생성1건으로, isolate 절대 첫 HTTP 요청의 cold 비용이 아니다. upload startup19ms는 별도 초기화 검증 수치다.
 
 여기서 동일 조건 재배포/같은 빌드 재시험을 끝낸다. 후속 무료 대안은 고정 준비의 추가 반복이 아니라 생성/길이검사/최종 gate 저장을 실제 별도 invocation과 버전 있는 영속 pending draft로 연결하는 구조다. checkpoint/CAS/만료/장애 재개·무료 요청/D1 예산을 검증하기 전까지 미구현으로 유지하며 새 migration/자원/production 변경은 자동 수행하지 않는다. 구체적인 전환 조건은 FREE_EXECUTION_PIPELINE.md를 따른다. DEV06 로컬 개발은 가능하지만 유형별 CPU·cold/전체 원격 경로·실제 출처 승인/전송기 문제가 남아 제품 운영은 차단한다.
+
+## 최종 NFC 확장 상한 회귀 수정
+
+후속 코드 감사에서 NFC가 scalar 유효성은 보존하지만 UTF-16 길이를 늘릴 수 있음을 확인했다. U+0344 반복4097자는 원본4097자이지만 NFC8194자여서 기존 두 번째 scalarText의8192 상한이 필요했다. 중복 surrogate 순회를 다시 넣지 않고 measureScalar에 O(1) 길이 검사를 복구했다. 원래 정책과 같은 weightedLength=-1/valid=false/remaining=null 거부를 독립 회귀로 확인했다. 17고정결과/공식 X fixture/native runtime은 그대로다. 최종 전체590개/38파일이며 기존539개 목적/0001~0007 보존을 다시 검사한다.
+
+원격 CPU 결과는 main041a662의 실측으로 고정한다. 이 보안 경계 수정 이후의 실제 원격 CPU를 재측정한 것으로 표시하지 않으며, 추가 성능 재배포 없이 최신 코드의 운영 활성화는 계속 차단한다. 유형별8ms·cold/전체 경로의 미해결과 독립 invocation 대안은 그대로 유지한다.

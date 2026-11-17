@@ -59,6 +59,9 @@ export function officialMeasure(text: string) {
 }
 /** Only receives scalar strings; NFC does not create lone surrogates. */
 function measureScalar(text: string) {
+  // NFC preserves scalar validity but can expand length (for example U+0344).
+  // Retain the original post-normalization bound without rescanning surrogates.
+  if (text.length > 8192) throw new PostError('unsafe-input');
   // Proven emoji-free subset only. All possible emoji (including #/digit keycap
   // combiners, VS, supplementary characters and ©/®/〰/㊗) take the full official path.
   const noEmoji =

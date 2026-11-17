@@ -1,11 +1,28 @@
 import { describe, expect, it } from 'vitest';
 import type { PostKind } from '../src/domain';
-import { scalarText } from '../src/posts/length';
+import {
+  officialMeasure,
+  scalarText,
+  validateLength,
+} from '../src/posts/length';
 import corpus from '../src/posts/profile-corpus.json';
 import { renderPost } from '../src/posts/render';
 import type { DetailedVerifiedEvent } from '../src/verification/types';
 
 describe('DEV05R optimization preserves every fixed synthetic rendering', () => {
+  it('retains the original size rejection when NFC expands scalar input', () => {
+    const input = '\u0344'.repeat(4097);
+    expect(input.length).toBeLessThan(8192);
+    expect(input.normalize('NFC').length).toBeGreaterThan(8192);
+    expect(() => officialMeasure(input.normalize('NFC'))).toThrow(
+      'unsafe-input',
+    );
+    expect(validateLength(input)).toEqual({
+      weightedLength: -1,
+      valid: false,
+      remaining: null,
+    });
+  });
   it.each(corpus.cases)(
     '$id is byte-identical to the DEV05 baseline',
     async (c) => {
