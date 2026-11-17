@@ -114,6 +114,10 @@ it('native optimized invocations retain the committed baseline posts and refuse 
     );
     // No DB binding exists, so an accidental access would fail instead of this 404.
     expect(
+      (await mf.dispatchFetch('https://example.test/benchmark/cpu/ready'))
+        .status,
+    ).toBe(404);
+    expect(
       (
         await mf.dispatchFetch(
           'https://example.test/benchmark/cpu/optimized/observation',

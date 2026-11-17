@@ -1,0 +1,107 @@
+{
+  "synthetic": true,
+  "run": 44095339230,
+  "main": "041a6626a2ed4b583f473894f84f4e430bd858c6",
+  "start": "2026-11-17T13:43:44.731Z",
+  "end": "2026-11-17T13:47:54.254Z",
+  "versions": {
+    "optimized": "0fa93b94-292f-41e9-a300-7339a4bd3814"
+  },
+  "summary": {
+    "sent": 170,
+    "observed": 140,
+    "missingOrAmbiguous": 30,
+    "p50Ms": 2.407,
+    "p95Ms": 4.689,
+    "p99Ms": 6.364,
+    "maxObservedMs": 8.77,
+    "over10ms": 0,
+    "over10Rate": 0,
+    "httpFailures": 0,
+    "providerErrors": 0,
+    "scope": "observed matched single-invocation CPU samples only; not an unsampled provider-wide maximum"
+  },
+  "first": {
+    "sent": 1,
+    "observed": 1,
+    "p50Ms": 5.224,
+    "p95Ms": 5.224,
+    "p99Ms": 5.224,
+    "maxObservedMs": 5.224,
+    "over10ms": 0
+  },
+  "subsequent": {
+    "sent": 169,
+    "observed": 139,
+    "p50Ms": 2.407,
+    "p95Ms": 4.689,
+    "p99Ms": 6.364,
+    "maxObservedMs": 8.77,
+    "over10ms": 0
+  },
+  "startupTimeMs": 19,
+  "providerAggregate": {
+    "start": "2026-11-17T13:43:45.000Z",
+    "end": "2026-11-17T13:47:54.000Z",
+    "source": "Cloudflare GraphQL workersInvocationsAdaptive",
+    "sampling": "provider adaptive data; missing/ambiguous invocations are never estimated",
+    "units": {
+      "cpuTimeP50": "CPU time 50th percentile - microseconds",
+      "cpuTimeP95": "CPU time 95th percentile - microseconds",
+      "cpuTimeP99": "CPU time 99th percentile - microseconds",
+      "wallTimeP50": "Wall time 50th percentile - microseconds",
+      "wallTimeP99": "Wall time 99th percentile - microseconds",
+      "startupCpuTimeUsP99": "Isolate startup CPU time 99th percentile across Worker invocations, 0 for invocations that did not report an isolate startup - microseconds"
+    },
+    "groups": [
+      {
+        "dimensions": {
+          "scriptVersion": "0fa93b94-292f-41e9-a300-7339a4bd3814",
+          "status": "success"
+        },
+        "quantiles": {
+          "cpuTimeP50": 2306,
+          "cpuTimeP95": 4664,
+          "cpuTimeP99": 6364,
+          "memoryUsageBytesP99": 5342808,
+          "startupCpuTimeUsP99": 0,
+          "wallTimeP50": 187951,
+          "wallTimeP99": 228895
+        },
+        "sum": {
+          "errors": 0,
+          "requests": 178,
+          "subrequests": 0
+        }
+      }
+    ]
+  },
+  "restored": {
+    "phase": "cpu-matrix-restored",
+    "id": "71e98260-8fc3-4b36-b71e-b9d8dbb4b520",
+    "versions": [
+      {
+        "version_id": "3c12380a-d4b5-4ccc-b864-9a717a53b99e",
+        "percentage": 100
+      }
+    ],
+    "attempts": 1,
+    "health": {
+      "httpStatus": 200,
+      "status": "ok",
+      "code": "OK",
+      "environment": "staging",
+      "database": "ok",
+      "collectionEnabled": false,
+      "mode": "diagnostic-only",
+      "attempts": 1
+    }
+  },
+  "productionChanged": false,
+  "remoteMigrationMax": 4,
+  "collectionEnabled": false,
+  "notificationsEnabled": false,
+  "representativeObservedGoalMet": true,
+  "productionReadiness": false,
+  "realSiteRequests": 0
+}

@@ -1,106 +1,139 @@
 {
   "0": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "data/dev05r-baseline.json",
+      "scripts/audit-dev05r.mjs"
     ]
   },
   "1": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "scripts/cpu-metrics.mjs",
+      "scripts/read-cpu-matrix.mjs",
+      "tests/cpu-metrics.test.mjs"
     ]
   },
   "2": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "scripts/profile-posts.mjs",
+      "scripts/profile-post-store.mjs"
     ]
   },
   "3": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "src/posts/length.ts",
+      "src/posts/render.ts",
+      "src/posts/store.ts",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "4": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "tests/posts-integration.test.mjs"
     ]
   },
   "5": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "scripts/staging-cpu-matrix.mjs",
+      "scripts/cpu-readiness.mjs",
+      "tests/cpu-readiness.test.mjs"
     ]
   },
   "6": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "scripts/cloudflare.mjs",
+      "cloudflare-resources.json",
+      "tests/cpu-cli.test.mjs"
     ]
   },
   "7": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "data/dev05r-baseline.json",
+      "tests/cpu-native.test.mjs",
+      "tests/post-length.test.ts"
     ]
   },
   "8": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "scripts/wrangler-failure.mjs",
+      "tests/wrangler-failure.test.mjs",
+      "scripts/deployment-health.mjs"
     ]
   },
   "9": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "scripts/path-policy.mjs",
+      "scripts/cleanup.mjs",
+      "LOCAL_DEVELOPMENT.md"
     ]
   },
   "10": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "scripts/complete-dev.mjs",
+      ".github/workflows/deploy.yml",
+      "GITHUB_WORKFLOW.md"
     ]
   },
   "11": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md"
     ]
   },
   "12": {
-    "status": "implemented-or-investigated; remote CPU outcome pending actual matrix",
+    "status": "implemented/audited; remote performance scope and limits in DEV05R_CPU_REPORT.md",
     "evidence": [
       "CPU_PROFILE_DESIGN.md",
       "FREE_EXECUTION_PIPELINE.md",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "DEV_ROADMAP.md"
     ]
   },
   "productionChanged": false,
@@ -202,7 +235,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R12": {
@@ -211,7 +246,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R13": {
@@ -238,7 +275,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R16": {
@@ -247,7 +286,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R17": {
@@ -274,7 +315,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R20": {
@@ -283,7 +326,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R21": {
@@ -301,7 +346,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R23": {
@@ -310,7 +357,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R24": {
@@ -319,7 +368,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R25": {
@@ -328,7 +379,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R26": {
@@ -346,7 +399,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R28": {
@@ -355,7 +410,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R29": {
@@ -382,7 +439,9 @@
       "REQUIREMENTS.md",
       "DEV_ROADMAP.md",
       "data/dev05r-baseline.json",
-      "DEV05R_CPU_REPORT.md"
+      "DEV05R_CPU_REPORT.md",
+      "DEV05R_COMPLETION.md",
+      "tests/cpu-optimization.test.ts"
     ]
   },
   "R32": {

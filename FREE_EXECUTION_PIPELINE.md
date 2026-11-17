@@ -2,6 +2,8 @@
 
 단순 함수 분리는 CPU 예산을 초기화하지 않는다. `await`, waitUntil 또는 같은 요청의 여러 함수도 같은 invocation의 한도 안이다. 본 프로젝트는 현재 수집·생성·알림을 운영 진입점에서 호출하지 않으며 이 문서는 DEV06~09 통합 전에 검증할 실행 경계다. 새 유료 자원/서비스를 도입하지 않는다.
 
+ctx.exports loopback이나 Service Binding 호출만 추가해 Free의 CPU 예산이 자동 초기화된다고 가정하지 않는다. 실제 독립 invocation·계정 단위 비용/제한을 입증하기 전에는 이를 해결책으로 활성화하지 않는다. [공식 Context API](https://developers.cloudflare.com/workers/runtime-apis/context/)와 [Workers 요금](https://developers.cloudflare.com/workers/platform/pricing/)의 지원 조건을 구분하며 이번에는 새 binding/compatibility flag/자원을 추가하지 않았다.
+
 | 단계          | 기존 영속 checkpoint                                                       | 다음 invocation에서 다시 검사할 것                                                           | 현재 상태                                               |
 | ------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | 수집          | collection_documents·event_candidates·candidate_versions·source checkpoint | 현재 승인/robots/약관/host·문서/fingerprint·예산·claim                                       | 로컬 DEV03, Workers 전송 fail-closed                    |

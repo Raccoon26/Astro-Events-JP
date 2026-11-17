@@ -1,3 +1,11 @@
+# DEV05R: 최적화·대표 합성 실증 완료 / 실운영 OFF
+
+전체589개/38파일·기존539개 목적/0001~0007 보존·보안/요구감사를 통과했다. 최종 staging170건은 모두 성공, 공식 CPU140관측/누락30에서 P50/P95/P99=2.407/4.689/6.364ms·최대8.770ms·10ms초과0/140, 첫 생성1관측5.224ms다. 이 관측 범위에서는 목표를 충족했지만 모든 cold/원격 전체 gate·저장/3시간 Cron은 보장하지 않는다. [완료·전체파일](DEV05R_COMPLETION.md)과 [측정·실패·한계](DEV05R_CPU_REPORT.md)를 따른다.
+
+정확한 원래 staging 복구/Health200, production 버전 불변·Cron0, 두 원격DB0004·Collection/Notifications=false를 재확인했다. active0·실제사이트/게시/알림0·Workers peer/TLS fail-closed를 유지한다. DEV06~10 범위를 보존하며 DEV06은 시작하지 않았다. 새 토큰/권한/유료 자원은 없다.
+
+## 이전 조사 이력
+
 # DEV05R 현재: 첫 실증 완료 / cold 비용 보완 검증 중
 
 PR23/main17b5122·576검사/37파일과 고정340요청·정확한 staging 복구를 확인했다. 관측pool P99는 baseline5.182/optimized7.423ms지만 optimized 첫 생성12.805ms가 남아 운영 활성화는 차단한다. 순수 preparePost의 startup 준비와170회 optimized-only 후속 비교를 준비했다. [실제 결과·미검증](DEV05R_CPU_REPORT.md)을 따른다. production/원격0004·수집/알림OFF·active0·실제사이트0·SSRF fail-closed·DEV06미시작을 유지한다.

@@ -66,4 +66,4 @@ DEV05 최종 결과는 [완료보고](DEV05_COMPLETION.md)를 따른다. 전체5
 
 ## DEV05R CPU 조사
 
-[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 staging의 한 번의 고정340요청 비교와 정확한 finally rollback만 허용하며 지연 지표는 읽기 전용 재조회한다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.
+[측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 고정340요청 비교와 의미 있는 순수 준비 변경의170요청 후속 실험을 완료했다. 중간404 실패3건도 보존하고 준비 marker 회귀 후 재검증했다. 각 실험은 정확한 finally rollback을 확인했고 지연 지표는 읽기 전용 재조회했다. 최신589개/38파일·실측의 범위와 누락은 [최종 보고](DEV05R_COMPLETION.md)를 따른다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.

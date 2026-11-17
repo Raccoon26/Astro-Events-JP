@@ -44,3 +44,5 @@ DEV04는 후보→필드근거 검증→현재버전 VerifiedEvent 게이트, �
 ## DEV05 현재 구현
 
 DEV05는 [현재Verified→전13종 일본어 생성/저장](POST_GENERATOR_DESIGN.md), [X공식가중길이](X_WEIGHTED_LENGTH.md), [13종합성샘플](POST_SAMPLES.md), 로컬 posts:* 관리명령을 제공한다. [검사보고](DEV05_TEST_REPORT.md). 실제수집/검증행사/게시/알림0·원격0005/0006미적용·안전전송fail-closed를유지하며 DEV06을자동시작하지 않는다.
+
+DEV05R의 [최적화·검사·운영 제한](DEV05R_COMPLETION.md), [원격 CPU 실측](DEV05R_CPU_REPORT.md), [무료 독립 실행 계획](FREE_EXECUTION_PIPELINE.md)을 참고한다. 기존539개 목적과 migration0001~0007을 보존하며 원격은0004를 유지한다. 실제 수집/게시/알림은 계속 OFF이다.
