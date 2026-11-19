@@ -168,6 +168,47 @@ export async function checkPacket(
       throw new VerificationError('unsafe-evidence');
   }
   const relation = packet.relationship;
+  const canonical = packet.canonicalEvent;
+  if (canonical !== undefined) {
+    const doc = packet.documents.find(
+      (item) => item.id === canonical?.documentId,
+    );
+    if (
+      !relation?.confirmed ||
+      !doc ||
+      typeof canonical.url !== 'string' ||
+      typeof canonical.quote !== 'string' ||
+      !doc.text.includes(canonical.quote) ||
+      !canonical.quote.includes(canonical.url) ||
+      !/(?:公式|主催|正規|\bcanonical\b|\bofficial event\b)/iu.test(
+        canonical.quote.replaceAll(canonical.url, ''),
+      ) ||
+      /非公式|無関係|公式ではない|unofficial/iu.test(
+        canonical.quote.replaceAll(canonical.url, ''),
+      ) ||
+      [canonical.id, canonical.session].some(
+        (value) =>
+          value !== undefined &&
+          (typeof value !== 'string' ||
+            !/^[\w-]{1,80}$/u.test(value) ||
+            !canonical.quote.includes(value)),
+      ) ||
+      (canonical.session !== undefined && canonical.id === undefined) ||
+      (canonical.previousTiming !== undefined &&
+        (typeof canonical.previousTiming !== 'string' ||
+          canonical.previousTiming.length > 180 ||
+          !canonical.previousTiming.trim() ||
+          !canonical.quote.includes(canonical.previousTiming) ||
+          !/(?:変更|延期|中止)/u.test(canonical.quote) ||
+          /可能性|検討|場合|変更なし|中止しません|延期しません/u.test(
+            canonical.quote,
+          )))
+    )
+      throw new VerificationError('invalid-input');
+    const url = safeUrl(canonical.url, ctx.source.allowedHosts);
+    if (!ctx.approval || !inScope(url, ctx.approval.scopePaths))
+      throw new VerificationError('unsafe-evidence');
+  }
   if (
     !relation ||
     typeof relation.confirmed !== 'boolean' ||

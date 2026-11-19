@@ -90,3 +90,7 @@ DEV05는 기존 PostGenerator 계약과 DEV04 capture 게이트를 연결했다.
 ## DEV05R 실행 경계
 
 생성·X 길이 검사·저장은 기존 계약을 유지하며 실제 입력의 검증을 캐시로 대체하지 않는다. 함수 분리만으로 Workers CPU 예산은 새로 생기지 않는다. 기존 영속 checkpoint를 독립 invocation으로 연결할 조건, 아직 미구현인 lease/outbox 및 대안은 FREE_EXECUTION_PIPELINE.md에 기록했다. 대표 합성 CPU 결과를 원격 전체 검증/저장이나 전국 Cron의 보장으로 사용하지 않는다.
+
+## DEV-07 검증 이후 경계
+
+Collector Candidate → 현재 VerificationStore → bounded identity/CAS → 변경·예약 회차 → PostStore → 목적별 Outbox → 기존 모의 Telegram/Private Issue 및 게시 확인. 공식 변경 전후 증거는 revision 이력에서 확인할 수 있다. 의심되는 미해결 중복이나 낡은 결정을 현재 게시글, 송신, callback에 사용할 수 없다. 운영 Worker에 새 라우트나 Cron을 추가하지 않았다. [운영 비용과 미검증](DEV07_TEST_REPORT.md)

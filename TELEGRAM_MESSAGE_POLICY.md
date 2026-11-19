@@ -11,3 +11,19 @@
 35바이트 불투명 callback_data가 있는 관리 버튼 세 개를 사용한다. 보안 규칙은 [callback 정책](TELEGRAM_CALLBACK_SECURITY.md)을 따른다. [전13종 합성 예시](NOTIFICATION_SAMPLES.md)는 실제 행사 보고가 아니다.
 
 공식 근거: [Telegram Bot API](https://core.telegram.org/bots/api)의 sendMessage, InlineKeyboardButton, setWebhook(2026-11-18 확인). paid broadcast 옵션을 전달하지 않는다.
+
+## DEV-07 관리 메시지 B
+
+새 그룹의 B는 한국어 항목에 공식 일본어 이름을 표시한다. 예시 합성 데이터 표시
+
+```text
+도도부현: 北海道
+시정촌: 미확인
+예약: 사전 신청 필수
+참가비: 무료
+입장료: 미확인
+신청 마감: 미확인
+공식 변경 이력: 개최 일정 2026年11月23日 13:30〜15:00 → 2026年11月24日 14:30〜16:00
+```
+
+검증값이 있는 경우에만 날짜·시간·예약·요금을 표시하며 값이 다른 공식 근거와 충돌하거나 불명확한 경우에는 각각 구분한다. 이미지·출처·권리·크레딧 링크와 분리 전송 한도를 유지한다. A 일본어 copyText와 DEV-06R 고정 시험 payload는 그대로 유지한다. 관리 데이터는 일반 텍스트로 처리하고 format mode를 설정하지 않는다.

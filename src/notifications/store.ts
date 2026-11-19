@@ -4,6 +4,10 @@ import { digest } from '../collection/text';
 import type { Event, PublicationStatus, Usage } from '../domain';
 import { PostStore } from '../posts/store';
 import type { PostDelivery } from '../posts/types';
+import { bookingWindow } from '../tracking/booking';
+import type { TrackedChange } from '../tracking/changes';
+import { trackingAvailable } from '../tracking/store';
+import { formatChange, MANAGEMENT_VERSION } from './management';
 import {
   assertCopy,
   bounded,
@@ -52,6 +56,37 @@ interface Group {
   valid_until: string;
   mode: string;
   controls_json: string;
+  report_version: string;
+  kind: string;
+}
+function bookingKind(kind: string): kind is 'applications-open' | 'deadline' {
+  return kind === 'applications-open' || kind === 'deadline';
+}
+function publicationSlot(
+  eventId: string,
+  revision: number,
+  kind: string,
+  version: string,
+  groupId: string,
+) {
+  const separate = version === MANAGEMENT_VERSION && bookingKind(kind);
+  const table = separate
+    ? 'event_delivery_intents'
+    : 'notification_publications';
+  const where = separate
+    ? 'group_id=?'
+    : "event_id=? AND revision=? AND mode='simulation'";
+  return {
+    separate,
+    table,
+    where,
+    bindings: separate ? [groupId] : [eventId, revision],
+    eventGate: separate
+      ? " AND NOT EXISTS(SELECT 1 FROM notification_publications WHERE event_id=? AND revision=? AND mode='simulation' AND status IN('held','recheck'))"
+      : '',
+    eventBindings: separate ? [eventId, revision] : [],
+    status: `COALESCE((SELECT status FROM ${table} WHERE ${where}),'pending')`,
+  };
 }
 export class NotificationStore {
   readonly meter: D1Meter;
@@ -204,21 +239,69 @@ export class NotificationStore {
       (change) =>
         `revision ${change.revision}: ${text(change.change_type, 120)} / ${text(change.detected_at, 40)} / ${link(change.source_url)}`,
     );
+    const tracked = await trackingAvailable(this.db);
+    const revision = tracked
+      ? await this.db
+          .prepare(
+            'SELECT purpose,changes FROM event_tracking_revisions WHERE event_id=? AND revision=? AND decision_id=?',
+          )
+          .bind(
+            snapshot.event.stableEventId,
+            snapshot.revision,
+            snapshot.decisionId,
+          )
+          .first<{ purpose: string; changes: string }>()
+      : null;
+    const currentChanges =
+      revision?.purpose === 'official-change'
+        ? (JSON.parse(revision.changes) as { fields: TrackedChange[] }).fields
+            .filter((item) => item.official)
+            .slice(0, 5)
+            .map(formatChange)
+        : [];
+    const group = await this.resolveGroup(postId, tracked);
+    const slot = publicationSlot(
+      delivery.metadata.eventId,
+      snapshot.revision,
+      delivery.metadata.post.kind,
+      group.version,
+      group.groupId,
+    );
     return {
       delivery,
       snapshot,
       guard,
       changes,
+      currentChanges: currentChanges.length ? currentChanges : changes,
+      tracked,
+      group,
+      slot,
+      purpose: revision?.purpose ?? 'initial',
       validUntil: captured.validUntil,
     };
   }
-  private async publication(eventId: string, revision: number) {
+  private async resolveGroup(postId: string, tracked: boolean) {
+    const existing = await this.db
+      .prepare(
+        "SELECT group_id,report_version FROM notification_groups WHERE post_id=? AND mode='simulation' ORDER BY created_at,group_id LIMIT 1",
+      )
+      .bind(postId)
+      .first<{ group_id: string; report_version: string }>();
+    const version =
+      existing?.report_version ??
+      (tracked ? MANAGEMENT_VERSION : REPORT_VERSION);
+    const groupId =
+      existing?.group_id ??
+      'notice-' + (await digest(bounded([postId, version, 'simulation'])));
+    return { version, groupId };
+  }
+  private async publication(slot: ReturnType<typeof publicationSlot>) {
     return (
       (await this.db
         .prepare(
-          "SELECT status,generation,action_id FROM notification_publications WHERE event_id=? AND revision=? AND mode='simulation'",
+          `SELECT status,generation,action_id FROM ${slot.table} WHERE ${slot.where}`,
         )
-        .bind(eventId, revision)
+        .bind(...slot.bindings)
         .first<{
           status: PublicationStatus;
           generation: number;
@@ -230,27 +313,34 @@ export class NotificationStore {
     const capture = await this.capture(postId),
       { delivery, snapshot, guard } = capture,
       m = delivery.metadata;
-    const publication = await this.publication(m.eventId, m.eventRevision);
+    const {
+      slot,
+      group: { version, groupId },
+    } = capture;
+    const publication = await this.publication(slot);
     const rendered = await renderMessages(
       snapshot.event,
       delivery,
       publication.status,
       'pending',
-      capture.changes,
+      version === MANAGEMENT_VERSION ? capture.currentChanges : capture.changes,
+      version,
     );
-    const token = await digest(bounded(delivery)),
-      groupId =
-        'notice-' +
-        (await digest(bounded([postId, REPORT_VERSION, 'simulation'])));
+    const token = await digest(bounded(delivery));
     if (
       Date.parse(capture.validUntil) <= this.clock() ||
       Date.parse(m.expiresAt) <= this.clock() ||
       Date.parse(m.post.validUntil) <= this.clock() ||
       (await this.db
         .prepare(
-          `SELECT 1 AS ok WHERE ${guard.sql} AND COALESCE((SELECT status FROM notification_publications WHERE event_id=? AND revision=? AND mode=\'simulation\'),'pending')=?`,
+          `SELECT 1 AS ok WHERE ${guard.sql} AND ${slot.status}=?${slot.eventGate}`,
         )
-        .bind(...guard.values, m.eventId, m.eventRevision, publication.status)
+        .bind(
+          ...guard.values,
+          ...slot.bindings,
+          publication.status,
+          ...slot.eventBindings,
+        )
         .first('ok')) !== 1
     )
       throw new NotificationError('CURRENT_POST_REQUIRED');
@@ -269,9 +359,11 @@ export class NotificationStore {
         ? 100
         : ['closure', 'deadline'].includes(m.post.kind)
           ? 70
-          : 20,
+          : capture.purpose === 'official-change'
+            ? 55
+            : 20,
     };
-    return { plan, capture };
+    return { plan, capture, version };
   }
   async preview(postId: string): Promise<Plan> {
     return (await this.planning(postId)).plan;
@@ -280,16 +372,17 @@ export class NotificationStore {
     c: Awaited<ReturnType<NotificationStore['capture']>>,
     publication: 'pending' | null = 'pending',
   ) {
-    const m = c.delivery.metadata;
+    const { slot } = c;
     if (
       Date.parse(c.validUntil) <= this.clock() ||
       (await this.db
         .prepare(
-          `SELECT 1 AS ok WHERE ${c.guard.sql}${publication ? " AND COALESCE((SELECT status FROM notification_publications WHERE event_id=? AND revision=? AND mode=\'simulation\'),'pending')=?" : ''}`,
+          `SELECT 1 AS ok WHERE ${c.guard.sql}${publication ? ` AND ${slot.status}=?` : ''}${slot.eventGate}`,
         )
         .bind(
           ...c.guard.values,
-          ...(publication ? [m.eventId, m.eventRevision, publication] : []),
+          ...(publication ? [...slot.bindings, publication] : []),
+          ...slot.eventBindings,
         )
         .first('ok')) !== 1
     )
@@ -297,7 +390,9 @@ export class NotificationStore {
   }
   private async group(groupId: string) {
     return this.db
-      .prepare('SELECT * FROM notification_groups WHERE group_id=?')
+      .prepare(
+        'SELECT g.*,p.kind FROM notification_groups g JOIN generated_posts p ON p.post_id=g.post_id WHERE g.group_id=?',
+      )
       .bind(id(groupId))
       .first<Group>();
   }
@@ -318,7 +413,10 @@ export class NotificationStore {
       c.delivery,
       'pending',
       'pending',
-      c.changes,
+      group.report_version === MANAGEMENT_VERSION
+        ? c.currentChanges
+        : c.changes,
+      group.report_version,
     );
     let expected: Record<string, unknown>;
     if (row.part === 'copy')
@@ -364,7 +462,19 @@ export class NotificationStore {
       throw new NotificationError('STALE_GROUP');
     const c = await this.capture(group.post_id),
       m = c.delivery.metadata;
+    if (checkPublication && c.slot.separate && bookingKind(m.post.kind)) {
+      if (
+        !bookingWindow(
+          c.snapshot.event.verification.fields,
+          m.post.kind,
+          this.clock(),
+        )
+      )
+        throw new NotificationError('STALE_BOOKING_WINDOW');
+    }
     if (
+      c.group.groupId !== group.group_id ||
+      c.group.version !== group.report_version ||
       m.eventRevision !== group.revision ||
       m.decisionId !== group.decision_id ||
       m.fingerprint !== group.fingerprint ||
@@ -373,8 +483,7 @@ export class NotificationStore {
       throw new NotificationError('STALE_GROUP');
     if (
       checkPublication &&
-      (await this.publication(group.event_id, group.revision)).status !==
-        'pending'
+      (await this.publication(c.slot)).status !== 'pending'
     )
       throw new NotificationError('PUBLICATION_SUPPRESSED');
     await this.assertGuard(c, checkPublication ? 'pending' : null);
@@ -387,7 +496,7 @@ export class NotificationStore {
     cursor = 0,
   ) {
     this.budget(usage);
-    const { plan, capture: c } = await this.planning(postId),
+    const { plan, capture: c, version } = await this.planning(postId),
       m = plan.delivery.metadata;
     if (
       expected.sourceId !== m.sourceId ||
@@ -402,6 +511,50 @@ export class NotificationStore {
     let group = await this.group(plan.groupId);
     const created = nowIso(this.clock());
     if (!group) {
+      const kind = m.post.kind;
+      const window = bookingKind(kind)
+        ? (bookingWindow(
+            c.snapshot.event.verification.fields,
+            kind,
+            this.clock(),
+          )?.key ?? null)
+        : null;
+      if (c.slot.separate && !window)
+        throw new NotificationError('BOOKING_WINDOW_NOT_CURRENT');
+      const content = await digest(plan.delivery.copyText);
+      const guards = c.tracked
+        ? ` AND NOT EXISTS(SELECT 1 FROM event_delivery_intents
+        WHERE event_id=? AND kind=? AND mode='simulation' AND (revision=? OR content_digest=?))
+        AND NOT EXISTS(SELECT 1 FROM notification_groups prior JOIN generated_posts p ON p.post_id=prior.post_id
+          WHERE prior.event_id=? AND prior.revision<=? AND prior.mode='simulation'
+          AND prior.report_version<>'dev07-1'
+          AND p.kind=? AND (prior.revision=? OR p.text=? OR ?='recheck'))
+        AND (?<>'recheck' OR NOT EXISTS(SELECT 1 FROM event_delivery_intents
+          WHERE event_id=? AND kind=? AND mode='simulation' AND revision<?))
+        AND (? IS NULL OR NOT EXISTS(SELECT 1 FROM event_booking_intents WHERE event_id=? AND purpose=? AND window_key=?))`
+        : '';
+      const intentBindings = c.tracked
+        ? [
+            m.eventId,
+            kind,
+            m.eventRevision,
+            content,
+            m.eventId,
+            m.eventRevision,
+            kind,
+            m.eventRevision,
+            plan.delivery.copyText,
+            c.purpose,
+            c.purpose,
+            m.eventId,
+            kind,
+            m.eventRevision,
+            window,
+            m.eventId,
+            kind,
+            window,
+          ]
+        : [];
       const controls: Button[] = [],
         tokens: { hash: string; action: Action }[] = [];
       for (const [label, action] of [
@@ -429,7 +582,7 @@ export class NotificationStore {
       await this.db.batch([
         this.db
           .prepare(
-            `INSERT INTO notification_groups(group_id,event_id,post_id,revision,decision_id,fingerprint,payload_digest,origin,report_version,mode,created_at,valid_until,controls_json,priority) SELECT ?,?,?,?,?,?,?,'verified-post',?,'simulation',?,?,?,? WHERE ${c.guard.sql} ON CONFLICT DO NOTHING`,
+            `INSERT INTO notification_groups(group_id,event_id,post_id,revision,decision_id,fingerprint,payload_digest,origin,report_version,mode,created_at,valid_until,controls_json,priority) SELECT ?,?,?,?,?,?,?,'verified-post',?,'simulation',?,?,?,? WHERE ${c.guard.sql}${guards}${c.slot.eventGate} ON CONFLICT DO NOTHING`,
           )
           .bind(
             plan.groupId,
@@ -439,18 +592,44 @@ export class NotificationStore {
             m.decisionId,
             m.fingerprint,
             plan.digest,
-            REPORT_VERSION,
+            version,
             created,
             until,
             controlsJson,
             plan.priority,
             ...c.guard.values,
+            ...intentBindings,
+            ...c.slot.eventBindings,
           ),
-        this.db
-          .prepare(
-            'INSERT INTO notification_publications(event_id,revision,status,updated_at) SELECT event_id,revision,?,? FROM notification_groups WHERE group_id=? ON CONFLICT DO NOTHING',
-          )
-          .bind('pending', created, plan.groupId),
+        ...(c.tracked
+          ? [
+              this.db
+                .prepare(
+                  `INSERT INTO event_delivery_intents(event_id,revision,kind,mode,group_id,content_digest)
+            SELECT event_id,revision,?,mode,group_id,? FROM notification_groups WHERE group_id=? ON CONFLICT DO NOTHING`,
+                )
+                .bind(kind, content, plan.groupId),
+            ]
+          : []),
+        ...(c.tracked && window
+          ? [
+              this.db
+                .prepare(
+                  `INSERT INTO event_booking_intents(event_id,revision,purpose,window_key,created_at)
+            SELECT event_id,revision,?,?,? FROM notification_groups WHERE group_id=? ON CONFLICT DO NOTHING`,
+                )
+                .bind(kind, window, created, plan.groupId),
+            ]
+          : []),
+        ...(!c.slot.separate
+          ? [
+              this.db
+                .prepare(
+                  'INSERT INTO notification_publications(event_id,revision,status,updated_at) SELECT event_id,revision,?,? FROM notification_groups WHERE group_id=? ON CONFLICT DO NOTHING',
+                )
+                .bind('pending', created, plan.groupId),
+            ]
+          : []),
         ...tokens.map((t) =>
           this.db
             .prepare(
@@ -610,9 +789,20 @@ export class NotificationStore {
     if (!row) return { rows: [], nextCursor: '' };
     const current = await this.posts.current(row.post_id),
       m = current?.delivery.metadata;
-    const publication = m
-      ? await this.publication(m.eventId, m.eventRevision)
-      : null;
+    const tracked = m ? await trackingAvailable(this.db) : false;
+    const group = m ? await this.resolveGroup(row.post_id, tracked) : null;
+    const publication =
+      m && group
+        ? await this.publication(
+            publicationSlot(
+              m.eventId,
+              m.eventRevision,
+              m.post.kind,
+              group.version,
+              group.groupId,
+            ),
+          )
+        : null;
     return {
       rows:
         m && publication?.status === 'pending'
@@ -635,10 +825,23 @@ export class NotificationStore {
       // A delayed first report can still record a user's posted/held decision.
       // Recheck blocks new report content until re-verification.
       c.guard = {
-        sql: `(${c.guard.sql}) AND COALESCE((SELECT status FROM notification_publications WHERE event_id=? AND revision=? AND mode='simulation'),'pending')!='recheck'`,
-        values: [...c.guard.values, group.event_id, group.revision],
+        sql: `(${c.guard.sql}) AND ${c.slot.status}<>'recheck'${c.slot.eventGate}`,
+        values: [
+          ...c.guard.values,
+          ...c.slot.bindings,
+          ...c.slot.eventBindings,
+        ],
       };
       await this.assertGuard(c, null);
+    } else {
+      c.guard = {
+        sql: `(${c.guard.sql}) AND ${c.slot.status}='pending'${c.slot.eventGate}`,
+        values: [
+          ...c.guard.values,
+          ...c.slot.bindings,
+          ...c.slot.eventBindings,
+        ],
+      };
     }
     return c;
   }
@@ -720,25 +923,41 @@ export class NotificationStore {
           )
           .bind(row.delivery_id, row.group_id, row.delivery_id),
       );
-    if (row.part === 'issue' && state === 'sent')
+    const group =
+      row.part === 'issue' && state === 'sent'
+        ? await this.group(row.group_id)
+        : null;
+    if (row.part === 'issue' && state === 'sent' && !group)
+      throw new NotificationError('STALE_GROUP');
+    if (group) {
+      const slot = publicationSlot(
+        group.event_id,
+        group.revision,
+        group.kind,
+        group.report_version,
+        group.group_id,
+      );
       extra.push(
         this.db
           .prepare(
-            "INSERT INTO notification_updates(update_id,group_id,delivery_id,publication_generation,state,created_at) SELECT p.action_id||':'||d.delivery_id,?,d.delivery_id,p.generation,'pending',? FROM notification_publications p JOIN notification_deliveries d ON d.event_id=p.event_id AND d.revision=p.revision WHERE p.event_id=? AND p.revision=? AND p.mode='simulation' AND p.status IN ('posted','held') AND d.delivery_id=? AND d.state='sent' AND d.result_owner=? ON CONFLICT DO NOTHING",
+            `INSERT INTO notification_updates(update_id,group_id,delivery_id,publication_generation,state,created_at)
+              SELECT p.action_id||':'||d.delivery_id,?,d.delivery_id,p.generation,'pending',? FROM
+              (SELECT action_id,generation,status FROM ${slot.table} WHERE ${slot.where}) p
+              CROSS JOIN notification_deliveries d WHERE p.status IN ('posted','held')
+              AND d.delivery_id=? AND d.state='sent' AND d.result_owner=? ON CONFLICT DO NOTHING`,
           )
           .bind(
             row.group_id,
             nowIso(this.clock()),
-            row.event_id,
-            row.revision_number,
+            ...slot.bindings,
             row.delivery_id,
             owner,
           ),
       );
+    }
     if (row.part === 'issue') {
       if (state === 'sent' && externalId) {
-        const group = await this.group(row.group_id),
-          payload = JSON.parse(row.payload) as { marker: string };
+        const payload = JSON.parse(row.payload) as { marker: string };
         if (!group) throw new NotificationError('STALE_GROUP');
         extra.push(
           this.db
@@ -1130,6 +1349,8 @@ export class NotificationStore {
     const c = await this.currentGroup(group),
       now = nowIso(this.clock()),
       actionId = 'callback-' + hash;
+    const { slot } = c;
+    const ownsAction = `EXISTS(SELECT 1 FROM ${slot.table} WHERE ${slot.where} AND action_id=?)`;
     const fingerprint =
       'simulation:' +
       (await digest(
@@ -1144,27 +1365,29 @@ export class NotificationStore {
     const committed = await this.db.batch([
       this.db
         .prepare(
-          `UPDATE notification_publications SET status=?,generation=generation+1,action_id=?,updated_at=? WHERE event_id=? AND revision=? AND mode=\'simulation\' AND generation=? AND status='pending' AND ${c.guard.sql} AND EXISTS(SELECT 1 FROM notification_callbacks WHERE token_hash=? AND consumed_at IS NULL AND expires_at>?)`,
+          `UPDATE ${slot.table} SET status=?,generation=generation+1,action_id=?,updated_at=?
+            WHERE ${slot.where} AND generation=? AND status='pending' AND ${c.guard.sql}${slot.eventGate}
+            AND EXISTS(SELECT 1 FROM notification_callbacks WHERE token_hash=? AND consumed_at IS NULL AND expires_at>?)`,
         )
         .bind(
           action,
           actionId,
           now,
-          group.event_id,
-          group.revision,
+          ...slot.bindings,
           t.expected_generation,
           ...c.guard.values,
+          ...slot.eventBindings,
           hash,
           now,
         ),
       this.db
         .prepare(
-          "UPDATE notification_callbacks SET consumed_at=?,result=? WHERE token_hash=? AND consumed_at IS NULL AND EXISTS(SELECT 1 FROM notification_publications WHERE event_id=? AND revision=? AND mode='simulation' AND action_id=?)",
+          `UPDATE notification_callbacks SET consumed_at=?,result=? WHERE token_hash=? AND consumed_at IS NULL AND ${ownsAction}`,
         )
-        .bind(now, action, hash, group.event_id, group.revision, actionId),
+        .bind(now, action, hash, ...slot.bindings, actionId),
       this.db
         .prepare(
-          "INSERT INTO publication_records(publication_id,event_id,post_id,status,action_id,recorded_at,expires_at) SELECT ?,?,?,?,?,?,? WHERE EXISTS(SELECT 1 FROM notification_publications WHERE event_id=? AND revision=? AND mode='simulation' AND action_id=?) ON CONFLICT DO NOTHING",
+          `INSERT INTO publication_records(publication_id,event_id,post_id,status,action_id,recorded_at,expires_at) SELECT ?,?,?,?,?,?,? WHERE ${ownsAction} ON CONFLICT DO NOTHING`,
         )
         .bind(
           actionId,
@@ -1174,8 +1397,7 @@ export class NotificationStore {
           actionId,
           now,
           this.detailExpiry(c.snapshot.event),
-          group.event_id,
-          group.revision,
+          ...slot.bindings,
           actionId,
         ),
       this.db
@@ -1185,7 +1407,7 @@ export class NotificationStore {
         .bind(group.group_id, actorHash, identity.updateId, actionId),
       this.db
         .prepare(
-          "INSERT INTO posted_fingerprints(fingerprint,stable_event_id,edition_year,edition,revision,kind,posted_at,expires_at) SELECT ?,?,?,?,?,?,?,? WHERE ?='posted' AND EXISTS(SELECT 1 FROM notification_publications WHERE event_id=? AND revision=? AND mode=\'simulation\' AND action_id=?) ON CONFLICT DO NOTHING",
+          `INSERT INTO posted_fingerprints(fingerprint,stable_event_id,edition_year,edition,revision,kind,posted_at,expires_at) SELECT ?,?,?,?,?,?,?,? WHERE ?='posted' AND ${ownsAction} ON CONFLICT DO NOTHING`,
         )
         .bind(
           fingerprint,
@@ -1197,13 +1419,12 @@ export class NotificationStore {
           now,
           fingerprintExpiry(this.clock()),
           action,
-          group.event_id,
-          group.revision,
+          ...slot.bindings,
           actionId,
         ),
       this.db
         .prepare(
-          "INSERT INTO notification_reviews(review_id,event_id,revision,reason,created_at) SELECT ?,?,?,?,? WHERE ?='recheck' AND EXISTS(SELECT 1 FROM notification_publications WHERE event_id=? AND revision=? AND mode=\'simulation\' AND action_id=?) ON CONFLICT DO NOTHING",
+          `INSERT INTO notification_reviews(review_id,event_id,revision,reason,created_at) SELECT ?,?,?,?,? WHERE ?='recheck' AND ${ownsAction} ON CONFLICT DO NOTHING`,
         )
         .bind(
           actionId,
@@ -1212,13 +1433,12 @@ export class NotificationStore {
           'USER_RECHECK_NO_AUTOMATIC_FETCH',
           now,
           action,
-          group.event_id,
-          group.revision,
+          ...slot.bindings,
           actionId,
         ),
       this.db
         .prepare(
-          "INSERT INTO notification_updates(update_id,group_id,delivery_id,publication_generation,state,created_at) SELECT ?||':'||d.delivery_id,?,d.delivery_id,?,'pending',? FROM notification_deliveries d JOIN notification_context c ON c.delivery_id=d.delivery_id WHERE c.group_id=? AND d.message_part='management' AND d.state='sent' AND EXISTS(SELECT 1 FROM notification_publications WHERE event_id=? AND revision=? AND mode=\'simulation\' AND action_id=?) ON CONFLICT DO NOTHING",
+          `INSERT INTO notification_updates(update_id,group_id,delivery_id,publication_generation,state,created_at) SELECT ?||':'||d.delivery_id,?,d.delivery_id,?,'pending',? FROM notification_deliveries d JOIN notification_context c ON c.delivery_id=d.delivery_id WHERE c.group_id=? AND d.message_part='management' AND d.state='sent' AND ${ownsAction} ON CONFLICT DO NOTHING`,
         )
         .bind(
           actionId,
@@ -1226,12 +1446,11 @@ export class NotificationStore {
           t.expected_generation + 1,
           now,
           group.group_id,
-          group.event_id,
-          group.revision,
+          ...slot.bindings,
           actionId,
         ),
     ]);
-    const final = await this.publication(group.event_id, group.revision);
+    const final = await this.publication(slot);
     if (final.action_id !== actionId)
       throw new NotificationError('CALLBACK_CONFLICT');
     return {
@@ -1368,7 +1587,7 @@ export class NotificationStore {
     try {
       const c = await this.currentGroup(group, false);
       await this.storedPayload(row, group, c);
-      const p = await this.publication(group.event_id, group.revision);
+      const p = await this.publication(c.slot);
       if (p.generation !== update.publication_generation)
         throw new NotificationError('STALE_STATUS_UPDATE');
       const protocol = new NotificationProtocol(wire, this.clock);
@@ -1385,7 +1604,10 @@ export class NotificationStore {
           c.delivery,
           p.status,
           '기록된 각 채널의 Outbox 상태 확인',
-          c.changes,
+          group.report_version === MANAGEMENT_VERSION
+            ? c.currentChanges
+            : c.changes,
+          group.report_version,
         );
         await protocol.github(
           {
@@ -1399,8 +1621,8 @@ export class NotificationStore {
         const payload = JSON.parse(row.payload) as { text: string };
         const updated = payload.text.includes('게시 상태: ')
           ? payload.text.replace(
-              /게시 상태: (pending|posted|held|recheck)/,
-              `게시 상태: ${p.status}`,
+              /게시 상태: (pending|posted|held|recheck)(?: \([^\n]*\))?/,
+              `게시 상태: ${p.status}${group.report_version === MANAGEMENT_VERSION ? ` (${{ pending: '미게시', posted: '게시 확인', held: '보류', recheck: '재확인 대기' }[p.status]})` : ''}`,
             )
           : payload.text + `\n현재 게시 상태: ${p.status}`;
         // The immutable copy message is never edited, and updates never enqueue new reports.

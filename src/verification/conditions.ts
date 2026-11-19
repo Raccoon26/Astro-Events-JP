@@ -113,8 +113,17 @@ export function parseReservation(raw: string) {
   const states: Reservation['reception'][] = [];
   if (/キャンセル待ち/u.test(text)) states.push('waitlist');
   else if (/満席/u.test(text)) states.push('full');
-  else if (/受付終了|申込終了/u.test(text)) states.push('closed');
-  if (/申込受付中|受付中/u.test(text) && !/受付終了/u.test(text))
+  else if (/受付終了|申込終了|早期(?:受付)?終了/u.test(text))
+    states.push('closed');
+  if (
+    /申込受付中|受付中|受付(?:を)?再開しました|追加募集中|追加募集を開始しました/u.test(
+      text,
+    ) &&
+    !/受付終了/u.test(text) &&
+    !/再開.{0,8}(?:未定|可能性|しません)|追加募集.{0,8}(?:未定|可能性|しません)/u.test(
+      text,
+    )
+  )
     states.push('open');
   if (/申込開始前|受付開始前/u.test(text)) states.push('not-yet-open');
   if (states.length > 1)

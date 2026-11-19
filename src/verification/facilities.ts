@@ -103,21 +103,27 @@ export async function verifyFacilityNotice(
     .join(' ');
   if (/通常休館日|毎週.{0,4}曜日休館/u.test(text) && !/特別開館/u.test(text))
     return null;
-  const kind: Notice['kind'] = /特別開館/u.test(text)
-    ? 'special-opening'
-    : /夜間開館/u.test(text)
-      ? 'night-opening'
-      : /再開館|リニューアルオープン/u.test(text)
-        ? 'reopening'
-        : /改修工事|リニューアル工事/u.test(text)
-          ? 'renovation'
-          : /臨時休館|休館期間延長|休館/u.test(text)
-            ? 'closure'
-            : /設備点検/u.test(text)
-              ? 'maintenance'
-              : /場所変更|会場変更/u.test(text)
-                ? 'venue-change'
-                : 'operating-change';
+  const withdrawal =
+    /(?:臨時休館|休館(?:の)?(?:お知らせ|告知|予定)).{0,24}(?:撤回|取り消し)(?:しました|します|いたします)/u.test(
+      text,
+    ) && !/可能性|検討|未定|条件|場合|予定です/u.test(text);
+  const kind: Notice['kind'] = withdrawal
+    ? 'withdrawal'
+    : /特別開館/u.test(text)
+      ? 'special-opening'
+      : /夜間開館/u.test(text)
+        ? 'night-opening'
+        : /再開館|リニューアルオープン/u.test(text)
+          ? 'reopening'
+          : /改修工事|リニューアル工事/u.test(text)
+            ? 'renovation'
+            : /臨時休館|休館期間延長|休館/u.test(text)
+              ? 'closure'
+              : /設備点検/u.test(text)
+                ? 'maintenance'
+                : /場所変更|会場変更/u.test(text)
+                  ? 'venue-change'
+                  : 'operating-change';
   if (kind === 'operating-change' && !/臨時|運営変更|営業時間変更/u.test(text))
     throw new VerificationError('invalid-input');
   const schedules = packet.assertions
@@ -126,8 +132,9 @@ export async function verifyFacilityNotice(
   const period = schedules[0] ?? parseTemporal('');
   if (
     schedules.some((p) => p.state !== 'confirmed') ||
-    new Set(schedules.map((p) => JSON.stringify({ ...p.value, raw: null })))
-      .size !== 1
+    (schedules.length > 0 &&
+      new Set(schedules.map((p) => JSON.stringify({ ...p.value, raw: null })))
+        .size !== 1)
   )
     throw new VerificationError('invalid-input');
   if (
@@ -136,20 +143,44 @@ export async function verifyFacilityNotice(
   )
     throw new VerificationError('invalid-input');
   if (
-    period.state !== 'confirmed' ||
-    !period.value ||
-    period.value.precision === 'unknown'
+    (!withdrawal || schedules.length > 0) &&
+    (period.state !== 'confirmed' ||
+      !period.value ||
+      period.value.precision === 'unknown')
   )
     throw new VerificationError('invalid-input');
   const resolves = packet.resolvesNoticeIds ?? [];
   if (
     resolves.length &&
-    (kind !== 'reopening' ||
+    ((kind !== 'reopening' && !withdrawal) ||
       /一部|部分/u.test(text) ||
       !ctx.notices.every(
         (n) => !resolves.includes(n.id) || n.facilityId === ctx.facility?.id,
       ) ||
       resolves.some((id) => !ctx.notices.some((n) => n.id === id)))
+  )
+    throw new VerificationError('invalid-input');
+  if (
+    withdrawal &&
+    (!resolves.length ||
+      !ctx.notices
+        .filter((n) => resolves.includes(n.id))
+        .every(
+          (n) =>
+            !n.resolvedAt &&
+            ['closure', 'renovation', 'maintenance'].includes(n.kind) &&
+            n.evidence.some(
+              (item) =>
+                item.sourceUrl !== ctx.candidate.officialUrl &&
+                text.includes(item.sourceUrl),
+            ),
+        ))
+  )
+    throw new VerificationError('invalid-input');
+  if (
+    withdrawal &&
+    !schedules.length &&
+    !/(?:撤回|取り消し)(?:しました|いたしました)/u.test(text)
   )
     throw new VerificationError('invalid-input');
   return {
@@ -159,7 +190,17 @@ export async function verifyFacilityNotice(
     candidateId: ctx.candidate.id,
     sourceId: ctx.source.id,
     kind,
-    period: period.value,
+    period: period.value ?? {
+      precision: 'unknown',
+      startDate: null,
+      endDate: null,
+      startMonth: null,
+      endMonth: null,
+      startDatetime: null,
+      endDatetime: null,
+      doorsTime: null,
+      raw: '',
+    },
     partial: /一部|部分|展示室のみ/u.test(text),
     routine: false,
     resolvedAt: null,

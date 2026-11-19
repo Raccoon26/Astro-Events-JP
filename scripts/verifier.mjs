@@ -17,10 +17,20 @@ const commands = [
   'notice',
   'notices',
   'notice-history',
+  'tracking-init',
+  'duplicates',
+  'dedup-review',
+  'tracking-history',
 ];
 const flags = new Set(['--apply', '--enable-verifier', '--local-budget']);
 const values = new Set([
   '--candidate',
+  '--event',
+  '--related-event',
+  '--decision',
+  '--related-decision',
+  '--action',
+  '--reason',
   '--source',
   '--fingerprint',
   '--file',
@@ -50,7 +60,10 @@ const get = (key, fallback = '') => options.get(key) ?? fallback;
 const apply = get('--apply', false);
 if (
   !commands.includes(command) ||
-  (apply && !['init', 'review', 'notice'].includes(command))
+  (apply &&
+    !['init', 'review', 'notice', 'tracking-init', 'dedup-review'].includes(
+      command,
+    ))
 )
   throw new Error('Unsupported verifier operation');
 if (
@@ -105,18 +118,30 @@ try {
   });
   let result;
   const budget = { requests: 0, reads: 0, writes: 0, databaseBytes: 0 }; // Explicit local-only attestation; never an account usage estimate.
-  if (command === 'init') {
+  if (command === 'init' || command === 'tracking-init') {
     assertMigrationIntegrity();
-    const filename = '0005_verification.sql';
+    const tracking = command === 'tracking-init';
+    const filename = tracking
+      ? '0009_event_tracking.sql'
+      : '0005_verification.sql';
     const prior = await db
       .prepare('SELECT name FROM registry_migrations WHERE name=?1')
-      .bind('0004_collection.sql')
+      .bind(tracking ? '0008_notification_outbox.sql' : '0004_collection.sql')
       .first();
     if (!prior) throw new api.VerificationError('schema-unavailable');
     const applied = await db
       .prepare('SELECT name FROM registry_migrations WHERE name=?1')
       .bind(filename)
       .first();
+    if (tracking) {
+      const present = await db
+        .prepare(
+          "SELECT 1 AS present FROM sqlite_master WHERE type='view' AND name='event_tracking_schema'",
+        )
+        .first('present');
+      if (Boolean(applied) !== (present === 1))
+        throw new api.VerificationError('schema-unavailable');
+    }
     const sql = readFileSync(`migrations/${filename}`, 'utf8')
       .split(';')
       .map((s) => s.trim())
@@ -133,6 +158,32 @@ try {
       statements: sql,
       changed: apply && !applied,
     };
+  } else if (command === 'duplicates') {
+    result = await store.duplicateReviews(
+      get('--candidate'),
+      get('--cursor'),
+      Number(get('--limit', '24')),
+    );
+  } else if (command === 'tracking-history') {
+    result = await store.trackingHistory(
+      get('--event'),
+      Number(get('--after', '0')),
+      Number(get('--limit', '24')),
+    );
+  } else if (command === 'dedup-review') {
+    result = await store.decideDuplicate(
+      {
+        candidateId: get('--candidate'),
+        eventId: get('--event'),
+        relatedEventId: get('--related-event'),
+        decisionId: get('--decision'),
+        relatedDecisionId: get('--related-decision'),
+        action: get('--action'),
+        reason: get('--reason'),
+      },
+      apply,
+      apply ? budget : null,
+    );
   } else if (command === 'pending') {
     const group = get('--group', 'general');
     if (!['general', 'vtuber'].includes(group))

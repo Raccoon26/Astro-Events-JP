@@ -84,3 +84,11 @@ DEV05 최종 결과는 [완료보고](DEV05_COMPLETION.md)를 따른다. 전체5
 ## DEV05R 저장 비용
 
 새 migration/컬럼/인덱스는 없다. PostStore의 identity/verification/post schema 세 marker를 동일 SELECT에서 확인하고 capture마다 재검사한다. 원격0004에는 후속 schema view가 없으므로 계속 fail-closed다. 로컬 native D1 save는33→27문장/95읽기4쓰기, replay0쓰기였으며 원격 저장의 CPU·rows 비용 증거로 대체하지 않는다. 상세는 DEV05R_COMPLETION.md를 따른다.
+
+## DEV-07 로컬 0009
+
+`event_identity_observations`는 후보·원본 URL·정규화 키·결정 ID를 canonical 행사와 연결한다. 등록 시 official URL / 공식 provider / 주최자·연도·날짜 인덱스만 제한 조회한다. `event_identity_reviews`와 `event_identity_actions`는 두 결정의 현재성·충돌·판단 근거를 보관한다. 비교 상한을 만나면 보류 원인을 기록한다.
+
+`events.revision`은 안정 ID 내에서 증가한다. 후보별 검증 generation은 계속 독립적이다. 공식 정정이 새 후보 ID를 만들면 검증된 canonical의 헤드를 원자적으로 넘기고 과거 결정과 별칭을 보존한다. `event_tracking_revisions`는 근거가 붙은 전후 사실·예약 정밀도·시설 영향을 기록한다. 신규 검증, 헤드/별칭, revision, CAS를 하나의 D1 batch로 처리한다.
+
+`event_delivery_intents`의 행사/revision/kind/mode 및 내용 지문과 `event_booking_intents`의 행사/목적/시간 창은 기존 부분별 Outbox를 보완한다. 게시 확인 provenance 및 2년 지문은 0008과 기존 보관 계약을 사용한다. 자동 만료 삭제는 DEV-09에서 구현한다. 기존 migration 0001~0008과 원격 두 D1의 0004는 유지한다.

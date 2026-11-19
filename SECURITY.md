@@ -55,3 +55,9 @@ DEV05 본문/필드의 알려진 토큰 형식과 공식URL의 인증·비밀 qu
 ## DEV05R 진단 식별과 실패 정보
 
 임시 staging ready 경로의 profileMarker는 배포 도달 여부를 구분하는 공개 UUID이며 인증 수단이 아니다. 고정 합성 외 임의 입력/URL·production은 거부하고 진단 종료 후 정확한 원래 버전으로 복구한다. 오류 진단은 timeout/network/auth/startup/provider/exit 범주와 숫자 code만 허용하며 원문 CLI stderr/토큰을 공개하지 않는다. 현재 gate/SSRF fail-closed/실제 사이트0은 유지한다. 증거와 한계는 DEV05R_COMPLETION.md를 따른다.
+
+## DEV-07 인증·중복 증거 경계
+
+공식 canonical URL/이전 일시를 사용하는 검증에는 기존 승인 호스트·경로, attested 문서 digest/시각/인용이 필요하다. 외부 요청 없이 비교하며 중복 검토 적용은 로컬 staging, 현재 두 결정, 근거, 예산, CAS를 요구한다. 분석 문구, 채팅 ID, Secret, 실제 개인 주소를 공개 로그나 CI artifact에 저장하지 않는다. E의 보호된 DEV-06R 자료는 유지한다.
+
+DEV-06R의 30분 시험 승인, Bot Token, GitHub App JWT/installation token은 서로 다른 범위다. 운영 인증 교환은 DEV-07에서 모의 인터페이스만 검증했고 실제 설치나 개인키 사용 없이 기존 운영 차단을 유지한다. [인증 설계](AUTH_AUTOMATION_DESIGN.md)

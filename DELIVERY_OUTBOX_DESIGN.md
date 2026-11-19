@@ -15,3 +15,11 @@ simulation publication은 별도 mode/action provenance와 simulation 지문으�
 프로젝트 일일 모의 요청 상한 512, 채널별 최소 1초 간격을 D1 reservation으로 원자적으로 예약한다. 이 숫자는 제공자 한도가 아닌 보수적 내부 정책이다. account usage가 없거나 기존 Free guard를 초과하면 중단한다. 글로벌 요청량·rows read/write·DB 공간은 별도 예산이다. 실제 계정 측정을 로컬 usage fixture로 대체하지 않는다.
 
 상세 보관은 행사 종료 이후 최소 90일, 최소 게시지문 2년, 실행 로그 30일 정책을 보존한다. 미래 일정과 미해결 uncertain/recheck/시설 공지는 보호한다. RESTRICT FK가 부모만 삭제하는 실수를 막는다. DEV09는 해결 여부 확인 후 자식→부모 bounded purge를 구현해야 하며 이번 DEV에 자동 삭제 엔진은 없다.
+
+## DEV-07 현재 행사와 전달 목적
+
+0009를 적용한 로컬/격리 DB는 현재 canonical·revision·종류·simulation의 의미상 전달과 본문 지문을 원자적으로 등록한다. 신청 시작과 마감 임박은 확인된 시간 창을 기록하며 유효성이 끝난 안내를 보낸 적 없는 부분에도 다시 검사한다. 기존 legacy 그룹은 기존 report version과 payload를 사용한다. 동일 Private Issue marker와 외부 번호를 새 revision에서도 이어간다. 과거 X 복사용 본문과 이미 전달된 Telegram A는 수정 대상에서 제외한다.
+
+동일 내용의 구 revision, 도착 여부 불명, 중복 검토 대기, 승인 철회 또는 낡은 callback은 보류한다. 게시완료는 사용자 확인이고 simulation provenance를 유지한다. 장기 2년 보관과 실제 삭제 스케줄은 DEV-09에서 검증한다. [변경 추적 경계](DEV07_COMPLETION.md)
+
+확인된 신청 시작·마감은 별도 Event를 만들지 않고 같은 ID·revision의 게시 목적에서 사용하는 날짜를 결정한다. 신청 시작 안내는 확인된 시작 시각부터 24시간과 기존 만료/마감 중 이른 시점까지 유효하다. 시작과 마감 안내의 전달·게시 확인은 각각 독립적이다. 원래 행사 자체의 보류/재확인은 하위 신청 안내에도 적용한다. 운영 Cron은 별도 단계에서 검증한다.

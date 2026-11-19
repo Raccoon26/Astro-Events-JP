@@ -3,6 +3,7 @@ import { D1Meter } from '../collection/meter';
 import { digest } from '../collection/text';
 import type { PostGenerator } from '../contracts';
 import type { PostKind, Usage, VerifiedEvent } from '../domain';
+import { bookingWindow } from '../tracking/booking';
 import { VerificationStore } from '../verification/store';
 import type { DetailedVerifiedEvent } from '../verification/types';
 import { validateLength } from './length';
@@ -101,14 +102,20 @@ export class PostStore {
       JSON.stringify([
         c.revision,
         c.decisionId,
-        c.guard.sql,
-        c.guard.values,
+        c.proofGuard.sql,
+        c.proofGuard.values,
         semanticEvent(c.event),
       ]),
     );
   }
   private async draft(c: Capture, kind: PostKind, version: string) {
-    return renderPost(c.event, c.revision, kind, this.clock(), version);
+    const now = this.clock();
+    if (c.tracking && (kind === 'applications-open' || kind === 'deadline')) {
+      const window = bookingWindow(c.event.verification.fields, kind, now);
+      if (!window) throw new PostError('time-expired');
+      return renderPost(c.event, c.revision, kind, now, version, window.until);
+    }
+    return renderPost(c.event, c.revision, kind, now, version);
   }
   private delivery(c: Capture, p: PostDraft): PostDelivery {
     return {
@@ -307,7 +314,7 @@ export class PostStore {
             row.valid_until,
             row.omissions_json,
             fresh.decisionId,
-            fresh.revision,
+            fresh.decisionGeneration,
             fresh.decisionToken,
             fresh.event.verification.ruleVersion,
             fresh.event.verification.expiresAt,

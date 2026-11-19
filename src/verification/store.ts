@@ -4,6 +4,13 @@ import { digest } from '../collection/text';
 import type { Approval, EventCandidate } from '../collection/types';
 import type { Event, Facility, Usage } from '../domain';
 import { hydrate, type RegistryRow } from '../registry';
+import { bookingStatus } from '../tracking/booking';
+import { changesBetween } from '../tracking/changes';
+import {
+  trackingAvailable,
+  trackingGate,
+  trackingPlan,
+} from '../tracking/store';
 import { bounded } from './evidence';
 import { verifyFacilityNotice } from './facilities';
 import {
@@ -341,15 +348,34 @@ export class VerificationStore {
     );
     if ((await this.signature(trusted)) !== (await this.signature(result)))
       throw new VerificationError('stale-candidate');
-    const signature = await this.signature(trusted),
-      guard = this.guard(loaded, trusted.event.stableEventId);
+    const signature = await this.signature(trusted);
+    const tracked = await trackingAvailable(this.db);
     const current = await this.db
       .prepare(
-        'SELECT d.decision_id,d.signature FROM events e JOIN verification_decisions d ON d.decision_id=e.verification_id WHERE e.candidate_id=?1',
+        'SELECT d.decision_id,d.signature,e.stable_event_id,e.revision,e.first_seen_at FROM verification_decisions d LEFT JOIN events e ON e.candidate_id=d.candidate_id WHERE d.candidate_id=?1 AND d.generation=?2',
       )
-      .bind(trusted.candidateId)
-      .first<{ decision_id: string; signature: string }>();
-    if (current?.signature === signature) {
+      .bind(trusted.candidateId, loaded.row.candidate_generation)
+      .first<{
+        decision_id: string;
+        signature: string;
+        stable_event_id: string | null;
+        revision: number | null;
+        first_seen_at: string | null;
+      }>();
+    const guard = this.guard(
+      loaded,
+      current?.stable_event_id ?? trusted.event.stableEventId,
+    );
+    const compareAgain =
+      current?.signature === signature &&
+      tracked &&
+      (await this.db
+        .prepare(`SELECT 1 AS stale FROM event_identity_reviews r
+        JOIN events e ON e.stable_event_id=r.related_event_id
+        WHERE r.candidate_id=? AND r.decision_id=? AND e.verification_id<>r.related_decision_id LIMIT 1`)
+        .bind(trusted.candidateId, current.decision_id)
+        .first('stale'));
+    if (current?.signature === signature && !compareAgain) {
       const fresh = await this.db
         .prepare(`SELECT 1 AS ok WHERE ${guard.sql}`)
         .bind(...guard.values)
@@ -364,6 +390,81 @@ export class VerificationStore {
     const json = JSON.stringify(trusted),
       nonce = crypto.randomUUID();
     bounded(trusted, 65536);
+    const track = tracked
+      ? await trackingPlan(
+          this.db,
+          trusted,
+          loaded.row.event_token !== 'null',
+          async (eventId) => {
+            const ready = await this.capture(eventId);
+            if (!ready) return false;
+            const other = JSON.parse(ready.decisionToken) as VerificationResult;
+            return !changesBetween(other, trusted).differences.some(
+              (change) =>
+                [
+                  'schedule',
+                  'applicationStart',
+                  'applicationDeadline',
+                  'fee',
+                  'reservation',
+                  'status',
+                ].includes(change.field) &&
+                change.before?.state === 'confirmed' &&
+                change.after.state === 'confirmed',
+            );
+          },
+          async (eventId) =>
+            (await this.capture(eventId)) ??
+            this.db
+              .prepare(
+                `SELECT 1 AS same_authority FROM events e JOIN verification_decisions d ON d.decision_id=e.verification_id
+         JOIN event_candidates c ON c.candidate_id=e.candidate_id
+         WHERE e.stable_event_id=? AND e.source_id=? AND e.verification_status='Verified' AND d.status='Verified' AND d.rule_version=?
+         AND ${trackingGate}`,
+              )
+              .bind(eventId, trusted.event.sourceId, VERIFICATION_RULE)
+              .first('same_authority'),
+        )
+      : null;
+    const eventId =
+      track?.boundId ?? current?.stable_event_id ?? trusted.event.stableEventId;
+    const successor = track?.successor;
+    const revision = (successor?.revision ?? current?.revision ?? 0) + 1;
+    const priorEvent = successor
+      ? await this.db
+          .prepare(
+            'SELECT first_seen_at FROM events WHERE stable_event_id=? AND verification_id=? AND candidate_id=?',
+          )
+          .bind(
+            successor.event_id,
+            successor.decision_id,
+            successor.candidate_id,
+          )
+          .first<string>('first_seen_at')
+      : null;
+    if (successor && !priorEvent) throw new VerificationError('write-conflict');
+    const firstSeenAt =
+      priorEvent ?? current?.first_seen_at ?? trusted.event.firstSeenAt;
+    const storedEvent = {
+      ...trusted.event,
+      stableEventId: eventId,
+      firstSeenAt,
+    };
+    if (track) {
+      guard.sql +=
+        ' AND EXISTS(SELECT 1 FROM event_tracking_epoch WHERE singleton=1 AND version=?)';
+      guard.values.push(track.epoch);
+    }
+    if (successor) {
+      guard.sql +=
+        ' AND EXISTS(SELECT 1 FROM events WHERE stable_event_id=? AND verification_id=? AND revision=? AND candidate_id=?)';
+      guard.values.push(
+        eventId,
+        successor.decision_id,
+        successor.revision,
+        successor.candidate_id,
+      );
+    }
     // One transaction, all statements share the same CAS guard. The generation update is last.
     const statement = (sql: string, values: unknown[]) =>
       this.db.prepare(sql).bind(...values, ...guard.values);
@@ -390,87 +491,213 @@ export class VerificationStore {
             notice: loaded.row.notice_token,
             document: loaded.row.document_token,
             vtuber: loaded.row.vtuber_token,
+            ...(eventId !== trusted.event.stableEventId
+              ? { continuity: { eventId, firstSeenAt } }
+              : {}),
           }),
           json,
         ],
       ),
-      statement(
-        `INSERT INTO events(${eventColumns.join(',')},verification_evidence_json) SELECT ${eventColumns.map(() => '?').join(',')},? WHERE EXISTS(SELECT 1 FROM verification_decisions WHERE decision_id=? AND commit_nonce=?) AND ${guard.sql} ON CONFLICT(stable_event_id) DO UPDATE SET ${eventColumns
-          .filter((c) => c !== 'stable_event_id')
-          .map((c) => `${c}=excluded.${c}`)
-          .join(
-            ',',
-          )},verification_evidence_json=excluded.verification_evidence_json`,
-        [
-          ...eventValues(trusted.event, trusted.candidateId, id, generation),
-          JSON.stringify(trusted.evidence),
-          id,
-          nonce,
-        ],
-      ),
     ];
-    // Event mutation changes eventToken, so dependent statements use this transaction's newly inserted decision as their guard.
-    const committed = `EXISTS(SELECT 1 FROM events e JOIN verification_decisions d ON d.decision_id=e.verification_id WHERE e.stable_event_id=? AND d.decision_id=? AND d.generation=? AND d.commit_nonce=?)`;
-    const child = (sql: string, values: unknown[]) =>
-      this.db
-        .prepare(sql)
-        .bind(...values, trusted.event.stableEventId, id, generation, nonce);
-    statements.push(
-      child(
-        `INSERT INTO event_changes(change_id,event_id,revision,detected_at,source_url,change_type,before_json,after_json,official_confirmation) SELECT ?,?,?,?,?,?,(SELECT json_extract(result_json,'$.event') FROM verification_decisions WHERE candidate_id=? AND generation=?),?,? WHERE ${committed}`,
-        [
-          await digest(id + 'revision'),
-          trusted.event.stableEventId,
-          generation,
-          trusted.checkedAt,
-          trusted.event.officialUrl,
-          generation === 1
-            ? 'initial-verification'
-            : trusted.kind === 'cancellation' || trusted.kind === 'postponement'
-              ? 'official-status-change'
-              : 'reverification',
-          trusted.candidateId,
-          generation - 1,
-          JSON.stringify(trusted.event),
-          trusted.event.verificationStatus === 'Verified' ? 1 : 0,
-        ],
-      ),
-    );
-    statements.push(
-      child(`DELETE FROM event_images WHERE event_id=? AND ${committed}`, [
-        trusted.event.stableEventId,
-      ]),
-    );
-    for (const image of trusted.images)
+    if (!track?.alias)
       statements.push(
-        child(
-          `INSERT INTO event_images(image_id,event_id,image_url,image_source_url,image_type,image_rights_status,image_attribution,rights_evidence_url,image_last_checked_at,available,availability_status,related) SELECT ?,?,?,?,?,?,?,?,?,?,?,? WHERE ${committed}`,
+        statement(
+          `INSERT INTO events(${eventColumns.join(',')},verification_evidence_json) SELECT ${eventColumns.map(() => '?').join(',')},? WHERE EXISTS(SELECT 1 FROM verification_decisions WHERE decision_id=? AND commit_nonce=?) AND ${guard.sql} ON CONFLICT(stable_event_id) DO UPDATE SET ${eventColumns
+            .filter((c) => c !== 'stable_event_id')
+            .map((c) => `${c}=excluded.${c}`)
+            .join(
+              ',',
+            )},verification_evidence_json=excluded.verification_evidence_json`,
           [
-            await digest(trusted.event.stableEventId + image.imageUrl),
-            trusted.event.stableEventId,
-            image.imageUrl,
-            image.imageSourceUrl,
-            image.imageType,
-            image.imageRightsStatus,
-            image.imageAttribution,
-            image.rightsEvidenceUrl,
-            image.imageLastCheckedAt,
-            image.available === true ? 1 : 0,
-            image.available === null || image.available === undefined
-              ? 'unknown'
-              : image.available
-                ? 'available'
-                : 'missing',
-            image.related ? 1 : 0,
+            ...eventValues(storedEvent, trusted.candidateId, id, revision),
+            JSON.stringify(trusted.evidence),
+            id,
+            nonce,
           ],
         ),
       );
+    // Event mutation changes eventToken, so dependent statements use this transaction's newly inserted decision as their guard.
+    const committed = track?.alias
+      ? `EXISTS(SELECT 1 FROM verification_decisions d WHERE d.candidate_id=? AND d.decision_id=? AND d.generation=? AND d.commit_nonce=?)`
+      : `EXISTS(SELECT 1 FROM events e JOIN verification_decisions d ON d.decision_id=e.verification_id WHERE e.stable_event_id=? AND d.decision_id=? AND d.generation=? AND d.commit_nonce=?)`;
+    const child = (sql: string, values: unknown[]) =>
+      this.db
+        .prepare(sql)
+        .bind(
+          ...values,
+          track?.alias ? trusted.candidateId : eventId,
+          id,
+          generation,
+          nonce,
+        );
+    if (!track?.alias) {
+      statements.push(
+        child(
+          `INSERT INTO event_changes(change_id,event_id,revision,detected_at,source_url,change_type,before_json,after_json,official_confirmation) SELECT ?,?,?,?,?,?,(SELECT json_set(json_extract(result_json,'$.event'),'$.stableEventId',?) FROM verification_decisions WHERE decision_id=?),?,? WHERE ${committed}`,
+          [
+            await digest(id + 'revision'),
+            eventId,
+            revision,
+            trusted.checkedAt,
+            trusted.event.officialUrl,
+            revision === 1
+              ? 'initial-verification'
+              : trusted.kind === 'cancellation' ||
+                  trusted.kind === 'postponement'
+                ? 'official-status-change'
+                : 'reverification',
+            eventId,
+            successor?.decision_id ?? current?.decision_id ?? null,
+            JSON.stringify(storedEvent),
+            trusted.event.verificationStatus === 'Verified' ? 1 : 0,
+          ],
+        ),
+      );
+      statements.push(
+        child(`DELETE FROM event_images WHERE event_id=? AND ${committed}`, [
+          eventId,
+        ]),
+      );
+      for (const image of trusted.images)
+        statements.push(
+          child(
+            `INSERT INTO event_images(image_id,event_id,image_url,image_source_url,image_type,image_rights_status,image_attribution,rights_evidence_url,image_last_checked_at,available,availability_status,related) SELECT ?,?,?,?,?,?,?,?,?,?,?,? WHERE ${committed}`,
+            [
+              await digest(eventId + image.imageUrl),
+              eventId,
+              image.imageUrl,
+              image.imageSourceUrl,
+              image.imageType,
+              image.imageRightsStatus,
+              image.imageAttribution,
+              image.rightsEvidenceUrl,
+              image.imageLastCheckedAt,
+              image.available === true ? 1 : 0,
+              image.available === null || image.available === undefined
+                ? 'unknown'
+                : image.available
+                  ? 'available'
+                  : 'missing',
+              image.related ? 1 : 0,
+            ],
+          ),
+        );
+    }
+    if (track) {
+      const canonicalId = track.alias ?? eventId;
+      const identity = track.identity;
+      if (successor)
+        statements.push(
+          child(
+            `UPDATE event_identity_observations SET relation='alias' WHERE candidate_id=? AND event_id=? AND ${committed}`,
+            [successor.candidate_id, eventId],
+          ),
+        );
+      if (trusted.event.verificationStatus === 'Verified' || track.alias)
+        statements.push(
+          child(
+            `INSERT INTO event_identity_observations(candidate_id,event_id,decision_id,identity_json,url_key,provider_key,organizer_key,year,start_date,relation,official_url)
+            SELECT ?,?,?,?,?,?,?,?,?,?,? WHERE ${committed} ON CONFLICT(candidate_id) DO UPDATE SET
+            event_id=excluded.event_id,decision_id=excluded.decision_id,identity_json=excluded.identity_json,url_key=excluded.url_key,
+            provider_key=excluded.provider_key,organizer_key=excluded.organizer_key,year=excluded.year,start_date=excluded.start_date,
+            relation=excluded.relation,official_url=excluded.official_url`,
+            [
+              trusted.candidateId,
+              canonicalId,
+              id,
+              JSON.stringify(identity),
+              identity.urlKey,
+              identity.providerKey,
+              identity.organizer,
+              identity.year,
+              identity.date,
+              track.alias ? 'alias' : 'primary',
+              identity.originalUrl,
+            ],
+          ),
+        );
+      for (const review of track.reviews)
+        statements.push(
+          child(
+            `INSERT INTO event_identity_reviews(candidate_id,related_event_id,decision_id,related_decision_id,state,details,created_at)
+            SELECT ?,?,?,?,'pending',?,? WHERE ${committed}`,
+            [
+              trusted.candidateId,
+              review.eventId,
+              id,
+              review.decisionId,
+              JSON.stringify(review),
+              trusted.checkedAt,
+            ],
+          ),
+        );
+      if (track.overflow)
+        statements.push(
+          child(
+            `INSERT INTO event_identity_holds(candidate_id,decision_id,reason) SELECT ?,?,'comparison-budget-exhausted' WHERE ${committed}
+            ON CONFLICT(candidate_id) DO UPDATE SET decision_id=excluded.decision_id,reason=excluded.reason`,
+            [trusted.candidateId, id],
+          ),
+        );
+      if (!track.alias) {
+        const previous = successor
+          ? await this.db
+              .prepare(
+                "SELECT result_json FROM verification_decisions WHERE decision_id=? AND status='Verified'",
+              )
+              .bind(successor.decision_id)
+              .first<string>('result_json')
+          : await this.db
+              .prepare(`SELECT result_json FROM verification_decisions
+          WHERE candidate_id=? AND generation<=? AND status='Verified' ORDER BY generation DESC LIMIT 1`)
+              .bind(trusted.candidateId, loaded.row.candidate_generation)
+              .first<string>('result_json');
+        const prior = previous
+          ? (JSON.parse(previous) as VerificationResult)
+          : null;
+        const change = changesBetween(
+          prior,
+          trusted,
+          loaded.context.notices
+            .filter((notice) =>
+              [...trusted.impacts, ...(prior?.impacts ?? [])].some(
+                (effect) => effect.noticeId === notice.id,
+              ),
+            )
+            .flatMap((notice) => notice.evidence)
+            .slice(0, 8),
+        );
+        const details = JSON.stringify({
+          fields: change.differences,
+          booking: bookingStatus(trusted.fields, this.clock(), prior?.fields),
+          facilityId: trusted.facilityId,
+          facilityEpoch: trusted.facilityEpoch,
+        });
+        statements.push(
+          child(
+            `INSERT INTO event_tracking_revisions(event_id,revision,decision_id,checked_at,changes,purpose)
+            SELECT ?,?,?,?,?,? WHERE ${committed}`,
+            [eventId, revision, id, trusted.checkedAt, details, change.purpose],
+          ),
+        );
+      }
+      statements.push(
+        child(
+          `UPDATE event_tracking_epoch SET version=version+1 WHERE singleton=1 AND ${committed}`,
+          [],
+        ),
+      );
+    }
     statements.push(
       child(
         `UPDATE event_candidates SET verification_generation=?,review_status=? WHERE candidate_id=? AND verification_generation=? AND ${committed}`,
         [
           generation,
-          trusted.event.verificationStatus,
+          track &&
+          (track.alias || track.reviews.length || track.overflow) &&
+          trusted.event.verificationStatus === 'Verified'
+            ? 'Review Required'
+            : trusted.event.verificationStatus,
           trusted.candidateId,
           loaded.row.candidate_generation,
         ],
@@ -479,28 +706,39 @@ export class VerificationStore {
     const results = await this.db.batch(statements);
     if (
       results[0]?.meta.changes !== 1 ||
-      results[1]?.meta.changes !== 1 ||
+      (!track?.alias && results[1]?.meta.changes !== 1) ||
       results.at(-1)?.meta.changes !== 1
     )
       throw new VerificationError('write-conflict');
-    return { decisionId: id, changed: true };
+    return {
+      decisionId: id,
+      changed: true,
+      ...(track?.alias || successor
+        ? { canonicalEventId: track?.alias ?? eventId }
+        : {}),
+    };
   }
   async verified(eventId: string): Promise<DetailedVerifiedEvent | null> {
     return (await this.capture(eventId))?.event ?? null;
   }
   /** A fresh gate result and its exact DB compare-and-set boundary, for downstream transactional writes. */
   async capture(eventId: string) {
+    return this.captureDecision(eventId, true);
+  }
+  private async captureDecision(eventId: string, requireUnique: boolean) {
     if (!this.options.enabled) return null;
     try {
       await this.schema();
       const saved = await this.db
         .prepare(
-          "SELECT d.result_json,d.generation,d.decision_id,e.candidate_id FROM events e JOIN verification_decisions d ON d.decision_id=e.verification_id WHERE e.stable_event_id=?1 AND e.verification_status='Verified' AND d.status='Verified' AND d.rule_version=?2 AND d.expires_at>?3",
+          "SELECT d.result_json,d.snapshot_json,d.generation,d.decision_id,e.candidate_id,e.revision FROM events e JOIN verification_decisions d ON d.decision_id=e.verification_id WHERE e.stable_event_id=?1 AND e.verification_status='Verified' AND d.status='Verified' AND d.rule_version=?2 AND d.expires_at>?3",
         )
         .bind(eventId, VERIFICATION_RULE, new Date(this.clock()).toISOString())
         .first<{
           result_json: string;
+          snapshot_json: string;
           generation: number;
+          revision: number;
           decision_id: string;
           candidate_id: string;
         }>();
@@ -526,14 +764,28 @@ export class VerificationStore {
         (await this.signature(fresh)) !== (await this.signature(old))
       )
         return null;
+      const continuity = (
+        JSON.parse(saved.snapshot_json) as {
+          continuity?: { eventId: string; firstSeenAt: string };
+        }
+      ).continuity;
+      if ((continuity?.eventId ?? old.event.stableEventId) !== eventId)
+        return null;
+      const firstSeenAt = continuity?.firstSeenAt ?? old.event.firstSeenAt;
       const expected = eventValues(
-        old.event,
+        { ...old.event, stableEventId: eventId, firstSeenAt },
         old.candidateId,
         saved.decision_id,
-        saved.generation,
+        saved.revision,
       );
       if (JSON.stringify(expected) !== loaded.row.event_token) return null;
       const guard = this.guard(loaded, eventId);
+      const proofGuard = { sql: guard.sql, values: [...guard.values] };
+      const tracking = requireUnique && (await trackingAvailable(this.db));
+      if (tracking) {
+        guard.sql += ` AND EXISTS(SELECT 1 FROM event_candidates c WHERE c.candidate_id=? AND ${trackingGate})`;
+        guard.values.push(saved.candidate_id);
+      }
       if (
         (await this.db
           .prepare(`SELECT 1 AS ok WHERE ${guard.sql}`)
@@ -547,11 +799,14 @@ export class VerificationStore {
         event.verification.checkedAt = old.checkedAt;
         event.verification.expiresAt = old.expiresAt;
         event.lastVerifiedAt = old.event.lastVerifiedAt;
+        event.stableEventId = eventId;
+        event.firstSeenAt = firstSeenAt;
       }
       return event
         ? {
             event,
-            revision: saved.generation,
+            revision: saved.revision,
+            decisionGeneration: saved.generation,
             decisionId: saved.decision_id,
             decisionToken: saved.result_json,
             validUntil: new Date(
@@ -574,11 +829,257 @@ export class VerificationStore {
               ),
             ).toISOString(),
             guard,
+            proofGuard,
+            tracking,
           }
         : null;
     } catch {
       return null;
     }
+  }
+  async duplicateReviews(candidateId: string, relatedCursor = '', limit = 24) {
+    if (
+      !this.options.localOnly ||
+      (await this.schema()).environment !== 'staging' ||
+      !(await trackingAvailable(this.db))
+    )
+      throw new VerificationError('schema-unavailable');
+    bounded([candidateId, relatedCursor], 500);
+    if (!candidateId || !Number.isInteger(limit) || limit < 1 || limit > 24)
+      throw new VerificationError('invalid-input');
+    const reviews = await this.db
+      .prepare(`SELECT r.* FROM events e JOIN event_identity_reviews r
+      ON r.candidate_id=e.candidate_id AND r.decision_id=e.verification_id
+      WHERE e.candidate_id=? AND r.related_event_id>? ORDER BY r.related_event_id LIMIT ?`)
+      .bind(candidateId, relatedCursor, limit)
+      .all();
+    return {
+      observation: await this.db
+        .prepare(
+          'SELECT event_id,decision_id,relation,identity_json,official_url FROM event_identity_observations WHERE candidate_id=?',
+        )
+        .bind(candidateId)
+        .first(),
+      hold: await this.db
+        .prepare(
+          'SELECT decision_id,reason FROM event_identity_holds WHERE candidate_id=?',
+        )
+        .bind(candidateId)
+        .first(),
+      reviews: reviews.results,
+    };
+  }
+  async trackingHistory(eventId: string, after = 0, limit = 24) {
+    if (
+      !this.options.localOnly ||
+      (await this.schema()).environment !== 'staging' ||
+      !(await trackingAvailable(this.db))
+    )
+      throw new VerificationError('schema-unavailable');
+    bounded(eventId, 250);
+    if (
+      !eventId ||
+      !Number.isSafeInteger(after) ||
+      after < 0 ||
+      !Number.isInteger(limit) ||
+      limit < 1 ||
+      limit > 24
+    )
+      throw new VerificationError('invalid-input');
+    const history = await this.db
+      .prepare(`SELECT h.revision,h.checked_at,h.changes,h.purpose,
+      COALESCE(p.status,'pending') AS publication_status,
+      (SELECT COUNT(*) FROM event_delivery_intents x WHERE x.event_id=h.event_id AND x.revision=h.revision) AS outbox_intents
+      FROM event_tracking_revisions h LEFT JOIN notification_publications p ON p.event_id=h.event_id AND p.revision=h.revision AND p.mode='simulation'
+      WHERE h.event_id=? AND h.revision>? ORDER BY h.revision LIMIT ?`)
+      .bind(eventId, after, limit)
+      .all();
+    return history.results;
+  }
+  async decideDuplicate(
+    input: {
+      candidateId: string;
+      eventId: string;
+      relatedEventId: string;
+      decisionId: string;
+      relatedDecisionId: string;
+      action: 'held' | 'approved' | 'rejected';
+      reason: string;
+    },
+    apply = false,
+    usage: Usage | null = null,
+  ) {
+    bounded(input, 1800);
+    if (
+      ![
+        input.candidateId,
+        input.eventId,
+        input.relatedEventId,
+        input.decisionId,
+        input.relatedDecisionId,
+      ].every(
+        (id) =>
+          typeof id === 'string' &&
+          id.length <= 200 &&
+          /^[a-zA-Z0-9:_-]+$/.test(id),
+      ) ||
+      !['held', 'approved', 'rejected'].includes(input.action) ||
+      typeof input.reason !== 'string' ||
+      input.reason.trim().length < 8 ||
+      input.reason.length > 500 ||
+      input.eventId === input.relatedEventId
+    )
+      throw new VerificationError('invalid-input');
+    await this.duplicateReviews(input.candidateId, '', 1);
+    const self = await this.captureDecision(input.eventId, false);
+    const other = await this.capture(input.relatedEventId);
+    if (
+      !self ||
+      !other ||
+      self.event.verification.candidateId !== input.candidateId ||
+      self.decisionId !== input.decisionId ||
+      other.decisionId !== input.relatedDecisionId
+    )
+      throw new VerificationError('stale-candidate');
+    const match = await this.db
+      .prepare(`SELECT * FROM event_identity_reviews WHERE candidate_id=? AND related_event_id=?
+      AND decision_id=? AND related_decision_id=?`)
+      .bind(
+        input.candidateId,
+        input.relatedEventId,
+        input.decisionId,
+        input.relatedDecisionId,
+      )
+      .first<{ state: string; details: string }>();
+    if (!match) throw new VerificationError('invalid-input');
+    const actionId = await digest(
+      JSON.stringify([
+        input.candidateId,
+        input.relatedEventId,
+        input.decisionId,
+        input.relatedDecisionId,
+        input.action,
+        input.reason.trim(),
+      ]),
+    );
+    if (
+      match.state === input.action &&
+      (await this.db
+        .prepare('SELECT 1 AS ok FROM event_identity_actions WHERE action_id=?')
+        .bind(actionId)
+        .first('ok'))
+    )
+      return { changed: false, actionId, match };
+    if (
+      !['pending', 'held'].includes(match.state) ||
+      match.state === input.action
+    )
+      throw new VerificationError('write-conflict');
+    const details = JSON.parse(match.details) as {
+      hard: boolean;
+      conflicts: string[];
+      signals: string[];
+    };
+    // Never rewrite delivered groups or overwrite one of two established histories.
+    if (
+      input.action === 'approved' &&
+      (details.hard ||
+        !details.signals.some((signal) =>
+          ['official-url', 'official-id'].includes(signal),
+        ) ||
+        details.conflicts.some((field) => !['title'].includes(field)))
+    )
+      throw new VerificationError('invalid-input');
+    if (!apply) return { changed: false, actionId, match };
+    if (!this.options.enabled) throw new VerificationError('feature-disabled');
+    if (
+      !usage ||
+      !withinBudget(usage, {
+        requests: 0,
+        reads: 3000,
+        writes: 30,
+        databaseBytes: 10000,
+      })
+    )
+      throw new VerificationError('budget-exhausted');
+    const now = new Date(this.clock()).toISOString();
+    const nonce = crypto.randomUUID();
+    const owned =
+      'EXISTS(SELECT 1 FROM event_identity_actions WHERE action_id=? AND commit_nonce=?)';
+    const approvedCheck = `(?<>'approved' OR (NOT EXISTS(SELECT 1 FROM notification_groups WHERE event_id=?)
+      AND NOT EXISTS(SELECT 1 FROM publication_records WHERE event_id=?)
+      AND NOT EXISTS(SELECT 1 FROM notification_issue_links WHERE event_id=?)
+      AND NOT EXISTS(SELECT 1 FROM event_identity_reviews sibling JOIN events sibling_event ON sibling_event.stable_event_id=sibling.related_event_id
+        WHERE sibling.candidate_id=r.candidate_id AND sibling.decision_id=r.decision_id AND sibling.related_event_id<>r.related_event_id
+        AND (sibling.state<>'rejected' OR sibling_event.verification_id<>sibling.related_decision_id))
+      AND EXISTS(SELECT 1 FROM event_identity_observations WHERE candidate_id=? AND relation='primary' AND decision_id=?)
+      AND NOT EXISTS(SELECT 1 FROM event_identity_holds WHERE candidate_id=? AND decision_id=?)))`;
+    const statements = [
+      this.db
+        .prepare(`INSERT INTO event_identity_actions(action_id,candidate_id,related_event_id,decision_id,state,reason,decided_at,commit_nonce)
+        SELECT ?,r.candidate_id,r.related_event_id,r.decision_id,?,?,?,? FROM event_identity_reviews r
+        WHERE r.candidate_id=? AND r.related_event_id=? AND r.decision_id=? AND r.related_decision_id=? AND r.state=?
+        AND ${self.guard.sql} AND ${other.guard.sql} AND ${approvedCheck} ON CONFLICT DO NOTHING`)
+        .bind(
+          actionId,
+          input.action,
+          input.reason.trim(),
+          now,
+          nonce,
+          input.candidateId,
+          input.relatedEventId,
+          input.decisionId,
+          input.relatedDecisionId,
+          match.state,
+          ...self.guard.values,
+          ...other.guard.values,
+          input.action,
+          input.eventId,
+          input.eventId,
+          input.eventId,
+          input.candidateId,
+          input.decisionId,
+          input.candidateId,
+          input.decisionId,
+        ),
+      this.db
+        .prepare(`UPDATE event_identity_reviews SET state=? WHERE candidate_id=? AND related_event_id=? AND decision_id=?
+        AND ${owned}`)
+        .bind(
+          input.action,
+          input.candidateId,
+          input.relatedEventId,
+          input.decisionId,
+          actionId,
+          nonce,
+        ),
+      this.db
+        .prepare(`UPDATE event_identity_observations SET event_id=?,relation='alias' WHERE candidate_id=? AND ?='approved'
+        AND decision_id=? AND ${owned}`)
+        .bind(
+          input.relatedEventId,
+          input.candidateId,
+          input.action,
+          input.decisionId,
+          actionId,
+          nonce,
+        ),
+      this.db
+        .prepare(
+          `UPDATE event_candidates AS c SET review_status=CASE WHEN ${trackingGate} THEN 'Verified' ELSE 'Review Required' END
+          WHERE c.candidate_id=? AND ${owned}`,
+        )
+        .bind(input.candidateId, actionId, nonce),
+      this.db
+        .prepare(
+          `UPDATE event_tracking_epoch SET version=version+1 WHERE singleton=1 AND ${owned}`,
+        )
+        .bind(actionId, nonce),
+    ];
+    const result = await this.db.batch(statements);
+    if (result[0]?.meta.changes !== 1 || result[1]?.meta.changes !== 1)
+      throw new VerificationError('write-conflict');
+    return { changed: true, actionId, state: input.action };
   }
   async pending(
     cursor = '',
@@ -665,9 +1166,14 @@ export class VerificationStore {
     const nowDate = new Date(this.clock() + 9 * 3600000)
       .toISOString()
       .slice(0, 10);
-    const active = notice.period.startDatetime
-      ? Date.parse(notice.period.startDatetime) <= this.clock()
-      : Boolean(notice.period.startDate && notice.period.startDate <= nowDate);
+    const active =
+      notice.kind === 'withdrawal' && notice.period.precision === 'unknown'
+        ? true
+        : notice.period.startDatetime
+          ? Date.parse(notice.period.startDatetime) <= this.clock()
+          : Boolean(
+              notice.period.startDate && notice.period.startDate <= nowDate,
+            );
     const expired = notice.period.endDatetime
       ? Date.parse(notice.period.endDatetime) < this.clock()
       : Boolean(notice.period.endDate && notice.period.endDate < nowDate);
@@ -778,16 +1284,18 @@ export class VerificationStore {
         ? null
         : expired
           ? 'unknown'
-          : notice.kind === 'reopening'
-            ? 'open'
-            : notice.kind === 'renovation'
-              ? 'renovation'
-              : ['closure', 'maintenance'].includes(notice.kind)
-                ? 'closed'
-                : null;
+          : notice.kind === 'withdrawal'
+            ? 'unknown'
+            : notice.kind === 'reopening'
+              ? 'open'
+              : notice.kind === 'renovation'
+                ? 'renovation'
+                : ['closure', 'maintenance'].includes(notice.kind)
+                  ? 'closed'
+                  : null;
     statements.push(
       child(
-        `UPDATE facilities SET verification_epoch=verification_epoch+1,operating_status=CASE WHEN ? IS NULL THEN operating_status WHEN ?='open' AND EXISTS(SELECT 1 FROM facility_notices n WHERE n.facility_id=facilities.facility_id AND n.resolved_at IS NULL AND n.kind IN('closure','renovation','maintenance')) THEN operating_status ELSE ? END,last_verified_at=?,status_source_url=?,closure_start=CASE WHEN ? IN('closure','renovation','maintenance') AND ?=0 THEN ? ELSE closure_start END,closure_end=CASE WHEN ? IN('closure','renovation','maintenance') AND ?=0 THEN ? ELSE closure_end END,reopening_date=CASE WHEN ?='reopening' THEN ? ELSE reopening_date END WHERE facility_id=? AND verification_epoch=? AND ${owned}`,
+        `UPDATE facilities SET verification_epoch=verification_epoch+1,operating_status=CASE WHEN ? IS NULL THEN operating_status WHEN ? IN('open','unknown') AND EXISTS(SELECT 1 FROM facility_notices n WHERE n.facility_id=facilities.facility_id AND n.resolved_at IS NULL AND n.kind IN('closure','renovation','maintenance')) THEN operating_status ELSE ? END,last_verified_at=?,status_source_url=?,closure_start=CASE WHEN ? IN('closure','renovation','maintenance') AND ?=0 THEN ? ELSE closure_start END,closure_end=CASE WHEN ? IN('closure','renovation','maintenance') AND ?=0 THEN ? ELSE closure_end END,reopening_date=CASE WHEN ?='reopening' THEN ? ELSE reopening_date END WHERE facility_id=? AND verification_epoch=? AND ${owned}`,
         [
           operational,
           operational,

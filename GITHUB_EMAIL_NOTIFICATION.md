@@ -11,3 +11,7 @@
 수신 장애 시 저장소/Issue 구독·Ignore·선택 수신 주소/인증·own updates·GitHub 웹 알림·메일함 필터/스팸 순서로 확인한다. 실제 메일함을 확인하지 않으면 수신 완료로 기록하지 않는다. GitHub가 알림 본문을 축약할 수 있으므로 상세 보고서는 Private Issue 링크로 제공한다.
 
 공식 참조(2026-11-18): [Configuring notifications](https://docs.github.com/en/subscriptions-and-notifications/get-started/configuring-notifications), [Watching REST](https://docs.github.com/en/rest/activity/watching). 별도 승인된 테스트의 수신 증거는 이 문서의 준비 상태와 구분해 기록해야 한다.
+
+## DEV-06R 제한 수신 결과
+
+사용자가 합성 시험 Private Issue의 이메일 도착을 직접 확인했다. 향후 GitHub App 주체가 작성하는 Issue에 대한 별도 수신 시험은 아직 실행하지 않았다. 기존 Watch/이메일 설정과 시험 증거 범위는 [DEV-06R 기록](DEV06R_LIVE_VALIDATION.md)에 따른다.

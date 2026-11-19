@@ -150,6 +150,7 @@ function preparePost(
   kind: PostKind,
   now: number,
   templateVersion: string = TEMPLATE_VERSION,
+  bookingUntil?: number,
 ): Omit<PostDraft, 'id'> {
   if (!TEMPLATE_VERSIONS.some((v) => v === templateVersion))
     throw new PostError('unsupported-template');
@@ -162,7 +163,13 @@ function preparePost(
     throw new PostError('not-currently-verified');
   const v = event.verification,
     f = v.fields;
-  if (v.kind !== kind || confirmed(f.kind) !== kind)
+  const trackedBooking =
+    bookingUntil !== undefined &&
+    (kind === 'applications-open' || kind === 'deadline') &&
+    Number.isFinite(bookingUntil) &&
+    bookingUntil > now &&
+    !['closure', 'reopening', 'cancellation', 'postponement'].includes(v.kind);
+  if (confirmed(f.kind) !== v.kind || (v.kind !== kind && !trackedBooking))
     throw new PostError('kind-mismatch');
   if (
     !Number.isInteger(revision) ||
@@ -215,7 +222,10 @@ function preparePost(
     throw new PostError('length-uncertain');
   const omitted: PostDraft['omitted'] = [],
     optional: { field: string; text: string }[] = [];
-  let validUntil = Date.parse(v.expiresAt);
+  let validUntil = Math.min(
+    Date.parse(v.expiresAt),
+    trackedBooking ? bookingUntil : Infinity,
+  );
   const lines: string[] = [],
     shortLines: string[] = [];
   const rawKind = f.kind.raw.join(' '),
@@ -265,7 +275,11 @@ function preparePost(
     ['cancelled', 'postponed', 'ended', 'unknown'].includes(status.status)
   )
     throw new PostError('kind-mismatch');
-  const primary = v.primaryDateField;
+  const primary = trackedBooking
+    ? kind === 'applications-open'
+      ? 'applicationStart'
+      : 'applicationDeadline'
+    : v.primaryDateField;
   if (
     (kind === 'applications-open' && primary !== 'applicationStart') ||
     (kind === 'deadline' && primary !== 'applicationDeadline')
@@ -319,7 +333,8 @@ function preparePost(
           /終了未定|再開未定|当面|当分|から/u.test(t.raw);
         // An explicitly open-ended closure remains current until its attestation expires.
         // A one-day closure without that evidence still ends at its stated calendar boundary.
-        if (!ongoingClosure) validUntil = Math.min(validUntil, temporalEnd(t));
+        if (!ongoingClosure && !trackedBooking)
+          validUntil = Math.min(validUntil, temporalEnd(t));
         if (!(validUntil > now)) throw new PostError('time-expired');
       }
     }
@@ -552,8 +567,16 @@ export async function renderPost(
   kind: PostKind,
   now: number,
   templateVersion: string = TEMPLATE_VERSION,
+  bookingUntil?: number,
 ): Promise<PostDraft> {
-  const prepared = preparePost(event, revision, kind, now, templateVersion);
+  const prepared = preparePost(
+    event,
+    revision,
+    kind,
+    now,
+    templateVersion,
+    bookingUntil,
+  );
   const id =
     'post-' +
     (await digest(
