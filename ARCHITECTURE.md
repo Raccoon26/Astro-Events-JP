@@ -1,5 +1,7 @@
 # 아키텍처
 
+DEV06은 PostStore.current/VerificationStore의 현재 증거와 GeneratedPost를 재검사하는 OutboxNotificationService를 기존 NotificationService 계약에 연결한다. 메시지 렌더/프로토콜/격리 fake/저장소/webhook handler/CLI를 분리하며 운영 Worker에는 연결하지 않는다. 독립 enqueue/claim/dispatch/callback/status/ack invocation과 영속 checkpoint 구조는 [알림 설계](NOTIFICATION_DESIGN.md)를 따른다. Telegram copyText와 metadata 분리는 그대로다. 실제 전송 어댑터·Secret·구독·메일 수신 시험과 DEV07~10은 후속 승인 범위다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 목표는 개인 서버 없이 월 추가 비용 0엔으로 공식 정보 기반 일본어 X 복사용 글을 전달하는 것이다. DEV00의15계약·도메인·스키마를 보존했다. DEV01은 분리된 staging/production과 D1 환경 식별, Health/Cron 진단, 안전한 조건부 배포를 추가했다. DEV01 당시 보류했던 원격 기반은 DEV01R에서 실제 staging/production에 배포하고 검증했다. 제품 수집·알림은 비활성화이며 Worker 진입점은 여전히 Collector를 호출하지 않는다.

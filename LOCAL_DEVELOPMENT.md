@@ -1,5 +1,7 @@
 # Windows E드라이브 개발
 
+DEV06 로컬 도구는 [복구/CLI](DELIVERY_RECOVERY.md)를 따른다. 먼저 scripts/environment.ps1을 source한다. registry 관리 DB는 E cache/registry/staging, fake provider는 E cache/notifications/staging, 보고서/샘플은 E reports를 사용한다. 기본 Dry Run이며 --apply --simulation --local-budget에서만 로컬 모의 상태를 변경한다. 실제 Token/원격 production 옵션은 지원하지 않는다. CI는 RUNNER_TEMP 격리 경로이며 Windows E 검증이라고 표시하지 않는다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01 시작 전 실제 E 접근·정확한repo·깨끗한Git·npm cache/temp/log/build 경로와 DryRun 보고를 확인했다. 원격OAuth는 미인증이며 사용자요청으로 나중에 수행한다. 시스템C의 기존Wrangler설정은 존재여부만읽었고 파일을 생성/수정하지 않았다.

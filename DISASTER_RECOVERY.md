@@ -1,5 +1,7 @@
 # D1·Worker 복구
 
+DEV06은 [전달 복구](DELIVERY_RECOVERY.md)의 lease·started checkpoint·uncertain·양의 수신 재조정·명시적 모의 수동 receipt를 사용한다. 응답 손실은 실패로 단정해 다시 보내지 않는다. 과거 receipt 해소와 현재 Verified 출력 승인은 별개다. 기존 DB backup/Time Travel/Worker rollback 절차는 유지하고 원격0008은 자동 적용하지 않는다. 미해결 전달의 RESTRICT FK를 임의 삭제로 해제하지 않으며 DEV09 정리에서 보호한다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV00의 0001_foundation.sql은 수정하지 않았다. 정규화된 LF 내용의 SHA256을 검사하며 CRLF checkout 차이는 허용한다. DEV01은 0002_deployment_identity.sql만 추가했다. 적용 전 migrations list와 schema/index inventory·quick_check·foreign_key_check를 확인하고, 원격은 현재 Time Travel bookmark를 E reports에 저장한다. additive DDL만 guard에서 허용하며 향후 ALTER/DROP/데이터수정 마이그레이션은 별도 검토·명시적 승인·호환성 계획이 필요하다.

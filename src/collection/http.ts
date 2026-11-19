@@ -200,6 +200,13 @@ export class SafeHttpCollector implements Collector {
       lastModified: source.lastModified,
     },
   ): Promise<HttpDocument> {
+    // Unsupported transports must fail before time-dependent source policy checks.
+    // This never grants an expired approval and never performs a network request.
+    if (
+      this.transport.assurance === 'unavailable' ||
+      (this.transport.assurance === 'fixture' && !this.fixtureMode)
+    )
+      throw new CollectionError('dns-protection-unavailable');
     const now = new Date(this.clock()).toISOString();
     assertApproval(source, this.approval, now);
     const target = safeUrl(raw, source.allowedHosts);

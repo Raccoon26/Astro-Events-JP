@@ -1,5 +1,7 @@
 # 테스트와 증거
 
+DEV06은 원본597개/39파일의 hash를 유지하고 전13종 메시지·fake API·callback 위조/replay/경합·부분 성공/응답 손실·D1 batch rollback·최종버전 CAS·2,000행 cursor·실제 workerd 분리 invocation·CLI/이메일 준비 검사로 확장한다. [검사 보고](DEV06_TEST_REPORT.md)에 실패 유형과 근거 파일을 연결한다. 실제 발송/이메일/원격0008/Cloudflare 전달 CPU는 미검증이며 local elapsed와 실제 CPU를 구분한다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01 추가: 기존11시험의 검증목적/이름/부정테스트를 보존하고 Health 성공fixture만 실제D1 marker/표준Request 계약에 맞게 강화했다. 총48시험(7파일)에서 환경별설정·누락DB·collection/notification잠금·환경변조·Health200/503/404/405/HEAD·민감정보·timeout·Cron두종류·계정예산·원격명령guard·원격오류격리/재시도0·pagination거부·원본migration불변을 검증했다.

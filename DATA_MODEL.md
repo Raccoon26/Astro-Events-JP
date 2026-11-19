@@ -1,5 +1,11 @@
 # 데이터 모델
 
+## DEV06 로컬 0008 확장
+
+[0008_notification_outbox.sql](migrations/0008_notification_outbox.sql)은 기존 전달 테이블에 lease owner/전송 시작/결과 owner/retryable을 추가하고 group/context/attempt/publication/callback/review/manual receipt/provenance/request reservation/ack/Issue link·claim/status update를 연결한다. part별 UNIQUE와 event Issue cause 잠금, callback generation CAS, atomic batch와 RESTRICT FK로 중복·부분 commit·미해결 상태 유실을 방지한다. simulation은 명시적으로 분리하고 posted fingerprint는 simulation 접두어다. 세부 설계는 [Outbox](DELIVERY_OUTBOX_DESIGN.md)를 따른다.
+
+기존0001~0007은 수정하지 않는다. 관리 DB ledger와 Wrangler 로컬 ledger를 구분하고 remote0004에서는 schema gate로 신기능을 거부한다. 원격 신규 migration/production 쓰기는 이번 단계에 없다. 이미지 바이너리는 저장하지 않는다. DEV09 정리는 미해결 uncertain/review와 미래 일정을 보호하고 자식부터 제한된 배치로 처리해야 한다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01은 기존0001을 수정하지 않고 `0002_deployment_identity.sql`을 추가했다. deployment_identity는 singleton=1 PK, staging/production 환경, 환경과일치하는database_name, schema_version=2, 초기화시각을 보관한다. 마이그레이션 자체는 marker를 추측해 넣지 않으며, 대상의 provider ID/이름과 빈 DB를 검증한 guarded initialize에서 단한번 설정한다. Worker는 marker를 수정하지 않는다. 이 테이블은 운영 상세/이벤트 테이블과 독립하며 보관정리 대상이 아니다.

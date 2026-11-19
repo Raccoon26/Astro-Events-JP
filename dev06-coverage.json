@@ -1,0 +1,442 @@
+{
+  "0": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["PROJECT_STATUS.md", "data/dev06-baseline.json"]
+  },
+  "1": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["NOTIFICATION_DESIGN.md", "src/notifications/service.ts"]
+  },
+  "2": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "src/notifications/store.ts",
+      "src/posts/store.ts",
+      "src/verification/store.ts"
+    ]
+  },
+  "3": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "TELEGRAM_MESSAGE_POLICY.md",
+      "tests/notification-messages.test.ts"
+    ]
+  },
+  "4": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["IMAGE_RIGHTS_POLICY.md", "src/notifications/messages.ts"]
+  },
+  "5": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "TELEGRAM_CALLBACK_SECURITY.md",
+      "tests/notification-callback.test.mjs"
+    ]
+  },
+  "6": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "src/notifications/webhook.ts",
+      "tests/notification-callback.test.mjs"
+    ]
+  },
+  "7": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["GITHUB_REPORTS_POLICY.md", "src/notifications/protocol.ts"]
+  },
+  "8": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "DELIVERY_OUTBOX_DESIGN.md",
+      "tests/notification-outbox.test.mjs"
+    ]
+  },
+  "9": {
+    "status": "local readiness implemented; actual email/Issue test deferred by explicit user scope",
+    "evidence": [
+      "GITHUB_EMAIL_NOTIFICATION.md",
+      "tests/notification-email.test.ts"
+    ]
+  },
+  "10": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "migrations/0008_notification_outbox.sql",
+      "src/notifications/store.ts"
+    ]
+  },
+  "11": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["DELIVERY_RECOVERY.md", "tests/notification-safety.test.mjs"]
+  },
+  "12": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "src/notifications/service.ts",
+      "tests/notification-callback.test.mjs"
+    ]
+  },
+  "13": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["src/notifications/store.ts", "DEV_ROADMAP.md"]
+  },
+  "14": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "migrations/0008_notification_outbox.sql",
+      "tests/notification-safety.test.mjs"
+    ]
+  },
+  "15": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["scripts/notifications.mjs", "tests/notification-cli.test.mjs"]
+  },
+  "16": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["SECURITY.md", "GITHUB_REPORTS_POLICY.md"]
+  },
+  "17": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["FREE_TIER_POLICY.md", "tests/notification-workerd.test.mjs"]
+  },
+  "18": {
+    "status": "remote diagnostic not run; prior CPU evidence and limits preserved",
+    "evidence": ["DEV06_TEST_REPORT.md", "DEV05R_CPU_REPORT.md"]
+  },
+  "19": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "TELEGRAM_CALLBACK_SECURITY.md",
+      "tests/notification-protocol.test.ts"
+    ]
+  },
+  "20": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["DEV06_TEST_REPORT.md", "tests/notification-workerd.test.mjs"]
+  },
+  "21": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["scripts/audit-dev06.mjs", "REQUIREMENTS.md"]
+  },
+  "22": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["NOTIFICATION_DESIGN.md", "DEV06_COMPLETION.md"]
+  },
+  "23": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": [
+      "LOCAL_DEVELOPMENT.md",
+      "scripts/path-policy.mjs",
+      "scripts/cleanup.mjs"
+    ]
+  },
+  "24": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["scripts/install-ci.mjs", "tests/ci-install.test.mjs"]
+  },
+  "25": {
+    "status": "existing protected completion procedure required; actual GitHub evidence recorded separately",
+    "evidence": ["scripts/complete-dev.mjs", "GITHUB_WORKFLOW.md"]
+  },
+  "26": {
+    "status": "local implementation/preservation audited; real external delivery remains disabled",
+    "evidence": ["DEV06_COMPLETION.md", "PROJECT_STATUS.md"]
+  },
+  "baseline": "2f2791000c464b3a8a760d61d3c8fe52f848c68a",
+  "realNotifications": 0,
+  "realSiteRequests": 0,
+  "remoteMigrations": false,
+  "productionChanged": false,
+  "R01": {
+    "status": "existing scope preserved; full scheduler/semantic duplicate/retention/operational validation remains DEV07–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "SOURCE_COVERAGE.md",
+      "src/registry.ts"
+    ]
+  },
+  "R02": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "SOURCE_POLICY.md",
+      "NOTIFICATION_SAMPLES.md"
+    ]
+  },
+  "R03": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "NOTIFICATION_SAMPLES.md",
+      "src/collection/xml.ts"
+    ]
+  },
+  "R04": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "SOURCE_POLICY.md",
+      "VERIFICATION_DESIGN.md"
+    ]
+  },
+  "R05": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "SOURCE_COVERAGE.md",
+      "NOTIFICATION_SAMPLES.md"
+    ]
+  },
+  "R06": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "FACILITY_VERIFICATION.md",
+      "src/notifications/messages.ts"
+    ]
+  },
+  "R07": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "VTUBER_VERIFICATION.md",
+      "data/vtubers.json"
+    ]
+  },
+  "R08": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "SOURCE_POLICY.md",
+      "NOTIFICATION_SAMPLES.md"
+    ]
+  },
+  "R09": {
+    "status": "existing scope preserved; full scheduler/semantic duplicate/retention/operational validation remains DEV07–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "FREE_EXECUTION_PIPELINE.md",
+      "src/index.ts"
+    ]
+  },
+  "R10": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "SSRF_SECURITY_AUDIT.md",
+      "src/collection/orchestrator.ts"
+    ]
+  },
+  "R11": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "src/posts/store.ts",
+      "src/notifications/store.ts",
+      "tests/notification-safety.test.mjs"
+    ]
+  },
+  "R12": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "src/notifications/messages.ts",
+      "tests/notification-messages.test.ts"
+    ]
+  },
+  "R13": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "IMAGE_RIGHTS_POLICY.md",
+      "src/notifications/messages.ts"
+    ]
+  },
+  "R14": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "TELEGRAM_MESSAGE_POLICY.md",
+      "tests/notification-messages.test.ts"
+    ]
+  },
+  "R15": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "POST_GENERATOR_DESIGN.md",
+      "NOTIFICATION_SAMPLES.md"
+    ]
+  },
+  "R16": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "X_WEIGHTED_LENGTH.md",
+      "tests/post-length.test.ts",
+      "tests/notification-messages.test.ts"
+    ]
+  },
+  "R17": {
+    "status": "local contract/readiness implemented; live writes and receipt verification intentionally deferred",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "src/notifications/store.ts",
+      "src/notifications/webhook.ts",
+      "TELEGRAM_CALLBACK_SECURITY.md"
+    ]
+  },
+  "R18": {
+    "status": "local contract/readiness implemented; live writes and receipt verification intentionally deferred",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "GITHUB_REPORTS_POLICY.md",
+      "GITHUB_EMAIL_NOTIFICATION.md",
+      "src/notifications/email.ts"
+    ]
+  },
+  "R19": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "DELIVERY_OUTBOX_DESIGN.md",
+      "tests/notification-outbox.test.mjs"
+    ]
+  },
+  "R20": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "VERIFICATION_POLICY.md",
+      "src/notifications/store.ts"
+    ]
+  },
+  "R21": {
+    "status": "existing scope preserved; full scheduler/semantic duplicate/retention/operational validation remains DEV07–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "DELIVERY_OUTBOX_DESIGN.md",
+      "DATA_MODEL.md"
+    ]
+  },
+  "R22": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "FREE_TIER_POLICY.md",
+      "tests/notification-workerd.test.mjs"
+    ]
+  },
+  "R23": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "SECURITY.md",
+      "tests/notification-safety.test.mjs"
+    ]
+  },
+  "R24": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "scripts/path-policy.mjs",
+      "LOCAL_DEVELOPMENT.md"
+    ]
+  },
+  "R25": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "scripts/cleanup.mjs",
+      "CLEANUP_POLICY.md"
+    ]
+  },
+  "R26": {
+    "status": "local contract/readiness implemented; live writes and receipt verification intentionally deferred",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "GITHUB_REPORTS_POLICY.md",
+      "src/notifications/protocol.ts"
+    ]
+  },
+  "R27": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "scripts/complete-dev.mjs",
+      "GITHUB_WORKFLOW.md"
+    ]
+  },
+  "R28": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "RELEASE_CHECKLIST.md",
+      "DEV06_COMPLETION.md"
+    ]
+  },
+  "R29": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "src/contracts.ts",
+      "migrations/0008_notification_outbox.sql"
+    ]
+  },
+  "R30": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "TEST_PLAN.md",
+      "DEV06_TEST_REPORT.md"
+    ]
+  },
+  "R31": {
+    "status": "implemented or existing behavior preserved; evidence and original test hashes audited",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "GITHUB_EMAIL_NOTIFICATION.md",
+      "SECURITY.md"
+    ]
+  },
+  "R32": {
+    "status": "existing scope preserved; full scheduler/semantic duplicate/retention/operational validation remains DEV07–10",
+    "evidence": [
+      "REQUIREMENTS.md",
+      "DEV_ROADMAP.md",
+      "DEV_ROADMAP.md",
+      "DEV06_COMPLETION.md"
+    ]
+  }
+}

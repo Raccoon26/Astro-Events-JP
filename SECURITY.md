@@ -1,5 +1,7 @@
 # 보안 정책
 
+DEV06은 실제 전송 기능을 설치하지 않고 로컬 in-process fake만 주입한다. Telegram 평문/길이/echo/대상 검증, 35바이트 난수 callback의 서버 hash·revision·사용자/chat/message·만료·일회성 CAS, webhook 비밀 헤더·JSON 크기 제한, 정확한 Private Reports/Issues capability, Markdown·멘션·URL·Secret 방어를 추가한다. [callback 보안](TELEGRAM_CALLBACK_SECURITY.md)과 [Reports 정책](GITHUB_REPORTS_POLICY.md)을 따른다. 외부 응답 원문과 토큰을 로그에 남기지 않는다. 알려지지 않은 권한/수신 결과는 fail-closed/uncertain이다. 현재 Workers peer/TLS fail-closed와 기존 환경·GitHub 최소권한은 유지한다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01: 공개 Health는 상태/안전코드/환경/DB가용성/collection=false만 반환한다. 인증정보·내부UUID·계정·요청헤더/query·raw오류는 반환/구조화로그에서 제외한다. JSON/no-store/nosniff·고정SELECT/bind·DB identity 및 schema gate를 시험했다. 사업수집/알림은 false를 강제한다.

@@ -1,5 +1,7 @@
 # GitHub 자동 완료
 
+DEV06도 기존 complete:dev를 사용한다. 새 notification build/sample/hash/coverage 검사를 기존 check에 추가하며 CI 설치의 optional Biome 검증과 pinned lock, 필수 quality/리뷰/관리자 포함 보호를 유지한다. 코드 PR/CI는 제품 Reports Issue 발송과 별개다. main 이후 기존 staging 자동 배포는 Health/Cron 호환 코드만 적용하고 신규 DDL·알림 route·Secret 등록은 실행하지 않는다. production 배포 승인·원격 migration gate를 우회하지 않는다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01도 검증된 complete:dev를 그대로 사용한다. 작업브랜치는 dev/dev-01-cloudflare-foundation이며 기존main quality/보호는 완화하지 않는다. 원격인증차단은 검사실패와 구분하여 문서/PR에 명시하고 안전한로컬코드는 기존PR/CI절차로 통합한다. 운영환경DEV01완료판정은 별도이다.
