@@ -9,6 +9,7 @@ import {
 } from '../posts/length';
 import type { PostDelivery } from '../posts/types';
 import type { DetailedVerifiedEvent } from '../verification/types';
+import { MANAGEMENT_VERSION, managementLines } from './management';
 import { NotificationError, REPORT_VERSION } from './types';
 
 export function bounded(value: unknown, max = 65536) {
@@ -129,6 +130,7 @@ export async function renderMessages(
   publicationStatus: Report['publicationStatus'] = 'pending',
   telegramState = 'pending',
   changes: readonly string[] = [],
+  version = REPORT_VERSION,
 ) {
   assertCopy(delivery);
   const m = delivery.metadata,
@@ -215,7 +217,12 @@ export async function renderMessages(
   const body = issueLines.join('\n');
   if (body.length > 50000) throw new NotificationError('ISSUE_LIMIT');
   return {
-    management: splitManagement(lines, 3800),
+    management: splitManagement(
+      version === MANAGEMENT_VERSION
+        ? managementLines(event, lines, publicationStatus)
+        : lines,
+      3800,
+    ),
     issue: {
       title: issueTitle('天文・宇宙 ' + text(event.title)),
       body,

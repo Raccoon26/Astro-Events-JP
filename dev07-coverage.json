@@ -1,0 +1,443 @@
+{
+  "sections": {
+    "0": {
+      "status": "Scope and inherited boundaries",
+      "evidence": ["PROJECT_STATUS.md", "DEV07_COMPLETION.md"]
+    },
+    "1": {
+      "status": "Baseline 708 and main / PR30",
+      "evidence": ["data/dev07-baseline.json"]
+    },
+    "2": {
+      "status": "User-reported limited receipts with remaining gaps",
+      "evidence": ["DEV06R_LIVE_VALIDATION.md", "GITHUB_EMAIL_NOTIFICATION.md"]
+    },
+    "3": {
+      "status": "Stable canonical identity, original URLs and distinguishable sessions",
+      "evidence": [
+        "src/tracking/identity.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "4": {
+      "status": "Bounded fuzzy review evidence and two-decision CAS",
+      "evidence": [
+        "src/tracking/store.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "5": {
+      "status": "Verified field history and chronological canonical revisions",
+      "evidence": ["src/tracking/changes.ts", "src/verification/store.ts"]
+    },
+    "6": {
+      "status": "Official cancellation/postponement, facility impact and withdrawal",
+      "evidence": [
+        "src/verification/facilities.ts",
+        "tests/verification-integration.test.mjs",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "7": {
+      "status": "JST booking windows and progress",
+      "evidence": ["src/tracking/booking.ts", "tests/event-tracking.test.ts"]
+    },
+    "8": {
+      "status": "Existing Issue reuse, old callbacks, outbox purpose and partial success",
+      "evidence": [
+        "src/notifications/store.ts",
+        "tests/notification-outbox.test.mjs",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "9": {
+      "status": "Two-year expiry and simulation provenance",
+      "evidence": [
+        "src/notifications/publication.ts",
+        "tests/notification-callback.test.mjs"
+      ]
+    },
+    "10": {
+      "status": "Readable Telegram B and immutable A",
+      "evidence": [
+        "src/notifications/management.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "11": {
+      "status": "Minimum App authority; mock renewal only",
+      "evidence": [
+        "AUTH_AUTOMATION_DESIGN.md",
+        "tests/installation-auth.test.ts"
+      ]
+    },
+    "12": {
+      "status": "Local migration, FK, transaction and rollback",
+      "evidence": [
+        "migrations/0009_event_tracking.sql",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "13": {
+      "status": "Integration boundary and synthetic isolation",
+      "evidence": [
+        "ARCHITECTURE.md",
+        "src/verification/store.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "14": {
+      "status": "Quality, regression, security and frozen fixtures",
+      "evidence": ["data/dev07-baseline.json", "DEV07_TEST_REPORT.md"]
+    },
+    "15": {
+      "status": "Free constraints; zero provider writes; operational flags",
+      "evidence": [
+        "wrangler.jsonc",
+        "FREE_TIER_POLICY.md",
+        "DEV07_TEST_REPORT.md"
+      ]
+    },
+    "16": {
+      "status": "E preflight, C/D Dry Run and no DPAPI mutation",
+      "evidence": [
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md",
+        "scripts/cleanup.mjs"
+      ]
+    },
+    "17": {
+      "status": "Docs and retained blocked operational work",
+      "evidence": ["PROJECT_STATUS.md", "DEV07_COMPLETION.md", "DEV_ROADMAP.md"]
+    },
+    "18": {
+      "status": "Versioned PR and protected merge procedure",
+      "evidence": ["GITHUB_WORKFLOW.md", "scripts/complete-dev.mjs"]
+    },
+    "19": {
+      "status": "Closeout with CI/remote distinction",
+      "evidence": [
+        "DEV07_COMPLETION.md",
+        "DEV07_TEST_REPORT.md",
+        "RELEASE_CHECKLIST.md"
+      ]
+    }
+  },
+  "requirements": {
+    "R01": {
+      "status": "DEV08/09 nationwide real allocation and operation remain gated",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R02": {
+      "status": "inherited audit and scope preserved",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R03": {
+      "status": "inherited audit and scope preserved",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R04": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/verification/facilities.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "R05": {
+      "status": "inherited audit and scope preserved",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R06": {
+      "status": "inherited audit and scope preserved",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R07": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/verification/store.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "R08": {
+      "status": "inherited audit and scope preserved",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R09": {
+      "status": "DEV08/09 scheduling, balance and expansion remain gated",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R10": {
+      "status": "DEV09 checkpoints, quotas and regular Cron remain gated",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R11": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/verification/store.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "R12": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/tracking/changes.ts",
+        "tests/event-tracking.test.ts"
+      ]
+    },
+    "R13": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "IMAGE_RIGHTS_POLICY.md",
+        "src/notifications/management.ts"
+      ]
+    },
+    "R14": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "IMAGE_RIGHTS_POLICY.md",
+        "src/tracking/changes.ts"
+      ]
+    },
+    "R15": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "tests/post-render.test.ts",
+        "TELEGRAM_MESSAGE_POLICY.md"
+      ]
+    },
+    "R16": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "tests/post-length.test.ts",
+        "X_WEIGHTED_LENGTH.md"
+      ]
+    },
+    "R17": {
+      "status": "DEV06R user-reported sample received; real buttons and production delivery remain gated",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "TELEGRAM_MESSAGE_POLICY.md",
+        "tests/notification-callback.test.mjs",
+        "DEV06R_LIVE_VALIDATION.md"
+      ]
+    },
+    "R18": {
+      "status": "DEV06R user-reported sample Issue/email received; App-authored email and regular delivery remain gated",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_EMAIL_NOTIFICATION.md",
+        "tests/event-tracking-integration.test.mjs",
+        "DEV06R_LIVE_VALIDATION.md"
+      ]
+    },
+    "R19": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/tracking/identity.ts",
+        "src/notifications/store.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "R20": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/tracking/booking.ts",
+        "src/tracking/changes.ts",
+        "tests/event-tracking-integration.test.mjs"
+      ]
+    },
+    "R21": {
+      "status": "Two-year fingerprint policy preserved; DEV09 retention sweep remains gated",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/notifications/publication.ts",
+        "DATA_MODEL.md"
+      ]
+    },
+    "R22": {
+      "status": "DEV07 local D1 measured; live CPU and operation remain gated",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "FREE_TIER_POLICY.md",
+        "DEV07_TEST_REPORT.md"
+      ]
+    },
+    "R23": {
+      "status": "SSR fail-closed; GitHub App lifecycle mocked; real installation and DEV10 review remain gated",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "SECURITY.md",
+        "AUTH_AUTOMATION_DESIGN.md",
+        "tests/installation-auth.test.ts"
+      ]
+    },
+    "R24": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "LOCAL_DEVELOPMENT.md",
+        "scripts/preflight.mjs"
+      ]
+    },
+    "R25": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "CLEANUP_POLICY.md",
+        "scripts/cleanup.mjs"
+      ]
+    },
+    "R26": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_REPORTS_POLICY.md",
+        "tests/notification-protocol.test.ts"
+      ]
+    },
+    "R27": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R28": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_WORKFLOW.md",
+        "RELEASE_CHECKLIST.md"
+      ]
+    },
+    "R29": {
+      "status": "inherited audit and scope preserved",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R30": {
+      "status": "inherited audit and scope preserved",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json"
+      ]
+    },
+    "R31": {
+      "status": "local evidence and preserved scope",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "AUTH_AUTOMATION_DESIGN.md",
+        "DEV06R_LIVE_VALIDATION.md"
+      ]
+    },
+    "R32": {
+      "status": "DEV08–10 deliverables preserved and remain pending their own implementation and approval",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "DEV_ROADMAP.md",
+        "DEV07_COMPLETION.md"
+      ]
+    }
+  },
+  "operation": {
+    "actualAdHocSends": 0,
+    "actualIssuesCreated": 0,
+    "productionChanged": false,
+    "remoteMigrationApplied": false,
+    "sourceActive": 0,
+    "collection": false,
+    "notifications": false,
+    "cpuMeasured": false
+  }
+}

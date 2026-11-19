@@ -101,6 +101,14 @@ export interface ImageReview {
   availabilityCheckedAt: string | null;
 }
 export interface ReviewPacket {
+  canonicalEvent?: {
+    url: string;
+    documentId: string;
+    quote: string;
+    id?: string;
+    session?: string;
+    previousTiming?: string;
+  };
   resolvesNoticeIds?: string[];
   candidateId: string;
   sourceId: string;
@@ -134,6 +142,7 @@ export interface Notice {
     | 'maintenance'
     | 'operating-change'
     | 'venue-change'
+    | 'withdrawal'
     | 'routine';
   period: Temporal;
   partial: boolean;

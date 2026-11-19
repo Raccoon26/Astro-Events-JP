@@ -1,3 +1,13 @@
+# DEV-07 행사 중복 및 변경 추적
+
+로컬/격리 기능은 [구현·한계](DEV07_COMPLETION.md), [시험](DEV07_TEST_REPORT.md), [요구사항 감사](dev07-coverage.json)에서 확인한다. PR #30 병합 main `632822aa898218d63255a3dc6b3a1edcb94df306`의 기존 708개 테스트와 0001~0008을 보존한다. DEV-07의 0009는 로컬/격리 전용이다. 실제 병합 및 main 동기화는 E 드라이브 complete:dev 보고서를 근거로 한다.
+
+사용자가 DEV-06R의 합성 Telegram A/B 각 1건, Private Reports 시험 Issue 및 GitHub 이메일 수신을 직접 확인했다. 실제 버튼 클릭, 실네트워크 장애 복구 전수, 전체 Cloudflare CPU와 장기 운영 인증 갱신은 별도 미검증이다. [사용자 확인 범위](DEV06R_LIVE_VALIDATION.md)
+
+Collection/Notifications=false, Source active 0, Workers 안전 전송기 fail-closed, 원격 D1 양쪽 0004, production Cron 0을 유지한다. DEV-07 외부 전송과 production 변경은 0이다. [GitHub App 전환 설계](AUTH_AUTOMATION_DESIGN.md)는 모의 인터페이스까지만 검증하며 DEV-08은 자동 시작하지 않는다.
+
+## 이전 단계 이력
+
 # DEV-06R: 제한 수신 시험 준비
 
 고정 합성 행사에 한해 Telegram·Private Reports에 연결할 수 있는 Windows 로컬 실행기를 분리했다. 전용 Secret, 읽기 전용 점검, 대상·본문·시간에 묶인 승인 코드가 모두 필요하다. 실제 메시지·시험 Issue·이메일·버튼 수신은 승인 전이므로 미검증이다. 기존 Watch·이메일·봇 `/start` 설정을 재요구하지 않는다. [시험 절차와 결과 범위](DEV06R_LIVE_VALIDATION.md).
