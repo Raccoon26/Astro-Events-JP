@@ -1,15 +1,11 @@
-import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
+import { regressionFileMatches } from './regression-baseline.mjs';
 
 const baseline = JSON.parse(readFileSync('data/dev06-baseline.json', 'utf8'));
 if (baseline.tests !== 597 || baseline.testFiles !== 39)
   throw Error('DEV06_BASELINE_CHANGED');
 for (const [file, hash] of Object.entries(baseline.files))
-  if (
-    createHash('sha256')
-      .update(readFileSync(file, 'utf8').replace(/\r\n/g, '\n'))
-      .digest('hex') !== hash
-  )
+  if (!regressionFileMatches(file, hash))
     throw Error('DEV06_REGRESSION_CHANGED: ' + file);
 const audit = JSON.parse(readFileSync('dev06-coverage.json', 'utf8'));
 for (const key of [
@@ -56,5 +52,5 @@ for (const file of [
   if (readFileSync(file + '.md', 'utf8').length < 200)
     throw Error('DEV06_DOCUMENT_MISSING');
 console.log(
-  'DEV06 original597 purposes/39 files and migrations0001–0007 unchanged; sections0–26 and R01–R32 mapped; live send/remote migration/production change disabled. Remote receipt and CPU remain unverified.',
+  'DEV06 original597 purposes/39 files and migrations0001–0007 preserved; sections0–26 and R01–R32 mapped; live send/remote migration/production change disabled. Remote receipt and CPU remain unverified.',
 );

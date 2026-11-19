@@ -518,20 +518,15 @@ describe('native local D1 post generation and current Verified output, no remote
   }, 30000);
   it('does not scan thousands of review rows to find current decision hints', async () => {
     const f = await setup();
-    for (let base = 0; base < 5000; base += 50)
-      await db.batch(
-        Array.from({ length: 50 }, (_, i) =>
-          db
-            .prepare(
-              "INSERT INTO events(stable_event_id,source_id,title,category,official_url,first_seen_at) VALUES(?1,?2,'合成未検証','local','https://example.jp/events/synthetic',?3)",
-            )
-            .bind(
-              'review-' + String(base + i).padStart(5, '0'),
-              f.ctx.source.id,
-              NOW,
-            ),
-        ),
-      );
+    const seeded = await db
+      .prepare(
+        `WITH RECURSIVE rows(i) AS (VALUES(0) UNION ALL SELECT i+1 FROM rows WHERE i<4999)
+         INSERT INTO events(stable_event_id,source_id,title,category,official_url,first_seen_at)
+         SELECT printf('review-%05d', i),?1,'合成未検証','local','https://example.jp/events/synthetic',?2 FROM rows`,
+      )
+      .bind(f.ctx.source.id, NOW)
+      .run();
+    expect(seeded.meta.changes).toBe(5000);
     const before = f.store.meter.snapshot(),
       rows = await f.store.list('', 25),
       after = f.store.meter.snapshot();

@@ -60,7 +60,8 @@
     "notifications:history": "node scripts/notifications.mjs history",
     "notifications:updates": "node scripts/notifications.mjs updates",
     "notifications:email": "node scripts/notifications.mjs email",
-    "notifications:samples": "node scripts/notification-samples.mjs"
+    "notifications:samples": "node scripts/notification-samples.mjs",
+    "notifications:live-preview": "node scripts/dev06r.mjs preview"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",
