@@ -1,3 +1,7 @@
+# DEV-06R: 제한 수신 시험 준비
+
+고정 합성 행사에 한해 Telegram·Private Reports에 연결할 수 있는 Windows 로컬 실행기를 분리했다. 전용 Secret, 읽기 전용 점검, 대상·본문·시간에 묶인 승인 코드가 모두 필요하다. 실제 메시지·시험 Issue·이메일·버튼 수신은 승인 전이므로 미검증이다. 기존 Watch·이메일·봇 `/start` 설정을 재요구하지 않는다. [시험 절차와 결과 범위](DEV06R_LIVE_VALIDATION.md).
+
 # DEV06: 로컬 알림 구현 및 회귀 검증
 
 Telegram A/B, Private Issue 서식, callback 3종, 현재 검증과 게시글 재검사, 부분별 Outbox와 불확실한 전달 복구, 로컬 CLI와 이메일 준비 진단을 구현했다. 로컬·격리 환경의 696개 테스트가 48개 파일에서 통과했다. 기존 597개 테스트와 0001~0007 마이그레이션은 원본 해시로 보존했다. GitHub 완료 결과는 E 드라이브 보고서에 기록한다. [완료 근거](DEV06_COMPLETION.md) · [검사](DEV06_TEST_REPORT.md) · [요구 감사](dev06-coverage.json).

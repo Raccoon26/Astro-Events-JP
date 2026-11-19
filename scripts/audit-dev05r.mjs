@@ -1,5 +1,5 @@
-import { createHash } from 'node:crypto';
 import fs from 'node:fs';
+import { regressionFileMatches } from './regression-baseline.mjs';
 
 const baseline = JSON.parse(
   fs.readFileSync('data/dev05r-baseline.json', 'utf8'),
@@ -7,11 +7,7 @@ const baseline = JSON.parse(
 if (baseline.tests !== 539 || baseline.testFiles !== 32)
   throw Error('DEV05R_BASELINE_CHANGED');
 for (const [file, hash] of Object.entries(baseline.files))
-  if (
-    createHash('sha256')
-      .update(fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n'))
-      .digest('hex') !== hash
-  )
+  if (!regressionFileMatches(file, hash))
     throw Error('DEV05R_REGRESSION_FILE_CHANGED: ' + file);
 const audit = JSON.parse(fs.readFileSync('dev05r-coverage.json', 'utf8'));
 for (const key of [
