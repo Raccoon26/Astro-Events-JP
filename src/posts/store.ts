@@ -268,7 +268,8 @@ export class PostStore {
       delivery: this.delivery(c, p),
     };
   }
-  async get(id: string): Promise<PostDelivery | null> {
+  /** Current delivery plus a bound SQL proof for downstream atomic writes. */
+  async current(id: string) {
     try {
       if (typeof id !== 'string' || id.length > 200)
         throw new PostError('unsafe-input');
@@ -278,10 +279,47 @@ export class PostStore {
       const c = await this.capture(row.event_id),
         p = await this.draft(c, row.kind, row.template_version);
       if (!this.matches(row, c, p, await digest(p.text))) return null;
-      return this.delivery(await this.recheck(c, p), p);
+      const fresh = await this.recheck(c, p);
+      return {
+        delivery: this.delivery(fresh, p),
+        event: fresh.event,
+        revision: fresh.revision,
+        decisionId: fresh.decisionId,
+        validUntil: new Date(
+          Math.min(Date.parse(p.validUntil), Date.parse(fresh.validUntil)),
+        ).toISOString(),
+        guard: {
+          sql: `(${fresh.guard.sql}) AND EXISTS(SELECT 1 FROM generated_posts WHERE post_id=? AND event_id=? AND revision=? AND kind=? AND text=? AND weighted_length=? AND hashtags_json=? AND template_version=? AND verification_decision_id=? AND input_digest=? AND content_digest=? AND length_policy=? AND valid_until=? AND omissions_json=?) AND EXISTS(SELECT 1 FROM verification_decisions WHERE decision_id=? AND generation=? AND result_json=? AND rule_version=? AND status='Verified' AND expires_at=?)`,
+          values: [
+            ...fresh.guard.values,
+            row.post_id,
+            row.event_id,
+            row.revision,
+            row.kind,
+            row.text,
+            row.weighted_length,
+            row.hashtags_json,
+            row.template_version,
+            row.verification_decision_id,
+            row.input_digest,
+            row.content_digest,
+            row.length_policy,
+            row.valid_until,
+            row.omissions_json,
+            fresh.decisionId,
+            fresh.revision,
+            fresh.decisionToken,
+            fresh.event.verification.ruleVersion,
+            fresh.event.verification.expiresAt,
+          ],
+        },
+      };
     } catch {
       return null;
     }
+  }
+  async get(id: string): Promise<PostDelivery | null> {
+    return (await this.current(id))?.delivery ?? null;
   }
   /** Hints are not copyable Verified outputs. Cursor advances even over stale rows. */
   async list(cursor = '', limit = 25) {

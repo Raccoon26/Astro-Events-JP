@@ -1,5 +1,7 @@
 # v1.0 요구사항 기준선
 
+DEV06은 R11~R20/R22~R28/R31의 로컬 전달 계약·보안·멱등성과 R01~R32 회귀 보존을 [감사 파일](dev06-coverage.json)로 연결한다. R17/R18의 실제 Telegram 수신·Private Issue 쓰기·이메일 도달과 실사용 인증은 별도 승인 시험으로 남긴다. 로컬 구현 완료를 실전 수신 완료로 표시하지 않는다. 기존 상세 보관90일/지문2년/로그30일 및 DEV07~10 범위는 유지한다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 이 문서는 DEV-00에서 확정한 제품 범위이다. 구현 완료와 설계 완료를 구분한다. 코드의 기능 추가·삭제는 이 기준선, `requirements-coverage.json`, 로드맵을 함께 감사한다. 실제 X 자동 게시, 유료 AI·검색 API, VPS, 개인 서버는 사용하지 않는다. Telegram에서 사람이 일본어 완성 글을 복사해 게시한다.

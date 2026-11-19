@@ -1,5 +1,7 @@
 # DEV 완료 체크리스트
 
+DEV06 추가 조건: 기존597개 목적/0001~0007 hash, 13종 A/B copy 동등성, Private Issue fail-closed, callback actor/chat/message/버전/만료/CAS, 부분 전달·uncertain·lease·rollback·재조정, native D1/workerd, CLI Dry Run, 신규0008 로컬 ledger/FK/quick_check, 샘플 재현성과 전체 check를 확인한다. 실제 발송0/remote migration0/production 변경0을 감사한다. R17/R18의 실제 수신과 전체 CPU는 별도 승인 미검증으로 남긴다. complete:dev·최신 HEAD CI·보호 준수 squash·main fast-forward·clean 확인은 생략하지 않는다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01 추가 gate: Free플랜/계정전체여유, 두DB실ID·provider/내부marker, 원격migration·staging CRUD/TimeTravel·Worker rollback·Health/Cron·실CPU·조건부배포를 실제검증해야 **운영환경완료**다. 인증이 보류되면 local구현/테스트만 명시하여 merge할 수 있지만 DEV01 운영완료로 표시하지 않는다. 사용자 지시로 DEV02/03 로컬개발은 분리할 수 있지만 실운영 선행조건은 유지한다. production에는 테스트삭제/복구를 수행하지 않는다. 상세 현재상태는 PROJECT_STATUS 및 외부최종보고서가 기준이다.

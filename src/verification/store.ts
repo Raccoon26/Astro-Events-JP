@@ -553,6 +553,26 @@ export class VerificationStore {
             event,
             revision: saved.generation,
             decisionId: saved.decision_id,
+            decisionToken: saved.result_json,
+            validUntil: new Date(
+              Math.min(
+                Date.parse(old.expiresAt),
+                ...(old.packet?.images.flatMap((r) =>
+                  r.availabilityWitness &&
+                  Number.isFinite(
+                    Date.parse(r.availabilityWitness.checkedAt),
+                  ) &&
+                  old.images.some(
+                    (i) =>
+                      i.imageUrl === r.imageUrl &&
+                      i.available !== null &&
+                      i.available !== undefined,
+                  )
+                    ? [Date.parse(r.availabilityWitness.checkedAt) + 86400000]
+                    : [],
+                ) ?? []),
+              ),
+            ).toISOString(),
             guard,
           }
         : null;

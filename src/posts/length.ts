@@ -17,7 +17,13 @@ const initialization = parseTweet('天文 🌙 https://example.jp/', X_CONFIG);
 if (!initialization.valid || initialization.weightedLength !== 31)
   throw new Error('X_RULE_INITIALIZATION_FAILED');
 
-export { extractHashtags, extractUrls };
+// Shared input policy for non-X management text; its URL/tag rules differ.
+export {
+  extractHashtags,
+  extractUrls,
+  looksSecret as containsPostSecret,
+  safeJoiners as hasSafeJoiners,
+};
 
 function looksSecret(text: string) {
   return /gh[pousr]_[A-Za-z0-9]{36,}|github_pat_[A-Za-z0-9_]{50,}|cf[ua]t_[A-Za-z0-9_-]{20,}|-----BEGIN (?:RSA |OPENSSH |EC )?PRIVATE KEY-----|\b\d{8,12}:[A-Za-z0-9_-]{35}\b/u.test(

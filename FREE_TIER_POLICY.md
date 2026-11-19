@@ -1,5 +1,11 @@
 # 무료 운영 정책
 
+## DEV06 전달 예산
+
+2026-11-18 [D1 공식 한도](https://developers.cloudflare.com/d1/platform/limits/)를 확인했다. Free invocation 쿼리 상한50에서 db.batch는 호출 하나로 계산하며 statement 수/rows read/write 비용은 따로 집계한다. 단계를 독립 invocation으로 실행하고 각 enqueue 페이지는 최대2부분, 목록50행, 요청 최대3/단계·총512/모의일·채널1초 간격/최대3회 retry를 보수적으로 예약한다. 계정 사용량을 모르면 기존 budget guard가 실행을 거부한다. 실제 제공자 quota가 늘어난다고 해석하지 않는다.
+
+DEV06 로컬 native D1/workerd 비용과 경과시간을 측정하되 Cloudflare CPU/메모리는 미측정이다. DEV05R P99 6.364ms/140관측·30누락·emoji8.770ms/최종코드 재측정 미완료를 그대로 유지한다. 전체 gate/outbox/전송/callback의 CPU10ms 충족은 보장하지 않는다. 원격0004·실전발송OFF를 유지하고 새로운 Queues/KV/R2/유료 제품은 추가하지 않는다.
+
 > DEV-01R 현재 결과(2026-11-13 JST): staging·production 원격 Worker/D1·마이그레이션·staging 복구/rollback·Health/Cron·실제 CPU·승인된 Actions 배포를 검증했다. [원격 검증 결과](DEV01R_REMOTE_REPORT.md)가 최신 근거이며 아래 DEV01~03 당시의 보류 기록은 이력이다. 수집·알림=false, active0, production Cron0. 최종 문서 PR/CI/병합/main SHA는 E 완료 보고서 기준이다.
 
 DEV01 당시 기록(현재 실제 검증은 위 보고서): 아래 공식 한도는 유지된다. **사용자 계정의 실제 플랜/사용량은 인증 보류로 미확인**이며 Free라고 추정하지 않는다. 로컬 Health의 D1 identity SELECT는 rows_read=1, rows_written=0이었다. 실제 Cloudflare CPU·D1 비용/계정여유를 실측했다고 표시하지 않는다.

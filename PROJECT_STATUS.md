@@ -1,3 +1,11 @@
+# DEV06: 로컬 알림 구현 및 회귀 검증
+
+Telegram A/B, Private Issue 서식, callback 3종, 현재 검증과 게시글 재검사, 부분별 Outbox와 불확실한 전달 복구, 로컬 CLI와 이메일 준비 진단을 구현했다. 로컬·격리 환경의 696개 테스트가 48개 파일에서 통과했다. 기존 597개 테스트와 0001~0007 마이그레이션은 원본 해시로 보존했다. GitHub 완료 결과는 E 드라이브 보고서에 기록한다. [완료 근거](DEV06_COMPLETION.md) · [검사](DEV06_TEST_REPORT.md) · [요구 감사](dev06-coverage.json).
+
+실제 Telegram/Reports Issues/이메일 발송0, 실제 Source 승인/수집/검증행사/게시0, Collection/Notifications=false, Workers SSRF fail-closed다. 원격 D1은 양쪽0004, production Cron0이며 원격 신규 migration·production 변경·추가 인증 요청은 없다. Reports Private/Issues 읽기 조회는 확인했지만 credential Issues 쓰기·실제 수신은 미검증이다. DEV05R 140/170 표본과 emoji 목표 미달·최종 코드 재실측 미완료를 보존하며 DEV06 CPU를 보장하지 않는다. DEV07은 시작하지 않는다.
+
+## 이전 단계 이력
+
 # DEV05R: 최적화·대표 합성 실증 완료 / 유형별8ms 목표 일부 미달 / 실운영 OFF
 
 전체597개/39파일·기존539개 목적/0001~0007 보존·보안/요구감사를 통과했다. 최종 staging170건은 모두 성공, 공식 CPU140관측/누락30에서 P50/P95/P99=2.407/4.689/6.364ms·최대8.770ms·10ms초과0/140, 첫 생성1관측5.224ms다. 통합 분포 목표는 충족했지만 이모지 유형 P99는8.770ms(9관측)로8ms를 초과했다. 모든 cold/원격 전체 gate·저장/3시간 Cron은 보장하지 않는다. [완료·전체파일](DEV05R_COMPLETION.md)과 [측정·실패·한계](DEV05R_CPU_REPORT.md)를 따른다.
