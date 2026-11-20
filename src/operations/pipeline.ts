@@ -25,10 +25,10 @@ interface Intent {
   part_cursor: number;
 }
 export function operationsPipeline(
-  database: D1Database,
+  database: D1Database | D1Meter,
   options: { clock?: () => number; fixtureTransport?: Transport } = {},
 ) {
-  const meter = new D1Meter(database),
+  const meter = database instanceof D1Meter ? database : new D1Meter(database),
     db = meter.db;
   const clock = options.clock ?? Date.now;
   const transport = options.fixtureTransport ?? unavailableTransport;
@@ -170,22 +170,27 @@ export function operationsPipeline(
       revision: i.revision,
       fingerprint: i.fingerprint,
     };
-    const c = await verify.capture(i.event_id);
     const booking = i.kind === 'deadline' || i.kind === 'applications-open';
-    if (
-      !c ||
-      c.decisionId !== i.decision_id ||
-      c.revision !== i.revision ||
-      c.event.sourceId !== i.source_id ||
-      c.event.verification.fingerprint !== i.fingerprint ||
-      (booking &&
-        (c.event.status !== 'scheduled' ||
-          !bookingWindow(
-            c.event.verification.fields,
-            i.kind as 'deadline' | 'applications-open',
-            clock(),
-          )))
-    ) {
+    // Cheap rejection of out-of-date rows. save/enqueue still load full verified
+    // proof and check the same decision before their guarded writes.
+    const current = await sql(
+      `SELECT 1 AS eligible FROM events e
+      JOIN verification_decisions v ON v.decision_id=e.verification_id
+      JOIN event_candidates c ON c.candidate_id=e.candidate_id AND c.fingerprint=v.fingerprint
+      JOIN sources s ON s.source_id=e.source_id AND s.state='active'
+      JOIN source_approvals a ON a.source_id=s.source_id
+      WHERE e.stable_event_id=? AND e.source_id=? AND e.revision=? AND e.verification_id=?
+      AND v.fingerprint=? AND v.expires_at>? AND v.status='Verified' AND e.verification_status='Verified'
+      AND (?=0 OR e.status='scheduled')`,
+      i.event_id,
+      i.source_id,
+      i.revision,
+      i.decision_id,
+      i.fingerprint,
+      iso(clock()),
+      booking ? 1 : 0,
+    ).first('eligible');
+    if (current !== 1) {
       await save('suppressed', i.post_id, i.part_cursor);
       return { ...details, state: 'blocked', code: 'stale-intent' };
     }
@@ -193,6 +198,7 @@ export function operationsPipeline(
       sourceId: i.source_id,
       revision: i.revision,
       fingerprint: i.fingerprint,
+      decisionId: i.decision_id,
     };
     try {
       if (isPost) {

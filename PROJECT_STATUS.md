@@ -1,3 +1,11 @@
+# DEV-10 통합과 릴리스 판정
+
+기존 진단 Worker 옆에 기본 OFF 비공개 Worker 진입점을 준비했다. 격리 D1 `0012` 표식과 예산 증거를 요구하며 합성 독립 호출로 Registry에서 검증·게시 확인·복구까지 연결한다. 신규 연결은 기존 배포 구성에 들어 있지 않다. [코드 및 범위](DEV10_COMPLETION.md) · [시험](DEV10_TEST_REPORT.md) · [릴리스 게이트](DEV10_RELEASE_READINESS.md)
+
+원격 운영의 미충족 조건은 승인된 스키마, 실제 HTTPS 피어 및 TLS, 소수 Source 승인, 단계별 CPU·Observability, App/수신 실증과 원격 복구다. 원격 두 D1 0004, active 0, 수집·알림 OFF, production Cron 0 및 Workers SSRF fail-closed를 유지한다. [보안 감사](DEV10_SECURITY_REPORT.md) · [수동 승인](DEV10_MANUAL_APPROVAL_PLAN.md)
+
+## 이전 단계 이력
+
 # DEV-09 3시간 작업 장부와 운영 안전 검증
 
 DEV-09의 E 로컬·격리 0011에서 3시간 예약, lease/cursor 복구, 독립 지역·종류·VTuber 조사, 게시/Outbox 준비, 보관 및 App 교환 모의를 검증한다. 실제 운영 플래그 OFF, 양쪽 원격 D1 0004, 현재 수집 승인 0, production Cron 0, Workers SSRF fail-closed다. [구현과 범위](DEV09_COMPLETION.md) · [회귀](DEV09_TEST_REPORT.md) · [요구 감사](dev09-coverage.json)

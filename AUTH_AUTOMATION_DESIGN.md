@@ -36,3 +36,7 @@ App은 Issue 작성 주체를 바꾼다. Reports 접근권한을 가진 사람�
 ## DEV-09 서명과 교환 구현
 
 `src/operations/github-app.ts`에서 WebCrypto RS256 JWT, 저장소 ID 및 최소권한이 포함된 토큰 교환, Private Issues 재검사, 메모리 갱신 및 폐기를 구현한다. 401/403/404/429/5xx와 재시도 경계를 fixture로 검증한다. 실제 App 설치·개인키 및 교환·장기 갱신 검증은 별도 승인 후 수행한다. DEV-06R의 30분 승인 코드와 기존 Bot Secret은 기존 역할을 유지한다.
+
+## DEV-10 staging 인증 경계
+
+비공개 `verifyReportsAccess`는 별도 승인 및 전용 staging DB/마커·예산 증거·Secret을 요구한다. API 대상과 호출수를 제한하고 3xx를 거부하며 점검 결과만 반환한다. 성공 시에도 전송과 Issue 양식은 기존 Outbox와 별도의 운영 승인을 따른다. 실제 App 설치·키·발급/장기 순환을 합성 시험으로 대체하지 않는다.

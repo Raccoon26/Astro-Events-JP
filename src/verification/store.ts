@@ -809,6 +809,7 @@ export class VerificationStore {
             decisionGeneration: saved.generation,
             decisionId: saved.decision_id,
             decisionToken: saved.result_json,
+            decisionSnapshot: saved.snapshot_json,
             validUntil: new Date(
               Math.min(
                 Date.parse(old.expiresAt),

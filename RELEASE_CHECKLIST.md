@@ -52,3 +52,7 @@ PR #31 기준·743개 회귀·0001~0009 checksum을 확인한다. 47현 aging·V
 ## DEV-09 운영 승인 분리
 
 기존 766개 목적·0001~0010 SHA, UTC/JST 슬롯과 경합/복구, Free 유예/CPU, 지역·VTuber, 정리와 rollback/FK, App scope/갱신, 보고, 전체 CI 및 보호 병합을 점검한다. DEV-10 운영 게이트는 원격 schema·안전한 전송·공식 CPU·계정 Observability·실제 App/수신 시험과 사용자 승인이다. [DEV-09 검사](DEV09_TEST_REPORT.md)
+
+## DEV-10 A/B/C 체크
+
+기존 797개 및 0001~0011 hash, 합성 종단 간과 OFF/schema/예산 경계, SSRF/API/Secrets와 일본어 수동 점검, 보호 병합을 검사한다. B와 C는 [별도 승인/실증](DEV10_MANUAL_APPROVAL_PLAN.md)의 성공 증거를 요구한다.

@@ -34,6 +34,7 @@ export function pinnedTransport(
             family: 4,
             autoSelectFamily: false,
             servername: url.hostname,
+            rejectUnauthorized: true,
             signal,
             lookup: (_host, options, callback) =>
               options?.all

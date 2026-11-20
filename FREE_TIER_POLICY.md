@@ -106,3 +106,7 @@ DEV-09/10에서 독립 invocation마다 10ms CPU와 D1 쿼리·계정 총 행 �
 ## DEV-09 예산과 Observability
 
 계정과 프로젝트의 예약을 구분하고, 일반 작업에는 보수적 예산의 80% 경계를 적용한다. 2026-12-01 이후 Free 계정의 Observability 공용 할당량은 0.5GB/일, 보존 7일이다. 진단용 100% 샘플링에서 실제 사용량을 확인하고 누락 위험을 평가한 뒤 변경한다. 운영 장부는 D1에서 보존한다. [측정과 보류](DEV09_FREE_BUDGET_REPORT.md)
+
+## DEV-10 계정 검증
+
+계정 전체 인증 집계·현재 진단 Cron CPU는 [Free 비용 보고서](DEV10_CPU_REPORT.md)에 기록한다. CPU 경로별 실측·계정 Observability 사용량이 불명확하면 실제 단계 활성화를 보류한다. 유료 자동 전환은 없다.
