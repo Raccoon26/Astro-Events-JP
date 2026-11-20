@@ -61,3 +61,7 @@ DEV05 본문/필드의 알려진 토큰 형식과 공식URL의 인증·비밀 qu
 공식 canonical URL/이전 일시를 사용하는 검증에는 기존 승인 호스트·경로, attested 문서 digest/시각/인용이 필요하다. 외부 요청 없이 비교하며 중복 검토 적용은 로컬 staging, 현재 두 결정, 근거, 예산, CAS를 요구한다. 분석 문구, 채팅 ID, Secret, 실제 개인 주소를 공개 로그나 CI artifact에 저장하지 않는다. E의 보호된 DEV-06R 자료는 유지한다.
 
 DEV-06R의 30분 시험 승인, Bot Token, GitHub App JWT/installation token은 서로 다른 범위다. 운영 인증 교환은 DEV-07에서 모의 인터페이스만 검증했고 실제 설치나 개인키 사용 없이 기존 운영 차단을 유지한다. [인증 설계](AUTH_AUTOMATION_DESIGN.md)
+
+## DEV-09 안전 경계
+
+격리 D1 동작과 기존 Cloudflare 진단 배포를 분리한다. 공급자 요청의 불확실 결과는 재전송을 차단한다. App 교환은 고정 GitHub API와 Reports ID/Private/Issues scope를 확인하고 서명·토큰·원시 본문을 로그에 넣지 않는다. Worker 안전 피어가 입증될 때까지 외부 수집 진입은 fail-closed다. [복구](DEV09_RECOVERY_REPORT.md)

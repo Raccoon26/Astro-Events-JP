@@ -32,3 +32,7 @@
 갱신에는 서명과 토큰 교환 1회가 필요하다. 사전 검사와 Issues 요청은 별도 예산에 포함한다. 단순 함수 분리에는 별도 CPU 예산이 없다. DEV-09/10에서 고립된 CPU 경계와 메모리 재사용을 실제로 측정한다. 실행 간 체크포인트에는 토큰 만료·재시도 시각·승인된 설치 식별만 남길 수 있다. 토큰 자체는 요청과 같은 신뢰 실행 안에서만 쓴다. Workerd 격리마다 반복 발급되는 비용, 중단·폐기·갱신과 403/429 회복, 전체 송신의 CPU 및 D1 비용을 검증한 후 운영을 승인한다. 기존 플랜과 새 자원 없는 구성을 우선한다. [Workers 한도](https://developers.cloudflare.com/workers/platform/limits/) · [D1 한도](https://developers.cloudflare.com/d1/platform/limits/)
 
 App은 Issue 작성 주체를 바꾼다. Reports 접근권한을 가진 사람의 Issues Watch·이메일 설정으로 도착 여부를 독립 확인해야 한다. App 생성, 개인키 발급, Secret 변경, PAT 교체와 합성 수신 재시험에는 각각 해당 단계의 사용자 승인과 검증 기록이 필요하다. 기존 수신자가 완료한 설정을 재요구하지 않는다. [GitHub 알림 설정](https://docs.github.com/en/subscriptions-and-notifications/get-started/configuring-notifications)
+
+## DEV-09 서명과 교환 구현
+
+`src/operations/github-app.ts`에서 WebCrypto RS256 JWT, 저장소 ID 및 최소권한이 포함된 토큰 교환, Private Issues 재검사, 메모리 갱신 및 폐기를 구현한다. 401/403/404/429/5xx와 재시도 경계를 fixture로 검증한다. 실제 App 설치·개인키 및 교환·장기 갱신 검증은 별도 승인 후 수행한다. DEV-06R의 30분 승인 코드와 기존 Bot Secret은 기존 역할을 유지한다.

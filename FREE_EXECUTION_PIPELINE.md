@@ -23,3 +23,7 @@ ctx.exports loopback이나 Service Binding 호출만 추가해 Free의 CPU 예�
 Workers DNS 조회는 fetch의 실제 TLS peer를 고정하지 못하고 TCP socket의 remoteAddress는 nullable이다. 공식 fetch/DNS/TCP API의 peer/SNI/인증서/리다이렉트 결합을 무료 환경에서 검증하기 전까지 기존 unavailableTransport를 유지한다. DNS resolve만 추가하거나 보안 정책을 낮춰 해결됐다고 하지 않는다. 후속 안전 실증은 승인 호스트·robots/약관·요청 예산을 별도로 통과한 경우에만 가능하며 이번 작업의 실제 사이트 요청은0이다.
 
 DEV05R 추가 조사: 현재 고정 Workers types에는 Socket.startTls({expectedServerHostname})와 literal SocketAddress가 존재한다. 공개 IP로 직접 connect→원래 hostname으로 TLS 업그레이드→인증서/peer 검증을 결합하는 무료 후보 경로를 후속 실증 대상으로 삼을 수 있다. 그러나 문서/타입 존재는 실제 원격 인증서 검증·IP pinning 성공 증거가 아니다. Cloudflare IP/사설 주소 제한·remoteAddress 부재·HTTP framing/chunked/압축/body 제한·redirect마다 재검증·IPv4/IPv6/혼합DNS·wrong-host/잘못된 인증서 거부를 독립 fixture와 승인된 통제 endpoint에서 검증해야 한다. 이번에는 실제 외부 사이트 연결이나 해당 전송기 활성화를 하지 않는다. [TCP 공식 문서](https://developers.cloudflare.com/workers/runtime-apis/tcp-sockets/)를 따르며 node:https의 lookup/Agent 옵션이 그대로 작동한다고 가정하지 않는다.
+
+## DEV-09 독립 호출 경계
+
+로컬 슬롯 예약 `tick`과 다음 단계 `advance`를 분리한다. 별도 CLI 실행 또는 격리 handler로 시험한다. Worker 내부 함수 호출에는 같은 CPU 제한이 적용된다. 향후 Cron에서 직접 여러 작업을 실행하기 전에 각 단계의 별도 invocation과 요청·D1·CPU를 함께 검증한다. 대기·CPU 스케줄 한계 때문에 회수한 lease는 다음 실행으로 이월한다.

@@ -102,3 +102,7 @@ main714d01bafca05166b67a65fad2268fe410a402ed / 진단43879903909에서 고정210
 지역 한 단계는 47개의 고정 지역 상태와 최대 8개의 Source 페이지를 다룬다. 정책·호스트·큐의 transaction CAS를 포함한다. 지역·유형·VTuber lane은 독립적으로 이월할 수 있다. 주말 미리보기는 날짜 인덱스로 제한한 후보를 최대 16건 확인하고 최대 3개 부분을 만든다. 전체 로컬 미리보기 및 검증의 CPU·D1 호출 합계를 하나의 Free Worker invocation에 허용한다고 해석하지 않는다.
 
 DEV-09/10에서 독립 invocation마다 10ms CPU와 D1 쿼리·계정 총 행 비용을 재검증한다. 로컬 합성 측정은 원격 공식 CPU 보증이 아니다. 추가 유료 자원을 사용하지 않는다. [Workers 한도](https://developers.cloudflare.com/workers/platform/limits/) · [D1 Free](https://developers.cloudflare.com/d1/platform/pricing/)
+
+## DEV-09 예산과 Observability
+
+계정과 프로젝트의 예약을 구분하고, 일반 작업에는 보수적 예산의 80% 경계를 적용한다. 2026-12-01 이후 Free 계정의 Observability 공용 할당량은 0.5GB/일, 보존 7일이다. 진단용 100% 샘플링에서 실제 사용량을 확인하고 누락 위험을 평가한 뒤 변경한다. 운영 장부는 D1에서 보존한다. [측정과 보류](DEV09_FREE_BUDGET_REPORT.md)

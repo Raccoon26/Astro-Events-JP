@@ -12,7 +12,7 @@
     "lint": "biome check --error-on-warnings .",
     "format": "biome check --write .",
     "test": "vitest run",
-    "build": "node scripts/build.mjs && node scripts/build-collector.mjs && node scripts/build-verifier.mjs && node scripts/build-posts.mjs && node scripts/build-notifications.mjs",
+    "build": "node scripts/build.mjs && node scripts/build-collector.mjs && node scripts/build-verifier.mjs && node scripts/build-posts.mjs && node scripts/build-notifications.mjs && node scripts/build-operations.mjs",
     "security": "node scripts/audit.mjs && npm audit --audit-level=high",
     "audit:requirements": "node scripts/coverage.mjs",
     "check": "node scripts/preflight.mjs && npm run check:cloudflare && npm run seed:validate && node scripts/post-samples.mjs --check && node scripts/notification-samples.mjs --check && npm run typecheck && npm run lint && npm test && npm run build && npm run security && npm run audit:requirements && npm run d1:local",

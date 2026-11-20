@@ -1,3 +1,11 @@
+# DEV-09 3시간 작업 장부와 운영 안전 검증
+
+DEV-09의 E 로컬·격리 0011에서 3시간 예약, lease/cursor 복구, 독립 지역·종류·VTuber 조사, 게시/Outbox 준비, 보관 및 App 교환 모의를 검증한다. 실제 운영 플래그 OFF, 양쪽 원격 D1 0004, 현재 수집 승인 0, production Cron 0, Workers SSRF fail-closed다. [구현과 범위](DEV09_COMPLETION.md) · [회귀](DEV09_TEST_REPORT.md) · [요구 감사](dev09-coverage.json)
+
+새 작업 단계의 원격 CPU, Observability 전체 사용량, 실제 App 설치/토큰 교환, 안전한 수집피어 및 장기 장애 복구는 운영 승인 전에 검증해야 한다. 기존 staging 진단 Cron의 공식 집계는 별도로 기록한다. DEV-10은 자동 시작하지 않는다. [사용량 및 공식 CPU](DEV09_FREE_BUDGET_REPORT.md)
+
+## 이전 단계 이력
+
 # DEV-08 전국 공정 조사와 주말 행사 모음
 
 공식 정보원 114개·공식성 95개·47/47 도도부현을 보존한다. DEV-08에서 일본어 시정촌 및 소규모 시설을 확장하고 공식 원문 기반 정보원 18개를 review로 추가했다. 단일 공식 정보원 지역 24곳→8곳, 실제 수집 승인·활성 0이다. [47현 비교와 근거](DEV08_FAIRNESS_REPORT.md)

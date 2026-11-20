@@ -55,3 +55,7 @@ DEV-08은 지역·카테고리 공정성과 발견을 이어가며 실제 수집
 ## DEV-08 전국 조사와 주말 모음
 
 47현 조사 우선도·지역/종류/VTuber 슬롯 및 0010 로컬 cursor, 공식 원문에 근거한 새 정보원과 시정촌, 현재 Verified를 읽는 주말 정책·합성 Outbox를 추가했다. 실제 운영 활성화는 승인, 안전 전송, 원격 스키마, 계정 예산과 CPU 실증 후 후속 단계에서 판단한다. DEV-09의 정식 Cron·recovery·보관과 DEV-10의 실제 통합 요건을 유지한다. [구현 범위](DEV08_COMPLETION.md)
+
+## DEV-09 운영 기반
+
+JST 3시간 슬롯과 일일 집계, 격리 D1 lease/epoch/복구·보관, 계정 예산·작업 유예, GitHub App 교환 인터페이스, 장애 보고 초안을 구현한다. DEV-10 승인 게이트는 안전한 Peer/TLS 전송, 명시 승인 Source, 원격 스키마와 경로별 CPU·Observability 사용량, 실제 App과 허용된 전송 검증을 모두 요구한다. [DEV-09 검증 범위](DEV09_COMPLETION.md)

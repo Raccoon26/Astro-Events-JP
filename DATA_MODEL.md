@@ -98,3 +98,7 @@ DEV05 최종 결과는 [완료보고](DEV05_COMPLETION.md)를 따른다. 전체5
 `survey_checkpoint`의 lane·generation·cursor와 `survey_opportunities`의 지역별 시각·시정촌·Source 페이지 키, `survey_plans`의 run ID를 기존 collection_jobs와 한 batch로 기록한다. Collector가 임대·backoff를 갖는다.
 
 `weekend_editions`는 날짜와 scope·digest, `weekend_members`는 canonical event·revision·decision·fingerprint·만료와 메시지 내 위치를 보유한다. `weekend_active`가 현재 edition을 가리킨다. 전송이 시작되거나 uncertain이면 같은 주말의 edition을 자동 재발행하지 않는다. `weekend_outbox`는 독립 부분과 lease·영수증을 보유하며 기존 게시 fingerprint/Issue는 그대로다. DEV-09가 보관 기간과 FK 참조 해제 순서를 검증한다.
+
+## 0011 자동화와 보관
+
+`ops_jobs`의 (slot, phase), lease와 generation, `ops_checkpoints`의 안정적 커서, `ops_lease`의 예산 직렬화 epoch와 `ops_budget_day` 예약을 사용한다. `ops_post_intents`는 Source·행사 revision·결정 fingerprint와 합성 Outbox 부분을 연결한다. `ops_daily_reports`/장애 코드/수집 결과를 D1에서 읽는다. `ops_retention_receipts`는 계획과 결과 수, `ops_event_tombstones`는 정리한 후보 지문을 보존한다. 0011은 0001~0010 이후 로컬/격리 적용만 허용한다.
