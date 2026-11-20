@@ -51,3 +51,7 @@ DEV05는 전13종/현재Verified연결·결정적일본어·공식가중규칙·
 동일 공식 회차와 실제 정정 공지의 안정 ID, 제한적 유사 검토, 필드별 변경·예약 상태, facility notice 철회와 영향, 목적별 Outbox 및 Telegram B를 로컬/격리에 연결했다. 원격 0004와 production 잠금은 유지한다. [완료 범위](DEV07_COMPLETION.md)
 
 DEV-08은 지역·카테고리 공정성과 발견을 이어가며 실제 수집은 기존 승인 및 안전 전송 조건이 필요하다. DEV-09는 승인된 GitHub App의 실행 경계·폐기/회복, 재시도와 계정 한도·보관의 실증을 운영 게이트에 포함한다. DEV-10은 최소권한 설치와 실제 수신, 이전·현재 revision, 버튼, 장애, CPU 및 Free 사용량을 승인된 범위에서 검증한다. [인증 설계](AUTH_AUTOMATION_DESIGN.md)
+
+## DEV-08 전국 조사와 주말 모음
+
+47현 조사 우선도·지역/종류/VTuber 슬롯 및 0010 로컬 cursor, 공식 원문에 근거한 새 정보원과 시정촌, 현재 Verified를 읽는 주말 정책·합성 Outbox를 추가했다. 실제 운영 활성화는 승인, 안전 전송, 원격 스키마, 계정 예산과 CPU 실증 후 후속 단계에서 판단한다. DEV-09의 정식 Cron·recovery·보관과 DEV-10의 실제 통합 요건을 유지한다. [구현 범위](DEV08_COMPLETION.md)

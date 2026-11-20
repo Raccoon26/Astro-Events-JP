@@ -15,3 +15,9 @@ ID는 최초 URL 해시에서 생성한 후 데이터에 고정한다. URL변경
 후보 candidate/decide는발견경로·현·분류를저장하고 승인/거절/미지원처리를한다. approved는완전심사된active등록을요구하며 실패하면후보를승인표시하지않는다. 단위별실패후재시도가능하다. 재귀URL추적이나원격명령실행은없다.
 
 selectFair는47현커서를돌며 현당최대1개·오래된조사/임박deadline/priority 순으로선택한다. categoryMinimums는선택된현내에서local등최소량을우선하며 가용소스가없는할당은강제로채우지않는다. VTuber는독립budget으로선택한다. 미도래예약·비활성소스는제외한다. 호출자는커서를저장하고선택된소스의예약을갱신해야한다. 예산합계검사·lease·전국완주지연·national/null지역할당을포함한완전스케줄러는DEV08/09이며 전국완주속도를보장하지않는다.
+
+## DEV-08 지역 운영자 도구
+
+`node scripts/nationwide.mjs coverage 15 [source-cursor]`는 지방 Source의 공식성·형식·시정촌·검토·실제 로컬 수집 상태를 별도로 읽는다. 정규화 키는 현별로 제한된 일본어 별칭과 전각/공백을 처리하고 화면에는 공식 일본어 명칭을 유지한다. 공식 웹페이지에 다른 유형의 프로그램이 있어도 기존 시설 관계를 재사용한다. 자동 수집이 승인되지 않은 원문과 지역 단서는 계속 review 상태다.
+
+E 로컬 DB 초기화는 기존 `node scripts/registry.mjs init`을 사용한다. seed import 기본은 Dry Run이며 현재 운영 상태 및 기존 등록을 보존한다. `survey regional`, `survey category`, `survey vtuber`는 각 1개 bounded checkpoint를 미리보기한다. 기존 승인 게이트 통과 건만 `survey <lane> <run-id> --apply --local-budget`로 로컬 Collector 큐에 등록할 수 있다.

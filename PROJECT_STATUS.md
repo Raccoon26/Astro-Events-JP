@@ -1,3 +1,13 @@
+# DEV-08 전국 공정 조사와 주말 행사 모음
+
+공식 정보원 114개·공식성 95개·47/47 도도부현을 보존한다. DEV-08에서 일본어 시정촌 및 소규모 시설을 확장하고 공식 원문 기반 정보원 18개를 review로 추가했다. 단일 공식 정보원 지역 24곳→8곳, 실제 수집 승인·활성 0이다. [47현 비교와 근거](DEV08_FAIRNESS_REPORT.md)
+
+지역 aging·유형/VTuber 분리·cursor, 현재 Verified와 canonical revision을 사용한 JST 주말 모음, 별도 합성 Outbox를 로컬/격리 0010에서 검증한다. 원격 두 D1은 0004, Collection/Notifications=false, production Cron 0, Workers 안전 전송기 fail-closed를 유지한다. DEV-08 실제 수집기 실행과 외부 발송은 0이다. [완료 범위](DEV08_COMPLETION.md) · [시험](DEV08_TEST_REPORT.md) · [요구 감사](dev08-coverage.json)
+
+DEV-09 운영, 실제 사이트 승인, CPU·인증 장기 실증을 후속 게이트로 유지하며 자동 진입하지 않는다.
+
+## 이전 단계 이력
+
 # DEV-07 행사 중복 및 변경 추적
 
 로컬/격리 기능은 [구현·한계](DEV07_COMPLETION.md), [시험](DEV07_TEST_REPORT.md), [요구사항 감사](dev07-coverage.json)에서 확인한다. PR #30 병합 main `632822aa898218d63255a3dc6b3a1edcb94df306`의 기존 708개 테스트와 0001~0008을 보존한다. DEV-07의 0009는 로컬/격리 전용이다. 실제 병합 및 main 동기화는 E 드라이브 complete:dev 보고서를 근거로 한다.

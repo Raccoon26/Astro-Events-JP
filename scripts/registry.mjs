@@ -79,6 +79,41 @@ const report = {
       (s) => s.prefecture === p.code && s.officialStatus === 'Verified',
     ).length,
     facilities: facilities.filter((f) => f.prefecture === p.code).length,
+    municipalities: [
+      ...new Set(
+        seed
+          .filter((s) => s.prefecture === p.code)
+          .flatMap((s) => (s.municipality ? [s.municipality] : [])),
+      ),
+    ].sort(),
+    active: seed.filter((s) => s.prefecture === p.code && s.state === 'active')
+      .length,
+    review: seed.filter((s) => s.prefecture === p.code && s.state === 'review')
+      .length,
+    unsupported: seed.filter(
+      (s) => s.prefecture === p.code && s.state === 'unsupported',
+    ).length,
+    paused: seed.filter((s) => s.prefecture === p.code && s.state === 'paused')
+      .length,
+    lastOfficialReview:
+      seed
+        .filter((s) => s.prefecture === p.code)
+        .map((s) => s.checkedAt)
+        .sort()
+        .at(-1) ?? null,
+    smallLocalSources: seed.filter(
+      (s) =>
+        s.prefecture === p.code && ['astronomy', 'local'].includes(s.category),
+    ).length,
+    manuallyObservedFormats: [
+      ...new Set(
+        sources
+          .filter((s) => s.prefecture === p.code)
+          .flatMap(
+            (s) => s.observedFormats ?? (s.httpStatus === 200 ? ['html'] : []),
+          ),
+      ),
+    ].sort(),
   })),
   missing: prefectures
     .filter((p) => !seed.some((s) => s.prefecture === p.code))
