@@ -209,7 +209,12 @@ export class PostStore {
     kind: PostKind,
     accountUsage: Usage | null,
     version = TEMPLATE_VERSION,
-    expected?: { sourceId: string; fingerprint: string; revision: number },
+    expected?: {
+      sourceId: string;
+      fingerprint: string;
+      revision: number;
+      decisionId?: string;
+    },
   ) {
     if (
       !accountUsage ||
@@ -221,17 +226,19 @@ export class PostStore {
       })
     )
       throw new PostError('budget-exhausted');
-    const c = await this.capture(eventId),
-      p = await this.draft(c, kind, version),
-      prior = await this.row(p.id),
-      contentDigest = await digest(p.text);
+    const c = await this.capture(eventId);
     if (
       expected &&
       (c.event.sourceId !== expected.sourceId ||
         c.event.verification.fingerprint !== expected.fingerprint ||
-        c.revision !== expected.revision)
+        c.revision !== expected.revision ||
+        (expected.decisionId !== undefined &&
+          c.decisionId !== expected.decisionId))
     )
       throw new PostError('write-conflict');
+    const p = await this.draft(c, kind, version),
+      prior = await this.row(p.id),
+      contentDigest = await digest(p.text);
     if (prior) {
       if (!this.matches(prior, c, p, contentDigest))
         throw new PostError('stored-post-invalid');
@@ -286,40 +293,53 @@ export class PostStore {
       const c = await this.capture(row.event_id),
         p = await this.draft(c, row.kind, row.template_version);
       if (!this.matches(row, c, p, await digest(p.text))) return null;
-      const fresh = await this.recheck(c, p);
+      const validUntil = new Date(
+        Math.min(Date.parse(p.validUntil), Date.parse(c.validUntil)),
+      ).toISOString();
+      const guard = {
+        sql: `(${c.guard.sql}) AND EXISTS(SELECT 1 FROM post_generation_schema WHERE version=1) AND EXISTS(SELECT 1 FROM generated_posts WHERE post_id=? AND event_id=? AND revision=? AND kind=? AND text=? AND weighted_length=? AND hashtags_json=? AND template_version=? AND verification_decision_id=? AND input_digest=? AND content_digest=? AND length_policy=? AND valid_until=? AND omissions_json=?) AND EXISTS(SELECT 1 FROM verification_decisions WHERE decision_id=? AND generation=? AND result_json=? AND snapshot_json=? AND rule_version=? AND status='Verified' AND expires_at=?)`,
+        values: [
+          ...c.guard.values,
+          row.post_id,
+          row.event_id,
+          row.revision,
+          row.kind,
+          row.text,
+          row.weighted_length,
+          row.hashtags_json,
+          row.template_version,
+          row.verification_decision_id,
+          row.input_digest,
+          row.content_digest,
+          row.length_policy,
+          row.valid_until,
+          row.omissions_json,
+          c.decisionId,
+          c.decisionGeneration,
+          c.decisionToken,
+          c.decisionSnapshot,
+          c.event.verification.ruleVersion,
+          c.event.verification.expiresAt,
+        ],
+      };
+      // All verified inputs and the persisted post are compared again after
+      // rendering. The same proof is reused by downstream guarded writes.
+      if (
+        Date.parse(validUntil) <= this.clock() ||
+        (await this.db
+          .prepare(`SELECT 1 AS ok WHERE ${guard.sql}`)
+          .bind(...guard.values)
+          .first('ok')) !== 1 ||
+        Date.parse(validUntil) <= this.clock()
+      )
+        return null;
       return {
-        delivery: this.delivery(fresh, p),
-        event: fresh.event,
-        revision: fresh.revision,
-        decisionId: fresh.decisionId,
-        validUntil: new Date(
-          Math.min(Date.parse(p.validUntil), Date.parse(fresh.validUntil)),
-        ).toISOString(),
-        guard: {
-          sql: `(${fresh.guard.sql}) AND EXISTS(SELECT 1 FROM generated_posts WHERE post_id=? AND event_id=? AND revision=? AND kind=? AND text=? AND weighted_length=? AND hashtags_json=? AND template_version=? AND verification_decision_id=? AND input_digest=? AND content_digest=? AND length_policy=? AND valid_until=? AND omissions_json=?) AND EXISTS(SELECT 1 FROM verification_decisions WHERE decision_id=? AND generation=? AND result_json=? AND rule_version=? AND status='Verified' AND expires_at=?)`,
-          values: [
-            ...fresh.guard.values,
-            row.post_id,
-            row.event_id,
-            row.revision,
-            row.kind,
-            row.text,
-            row.weighted_length,
-            row.hashtags_json,
-            row.template_version,
-            row.verification_decision_id,
-            row.input_digest,
-            row.content_digest,
-            row.length_policy,
-            row.valid_until,
-            row.omissions_json,
-            fresh.decisionId,
-            fresh.decisionGeneration,
-            fresh.decisionToken,
-            fresh.event.verification.ruleVersion,
-            fresh.event.verification.expiresAt,
-          ],
-        },
+        delivery: this.delivery(c, p),
+        event: c.event,
+        revision: c.revision,
+        decisionId: c.decisionId,
+        validUntil,
+        guard,
       };
     } catch {
       return null;

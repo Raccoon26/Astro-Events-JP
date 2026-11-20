@@ -90,7 +90,7 @@ export function publicIPv4(address: string): boolean {
   const parts = address.split('.');
   if (
     parts.length !== 4 ||
-    parts.some((p) => !/^\d{1,3}$/.test(p) || Number(p) > 255)
+    parts.some((p) => !/^(?:0|[1-9]\d{0,2})$/u.test(p) || Number(p) > 255)
   )
     return false;
   const [a = 0, b = 0, c = 0] = parts.map(Number);
@@ -103,6 +103,7 @@ export function publicIPv4(address: string): boolean {
     (a === 169 && b === 254) ||
     (a === 172 && b >= 16 && b <= 31) ||
     (a === 192 && (b === 168 || b === 0 || b === 2)) ||
+    (a === 192 && b === 88 && c === 99) ||
     (a === 198 && (b === 18 || b === 19 || (b === 51 && c === 100))) ||
     (a === 203 && b === 0 && c === 113)
   );

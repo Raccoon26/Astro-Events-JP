@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "astro-events-jp-release-disabled",
+  "main": "src/release/worker.ts",
+  "compatibility_date": "2026-11-11",
+  "workers_dev": false,
+  "preview_urls": false,
+  "send_metrics": false,
+  "routes": [],
+  "triggers": { "crons": [] },
+  "vars": {
+    "RELEASE_MODE": "off",
+    "RELEASE_ENV": "staging",
+    "RELEASE_AUTH_APPROVED": "false",
+    "COLLECTION_ENABLED": "false",
+    "NOTIFICATIONS_ENABLED": "false"
+  },
+  "alias": {
+    "punycode": "punycode/punycode.js"
+  }
+}

@@ -492,7 +492,12 @@ export class NotificationStore {
   async enqueue(
     postId: string,
     usage: Usage | null,
-    expected: { sourceId: string; fingerprint: string; revision: number },
+    expected: {
+      sourceId: string;
+      fingerprint: string;
+      revision: number;
+      decisionId?: string;
+    },
     cursor = 0,
   ) {
     this.budget(usage);
@@ -501,7 +506,9 @@ export class NotificationStore {
     if (
       expected.sourceId !== m.sourceId ||
       expected.fingerprint !== m.fingerprint ||
-      expected.revision !== m.eventRevision
+      expected.revision !== m.eventRevision ||
+      (expected.decisionId !== undefined &&
+        expected.decisionId !== m.decisionId)
     )
       throw new NotificationError('EXPECTED_VERSION_MISMATCH');
     if (!Number.isInteger(cursor) || cursor < 0 || cursor > 10)
@@ -630,13 +637,16 @@ export class NotificationStore {
                 .bind('pending', created, plan.groupId),
             ]
           : []),
-        ...tokens.map((t) =>
-          this.db
-            .prepare(
-              'INSERT INTO notification_callbacks(token_hash,group_id,action,expected_generation,expires_at) SELECT ?,group_id,?,0,valid_until FROM notification_groups WHERE group_id=? AND controls_json=? ON CONFLICT DO NOTHING',
-            )
-            .bind(t.hash, t.action, plan.groupId, controlsJson),
-        ),
+        this.db
+          .prepare(`WITH tokens(hash,action) AS (VALUES ${tokens.map(() => '(?,?)').join(',')})
+          INSERT INTO notification_callbacks(token_hash,group_id,action,expected_generation,expires_at)
+          SELECT tokens.hash,g.group_id,tokens.action,0,g.valid_until FROM notification_groups g CROSS JOIN tokens
+          WHERE g.group_id=? AND g.controls_json=? ON CONFLICT DO NOTHING`)
+          .bind(
+            ...tokens.flatMap((t) => [t.hash, t.action]),
+            plan.groupId,
+            controlsJson,
+          ),
       ]);
       group = await this.group(plan.groupId);
       if (!group) throw new NotificationError('WRITE_CONFLICT');

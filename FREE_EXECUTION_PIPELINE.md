@@ -27,3 +27,7 @@ DEV05R 추가 조사: 현재 고정 Workers types에는 Socket.startTls({expecte
 ## DEV-09 독립 호출 경계
 
 로컬 슬롯 예약 `tick`과 다음 단계 `advance`를 분리한다. 별도 CLI 실행 또는 격리 handler로 시험한다. Worker 내부 함수 호출에는 같은 CPU 제한이 적용된다. 향후 Cron에서 직접 여러 작업을 실행하기 전에 각 단계의 별도 invocation과 요청·D1·CPU를 함께 검증한다. 대기·CPU 스케줄 한계 때문에 회수한 lease는 다음 실행으로 이월한다.
+
+## DEV-10 서비스 호출 실증
+
+로컬 workerd에서 `scheduled`, 별도 예약/한 단계 RPC와 함께 지속 D1 체크포인트를 검증한다. 별도 Worker 배포와 원격 호출의 CPU·D1·요청 비용은 각각 실제 측정해야 한다. 같은 RPC 안의 하위 함수 비용은 해당 호출에 포함된다.

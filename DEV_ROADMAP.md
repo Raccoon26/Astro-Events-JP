@@ -59,3 +59,7 @@ DEV-08은 지역·카테고리 공정성과 발견을 이어가며 실제 수집
 ## DEV-09 운영 기반
 
 JST 3시간 슬롯과 일일 집계, 격리 D1 lease/epoch/복구·보관, 계정 예산·작업 유예, GitHub App 교환 인터페이스, 장애 보고 초안을 구현한다. DEV-10 승인 게이트는 안전한 Peer/TLS 전송, 명시 승인 Source, 원격 스키마와 경로별 CPU·Observability 사용량, 실제 App과 허용된 전송 검증을 모두 요구한다. [DEV-09 검증 범위](DEV09_COMPLETION.md)
+
+## DEV-10 코드 검증과 운영 진입
+
+A 코드·시험·비용 설계·보호 병합을 판정한다. B 제한 staging을 실증한 뒤 C production 사용자 승인을 검토한다. 별도 DEV-10R에서 처리할 검증 항목은 [승인 계획](DEV10_MANUAL_APPROVAL_PLAN.md)을 따른다.

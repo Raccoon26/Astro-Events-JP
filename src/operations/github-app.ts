@@ -147,6 +147,7 @@ type Repository = {
   full_name: string;
   private: boolean;
   has_issues: boolean;
+  archived?: boolean;
 };
 export class ReportsInstallation {
   readonly #credentials: InstallationCredential;
@@ -204,7 +205,8 @@ export class ReportsInstallation {
     return (
       repo?.id === this.settings.repositoryId &&
       repo.full_name === REPORTS_REPO &&
-      repo.private === true
+      repo.private === true &&
+      repo.archived !== true
     );
   }
   private async exchange(): Promise<InstallationGrant | InstallationFailure> {

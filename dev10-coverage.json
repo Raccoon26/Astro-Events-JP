@@ -1,0 +1,525 @@
+{
+  "sections": {
+    "0": {
+      "status": "actual baseline and preserved hashes",
+      "evidence": ["data/dev10-baseline.json", "DEV10_TEST_REPORT.md"]
+    },
+    "1": {
+      "status": "workerd end-to-end across module boundaries",
+      "evidence": ["tests/release-worker.test.mjs", "DEV10_COMPLETION.md"]
+    },
+    "2": {
+      "status": "separate private Worker with conservative disabled config",
+      "evidence": [
+        "src/release/worker.ts",
+        "wrangler.release.jsonc",
+        "tests/release-worker.test.mjs"
+      ]
+    },
+    "3": {
+      "status": "documented unresolved Worker peer proof and local mitigation",
+      "evidence": [
+        "DEV10_SECURITY_REPORT.md",
+        "scripts/pinned-transport.mjs",
+        "tests/release-gates.test.ts"
+      ]
+    },
+    "4": {
+      "status": "offline source review only",
+      "evidence": ["scripts/release-source-review.mjs", "SOURCE_POLICY.md"]
+    },
+    "5": {
+      "status": "13 types and weekend A/B manual review",
+      "evidence": [
+        "DEV10_TEST_REPORT.md",
+        "POST_SAMPLES.md",
+        "NOTIFICATION_SAMPLES.md",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "6": {
+      "status": "simulated delivery / confirmed DEV06R evidence",
+      "evidence": [
+        "tests/release-worker.test.mjs",
+        "DEV06R_LIVE_VALIDATION.md",
+        "DEV10_COMPLETION.md"
+      ]
+    },
+    "7": {
+      "status": "bounded app preflight and fixed endpoint checks",
+      "evidence": [
+        "src/release/reports-wire.ts",
+        "tests/release-gates.test.ts",
+        "AUTH_AUTOMATION_DESIGN.md"
+      ]
+    },
+    "8": {
+      "status": "actual diagnostic metrics and new path gaps",
+      "evidence": ["DEV10_CPU_REPORT.md"]
+    },
+    "9": {
+      "status": "account Observability and durable restoration",
+      "evidence": ["DEV10_CPU_REPORT.md", "DEV09_RECOVERY_REPORT.md"]
+    },
+    "10": {
+      "status": "protected operational data and synthetic-only tests",
+      "evidence": ["tests/release-worker.test.mjs", "DEV09_RETENTION_REPORT.md"]
+    },
+    "11": {
+      "status": "security boundaries and unchanged production",
+      "evidence": ["DEV10_SECURITY_REPORT.md", "tests/release-gates.test.ts"]
+    },
+    "12": {
+      "status": "local isolation ledger and migration/rollback plan",
+      "evidence": [
+        "migrations/0012_release_isolation.sql",
+        "DEV10_MANUAL_APPROVAL_PLAN.md"
+      ]
+    },
+    "13": {
+      "status": "independent A/B/C release decisions",
+      "evidence": [
+        "src/release/decision.ts",
+        "tests/release-gates.test.ts",
+        "DEV10_RELEASE_READINESS.md"
+      ]
+    },
+    "14": {
+      "status": "full suite and requirements audits",
+      "evidence": ["DEV10_TEST_REPORT.md", "data/dev10-baseline.json"]
+    },
+    "15": {
+      "status": "E policy and cleanup dry run",
+      "evidence": ["scripts/path-policy.mjs", "CLEANUP_POLICY.md"]
+    },
+    "16": {
+      "status": "release evidence and opened operating conditions",
+      "evidence": ["PROJECT_STATUS.md", "DEV10_COMPLETION.md"]
+    },
+    "17": {
+      "status": "protected CI and squash workflow",
+      "evidence": ["scripts/complete-dev.mjs", "GITHUB_WORKFLOW.md"]
+    },
+    "18": {
+      "status": "final evidence and separate DEV-10R",
+      "evidence": ["DEV10_COMPLETION.md", "DEV10_MANUAL_APPROVAL_PLAN.md"]
+    }
+  },
+  "requirements": {
+    "R01": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/coverage.json",
+        "src/nationwide/coverage.ts",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R02": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "scripts/release-source-review.mjs",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R03": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R04": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md"
+      ]
+    },
+    "R05": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md"
+      ]
+    },
+    "R06": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R07": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "SOURCE_COVERAGE.md",
+        "data/sources.json"
+      ]
+    },
+    "R08": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "VTUBER_VERIFICATION.md"
+      ]
+    },
+    "R09": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md",
+        "VTUBER_VERIFICATION.md",
+        "src/nationwide/simulator.ts"
+      ]
+    },
+    "R10": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "FREE_TIER_POLICY.md",
+        "DEV08_TEST_REPORT.md",
+        "ARCHITECTURE.md",
+        "src/nationwide/weekend-store.ts"
+      ]
+    },
+    "R11": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "tests/release-worker.test.mjs",
+        "tests/operations-integration.test.mjs",
+        "src/operations/pipeline.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R12": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R13": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R14": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R15": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R16": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R17": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "tests/release-worker.test.mjs",
+        "DEV06R_LIVE_VALIDATION.md",
+        "tests/operations-integration.test.mjs",
+        "DEV09_RECOVERY_REPORT.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R18": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "src/release/reports-wire.ts",
+        "AUTH_AUTOMATION_DESIGN.md",
+        "src/operations/report.ts",
+        "tests/operations-app.test.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R19": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "tests/operations-integration.test.mjs",
+        "src/operations/engine.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R20": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "tests/operations-integration.test.mjs",
+        "src/operations/pipeline.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend-store.ts"
+      ]
+    },
+    "R21": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "DEV10_MANUAL_APPROVAL_PLAN.md",
+        "tests/release-worker.test.mjs",
+        "src/operations/retention.ts",
+        "tests/operations-integration.test.mjs",
+        "DEV09_RETENTION_REPORT.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "migrations/0010_nationwide_weekends.sql",
+        "tests/nationwide-integration.test.mjs",
+        "DEV08_COMPLETION.md",
+        "PROJECT_STATUS.md"
+      ]
+    },
+    "R22": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "DEV10_CPU_REPORT.md",
+        "tests/operations-policy.test.ts",
+        "DEV09_FREE_BUDGET_REPORT.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "FREE_TIER_POLICY.md",
+        "DEV08_TEST_REPORT.md"
+      ]
+    },
+    "R23": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "DEV10_SECURITY_REPORT.md",
+        "tests/release-gates.test.ts",
+        "tests/operations-app.test.ts",
+        "SECURITY.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "wrangler.jsonc"
+      ]
+    },
+    "R24": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md"
+      ]
+    },
+    "R25": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md"
+      ]
+    },
+    "R26": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R27": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R28": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "DEV10_RELEASE_READINESS.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R29": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "tests/release-worker.test.mjs",
+        "migrations/0012_release_isolation.sql",
+        "migrations/0011_automation.sql",
+        "DATA_MODEL.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts",
+        "src/nationwide/weekend-store.ts",
+        "migrations/0010_nationwide_weekends.sql",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R30": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "DEV10_TEST_REPORT.md",
+        "DEV09_TEST_REPORT.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/dev08-baseline.json",
+        "DEV08_TEST_REPORT.md",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R31": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "DEV10_MANUAL_APPROVAL_PLAN.md",
+        "AUTH_AUTOMATION_DESIGN.md",
+        "tests/operations-app.test.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "wrangler.jsonc",
+        "SECURITY.md",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R32": {
+      "status": "DEV-10 code evidence with separate release gates",
+      "evidence": [
+        "DEV10_RELEASE_READINESS.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend-store.ts",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md",
+        "src/nationwide/simulator.ts",
+        "DEV08_FAIRNESS_REPORT.md",
+        "DEV08_COMPLETION.md",
+        "PROJECT_STATUS.md"
+      ]
+    }
+  },
+  "operational": {
+    "releaseWorkerDeployed": false,
+    "liveCollection": false,
+    "liveNotifications": false,
+    "productionChanges": 0,
+    "remoteMigrations": 0,
+    "activeSources": 0,
+    "actualDelivery": 0
+  }
+}

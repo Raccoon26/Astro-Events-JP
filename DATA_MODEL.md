@@ -102,3 +102,7 @@ DEV05 최종 결과는 [완료보고](DEV05_COMPLETION.md)를 따른다. 전체5
 ## 0011 자동화와 보관
 
 `ops_jobs`의 (slot, phase), lease와 generation, `ops_checkpoints`의 안정적 커서, `ops_lease`의 예산 직렬화 epoch와 `ops_budget_day` 예약을 사용한다. `ops_post_intents`는 Source·행사 revision·결정 fingerprint와 합성 Outbox 부분을 연결한다. `ops_daily_reports`/장애 코드/수집 결과를 D1에서 읽는다. `ops_retention_receipts`는 계획과 결과 수, `ops_event_tombstones`는 정리한 후보 지문을 보존한다. 0011은 0001~0010 이후 로컬/격리 적용만 허용한다.
+
+## DEV-10 격리 확인
+
+`0012_release_isolation.sql`은 빈 `release_isolation` 테이블과 별도 staging 인증 검사 간격을 추가한다. 격리 DB에서만 용도 마커를 별도로 승인한다. 기존 0001~0011을 보존하고 원격은 0004를 유지한다. [적용 순서·복구](DEV10_MANUAL_APPROVAL_PLAN.md)
