@@ -1,10 +1,10 @@
 {
-  "at": "2026-11-11T14:23:37.085Z",
-  "sources": 96,
-  "verified": 77,
+  "at": "2026-11-20T11:45:41.986Z",
+  "sources": 114,
+  "verified": 95,
   "states": {
     "active": 0,
-    "review": 85,
+    "review": 103,
     "unsupported": 9,
     "paused": 2
   },
@@ -16,7 +16,15 @@
       "region": "北海道",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:32.606Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 2,
@@ -25,16 +33,32 @@
       "region": "東北",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 3,
       "jisCode": "03",
       "name": "岩手県",
       "region": "東北",
-      "sources": 1,
-      "verified": 1,
-      "facilities": 1
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2,
+      "municipalities": ["洋野町"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 4,
@@ -43,16 +67,32 @@
       "region": "東北",
       "sources": 2,
       "verified": 1,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 1,
+      "unsupported": 0,
+      "paused": 1,
+      "lastOfficialReview": "2026-11-11T14:15:37.757Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 5,
       "jisCode": "05",
       "name": "秋田県",
       "region": "東北",
-      "sources": 2,
-      "verified": 1,
-      "facilities": 2
+      "sources": 3,
+      "verified": 2,
+      "facilities": 3,
+      "municipalities": ["潟上市"],
+      "active": 0,
+      "review": 3,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 6,
@@ -61,7 +101,15 @@
       "region": "東北",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:38.838Z",
+      "smallLocalSources": 2,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 7,
@@ -70,7 +118,15 @@
       "region": "東北",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 8,
@@ -79,25 +135,49 @@
       "region": "関東",
       "sources": 3,
       "verified": 2,
-      "facilities": 3
+      "facilities": 3,
+      "municipalities": [],
+      "active": 0,
+      "review": 3,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:16:11.121Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 9,
       "jisCode": "09",
       "name": "栃木県",
       "region": "関東",
-      "sources": 1,
-      "verified": 1,
-      "facilities": 1
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2,
+      "municipalities": ["益子町"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 10,
       "jisCode": "10",
       "name": "群馬県",
       "region": "関東",
-      "sources": 2,
-      "verified": 1,
-      "facilities": 2
+      "sources": 3,
+      "verified": 2,
+      "facilities": 3,
+      "municipalities": ["桐生市"],
+      "active": 0,
+      "review": 3,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 11,
@@ -106,7 +186,15 @@
       "region": "関東",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:42.709Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 12,
@@ -115,7 +203,15 @@
       "region": "関東",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 13,
@@ -124,7 +220,15 @@
       "region": "関東",
       "sources": 4,
       "verified": 4,
-      "facilities": 4
+      "facilities": 4,
+      "municipalities": ["三鷹市"],
+      "active": 0,
+      "review": 4,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 14,
@@ -133,16 +237,32 @@
       "region": "関東",
       "sources": 4,
       "verified": 4,
-      "facilities": 4
+      "facilities": 4,
+      "municipalities": [],
+      "active": 0,
+      "review": 4,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 15,
       "jisCode": "15",
       "name": "新潟県",
       "region": "中部",
-      "sources": 2,
-      "verified": 1,
-      "facilities": 2
+      "sources": 3,
+      "verified": 2,
+      "facilities": 2,
+      "municipalities": ["柏崎市"],
+      "active": 0,
+      "review": 3,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 16,
@@ -151,25 +271,49 @@
       "region": "中部",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:48.536Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 17,
       "jisCode": "17",
       "name": "石川県",
       "region": "中部",
-      "sources": 2,
-      "verified": 1,
-      "facilities": 2
+      "sources": 3,
+      "verified": 2,
+      "facilities": 3,
+      "municipalities": ["能登町"],
+      "active": 0,
+      "review": 3,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 18,
       "jisCode": "18",
       "name": "福井県",
       "region": "中部",
-      "sources": 2,
-      "verified": 1,
-      "facilities": 2
+      "sources": 4,
+      "verified": 3,
+      "facilities": 4,
+      "municipalities": ["大野市", "敦賀市"],
+      "active": 0,
+      "review": 4,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 2,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 19,
@@ -178,7 +322,15 @@
       "region": "中部",
       "sources": 2,
       "verified": 1,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 1,
+      "unsupported": 1,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:46.130Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 20,
@@ -187,7 +339,15 @@
       "region": "中部",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:45.825Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 21,
@@ -196,7 +356,15 @@
       "region": "中部",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:50.765Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 22,
@@ -205,7 +373,15 @@
       "region": "中部",
       "sources": 2,
       "verified": 1,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:49.027Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 23,
@@ -214,7 +390,15 @@
       "region": "中部",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 24,
@@ -223,16 +407,32 @@
       "region": "近畿",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 25,
       "jisCode": "25",
       "name": "滋賀県",
       "region": "近畿",
-      "sources": 2,
-      "verified": 1,
-      "facilities": 2
+      "sources": 3,
+      "verified": 2,
+      "facilities": 3,
+      "municipalities": ["甲賀市"],
+      "active": 0,
+      "review": 3,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 26,
@@ -241,7 +441,15 @@
       "region": "近畿",
       "sources": 3,
       "verified": 1,
-      "facilities": 3
+      "facilities": 3,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 1,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 27,
@@ -250,7 +458,15 @@
       "region": "近畿",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 28,
@@ -259,7 +475,15 @@
       "region": "近畿",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:52.337Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 29,
@@ -268,16 +492,32 @@
       "region": "近畿",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": ["奈良市"],
+      "active": 0,
+      "review": 1,
+      "unsupported": 0,
+      "paused": 1,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 2,
+      "manuallyObservedFormats": []
     },
     {
       "code": 30,
       "jisCode": "30",
       "name": "和歌山県",
       "region": "近畿",
-      "sources": 3,
-      "verified": 1,
-      "facilities": 3
+      "sources": 4,
+      "verified": 2,
+      "facilities": 4,
+      "municipalities": ["和歌山市", "有田川町"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 2,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 2,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 31,
@@ -286,7 +526,15 @@
       "region": "中国",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:55.486Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 32,
@@ -295,16 +543,32 @@
       "region": "中国",
       "sources": 1,
       "verified": 1,
-      "facilities": 1
+      "facilities": 1,
+      "municipalities": [],
+      "active": 0,
+      "review": 1,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:56.574Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 33,
       "jisCode": "33",
       "name": "岡山県",
       "region": "中国",
-      "sources": 2,
-      "verified": 1,
-      "facilities": 2
+      "sources": 3,
+      "verified": 2,
+      "facilities": 2,
+      "municipalities": ["倉敷市"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 1,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 34,
@@ -313,25 +577,49 @@
       "region": "中国",
       "sources": 2,
       "verified": 1,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:15:58.495Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 35,
       "jisCode": "35",
       "name": "山口県",
       "region": "中国",
-      "sources": 1,
-      "verified": 1,
-      "facilities": 1
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2,
+      "municipalities": ["山口市"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 36,
       "jisCode": "36",
       "name": "徳島県",
       "region": "四国",
-      "sources": 1,
-      "verified": 1,
-      "facilities": 1
+      "sources": 2,
+      "verified": 2,
+      "facilities": 1,
+      "municipalities": ["美波町"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 37,
@@ -340,7 +628,15 @@
       "region": "四国",
       "sources": 2,
       "verified": 1,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": []
     },
     {
       "code": 38,
@@ -349,16 +645,32 @@
       "region": "四国",
       "sources": 1,
       "verified": 1,
-      "facilities": 1
+      "facilities": 1,
+      "municipalities": [],
+      "active": 0,
+      "review": 1,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": []
     },
     {
       "code": 39,
       "jisCode": "39",
       "name": "高知県",
       "region": "四国",
-      "sources": 2,
-      "verified": 2,
-      "facilities": 2
+      "sources": 3,
+      "verified": 3,
+      "facilities": 3,
+      "municipalities": ["芸西村"],
+      "active": 0,
+      "review": 3,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 40,
@@ -367,16 +679,32 @@
       "region": "九州・沖縄",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:23:37.085Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 41,
       "jisCode": "41",
       "name": "佐賀県",
       "region": "九州・沖縄",
-      "sources": 1,
-      "verified": 1,
-      "facilities": 1
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2,
+      "municipalities": ["佐賀市"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 42,
@@ -385,7 +713,15 @@
       "region": "九州・沖縄",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:16:04.395Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 43,
@@ -394,34 +730,66 @@
       "region": "九州・沖縄",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:16:05.768Z",
+      "smallLocalSources": 0,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 44,
       "jisCode": "44",
       "name": "大分県",
       "region": "九州・沖縄",
-      "sources": 1,
-      "verified": 1,
-      "facilities": 1
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2,
+      "municipalities": ["国東市"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 45,
       "jisCode": "45",
       "name": "宮崎県",
       "region": "九州・沖縄",
-      "sources": 1,
-      "verified": 1,
-      "facilities": 1
+      "sources": 2,
+      "verified": 2,
+      "facilities": 2,
+      "municipalities": ["都城市"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 46,
       "jisCode": "46",
       "name": "鹿児島県",
       "region": "九州・沖縄",
-      "sources": 2,
-      "verified": 1,
-      "facilities": 2
+      "sources": 3,
+      "verified": 2,
+      "facilities": 3,
+      "municipalities": ["南さつま市"],
+      "active": 0,
+      "review": 2,
+      "unsupported": 1,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-20T11:45:41.986Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     },
     {
       "code": 47,
@@ -430,7 +798,15 @@
       "region": "九州・沖縄",
       "sources": 2,
       "verified": 2,
-      "facilities": 2
+      "facilities": 2,
+      "municipalities": [],
+      "active": 0,
+      "review": 2,
+      "unsupported": 0,
+      "paused": 0,
+      "lastOfficialReview": "2026-11-11T14:16:09.159Z",
+      "smallLocalSources": 1,
+      "manuallyObservedFormats": ["html"]
     }
   ],
   "missing": [],
@@ -438,17 +814,25 @@
   "kinds": {
     "science-planetarium": 74,
     "community": 6,
-    "observatory": 6,
+    "observatory": 14,
     "research": 5,
     "university": 1,
-    "vtuber": 4
+    "vtuber": 4,
+    "education-course": 2,
+    "library": 1,
+    "citizen-observation": 3,
+    "education-centre": 1,
+    "community-park": 1,
+    "science-museum": 1,
+    "municipal-event-archive": 1
   },
   "categories": {
-    "facility": 78,
-    "local": 8,
+    "facility": 79,
+    "local": 17,
     "space-development": 2,
     "research": 4,
-    "vtuber": 4
+    "vtuber": 4,
+    "astronomy": 8
   },
   "vtubers": [
     {

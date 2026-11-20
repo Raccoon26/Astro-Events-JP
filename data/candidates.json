@@ -17,7 +17,8 @@
     "category": "local",
     "state": "review",
     "discoveredFrom": "https://www.city.kashiwazaki.lg.jp/k_museum/planetarium/hoshizora_kansatsukai/index.html",
-    "checkedDateJst": "2026-11-12"
+    "checkedDateJst": "2026-11-12",
+    "registeredSourceId": "src-fc449908db2a6c09259bad3d"
   },
   {
     "url": "https://www.city.koka.lg.jp/5999.htm",
@@ -28,7 +29,8 @@
     "category": "local",
     "state": "review",
     "discoveredFrom": "https://www.city.koka.lg.jp/3721.htm",
-    "checkedDateJst": "2026-11-12"
+    "checkedDateJst": "2026-11-12",
+    "registeredSourceId": "src-1c357b077395c56ba6cf6fb8"
   },
   {
     "url": "https://www.pref.akita.lg.jp/pages/archive/80146",
@@ -39,7 +41,8 @@
     "category": "local",
     "state": "review",
     "discoveredFrom": "https://www.pref.akita.lg.jp/pages/archive/80146",
-    "checkedDateJst": "2026-11-12"
+    "checkedDateJst": "2026-11-12",
+    "registeredSourceId": "src-30e2aa22178d5afcd837d708"
   },
   {
     "url": "https://www.pref.kochi.lg.jp/doc/2026040700142/",

@@ -129,3 +129,9 @@ local 분류 8개는 공민관·시민센터·교육센터·시정촌 관측시�
 등록 Source96/공식성77/추가확인19/시설92/47현·단일검증출처24현은 그대로다. active0/review85/unsupported9/paused2이며 실제 Collector 검증0개다. 합성 사이트는 이 수치에 포함하지 않는다.
 
 새 Discovery review 후보4개를追加했다: 新潟의柏崎市星空観察会, 滋賀의甲賀市みなくち子どもの森, 秋田県教育センター天文施設, 高知県芸西天文学習館観測会再開案内. Source 등록/수집 승인과 구분하며 [SOURCE_DISCOVERY](SOURCE_DISCOVERY.md)에 근거를 기록했다. 첫3곳은 기존 단일 검증 출처 지역을 보강할 후보 경로다.
+
+## DEV-08 원문 검토와 약한 지역 보완
+
+18개 공식 정부·기관 원문 정보원을 추가했다. 현재 전체 114개, 공식성 확인 95개, 등록 시설 107곳, 47/47 현, 단일 공식 정보원 지역 8곳이다. 기존 등록 96개에 대해 Source URL 중복 추가는 0건이며 柏崎·倉敷의 기존 시설 두 곳을 재사용했다. 기존 Discovery 후보 세 건의 등록 연결을 남겼다. 신규 항목은 모두 review, 실제 수집 승인/성공 0이다.
+
+공식 정보원 예시는 洋野町의 [ひろのまきば天文台](https://www.town.hirono.iwate.jp/doc/2006010101049/), 桐生市의 [시립 도서관 관측 행사](https://www.city.kiryu.lg.jp/shisetsu/bunka/library/1006424/1020756.html), 有田川町의 [지역 천문 동호회](https://www.town.aridagawa.lg.jp/top/kakuka/kanaya/7/1_1/tenmon_r05.html), 南さつま市의 [コリノ天文台](https://www.city.minamisatsuma.lg.jp/living/oshirase/e019904.html)다. 원문 URL과 확인 근거는 `data/sources.json`의 `researchPhase=dev08`에 있다. [47현 전후 비교](DEV08_FAIRNESS_REPORT.md)

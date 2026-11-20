@@ -94,3 +94,7 @@ DEV05는 기존 PostGenerator 계약과 DEV04 capture 게이트를 연결했다.
 ## DEV-07 검증 이후 경계
 
 Collector Candidate → 현재 VerificationStore → bounded identity/CAS → 변경·예약 회차 → PostStore → 목적별 Outbox → 기존 모의 Telegram/Private Issue 및 게시 확인. 공식 변경 전후 증거는 revision 이력에서 확인할 수 있다. 의심되는 미해결 중복이나 낡은 결정을 현재 게시글, 송신, callback에 사용할 수 없다. 운영 Worker에 새 라우트나 Cron을 추가하지 않았다. [운영 비용과 미검증](DEV07_TEST_REPORT.md)
+
+## DEV-08 지역 순환과 별도 주말 전달 목적
+
+지역·유형·VTuber scheduler는 분리한 checkpoint와 승인·최소 간격·host backoff 검사를 사용한다. 승인된 건만 기존 Collector job CAS에 넣도록 설계했다. 운영 route와 Cron은 유지한다. 주말 모음은 DEV-07 canonical/VerificationStore의 현재 판단을 캡처하고 기존 DEV-05 X 길이 검사를 사용한다. Outbox는 별도 weekend key, exact membership, 버전, 부분별 멱등성을 보유하며 기존 개별 보고 Issue 쓰기와 분리한다. [완료 범위](DEV08_COMPLETION.md)

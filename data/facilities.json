@@ -387,7 +387,10 @@
     "operatingStatus": "unknown",
     "statusSourceUrl": null,
     "lastVerifiedAt": null,
-    "sourceIds": ["src-7803979a6cbe400e4aa555e7"]
+    "sourceIds": [
+      "src-7803979a6cbe400e4aa555e7",
+      "src-fc449908db2a6c09259bad3d"
+    ]
   },
   {
     "id": "fac-8e0c0817738830ccad73245f",
@@ -777,7 +780,10 @@
     "operatingStatus": "unknown",
     "statusSourceUrl": null,
     "lastVerifiedAt": null,
-    "sourceIds": ["src-6d2c0e085c480841d8575a02"]
+    "sourceIds": [
+      "src-6d2c0e085c480841d8575a02",
+      "src-4f82c86cef90a56a91bd1bdc"
+    ]
   },
   {
     "id": "fac-036870d5d98d08eff185d01e",
@@ -1194,5 +1200,200 @@
     "statusSourceUrl": null,
     "lastVerifiedAt": null,
     "sourceIds": ["src-3970551e9455f6277bd91ae9"]
+  },
+  {
+    "id": "fac-ca9b75b93e6b78eff504bdc9",
+    "name": "ひろのまきば天文台",
+    "prefecture": 3,
+    "municipality": "洋野町",
+    "officialUrl": "https://www.town.hirono.iwate.jp/doc/2006010101049/",
+    "operator": "洋野町",
+    "kind": "observatory",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-ca9b75b93e6b78eff504bdc9"]
+  },
+  {
+    "id": "fac-30e2aa22178d5afcd837d708",
+    "name": "秋田県総合教育センター 天文施設",
+    "prefecture": 5,
+    "municipality": "潟上市",
+    "officialUrl": "https://www.pref.akita.lg.jp/pages/archive/80146",
+    "operator": "秋田県",
+    "kind": "education-course",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-30e2aa22178d5afcd837d708"]
+  },
+  {
+    "id": "fac-4c091e2810aa5e8c1253db93",
+    "name": "益子町天体観測施設スペース250",
+    "prefecture": 9,
+    "municipality": "益子町",
+    "officialUrl": "https://www.town.mashiko.lg.jp/page/page000702.html",
+    "operator": "益子町",
+    "kind": "observatory",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-4c091e2810aa5e8c1253db93"]
+  },
+  {
+    "id": "fac-4b873146ed6dda3a669c9823",
+    "name": "桐生市立図書館 天体観察イベント",
+    "prefecture": 10,
+    "municipality": "桐生市",
+    "officialUrl": "https://www.city.kiryu.lg.jp/shisetsu/bunka/library/1006424/1020756.html",
+    "operator": "桐生市立図書館",
+    "kind": "library",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-4b873146ed6dda3a669c9823"]
+  },
+  {
+    "id": "fac-c478b81e629e2aac3e4fc52d",
+    "name": "柳田星の観察館 満天星",
+    "prefecture": 17,
+    "municipality": "能登町",
+    "officialUrl": "https://www.town.noto.lg.jp/kakuka/1012/gyomu/kyouikufront/gyoumuannai/syougaigakusyuu-Kouminkan/syougaigakusyuusisetu/4945.html",
+    "operator": "能登町",
+    "kind": "observatory",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-c478b81e629e2aac3e4fc52d"]
+  },
+  {
+    "id": "fac-f712dedfdbf4112ccf02aac8",
+    "name": "福井県自然保護センター 天文プログラム",
+    "prefecture": 18,
+    "municipality": "大野市",
+    "officialUrl": "https://fncc.pref.fukui.lg.jp/event/activityprogram/astronomyprogram",
+    "operator": "福井県自然保護センター",
+    "kind": "observatory",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-f712dedfdbf4112ccf02aac8"]
+  },
+  {
+    "id": "fac-8f55754f0f3a5d64536ce2b4",
+    "name": "敦賀市こどもの国（児童文化センター）",
+    "prefecture": 18,
+    "municipality": "敦賀市",
+    "officialUrl": "https://www.city.tsuruga.lg.jp/site/tsurugakodomonokuni/",
+    "operator": "敦賀市",
+    "kind": "education-centre",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-8f55754f0f3a5d64536ce2b4"]
+  },
+  {
+    "id": "fac-1c357b077395c56ba6cf6fb8",
+    "name": "甲賀市みなくち子どもの森",
+    "prefecture": 25,
+    "municipality": "甲賀市",
+    "officialUrl": "https://www.city.koka.lg.jp/5999.htm",
+    "operator": "甲賀市",
+    "kind": "community-park",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-1c357b077395c56ba6cf6fb8"]
+  },
+  {
+    "id": "fac-d0d03622215188e9ddc08916",
+    "name": "有田川町天文クラブ観望会",
+    "prefecture": 30,
+    "municipality": "有田川町",
+    "officialUrl": "https://www.town.aridagawa.lg.jp/top/kakuka/kanaya/7/1_1/tenmon_r05.html",
+    "operator": "有田川町天文クラブ",
+    "kind": "citizen-observation",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-d0d03622215188e9ddc08916"]
+  },
+  {
+    "id": "fac-85ef46f2faca1be2d45d923d",
+    "name": "山口県立山口博物館 天文",
+    "prefecture": 35,
+    "municipality": "山口市",
+    "officialUrl": "https://www.yamahaku.pref.yamaguchi.lg.jp/tenmon.html",
+    "operator": "山口県立山口博物館",
+    "kind": "science-museum",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-85ef46f2faca1be2d45d923d"]
+  },
+  {
+    "id": "fac-91ef53aa8e898a2cc450092b",
+    "name": "芸西天文学習館 観測会案内",
+    "prefecture": 39,
+    "municipality": "芸西村",
+    "officialUrl": "https://www.pref.kochi.lg.jp/doc/2022010700266/",
+    "operator": "高知県",
+    "kind": "observatory",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-91ef53aa8e898a2cc450092b"]
+  },
+  {
+    "id": "fac-8ce91bfabf1e9e40f3ad41d7",
+    "name": "佐賀市星空学習館",
+    "prefecture": 41,
+    "municipality": "佐賀市",
+    "officialUrl": "https://www.city.saga.lg.jp/kosodate-kyoiku/mokuteki/7/6/2267.html",
+    "operator": "佐賀市",
+    "kind": "observatory",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-8ce91bfabf1e9e40f3ad41d7"]
+  },
+  {
+    "id": "fac-4b89a299088278d2fb062b1f",
+    "name": "梅園の里天文台 天球館",
+    "prefecture": 44,
+    "municipality": "国東市",
+    "officialUrl": "https://www.city.kunisaki.oita.jp/site/kanko/01.html",
+    "operator": "国東市",
+    "kind": "observatory",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-4b89a299088278d2fb062b1f"]
+  },
+  {
+    "id": "fac-e57ce33656a6947baa5d6e4b",
+    "name": "星の燈台たちばな天文台",
+    "prefecture": 45,
+    "municipality": "都城市",
+    "officialUrl": "https://www.city.miyakonojo.miyazaki.jp/site/kanko/3323.html",
+    "operator": "都城市",
+    "kind": "observatory",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-e57ce33656a6947baa5d6e4b"]
+  },
+  {
+    "id": "fac-7011ca8fd00385a20097937d",
+    "name": "南さつま市天体観測施設 コリノ天文台",
+    "prefecture": 46,
+    "municipality": "南さつま市",
+    "officialUrl": "https://www.city.minamisatsuma.lg.jp/living/oshirase/e019904.html",
+    "operator": "南さつま市",
+    "kind": "citizen-observation",
+    "operatingStatus": "unknown",
+    "statusSourceUrl": null,
+    "lastVerifiedAt": null,
+    "sourceIds": ["src-7011ca8fd00385a20097937d"]
   }
 ]

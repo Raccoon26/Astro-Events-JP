@@ -96,3 +96,9 @@ main714d01bafca05166b67a65fad2268fe410a402ed / 진단43879903909에서 고정210
 ## DEV05R CPU 조사
 
 [측정 설계](CPU_PROFILE_DESIGN.md)·[원격 결과/미검증](DEV05R_CPU_REPORT.md)·[독립 실행/checkpoint 경계](FREE_EXECUTION_PIPELINE.md)를 따른다. 기존539목적·0001~0007·R01~R32/DEV06~10을 보존하며 원격0004/production불변·수집/알림OFF·SSRF fail-closed다. main/CI/Free 예산 후 고정340요청 비교와 의미 있는 순수 준비 변경의170요청 후속 실험을 완료했다. 중간404 실패3건도 보존하고 준비 marker 회귀 후 재검증했다. 각 실험은 정확한 finally rollback을 확인했고 지연 지표는 읽기 전용 재조회했다. 최신597개/39파일·실측의 범위와 누락은 [최종 보고](DEV05R_COMPLETION.md)를 따른다. 원격 실제 검증/저장 및 전체 운영 성능을 성공으로 추정하지 않는다.
+
+## DEV-08 로컬 예산 단위
+
+지역 한 단계는 47개의 고정 지역 상태와 최대 8개의 Source 페이지를 다룬다. 정책·호스트·큐의 transaction CAS를 포함한다. 지역·유형·VTuber lane은 독립적으로 이월할 수 있다. 주말 미리보기는 날짜 인덱스로 제한한 후보를 최대 16건 확인하고 최대 3개 부분을 만든다. 전체 로컬 미리보기 및 검증의 CPU·D1 호출 합계를 하나의 Free Worker invocation에 허용한다고 해석하지 않는다.
+
+DEV-09/10에서 독립 invocation마다 10ms CPU와 D1 쿼리·계정 총 행 비용을 재검증한다. 로컬 합성 측정은 원격 공식 CPU 보증이 아니다. 추가 유료 자원을 사용하지 않는다. [Workers 한도](https://developers.cloudflare.com/workers/platform/limits/) · [D1 Free](https://developers.cloudflare.com/d1/platform/pricing/)

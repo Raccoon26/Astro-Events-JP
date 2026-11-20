@@ -1,0 +1,483 @@
+{
+  "sections": {
+    "1": {
+      "status": "기준 main·기존 테스트 checksum",
+      "evidence": ["data/dev08-baseline.json", "DEV08_TEST_REPORT.md"]
+    },
+    "2": {
+      "status": "47개 현 기준선 및 실제 통계 분리",
+      "evidence": ["data/coverage.json", "src/nationwide/coverage.ts"]
+    },
+    "3": {
+      "status": "우선순위·aging·checkpoint",
+      "evidence": [
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "4": {
+      "status": "시정촌 공식 표기와 별칭",
+      "evidence": ["data/sources.json", "src/nationwide/policy.ts"]
+    },
+    "5": {
+      "status": "공식 원문 증거·review 유지",
+      "evidence": ["SOURCE_COVERAGE.md", "data/sources.json"]
+    },
+    "6": {
+      "status": "종류별 예약 기회",
+      "evidence": ["src/nationwide/policy.ts", "DEV08_FAIRNESS_REPORT.md"]
+    },
+    "7": {
+      "status": "VTuber 독립 예산·관계 검증",
+      "evidence": ["src/nationwide/scheduler.ts", "VTUBER_VERIFICATION.md"]
+    },
+    "8": {
+      "status": "JST 주말 검증",
+      "evidence": [
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "9": {
+      "status": "일본어 X 가중 자수·분할",
+      "evidence": ["src/nationwide/weekend.ts", "DEV08_WEEKEND_SAMPLES.md"]
+    },
+    "10": {
+      "status": "모음과 개별 게시·전달 분리",
+      "evidence": [
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "11": {
+      "status": "합성 수집 운영 시뮬레이터",
+      "evidence": ["src/nationwide/simulator.ts", "DEV08_FAIRNESS_REPORT.md"]
+    },
+    "12": {
+      "status": "Free 예산과 원격 CPU 미검증",
+      "evidence": ["FREE_TIER_POLICY.md", "DEV08_TEST_REPORT.md"]
+    },
+    "13": {
+      "status": "Verification·Registry·Collector 연결",
+      "evidence": [
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts",
+        "src/nationwide/weekend-store.ts"
+      ]
+    },
+    "14": {
+      "status": "0010 로컬 마이그레이션·rollback",
+      "evidence": [
+        "migrations/0010_nationwide_weekends.sql",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "15": {
+      "status": "회귀·R01~R32",
+      "evidence": ["data/dev08-baseline.json", "DEV08_TEST_REPORT.md"]
+    },
+    "16": {
+      "status": "외부 전송과 운영 OFF",
+      "evidence": ["wrangler.jsonc", "SECURITY.md"]
+    },
+    "17": {
+      "status": "Windows E와 안전 정리",
+      "evidence": ["LOCAL_DEVELOPMENT.md", "CLEANUP_POLICY.md"]
+    },
+    "18": {
+      "status": "문서 및 증거",
+      "evidence": ["DEV08_COMPLETION.md", "DEV08_FAIRNESS_REPORT.md"]
+    },
+    "19": {
+      "status": "보호 CI와 동기화",
+      "evidence": ["GITHUB_WORKFLOW.md", "scripts/complete-dev.mjs"]
+    },
+    "20": {
+      "status": "합성·실제 범위와 다음 게이트",
+      "evidence": ["DEV08_COMPLETION.md", "PROJECT_STATUS.md"]
+    }
+  },
+  "requirements": {
+    "R01": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/coverage.json",
+        "src/nationwide/coverage.ts",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R02": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R03": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R04": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md"
+      ]
+    },
+    "R05": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md"
+      ]
+    },
+    "R06": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R07": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "SOURCE_COVERAGE.md",
+        "data/sources.json"
+      ]
+    },
+    "R08": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "VTUBER_VERIFICATION.md"
+      ]
+    },
+    "R09": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md",
+        "VTUBER_VERIFICATION.md",
+        "src/nationwide/simulator.ts"
+      ]
+    },
+    "R10": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "FREE_TIER_POLICY.md",
+        "DEV08_TEST_REPORT.md",
+        "ARCHITECTURE.md",
+        "src/nationwide/weekend-store.ts"
+      ]
+    },
+    "R11": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R12": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R13": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R14": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R15": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R16": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R17": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R18": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R19": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R20": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend-store.ts"
+      ]
+    },
+    "R21": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "migrations/0010_nationwide_weekends.sql",
+        "tests/nationwide-integration.test.mjs",
+        "DEV08_COMPLETION.md",
+        "PROJECT_STATUS.md"
+      ]
+    },
+    "R22": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "FREE_TIER_POLICY.md",
+        "DEV08_TEST_REPORT.md"
+      ]
+    },
+    "R23": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R24": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md"
+      ]
+    },
+    "R25": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md"
+      ]
+    },
+    "R26": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R27": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R28": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R29": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts",
+        "src/nationwide/weekend-store.ts",
+        "migrations/0010_nationwide_weekends.sql",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R30": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/dev08-baseline.json",
+        "DEV08_TEST_REPORT.md",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R31": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "wrangler.jsonc",
+        "SECURITY.md",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R32": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend-store.ts",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md",
+        "src/nationwide/simulator.ts",
+        "DEV08_FAIRNESS_REPORT.md",
+        "DEV08_COMPLETION.md",
+        "PROJECT_STATUS.md"
+      ]
+    }
+  },
+  "operational": {
+    "liveSiteCrawlerRequests": 0,
+    "telegramSent": 0,
+    "privateIssuesCreated": 0,
+    "xPublished": 0,
+    "activeSources": 0,
+    "productionCron": 0,
+    "remoteSchemaMigration": false,
+    "cloudflareCpuMeasured": false,
+    "collection": false,
+    "notifications": false,
+    "dev09Started": false
+  }
+}

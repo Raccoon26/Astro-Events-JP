@@ -92,3 +92,9 @@ DEV05 최종 결과는 [완료보고](DEV05_COMPLETION.md)를 따른다. 전체5
 `events.revision`은 안정 ID 내에서 증가한다. 후보별 검증 generation은 계속 독립적이다. 공식 정정이 새 후보 ID를 만들면 검증된 canonical의 헤드를 원자적으로 넘기고 과거 결정과 별칭을 보존한다. `event_tracking_revisions`는 근거가 붙은 전후 사실·예약 정밀도·시설 영향을 기록한다. 신규 검증, 헤드/별칭, revision, CAS를 하나의 D1 batch로 처리한다.
 
 `event_delivery_intents`의 행사/revision/kind/mode 및 내용 지문과 `event_booking_intents`의 행사/목적/시간 창은 기존 부분별 Outbox를 보완한다. 게시 확인 provenance 및 2년 지문은 0008과 기존 보관 계약을 사용한다. 자동 만료 삭제는 DEV-09에서 구현한다. 기존 migration 0001~0008과 원격 두 D1의 0004는 유지한다.
+
+## DEV-08 0010 로컬 스키마
+
+`survey_checkpoint`의 lane·generation·cursor와 `survey_opportunities`의 지역별 시각·시정촌·Source 페이지 키, `survey_plans`의 run ID를 기존 collection_jobs와 한 batch로 기록한다. Collector가 임대·backoff를 갖는다.
+
+`weekend_editions`는 날짜와 scope·digest, `weekend_members`는 canonical event·revision·decision·fingerprint·만료와 메시지 내 위치를 보유한다. `weekend_active`가 현재 edition을 가리킨다. 전송이 시작되거나 uncertain이면 같은 주말의 edition을 자동 재발행하지 않는다. `weekend_outbox`는 독립 부분과 lease·영수증을 보유하며 기존 게시 fingerprint/Issue는 그대로다. DEV-09가 보관 기간과 FK 참조 해제 순서를 검증한다.

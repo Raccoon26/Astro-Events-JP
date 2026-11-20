@@ -188,3 +188,4 @@ await import('./audit-dev05r.mjs');
 await import('./audit-dev06.mjs');
 await import('./audit-dev06r.mjs');
 await import('./audit-dev07.mjs');
+await import('./audit-dev08.mjs');
