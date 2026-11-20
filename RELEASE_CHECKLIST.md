@@ -48,3 +48,7 @@ DEV05 최종 결과는 [완료보고](DEV05_COMPLETION.md)를 따른다. 전체5
 ## DEV-08 범위 확인
 
 PR #31 기준·743개 회귀·0001~0009 checksum을 확인한다. 47현 aging·VTuber 독립·예산/429 cursor, 원문 URL과 review, JST·개별/모음 구분·현재 revision·X 길이·모의 Outbox/CAS·0010 로컬 FK/rollback을 확인한다. 운영 플래그와 원격 0004를 유지한다. E 정리 Dry Run, 전체 check, 최신 GitHub quality, 보호 준수 병합 및 main 동기화를 기록한다. DEV-09를 자동 시작하지 않는다.
+
+## DEV-09 운영 승인 분리
+
+기존 766개 목적·0001~0010 SHA, UTC/JST 슬롯과 경합/복구, Free 유예/CPU, 지역·VTuber, 정리와 rollback/FK, App scope/갱신, 보고, 전체 CI 및 보호 병합을 점검한다. DEV-10 운영 게이트는 원격 schema·안전한 전송·공식 CPU·계정 Observability·실제 App/수신 시험과 사용자 승인이다. [DEV-09 검사](DEV09_TEST_REPORT.md)

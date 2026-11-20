@@ -98,3 +98,7 @@ Collector Candidate → 현재 VerificationStore → bounded identity/CAS → �
 ## DEV-08 지역 순환과 별도 주말 전달 목적
 
 지역·유형·VTuber scheduler는 분리한 checkpoint와 승인·최소 간격·host backoff 검사를 사용한다. 승인된 건만 기존 Collector job CAS에 넣도록 설계했다. 운영 route와 Cron은 유지한다. 주말 모음은 DEV-07 canonical/VerificationStore의 현재 판단을 캡처하고 기존 DEV-05 X 길이 검사를 사용한다. Outbox는 별도 weekend key, exact membership, 버전, 부분별 멱등성을 보유하며 기존 개별 보고 Issue 쓰기와 분리한다. [완료 범위](DEV08_COMPLETION.md)
+
+## DEV-09 운영 장부
+
+UTC 슬롯 예약과 독립 작업 호출을 분리한다. 한 호출에서 하나의 유한 작업을 처리하고 모듈별 CAS를 사용한다. 수집/알림 실제 네트워크는 기존 fail-closed를 따른다. 운영 모듈은 별도 bundle이며 기존 배포 진입점은 Health와 안전 Cron 진단을 제공한다. [복구](DEV09_RECOVERY_REPORT.md)

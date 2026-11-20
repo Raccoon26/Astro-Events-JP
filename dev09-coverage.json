@@ -1,0 +1,515 @@
+{
+  "sections": {
+    "0": {
+      "status": "isolated operating boundary",
+      "evidence": ["DEV09_COMPLETION.md", "wrangler.jsonc"]
+    },
+    "1": {
+      "status": "immutable prior schema and tests",
+      "evidence": ["data/dev09-baseline.json", "DEV09_TEST_REPORT.md"]
+    },
+    "2": {
+      "status": "JST and single-invocation scheduled steps",
+      "evidence": [
+        "src/operations/engine.ts",
+        "tests/operations-policy.test.ts"
+      ]
+    },
+    "3": {
+      "status": "lease, retry, cursor checkpoint and fencing",
+      "evidence": [
+        "tests/operations-integration.test.mjs",
+        "DEV09_RECOVERY_REPORT.md"
+      ]
+    },
+    "4": {
+      "status": "regional, category and VTuber isolation",
+      "evidence": ["src/nationwide/scheduler.ts", "tests/nationwide.test.ts"]
+    },
+    "5": {
+      "status": "Free total budget, reserves and stale evidence",
+      "evidence": [
+        "src/operations/policy.ts",
+        "tests/operations-policy.test.ts"
+      ]
+    },
+    "6": {
+      "status": "provider baseline and path limits",
+      "evidence": ["DEV09_FREE_BUDGET_REPORT.md"]
+    },
+    "7": {
+      "status": "existing fail-closed network guard",
+      "evidence": ["SSRF_SECURITY_AUDIT.md", "src/operations/pipeline.ts"]
+    },
+    "8": {
+      "status": "bounded retention, current revision and rollback",
+      "evidence": [
+        "src/operations/retention.ts",
+        "tests/operations-integration.test.mjs"
+      ]
+    },
+    "9": {
+      "status": "private Issues diagnostic classification without writes",
+      "evidence": ["src/operations/report.ts", "DEV09_RETENTION_REPORT.md"]
+    },
+    "10": {
+      "status": "scoped JWT, grant, refresh and revocation",
+      "evidence": [
+        "src/operations/github-app.ts",
+        "tests/operations-app.test.ts"
+      ]
+    },
+    "11": {
+      "status": "current delivery and uncertain from durable receipts",
+      "evidence": [
+        "tests/operations-integration.test.mjs",
+        "DELIVERY_RECOVERY.md"
+      ]
+    },
+    "12": {
+      "status": "December Observability and independent D1 journal",
+      "evidence": ["DEV09_FREE_BUDGET_REPORT.md", "FREE_TIER_POLICY.md"]
+    },
+    "13": {
+      "status": "JST daily portfolio and isolated error preview",
+      "evidence": [
+        "src/operations/report.ts",
+        "tests/operations-integration.test.mjs"
+      ]
+    },
+    "14": {
+      "status": "local additive 0011",
+      "evidence": [
+        "migrations/0011_automation.sql",
+        "tests/operations-integration.test.mjs"
+      ]
+    },
+    "15": {
+      "status": "existing and new quality checks",
+      "evidence": [
+        "DEV09_TEST_REPORT.md",
+        "tests/operations-integration.test.mjs"
+      ]
+    },
+    "16": {
+      "status": "E only and cleanup dry run",
+      "evidence": ["scripts/path-policy.mjs", "CLEANUP_POLICY.md"]
+    },
+    "17": {
+      "status": "disabled remote routes and external sends",
+      "evidence": ["src/index.ts", "wrangler.jsonc"]
+    },
+    "18": {
+      "status": "implementation, recovery and open gates",
+      "evidence": ["DEV09_COMPLETION.md", "PROJECT_STATUS.md"]
+    },
+    "19": {
+      "status": "existing protected complete:dev",
+      "evidence": ["scripts/complete-dev.mjs", "GITHUB_WORKFLOW.md"]
+    },
+    "20": {
+      "status": "report and DEV-10 limits",
+      "evidence": ["DEV09_COMPLETION.md", "RELEASE_CHECKLIST.md"]
+    }
+  },
+  "requirements": {
+    "R01": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/coverage.json",
+        "src/nationwide/coverage.ts",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R02": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R03": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R04": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md"
+      ]
+    },
+    "R05": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md"
+      ]
+    },
+    "R06": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/sources.json",
+        "src/nationwide/policy.ts",
+        "SOURCE_COVERAGE.md"
+      ]
+    },
+    "R07": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "SOURCE_COVERAGE.md",
+        "data/sources.json"
+      ]
+    },
+    "R08": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "VTUBER_VERIFICATION.md"
+      ]
+    },
+    "R09": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/policy.ts",
+        "DEV08_FAIRNESS_REPORT.md",
+        "VTUBER_VERIFICATION.md",
+        "src/nationwide/simulator.ts"
+      ]
+    },
+    "R10": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "FREE_TIER_POLICY.md",
+        "DEV08_TEST_REPORT.md",
+        "ARCHITECTURE.md",
+        "src/nationwide/weekend-store.ts"
+      ]
+    },
+    "R11": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "tests/operations-integration.test.mjs",
+        "src/operations/pipeline.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R12": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R13": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R14": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R15": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R16": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md"
+      ]
+    },
+    "R17": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "tests/operations-integration.test.mjs",
+        "DEV09_RECOVERY_REPORT.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R18": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "src/operations/report.ts",
+        "tests/operations-app.test.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R19": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "tests/operations-integration.test.mjs",
+        "src/operations/engine.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts"
+      ]
+    },
+    "R20": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "tests/operations-integration.test.mjs",
+        "src/operations/pipeline.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend-store.ts"
+      ]
+    },
+    "R21": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "src/operations/retention.ts",
+        "tests/operations-integration.test.mjs",
+        "DEV09_RETENTION_REPORT.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "migrations/0010_nationwide_weekends.sql",
+        "tests/nationwide-integration.test.mjs",
+        "DEV08_COMPLETION.md",
+        "PROJECT_STATUS.md"
+      ]
+    },
+    "R22": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "tests/operations-policy.test.ts",
+        "DEV09_FREE_BUDGET_REPORT.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "FREE_TIER_POLICY.md",
+        "DEV08_TEST_REPORT.md"
+      ]
+    },
+    "R23": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "tests/operations-app.test.ts",
+        "SECURITY.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R24": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md"
+      ]
+    },
+    "R25": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md"
+      ]
+    },
+    "R26": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/weekend-store.ts",
+        "tests/nationwide-integration.test.mjs",
+        "wrangler.jsonc",
+        "SECURITY.md"
+      ]
+    },
+    "R27": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R28": {
+      "status": "inherited scope and local integration audited",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R29": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "migrations/0011_automation.sql",
+        "DATA_MODEL.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "ARCHITECTURE.md",
+        "src/nationwide/scheduler.ts",
+        "src/nationwide/weekend-store.ts",
+        "migrations/0010_nationwide_weekends.sql",
+        "tests/nationwide-integration.test.mjs"
+      ]
+    },
+    "R30": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "DEV09_TEST_REPORT.md",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "data/dev08-baseline.json",
+        "DEV08_TEST_REPORT.md",
+        "LOCAL_DEVELOPMENT.md",
+        "CLEANUP_POLICY.md",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R31": {
+      "status": "DEV-09 local, operational gates documented",
+      "evidence": [
+        "AUTH_AUTOMATION_DESIGN.md",
+        "tests/operations-app.test.ts",
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "wrangler.jsonc",
+        "SECURITY.md",
+        "GITHUB_WORKFLOW.md",
+        "scripts/complete-dev.mjs"
+      ]
+    },
+    "R32": {
+      "status": "local evidence; operational gate retained",
+      "evidence": [
+        "REQUIREMENTS.md",
+        "DEV_ROADMAP.md",
+        "requirements-coverage.json",
+        "src/nationwide/scheduler.ts",
+        "tests/nationwide-integration.test.mjs",
+        "src/nationwide/weekend-store.ts",
+        "src/nationwide/weekend.ts",
+        "DEV08_WEEKEND_SAMPLES.md",
+        "src/nationwide/simulator.ts",
+        "DEV08_FAIRNESS_REPORT.md",
+        "DEV08_COMPLETION.md",
+        "PROJECT_STATUS.md"
+      ]
+    }
+  },
+  "operational": {
+    "liveCron": false,
+    "collection": false,
+    "notifications": false,
+    "productionChanges": 0,
+    "remoteMigrations": 0,
+    "liveApp": false
+  }
+}
