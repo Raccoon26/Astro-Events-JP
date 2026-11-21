@@ -29,3 +29,7 @@ DEV04의 공식 사실 검증도 현재 active 승인·robots/약관/host/scope�
 ## DEV-10 Source 오프라인 재검토
 
 `scripts/release-source-review.mjs`의 114개 기록은 보존된 공식 관계·호스트·시설·robots·약관·형식·마지막 검토일을 대조한다. shortlist는 ひろのまきば天文台, 桐生市立図書館 天体観察イベント, JAXA筑波宇宙センター다. 전부 review이며 실제 접속, 정책 갱신, 승인 값 변경은 0이다. 두 지방 후보는 HTML 관찰 기록이 있고, JAXA의 기존 robots 404 기록과 약관 검토 필요 상태는 접근 허가로 해석하지 않는다. 절차와 응답 크기·활동 검증은 DEV-10R에 남긴다.
+
+## DEV-10R-A 로컬 수집 전송
+
+로컬 수집도 각 홉과 DNS 반환 뒤 현재 승인·lease를 대조한다. 승인이 바뀐 체크포인트는 폐기하고 접근 간격을 지킨다. 혼합 A/AAAA와 IPv6-only는 운영 범위에서 차단한다. [검증](DEV10R_A_SECURITY_REPORT.md)

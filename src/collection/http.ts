@@ -1,7 +1,13 @@
 import type { CollectedPage, Collector } from '../contracts';
 import type { Source } from '../domain';
 import type { Registration } from '../registry';
-import { assertApproval, inScope, safeUrl, USER_AGENT } from './policy';
+import {
+  assertApproval,
+  inScope,
+  redirectUrl,
+  safeUrl,
+  USER_AGENT,
+} from './policy';
 import { robotsPolicy } from './robots';
 import { decodeDocument, digest } from './text';
 import {
@@ -58,6 +64,7 @@ export class SafeHttpCollector implements Collector {
     readonly clock = () => Date.now(),
     readonly sleep: (ms: number) => Promise<void> = (ms) =>
       new Promise((resolve) => setTimeout(resolve, ms)),
+    readonly checkCurrent?: () => Promise<void>,
   ) {
     this.settings = limits(settings);
   }
@@ -73,6 +80,7 @@ export class SafeHttpCollector implements Collector {
     const gap = Math.max(this.settings.gapMs, this.approval.requestGapMs);
     const wait = Math.max(0, this.lastRequest + gap - this.clock());
     if (wait) await this.sleep(wait);
+    await this.checkCurrent?.();
     if (signal.aborted) throw new CollectionError('aborted');
     this.requests++;
     this.lastRequest = this.clock();
@@ -86,7 +94,12 @@ export class SafeHttpCollector implements Collector {
     }, this.settings.timeoutMs);
     try {
       const result = await abortable(
-        this.transport.request(url, headers, controller.signal),
+        this.transport.request(
+          url,
+          headers,
+          controller.signal,
+          this.checkCurrent,
+        ),
         controller.signal,
       );
       const response = result.response;
@@ -167,10 +180,7 @@ export class SafeHttpCollector implements Collector {
         if (!location || hop === this.settings.maxRedirects)
           throw new CollectionError('unsafe-redirect');
         try {
-          const next = safeUrl(
-            new URL(location, url).href,
-            source.allowedHosts,
-          );
+          const next = redirectUrl(location, url, source.allowedHosts);
           if (
             robots &&
             (next.origin !== url.origin || next.pathname !== '/robots.txt')

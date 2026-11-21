@@ -110,3 +110,7 @@ DEV-09/10에서 독립 invocation마다 10ms CPU와 D1 쿼리·계정 총 행 �
 ## DEV-10 계정 검증
 
 계정 전체 인증 집계·현재 진단 Cron CPU는 [Free 비용 보고서](DEV10_CPU_REPORT.md)에 기록한다. CPU 경로별 실측·계정 Observability 사용량이 불명확하면 실제 단계 활성화를 보류한다. 유료 자동 전환은 없다.
+
+## DEV-10R-A 로컬 수집 전송
+
+DNS·TLS·압축 해제는 승인형 Windows 로컬 수집 시 PC에 귀속된다. 신규 서비스·Workers 유료 전환·원격 데이터 쓰기 없이 사용할 수 있다. 새로운 경로의 공식 Cloudflare CPU는 미측정이다. [비용 및 한도](DEV10R_A_TRANSPORT_COMPARISON.md)

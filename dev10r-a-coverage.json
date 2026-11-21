@@ -1,0 +1,222 @@
+{
+  "baseline": "data/dev10r-a-baseline.json",
+  "legacy": "dev10-coverage.json",
+  "sections": {
+    "0": {
+      "status": "baseline-preserved",
+      "evidence": ["data/dev10r-a-baseline.json"]
+    },
+    "1": {
+      "status": "documented-no-managed-peer-proof",
+      "evidence": ["DEV10R_A_SECURITY_REPORT.md"]
+    },
+    "2": {
+      "status": "local-verified-managed-gate-pending",
+      "evidence": [
+        "DEV10R_A_SECURITY_REPORT.md",
+        "tests/dev10r-a-transport.test.mjs"
+      ]
+    },
+    "3": {
+      "status": "managed-remote-validation-pending",
+      "evidence": ["DEV10R_A_TRANSPORT_COMPARISON.md"]
+    },
+    "4": {
+      "status": "implemented-approval-gated-local-transport",
+      "evidence": ["scripts/pinned-transport.mjs", "src/collection/store.ts"]
+    },
+    "5": {
+      "status": "windows-alternative-ready",
+      "evidence": ["DEV10R_A_TRANSPORT_COMPARISON.md", "scripts/collector.mjs"]
+    },
+    "6": {
+      "status": "isolated-tests",
+      "evidence": [
+        "tests/dev10r-a-transport.test.mjs",
+        "tests/dev10r-a-collection-fence.test.mjs",
+        "tests/collection-http.test.ts"
+      ]
+    },
+    "7": {
+      "status": "free-policy-reviewed-remote-cpu-unmeasured",
+      "evidence": ["DEV10R_A_TRANSPORT_COMPARISON.md", "FREE_TIER_POLICY.md"]
+    },
+    "8": {
+      "status": "existing-runtime-off",
+      "evidence": [
+        "src/index.ts",
+        "wrangler.release.jsonc",
+        "tests/release-worker.test.mjs"
+      ]
+    },
+    "9": {
+      "status": "original-test-purposes-preserved",
+      "evidence": ["data/dev10r-a-baseline.json", "dev10-coverage.json"]
+    },
+    "10": {
+      "status": "original-windows-e-preflight-dry-run",
+      "evidence": ["scripts/environment.ps1", "scripts/cleanup.mjs"]
+    },
+    "11": {
+      "status": "documentation-recorded",
+      "evidence": ["DEV10R_A_COMPLETION.md", "DEV10R_A_TEST_REPORT.md"]
+    },
+    "12": {
+      "status": "same-protected-completion",
+      "evidence": ["scripts/complete-dev.mjs", "GITHUB_WORKFLOW.md"]
+    },
+    "13": {
+      "status": "alternative-ready-operations-pending",
+      "evidence": ["DEV10R_A_RELEASE_GATE.md"]
+    }
+  },
+  "requirements": {
+    "R01": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R02": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R03": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R04": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R05": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R06": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R07": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R08": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R09": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R10": {
+      "status": "checked-again",
+      "evidence": [
+        "dev10-coverage.json",
+        "src/collection/http.ts",
+        "tests/dev10r-a-collection-fence.test.mjs"
+      ]
+    },
+    "R11": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R12": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R13": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R14": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R15": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R16": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R17": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R18": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R19": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R20": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R21": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R22": {
+      "status": "checked-again",
+      "evidence": ["dev10-coverage.json", "DEV10R_A_TRANSPORT_COMPARISON.md"]
+    },
+    "R23": {
+      "status": "checked-again",
+      "evidence": [
+        "dev10-coverage.json",
+        "DEV10R_A_SECURITY_REPORT.md",
+        "tests/dev10r-a-transport.test.mjs"
+      ]
+    },
+    "R24": {
+      "status": "checked-again",
+      "evidence": ["dev10-coverage.json", "scripts/environment.ps1"]
+    },
+    "R25": {
+      "status": "checked-again",
+      "evidence": ["dev10-coverage.json", "scripts/cleanup.mjs"]
+    },
+    "R26": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R27": {
+      "status": "checked-again",
+      "evidence": ["dev10-coverage.json", "GITHUB_WORKFLOW.md"]
+    },
+    "R28": {
+      "status": "checked-again",
+      "evidence": ["dev10-coverage.json", "scripts/complete-dev.mjs"]
+    },
+    "R29": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R30": {
+      "status": "preserved",
+      "evidence": ["dev10-coverage.json"]
+    },
+    "R31": {
+      "status": "checked-again",
+      "evidence": ["dev10-coverage.json", "DEV10R_A_RELEASE_GATE.md"]
+    },
+    "R32": {
+      "status": "checked-again",
+      "evidence": ["dev10-coverage.json", "DEV10R_A_RELEASE_GATE.md"]
+    }
+  },
+  "remote": {
+    "actualCollections": 0,
+    "activeSources": 0,
+    "externalWrites": 0,
+    "remoteMigration": false,
+    "productionChanged": false,
+    "notificationsEnabled": false,
+    "collectionEnabled": false,
+    "workersPeerProven": false,
+    "newOfficialCpuMeasured": false
+  }
+}

@@ -6,6 +6,7 @@ import { D1Meter } from './meter';
 import { parseDocument } from './parse';
 import { assertApproval } from './policy';
 import { type Checkpoint, CollectionStore } from './store';
+import { digest } from './text';
 import {
   CollectionError,
   type HtmlRules,
@@ -188,10 +189,44 @@ export class CollectionOrchestrator {
       const approval = await this.store.approval(source.id);
       if (!approval) throw new CollectionError('terms-unreviewed');
       assertApproval(original, approval, now, job.format);
+      const approvalDigest = await digest(
+        JSON.stringify([
+          approval,
+          original.officialUrl,
+          original.allowedHosts,
+          original.format,
+          original.minIntervalSeconds,
+          original.robotsCheckedAt,
+          original.termsReviewedAt,
+        ]),
+      );
       const signal = options.signal ?? new AbortController().signal;
       if (job.state === 'parsed' && job.payload) {
         const checkpoint = JSON.parse(job.payload) as Checkpoint;
-        await this.store.finish(job, token, original, checkpoint);
+        if (checkpoint.approvalDigest !== approvalDigest) {
+          await this.store.resetUnverifiedCheckpoint(job, token, now);
+          await this.db
+            .prepare(
+              "UPDATE crawl_runs SET state='deferred',finished_at=?1,safe_error_code='policy-changed' WHERE run_id=?2",
+            )
+            .bind(now, runId)
+            .run();
+          return {
+            state: 'deferred',
+            code: 'policy-changed',
+            requests: 0,
+            cpuTimeMs: null,
+          };
+        }
+        await this.store.finish(
+          job,
+          token,
+          original,
+          checkpoint,
+          false,
+          approval,
+          new Date(this.clock()).toISOString(),
+        );
         await this.db
           .prepare(
             "UPDATE crawl_runs SET state='completed',finished_at=?1,sources_processed=1 WHERE run_id=?2",
@@ -223,6 +258,14 @@ export class CollectionOrchestrator {
               approval.minIntervalSeconds * 1000,
           ).toISOString(),
         );
+      const checkCurrent = () =>
+        this.store.checkRequest(
+          job,
+          token,
+          original,
+          approval,
+          new Date(this.clock()).toISOString(),
+        );
       const http = new SafeHttpCollector(
         this.transport,
         approval,
@@ -230,6 +273,7 @@ export class CollectionOrchestrator {
         this.fixtureMode,
         this.clock,
         this.sleep,
+        checkCurrent,
       );
       activeHttp = http;
       const requestSignal = AbortSignal.any([
@@ -263,6 +307,7 @@ export class CollectionOrchestrator {
             : null,
       });
       requests = http.requests;
+      await checkCurrent();
       const checkpoint: Checkpoint = {
         parsed: empty(),
         url: page.url,
@@ -271,6 +316,7 @@ export class CollectionOrchestrator {
         lastModified: page.lastModified,
         at: now,
         requests,
+        approvalDigest,
       };
       if (
         page.status === 304 ||
@@ -279,7 +325,15 @@ export class CollectionOrchestrator {
           previous.digest === page.digest)
       ) {
         if (!checkpoint.digest) throw new CollectionError('parse-error');
-        await this.store.finish(job, token, original, checkpoint, true);
+        await this.store.finish(
+          job,
+          token,
+          original,
+          checkpoint,
+          true,
+          approval,
+          new Date(this.clock()).toISOString(),
+        );
         await this.db
           .prepare(
             "UPDATE crawl_runs SET state='completed',finished_at=?1,sources_processed=1,requests=?2 WHERE run_id=?3",
@@ -299,6 +353,7 @@ export class CollectionOrchestrator {
           job.offset && job.document_digest === page.digest ? job.offset : 0,
         ...(options.rules ? { rules: options.rules } : {}),
       });
+      await checkCurrent();
       if (
         job.depth < this.settings.maxSitemapDepth &&
         checkpoint.parsed.sitemaps.length

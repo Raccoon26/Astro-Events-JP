@@ -56,3 +56,7 @@ PR #31 기준·743개 회귀·0001~0009 checksum을 확인한다. 47현 aging·V
 ## DEV-10 A/B/C 체크
 
 기존 797개 및 0001~0011 hash, 합성 종단 간과 OFF/schema/예산 경계, SSRF/API/Secrets와 일본어 수동 점검, 보호 병합을 검사한다. B와 C는 [별도 승인/실증](DEV10_MANUAL_APPROVAL_PLAN.md)의 성공 증거를 요구한다.
+
+## DEV-10R-A 로컬 수집 전송
+
+DEV-10R-A에서는 기준 810개/0001–0012, native TLS·격리 D1, E Dry Run, 최신 CI·보호 병합을 확인한다. [후속 승인](DEV10R_A_RELEASE_GATE.md)
