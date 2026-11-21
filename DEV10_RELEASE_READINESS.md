@@ -11,3 +11,7 @@
 ## C Production 승인
 
 사용자가 위험·비용·배포·활성화·복구 절차를 승인한 뒤 실제 배포 승인 조건, 단계별 Source/Cron/알림 및 중지 수단을 검증한다. A/B/C 증거를 모두 확보하면 **PRODUCTION_READY**를 검토한다. A의 필수 증거가 실패했거나 확인되지 않으면 **BLOCKED**다. 판정은 운영 플래그나 배포 권한을 변경하는 기능과 독립적이다.
+
+## DEV-10R-A 로컬 수집 전송
+
+DEV-10R-A의 **ALTERNATIVE_READY**는 Windows E 로컬 전송 경계에 적용된다. 관리형 Workers 피어, 실제 Source, 원격 D1 적용, CPU, 전달과 회복의 B 조건을 그대로 평가한다. [후속 판정](DEV10R_A_RELEASE_GATE.md)

@@ -31,3 +31,7 @@ DEV05R 추가 조사: 현재 고정 Workers types에는 Socket.startTls({expecte
 ## DEV-10 서비스 호출 실증
 
 로컬 workerd에서 `scheduled`, 별도 예약/한 단계 RPC와 함께 지속 D1 체크포인트를 검증한다. 별도 Worker 배포와 원격 호출의 CPU·D1·요청 비용은 각각 실제 측정해야 한다. 같은 RPC 안의 하위 함수 비용은 해당 호출에 포함된다.
+
+## DEV-10R-A 로컬 수집 전송
+
+E 로컬은 접근 간격·owner·재개 상태를 보존한다. 로컬 운용·원격 인수·Workers 피어 실증은 각각 판정한다. [작업 경계](DEV10R_A_TRANSPORT_COMPARISON.md)

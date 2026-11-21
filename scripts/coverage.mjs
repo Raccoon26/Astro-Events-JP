@@ -191,3 +191,4 @@ await import('./audit-dev07.mjs');
 await import('./audit-dev08.mjs');
 await import('./audit-dev09.mjs');
 await import('./audit-dev10.mjs');
+await import('./audit-dev10r-a.mjs');

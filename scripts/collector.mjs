@@ -131,6 +131,10 @@ try {
           : 'Explicit --apply and --local-budget required',
       };
     else {
+      if (!state.localDriveVerified)
+        throw new Error(
+          'Live collection requires the original Windows E project drive',
+        );
       if (!process.argv.includes('--local-budget'))
         throw new Error('Explicit local-only budget attestation required');
       const engine = new api.CollectionOrchestrator(

@@ -106,3 +106,7 @@ UTC 슬롯 예약과 독립 작업 호출을 분리한다. 한 호출에서 하�
 ## DEV-10 비공개 Workers 진입점
 
 `src/index.ts`의 공개 Health와 진단 Cron을 유지한다. 별도 `ReleaseOperations` Worker는 비공개 서비스 바인딩의 `schedule`, `step`, `verifyReportsAccess`를 제공한다. 직전의 격리 스키마와 예산을 확인하고 한 번에 한 작업을 진행한다. 기본 config는 OFF이며 기존 staging/production에 binding, route, preview 또는 Cron을 연결하지 않는다. [구현](DEV10_COMPLETION.md)
+
+## DEV-10R-A 로컬 수집 전송
+
+Windows Node 수집은 기존 Transport 경계와 격리 E D1을 사용한다. Workers의 기본 수집 전송은 fail-closed이고 진단 코드·설정은 보존한다. [전송 대안](DEV10R_A_TRANSPORT_COMPARISON.md)

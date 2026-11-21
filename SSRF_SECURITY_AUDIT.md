@@ -35,3 +35,7 @@ robots의 User-Agent/Allow/Disallow/경로 우선/동률Allow/일반 wildcard·C
 ## DEV-10 재확인
 
 Workers fetch/resolveOverride·TCP·Node 호환 문서를 검토했다. 공개 DNS/실제 peer/SNI·인증서를 동시에 입증할 수 있는 Free 경로는 미검증이다. Worker 외부 수집을 fail-closed로 유지한다. 로컬 Node는 명시 TLS 인증과 IPv4 선택을 강화했다. 대안과 비용, 원격 승인 기준은 [보안 보고서](DEV10_SECURITY_REPORT.md)를 참조한다.
+
+## DEV-10R-A 로컬 수집 전송
+
+Node 경계는 HTTP를 보내기 전에 TLS 인증과 커널 피어 확인을 마친다. Workers socket의 remoteAddress와 TLS 타입은 관리형 edge 증거가 아니다. [API·Node 검증](DEV10R_A_SECURITY_REPORT.md)

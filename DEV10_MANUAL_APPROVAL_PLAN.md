@@ -18,3 +18,7 @@
 | 0012      | `PRAGMA table_info(release_isolation)`, `SELECT count(*) FROM release_isolation`는 기본 0   |
 
 0012에 포함된 격리 표식은 승인된 전용 DB에만 명시적으로 기록한다. 기본 구성에는 이 DB binding·공개 route·preview URL·Cron이 없다. 기존 staging/production DB에는 혼합 적용하거나 표식을 생성하지 않는다.
+
+## DEV-10R-A 로컬 수집 전송
+
+승인형 Windows 대안에서 Source와 최대 요청을 따로 승인한다. 관리형 egress 검증은 사용자 관리 대상·예산·DNS/peer/SNI 증거가 있는 staging 시험 제안이 필요하다. [승인 목록](DEV10R_A_RELEASE_GATE.md)

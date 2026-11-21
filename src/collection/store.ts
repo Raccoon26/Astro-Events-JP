@@ -41,6 +41,7 @@ export interface Checkpoint {
   lastModified: string | null;
   at: string;
   requests: number;
+  approvalDigest?: string;
 }
 export class CollectionStore {
   constructor(readonly db: D1Database) {}
@@ -121,6 +122,58 @@ export class CollectionStore {
       .bind(sourceId)
       .first<string>('payload');
     return payload ? (JSON.parse(payload) as Approval) : null;
+  }
+  async checkRequest(
+    job: Job,
+    owner: string,
+    source: Registration,
+    approval: Approval,
+    now: string,
+  ) {
+    assertApproval(source, approval, now, job.format);
+    const current = await this.db
+      .prepare(
+        `SELECT 1 AS allowed FROM collection_jobs j
+          JOIN sources s ON s.source_id=j.source_id
+          JOIN source_approvals a ON a.source_id=s.source_id
+          WHERE j.job_id=?1 AND j.owner=?2 AND j.state='fetching'
+          AND j.lease_until>?3 AND s.state='active' AND s.official_url=?4
+          AND s.allowed_hosts_json=?5 AND s.min_interval_seconds=?6
+          AND s.format=?7 AND a.payload=?8
+          AND s.robots_checked_at IS ?9 AND s.terms_reviewed_at IS ?10`,
+      )
+      .bind(
+        job.job_id,
+        owner,
+        now,
+        source.officialUrl,
+        JSON.stringify(source.allowedHosts),
+        source.minIntervalSeconds ?? 86400,
+        source.format,
+        JSON.stringify(approval),
+        source.robotsCheckedAt,
+        source.termsReviewedAt,
+      )
+      .first();
+    if (!current) throw new CollectionError('policy-changed');
+  }
+  async resetUnverifiedCheckpoint(job: Job, owner: string, now: string) {
+    const result = await this.db
+      .prepare(
+        `UPDATE collection_jobs SET state='deferred',payload=NULL,offset=0,
+          document_digest=NULL,owner=NULL,lease_until=NULL,attempts=0,
+          retry_at=?1,updated_at=?2,safe_error_code='policy-changed'
+          WHERE job_id=?3 AND owner=?4 AND state='parsed'`,
+      )
+      .bind(
+        new Date(Date.parse(now) + 60000).toISOString(),
+        now,
+        job.job_id,
+        owner,
+      )
+      .run();
+    if (result.meta.changes !== 1)
+      throw new CollectionError('checkpoint-conflict');
   }
   async approve(source: Registration, record: Approval, now: string) {
     const marker = await this.db
@@ -242,9 +295,29 @@ export class CollectionStore {
     source: Registration,
     data: Checkpoint,
     unchanged = false,
+    approval?: Approval,
+    now = data.at,
   ) {
-    const guard =
-      "EXISTS(SELECT 1 FROM collection_jobs j JOIN sources s ON s.source_id=j.source_id WHERE j.job_id=? AND j.owner=? AND s.state='active')";
+    const current = approval ?? (await this.approval(source.id));
+    const payload = current ? JSON.stringify(current) : null;
+    const guard = `EXISTS(SELECT 1 FROM collection_jobs j JOIN sources s ON s.source_id=j.source_id
+        JOIN source_approvals a ON a.source_id=s.source_id
+        WHERE j.job_id=? AND j.owner=? AND j.lease_until>? AND s.state='active'
+        AND s.official_url=? AND s.allowed_hosts_json=? AND s.format=?
+        AND s.min_interval_seconds=? AND a.payload=?
+        AND s.robots_checked_at IS ? AND s.terms_reviewed_at IS ?)`;
+    const fence = [
+      job.job_id,
+      token,
+      now,
+      source.officialUrl,
+      JSON.stringify(source.allowedHosts),
+      source.format,
+      source.minIntervalSeconds ?? 86400,
+      payload,
+      source.robotsCheckedAt,
+      source.termsReviewedAt,
+    ];
     const statements: D1PreparedStatement[] = [];
     const continuation = !unchanged && data.parsed.nextOffset !== undefined;
     for (const item of data.parsed.candidates) {
@@ -260,8 +333,7 @@ export class CollectionStore {
             item.fingerprint,
             JSON.stringify(item),
             data.at,
-            job.job_id,
-            token,
+            ...fence,
           ),
       );
       statements.push(
@@ -274,8 +346,7 @@ export class CollectionStore {
             item.fingerprint,
             JSON.stringify(item),
             data.at,
-            job.job_id,
-            token,
+            ...fence,
           ),
       );
       for (const image of item.images)
@@ -290,8 +361,7 @@ export class CollectionStore {
               image.sourceUrl,
               image.type,
               image.lastCheckedAt,
-              job.job_id,
-              token,
+              ...fence,
             ),
         );
     }
@@ -313,8 +383,7 @@ export class CollectionStore {
                 ? `; lastmod advisory: ${discovered.lastmod.slice(0, 80)}`
                 : ''),
             data.at,
-            job.job_id,
-            token,
+            ...fence,
           ),
       );
     }
@@ -332,8 +401,7 @@ export class CollectionStore {
           data.at,
           unchanged ? null : data.at,
           continuation ? 0 : 1,
-          job.job_id,
-          token,
+          ...fence,
         ),
     );
     if (job.depth === 0)
@@ -351,20 +419,18 @@ export class CollectionStore {
             continuation ? null : data.lastModified,
             data.digest,
             source.id,
-            job.job_id,
-            token,
+            ...fence,
           ),
       );
     statements.push(
       this.db
         .prepare(
-          "UPDATE collection_jobs SET state=?1,payload=NULL,owner=NULL,lease_until=NULL,safe_error_code=NULL,updated_at=?2,offset=?5,document_digest=?6,retry_at=?7,attempts=CASE WHEN ?1='pending' THEN 0 ELSE attempts END WHERE job_id=?3 AND owner=?4 AND EXISTS(SELECT 1 FROM sources s WHERE s.source_id=collection_jobs.source_id AND s.state='active')",
+          `UPDATE collection_jobs SET state=?1,payload=NULL,owner=NULL,lease_until=NULL,safe_error_code=NULL,updated_at=?2,offset=?4,document_digest=?5,retry_at=?6,attempts=CASE WHEN ?1='pending' THEN 0 ELSE attempts END WHERE job_id=?3 AND ${guard}`,
         )
         .bind(
           unchanged ? 'unchanged' : continuation ? 'pending' : 'completed',
           data.at,
           job.job_id,
-          token,
           data.parsed.nextOffset ?? 0,
           data.digest,
           continuation
@@ -373,6 +439,7 @@ export class CollectionStore {
                   (source.minIntervalSeconds ?? 86400) * 1000,
               ).toISOString()
             : data.at,
+          ...fence,
         ),
     );
     const results = await this.db.batch(statements);

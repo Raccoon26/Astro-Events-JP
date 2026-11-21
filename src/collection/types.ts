@@ -109,6 +109,7 @@ export interface Transport {
     url: URL,
     headers: Headers,
     signal: AbortSignal,
+    checkCurrent?: () => Promise<void>,
   ): Promise<{ response: Response; decoded: boolean }>;
 }
 export const unavailableTransport: Transport = {
